@@ -20,8 +20,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 //app.use(express.static(path.join(__dirname, 'public')));
 
-//app.use('/', routes);
-//app.use('/users', users);
 /*
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -62,8 +60,8 @@ if (app.get('env') === 'development') {
     // This will change in production since we'll be using the dist folder
     app.use(express.static(path.join(__dirname, '../client')));
     // This covers serving up the index page
-    app.use(express.static(path.join(__dirname, '../client/.tmp')));
-    app.use(express.static(path.join(__dirname, '../client/app')));
+    app.use(express.static(path.join(__dirname, '../client/.tmp')));//the styles
+    app.use(express.static(path.join(__dirname, '../client/app')));//the angular app
 
     // Error Handling
     app.use(function(err, req, res, next) {
@@ -100,6 +98,5 @@ if (app.get('env') === 'production') {
  * We include the index.js in router/ and pass it an instance of our Express app (defined way above here)
  */
 var router = require('./router')(app);
-//app.use('/signup', signup);
 
 module.exports = app;

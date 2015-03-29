@@ -43,6 +43,7 @@ We're running Express.js for the server and Angular.js for the client side.  So 
 3. [Bower](http://bower.io/) - client package manager,  `npm install -g bower` from anywhere, it'll install it globally (`-g`)
 4. [Grunt](http://gruntjs.com/) - making life easier, `npm install -g grunt-cli`, also global
 5. [Compass](http://compass-style.org/) to build the Sass
+6. [sass-globbing](https://github.com/chriseppstein/sass-globbing) `gem install sass-globbing` - this also requires Ruby
 
 With all that set up we can now get the Wikilogic specific stuff onto your machine.
 
@@ -64,7 +65,7 @@ Ok! Now lets get it running
 ---
 
 ##Development
- 
+
 
 Initial set up: http://start.jcolemorrison.com/building-an-angular-and-express-app-part-1/  
 
@@ -74,6 +75,8 @@ To do:
 2 set everything to run from a single grunt  
 3 Get terms together  
 4 Sketch out front end  
+5 Set up sass directory structure (link to article coming soon!)
+6 concat all the docs - loads loading in at the moment
 
 100 Set up bash or something to create example DB  
 101 Rename Repos   
@@ -93,3 +96,14 @@ To do:
 
 A high/mid level run through of what happens when someone opens WikiLogic in their browser.
 The user opens our site -> express sends them the angular app
+
+---
+
+##Possible Future Additions *Need a WP page for this section*
+
+####Browser extension
+
+####Website Plugin
+
+####Presentations 
+Setting up a series of statements to be used in justification of a point / as an aid to a talk?  
