@@ -1,0 +1,31 @@
+@mixin button(){
+	display: inline-block;
+	padding: 9px 14px 8px;
+	font-weight: 500;
+	font-size:14px;
+	text-transform: uppercase;
+	text-decoration: none;
+	cursor: pointer;
+	line-height: 15px;
+	//letter-spacing: 1px;
+	&:hover {
+		// opacity: 0.75;
+	}
+ 
+	&--primary {
+		color: $primaryButtonFontColor;
+		background-color: $primaryButtonBkg;
+
+		&:hover { 
+			background-color: $primaryButtonBkgHover; 
+			color: $primaryButtonFontColor;
+		}
+	}
+
+	&--secondary {
+		color: $secondaryButtonFontColor;
+		background-color: $secondaryButtonBkg;
+
+		&:hover { background-color: $secondaryButtonBkgHover; }
+	}
+}
