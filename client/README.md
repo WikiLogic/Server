@@ -45,6 +45,4 @@ app/
 ------------ influential/ the most influential statments on the logicWeb
 ------------ changing/ the most frequently changable statements
 ------------ Articles/ pulled form our blog?
--------- External/ using WL on other sites
------------- browserPlugin/
------------- ApiForWebsites/
+------------ API's/ using the browser extension/ website plugin

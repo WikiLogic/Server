@@ -1,0 +1,150 @@
+$oldIE: false !default;
+
+// Spacing
+// ------------------------------------------------------------------------------
+$siteWidth: 980px;
+$siteSidePadding: 20px;
+$sidebarPaddingBottom: 50px;
+$pageContentMarginTop: 30px;
+
+// Media Queries
+// ------------------------------------------------------------------------------
+
+$breakpoints: (
+	tiny: 320px,
+	small: 540px,
+	medium: 768px,
+	wide: 980px,
+	superwide: 1200px
+);
+
+// Fonts
+// ------------------------------------------------------------------------------
+$weightSuperLight: 100;
+$weightLight: 300;
+$weightRegular: 400;
+$weightSemiBold: 500;
+$weightBold: 600;
+
+
+// Color Defenitions
+// ------------------------------------------------------------------------------
+//http://chir.ag/projects/name-that-color/
+
+
+/* shades of grey */
+$colorDarkestGray:			#0a0405;
+$colorDarkGray:   			#4e4848;
+$colorScorpion:				#605B5B;
+$colorDoveGray:				#666666;
+$colorGray:					#8f8b8a;
+$colorDustyGray:			#999999;
+$colorCloudy:				#b2a9a0;
+$colorAltoGray:	  			#dcdcdc; // (input borders)
+$colorLightGray:  			#e9e8e8; // (header region btn bg color)
+$colorWhiteRock:			#f0ebe1;
+$colorConcrete:   			#F4F2F3; //very light grey (featured article section bg)
+$colorSpringWood:			#f9f7f3;
+$colorWhite:      			#ffffff;
+
+/* colors */
+$colorKenyanCopper: 		#8b0f04; //red
+$colorPlum:					#832C73; //purple
+$colorBouquet:				#b58aa9; //light purple
+$colorNepal:				#84A6B9; //grey blue
+$colorCornflowerBlue:		#009acc; //mid blue
+$colorBondiBlue:			#008fbe;
+$colorBlueLagoon:			#00718a; //blue
+$colorCerulean:				#00a3d2; //light blue
+$colorGeyser:				#C9D6DF; //grey/blue (testimonial quote icon)
+$colorBlizzardBlue:			#B2E3F1; //lighter blue (sub nav border)
+$colorPunch:				#dc4d28; //orange
+$colorSushi:				#76b143; //green
+$colorPersianGreen:			#00a99d; //turquoise
+
+
+// Color Assignments
+// ------------------------------------------------------------------------------
+
+/* Text colors */
+$defaultTextGrey: 			$colorDarkGray;
+$linkTextColor: 			$colorCerulean;
+$linkTextHoverColor:		$colorBondiBlue;
+$visitedLinkColor:			$colorBlueLagoon;
+$secondaryLinkColor:		$colorDarkGray;
+$sidebarTitleGrey:			$colorGray;
+$quoteTextBlue:				$colorBlueLagoon;
+$quoteIconBlue:				$colorGeyser;
+$errorColor: 				$colorKenyanCopper;
+$listDiscColor:				$colorCloudy;
+
+/* grey Table colors */
+$greyTableHeaderBG:			$colorDarkGray;
+$greyTableCellBG:			$colorWhiteRock;
+$greyTableBorder:			$colorCloudy;
+$greyTableCellText:			$colorGray;
+
+/* button colors */
+$mainMenuBtnBg:				$colorLightGray;
+
+$primaryButtonBkg: 			$colorCerulean;
+//$primaryButtonBkgHover: 	lighten($primaryButtonBkg, 10);
+$primaryButtonBkgHover:		$colorCornflowerBlue;
+$primaryButtonFontColor: 	$colorWhite;
+
+$secondaryButtonBkg: 		$colorLightGray;
+$secondaryButtonBkgHover: 	darken($colorLightGray, 10);
+$secondaryButtonFontColor: 	$colorDarkGray;
+
+/* section header colors */
+$resortOperationalBlue:		$colorBlueLagoon;
+$industryInsightsPurple:	$colorPlum;
+$discoverRCIorange:			$colorPunch;
+$salesToolsTorquoise:		$colorPersianGreen;
+$sharedOwnershipGreen:		$colorSushi;
+
+/* misc colors */
+$calloutBgColor: 			$colorConcrete;
+$formInputBorderColor:  	$colorAltoGray;
+$menuBorderColor: 			$colorAltoGray;
+$gridRowBorderColor:		$colorWhiteRock;
+$bigIconColor:				$colorCloudy;
+$bigIconBorderBottomColor:	$colorWhiteRock;
+$gridCalloutBGgrey:			$colorSpringWood;
+
+/* Portal things */
+$darkWidgetTitleColor:		$colorCloudy;
+$darkWidgetLineColor:		$colorScorpion;
+$darkWidgetBGcolor:			$colorDarkGray;
+
+/* Sidebar callout colors */
+$purpleCalloutColor:		$colorPlum;
+$purpleCalloutBorderColor:	$colorBouquet;
+$blueCalloutColor:			$colorBlueLagoon;
+$blueCalloutBorderColor:	$colorNepal;
+
+// Icons
+// ------------------------------------------------------------------------------
+
+$icons: (
+	menu: '\e800',
+	down-dir: '\e801',
+	search: '\e802',
+	arrow-right-bold: '\e803',
+	up-dir: '\e804',
+	globe: '\e805',
+	mag: '\e806',
+	magtag: '\e807',
+	pointer: '\e808',
+	quote-close: '\e809',
+	quote-open: '\e80a',
+	tag: '\e80b',
+	angle-double-right: '\00a0\00a0\e80c',
+	plus: '\e80d',
+	minus: '\e80e',
+	play-arrow: '\e810',
+	arrow-left: '\e80f',
+	arrow-right: '\e811',
+	download: '\e812',
+	folder: '\e813'
+);
