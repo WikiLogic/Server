@@ -28,7 +28,7 @@ app/
 ------------ history/ of the statements you've gone through, recent statements
 ------------ trace/ from an anchor statement to your current one
 -------- editor/ This is a protected section for logged in users (with permission? that we can turn off in the future?)
------------- ???
+------------ 
 -------- userProfile/
 ------------ Notifications?
 ------------ pinned/ favorited statements
