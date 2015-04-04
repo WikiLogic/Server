@@ -10,7 +10,7 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
 @import "partials/utilities/settings";
 
 //Our mixins
-@import "partials/utilities/mixins/**/*";
+@import "partials/utilities/mixins/*/**";
 
 //
 @import "partials/base/normalize";

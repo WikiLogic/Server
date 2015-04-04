@@ -43,7 +43,7 @@ We're running Express.js for the server and Angular.js for the client side.  So 
 3. [Bower](http://bower.io/) - client package manager,  `npm install -g bower` from anywhere, it'll install it globally (`-g`)
 4. [Grunt](http://gruntjs.com/) - making life easier, `npm install -g grunt-cli`, also global
 5. [Compass](http://compass-style.org/) to build the Sass
-6. [sass-globbing](https://github.com/chriseppstein/sass-globbing) `gem install sass-globbing` - this also requires Ruby
+6. [sass-globbing](https://github.com/chriseppstein/sass-globbing) `ggem install --version 1.1.0 sass-globbing` - this also requires Ruby. *Note, the most recent version of Sass-globbing doesn't work with grunt, so we have to install this specific version.*
 
 With all that set up we can now get the Wikilogic specific stuff onto your machine.
 
