@@ -70,16 +70,18 @@ Ok! Now lets get it running
 Initial set up: http://start.jcolemorrison.com/building-an-angular-and-express-app-part-1/  
 
 
-To do:  
-1 set up authentication (using passport: http://passportjs.org/)  
-2 set everything to run from a single grunt  
-3 Get terms together  
-4 Sketch out front end  
-5 Set up sass directory structure (link to article coming soon!)
-6 concat all the docs - loads loading in at the moment
+To do: 
 
-100 Set up bash or something to create example DB  
-101 Rename Repos   
+* watch all sass files
+* set up authentication (using passport: http://passportjs.org/)  
+* set everything to run from a single grunt  
+* Get terms together    
+* concat all the docs - loads loading in at the moment
+
+Less important to do:
+
+* Set up bash or something to create example DB  
+* Rename Repos   
 
 ---
 
