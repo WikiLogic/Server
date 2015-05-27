@@ -1,6 +1,8 @@
 WikiLogic 0.3
 =========
 
+The third prototype, making everything more modular
+
 Wikilogic lets you check the truth of a statement based on a [Dynamic Logic Web](http://www.wikilogicfoundation.org/dynamic-logic-web).  It also allows users to build and explore this Logic Web in order to gain a greater understanding of whatever subject, question, or statement they may have in mind.
 For a more detailed description visit our [website](http://www.wikilogicfoundation.org/)
 This is an open source project so please feel free to get involved!
