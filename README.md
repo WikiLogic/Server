@@ -64,4 +64,12 @@ Ok! Now lets get it running
 
 You should now have Wikilogic running locally!  Bravo sir, bravo!  You'll have to fill in some statements yourself to play around with it.  We'll be adding an online test database soon-ish which the (future) demo will run on and which you should be able to connect to as well using a different grunt, like `grunt demo` or something.  Will update this when that arrives!  Until then, happy stating!
 
+*Note, if you get `js-bson: failed to load c++ bson extension` errors on step 5 (in the node console) search that in the node modules, the first result that comes up, comment out those three lines.  They're just noise at the moment.*
+
 ---
+
+###Project structure
+
+-Currently this part is me thinking out loud.
+
+Main layout provides the main structure with angular.

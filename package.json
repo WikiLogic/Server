@@ -1,6 +1,6 @@
 {
-  "name": "auth",
-  "version": "0.0.0",
+  "name": "Wikilogic",
+  "version": "0.3.0",
   "private": true,
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
