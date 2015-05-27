@@ -4,11 +4,48 @@
     <meta charset="utf-8">
     <title>Wikilogic</title>
     <link rel="stylesheet" type="text/css" href="styles/main.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
 </head>
-<body>
+<body ng-app>
+	<div class="sidebar">
+		<a href="/">home</a> 
+		<div class="search">
+			<img src="/images/logo160.png" alt="" width="50">
+			<p>search box ad options</p>
+		</div>
+		<div class="explore-nav">
+			<a href="#">Recent</a>
+			<a href="#">Popular</a>
+			<a href="#">Influential</a>
+			<a href="#">Changing</a>
+		</div>
+		{{#loggedIn}}
+			<a href="/profile">profile</a>
+			<a href="/logout">logout</a>
+			<div class="user-nav">
+				<a href="#">History</a>
+				<div class="user-nav__collections">
+					<a href="#">Collection 1</a>
+					<a href="#">Collection 2</a>
+					<a href="#">Collection 3</a>
+				</div>
+				<div class="user-nav__watching">
+					<a href="#">Watching 1</a>
+					<a href="#">Watching 2</a>
+				</div>
+			</div>
+		{{/loggedIn}}	
 
-<a href="/">home</a> {{#loggedIn}}| <a href="/profile">profile</a> | <a href="/logout">logout</a>{{/loggedIn}}
+		<div class="sidebar__footer">
+			<a href="#" class="btn">Signup</a>
+			<p>or <a href="#">Login</a> if you already have an account</p>
+			<hr />
+			<a href="#">Blog</a>
+			<a href="#">Developers</a>
+			<a href="#">Manual/help</a>
+		</div>	
+	</div>
+
  
     {{{body}}}
  
