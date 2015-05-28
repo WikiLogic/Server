@@ -72,4 +72,20 @@ You should now have Wikilogic running locally!  Bravo sir, bravo!  You'll have t
 
 -Currently this part is me thinking out loud.
 
-Main layout provides the main structure with angular.
+Main layout provides the main structure with angular. 
+One SPA for viewing.
+Another SPA for editing.
+
+Can angular Ajax the html partials? / use express to bind som ethings and define public partials?
+
+views/
+	common/
+		navigation.hbs
+	viewer/  *i dub these applets*
+		index.hbs *The viewer SPA*
+		recent.hbs
+		popular.hbs
+		influential.hbs
+		changing.hbs
+	editor/
+		index.hbs *The editor SPA *

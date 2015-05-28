@@ -24,9 +24,9 @@ var mongoose = require('mongoose'); //To talk to mongo!
 /* CONFIGURING the packages
 =========================================*/
 console.info('        4: Configuring packages');
-app.use(express.static('public')); //Setting the location for static files
+app.use(express.static('public')); //Setting the location for general static files (styling, images)
 app.set('views', './views'); //Setting the location for template files
-app.engine('hbs', expressHbs({extname:'hbs', defaultLayout:'layout.hbs'})); //Setting the template rendering engine
+app.engine('hbs', expressHbs({extname:'hbs', defaultLayout:'main'})); //Setting the template rendering engine
 app.set('view engine', 'hbs');
 app.use(bodyParser.json()); // Lets us get data from form submittion
 app.use(bodyParser.urlencoded({ extended: true }));
