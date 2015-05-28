@@ -28,7 +28,7 @@ We also have a [meta wiki](http://wikilogicfoundation.org/wiki/index.php?title=M
 
 ###Getting WikiLogic set up locally (for the more technical people)
 
-Our first working prototype is built with the [MEAN.js](http://meanjs.org/docs.html#getting-started) stack.  To get it running you must first have a few things installed on your machine:
+To run WikiLogic locally you'll need a few things installed:
 
 1. [Node.js](http://nodejs.org/) - the web server, download and install from their website.
 2. [MongoDB](http://www.mongodb.org/) - the database, download and install from their website 
@@ -38,11 +38,9 @@ Our first working prototype is built with the [MEAN.js](http://meanjs.org/docs.h
 		* click `advanced system settings`, then `environment variables`, 
 		* in the `system variables` find `path`, select it and click edit, 
 		* at the end of that string add `;` then the path to the mongo exe files.  It'll be something like `;C:\Program Files\MongoDB 2.6 Standard\bin\`.  
-		* Now you should be able to open up the console and run `mongod` and it'll go! 
-3. [Bower](http://bower.io/) - client package manager,  `npm install -g bower` from anywhere, it'll install it globally (`-g`)
-4. [Grunt](http://gruntjs.com/) - making life easier, `npm install -g grunt-cli`, also global
-5. [Compass](http://compass-style.org/) to build the Sass
-6. [Yeoman](http://yeoman.io/) `npm install -g yo` But you probably won't be needing it on this project unless you're making a big addition.
+		* Now you should be able to open up the console and run `mongod` and it'll go!
+4. [Gulp](http://gulpjs.com/) - A task runner to make life easier, `npm install -g gulp`, also global
+5. [Compass](http://compass-style.org/) to build the Sass *Note, after changing to gulp I'm not sure if we need this anymore?*
 
 
 With all that set up we can now get the Wikilogic specific stuff onto your machine.
@@ -56,10 +54,7 @@ With all that set up we can now get the Wikilogic specific stuff onto your machi
 
 Ok! Now lets get it running
 
-1. Run the database server
-	* on a mac or windows if you've set up the path, run `mongod` fom anywhere!
-	* If you haven't set up the path then cd to the folder with the mongo exe files, probably like `"C:\Program Files\MongoDB 2.6 Standard\bin\mongod.exe"` then run `mongod`
-2. Finally, time to run Wikilogic itself, in the project root run `node app.js`
+1. Navigate to the project folder and run `gulp`.  Hopefully it'll just go!
 3. Now open your browser and go to [http://localhost:3000/](http://localhost:3000/)
 
 You should now have Wikilogic running locally!  Bravo sir, bravo!  You'll have to fill in some statements yourself to play around with it.  We'll be adding an online test database soon-ish which the (future) demo will run on and which you should be able to connect to as well using a different grunt, like `grunt demo` or something.  Will update this when that arrives!  Until then, happy stating!

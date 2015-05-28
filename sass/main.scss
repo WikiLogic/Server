@@ -10,7 +10,7 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
 @import "partials/utilities/settings";
 
 //Our mixins
-@import "partials/utilities/mixins/*/**";
+@import "partials/utilities/mixins/*";
 
 //
 @import "partials/base/normalize";
@@ -18,13 +18,13 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
 //@import "partials/base/typography";
 
 //Major/Macro layout - the big stuff - site wire-frame
-@import "partials/layout/**/*";
+@import "partials/layout/*";
 
 //Minor/Micro layouts - elements throughout the site in any location
-@import "partials/components/**/*";
+@import "partials/components/*";
 
 //
-@import "partials/pages/**/*";
+@import "partials/pages/*";
 
 //
 //@media print { @import "partials/print"; }
