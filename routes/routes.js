@@ -12,6 +12,7 @@ module.exports = function(router, passport) {
 	=====================================================================
 	=====================================================================*/
 
+	/* Serving the Explorer Angular app.*/
 	router.get('/', function (req, res) {
 		res.render('explorer/explorer.hbs');
 	});
@@ -75,11 +76,16 @@ module.exports = function(router, passport) {
 	=====================================================================
 	=====================================================================*/
 
-	// user profile
+	// user profile - is this part of an angular app?
 	router.get('/profile', hasAccess, function(req, res) {
 		res.render('profile', {
             user : req.user // get the user out of session and pass to template
         });
+	});
+
+	/* Serving the Editor Angular app */
+	router.get('/editor', hasAccess, function(req, res) {
+		res.render('editor');
 	});
 
 

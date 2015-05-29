@@ -1,17 +1,17 @@
-console.time('    0: setup complete');
+console.time('    0: Everything ready!');
 
 
 /* Make an express! 
 =========================================*/
-console.info('          6: Setting up Express');
+console.time('           7: Setting up Express');
 var express = require('express');
 var app = express();
 var router = express.Router();
-
+console.timeEnd('           7: Setting up Express');
 
 /* GET the packages
 =========================================*/
-console.info('         5: Requiring modules');
+console.time('          6: Requiring modules');
 var expressHbs  = require('express-handlebars'); //because moustach
 var passport = require('passport'); //the authentication
 var session = require('express-session');
@@ -19,12 +19,11 @@ var bodyParser   = require('body-parser'); //To read html forms
 var cookieParser = require('cookie-parser'); //To read the cookies, om nom nom
 var morgan = require('morgan'); //for better logging
 var mongoose = require('mongoose'); //To talk to mongo!
-
+console.timeEnd('          6: Requiring modules');
 
 /* CONFIGURING the packages
 =========================================*/
-console.info('        4: Configuring packages');
-app.use(express.static('public')); //Setting the location for general static files (styling, images)
+console.time('         5: Configuring packages');
 app.set('views', './views'); //Setting the location for template files
 app.engine('hbs', expressHbs({extname:'hbs', defaultLayout:'main'})); //Setting the template rendering engine
 app.set('view engine', 'hbs');
@@ -32,34 +31,42 @@ app.use(bodyParser.json()); // Lets us get data from form submittion
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser()); //Getting data from cookies
 app.use(morgan('combined')); //Setting up the logging
+console.timeEnd('         5: Configuring packages');
 
+/* DEFINING the static files
+=========================================*/
+console.time('        4: Defining public resources');
+app.use(express.static('public')); //Setting the location for general static files (styling, images)
+app.use('/explorer', express.static(__dirname + '/views/explorer/explorer_partials')); //Allowing the Explorer Angular app to load partials from this directory
+app.use('/editor', express.static(__dirname + '/views/editor/editor_partials')); //Allowing the Editor Angular app to load partials from this directory
+console.timeEnd('        4: Defining public resources');
 
 /* Setting up authentication using Passport
 =========================================*/
-console.info('       3: Setting up suthentication');
+console.time('       3: Setting up authentication');
 app.use(session({secret: 'iloveme', saveUninitialized: true, resave: true}));
 app.use(passport.initialize());
 app.use(passport.session());
 require('./passport')(passport); //Sets up our authentication strategies
-
+console.timeEnd('       3: Setting up authentication');
 
 /* DATABASE!!
 ==========================================*/
-console.info('      2: Connecting to DB');
+console.time('      2: Connecting to DB');
 mongoose.connect('mongodb://localhost/wl-03-dev');
-
+console.timeEnd('      2: Connecting to DB');
 
 /* ROUTING - all the rout defenitions in routes.js
  * TODO: need to change to express.router
  * =========================================*/
-console.info('     1: Setting up the routes');
+console.time('     1: Setting up the routes');
 require('./routes/routes.js')(router, passport);
 app.use('/', router);
-
+console.timeEnd('     1: Setting up the routes');
 
 /* RUN!
 ==========================================*/
-console.timeEnd('    0: setup complete');
+console.timeEnd('    0: Everything ready!');
 
 var server = app.listen(3000, function () {
 
