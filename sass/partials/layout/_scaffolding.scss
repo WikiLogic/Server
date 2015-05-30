@@ -24,8 +24,9 @@ html {
   background: $sidebarBGdark;
   color: white;
   display: flex;
-  min-height: 100vh;
+  //min-height: 100vh;
   flex-direction: column;
+  padding:15px;
   &__body {
       flex: 1;
   }
@@ -33,6 +34,7 @@ html {
     text-align: center;
     margin: 5px;
     border-top: 1px solid $sidebarBGlight;
+    padding-top:15px;
   }
 }
 

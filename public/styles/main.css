@@ -362,10 +362,21 @@ body {
   font-size: 14px; }
 
 a {
-  text-decoration: none; }
+  -webkit-transition: all 0.1s ease-in-out;
+  -moz-transition: all 0.1s ease-in-out;
+  -ms-transition: all 0.1s ease-in-out;
+  -o-transition: all 0.1s ease-in-out;
+  color: #5f9aec; }
+  a:hover {
+    color: white; }
 
 img {
   display: block; }
+
+hr {
+  background: transparent;
+  border: 0;
+  border-top: 1px solid #393f4f; }
 
 /* ---------------------------------------- Forms */
 input[type=text], textarea {
@@ -418,13 +429,17 @@ should expand to full screen width and push the main content down (or 'hover' ov
     width: 270px; } }
 
 .nav-sidebar {
-  margin-top: 10px; }
+  margin-top: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #393f4f; }
   .nav-sidebar a {
+    transition: none;
     display: block;
     color: white;
     padding: 8px 10px;
-    margin: 1px 10px;
-    border-radius: 4px; }
+    margin: 1px 0px;
+    border-radius: 4px;
+    text-decoration: none; }
     .nav-sidebar a:hover {
       background-color: #393f4f; }
 
@@ -450,14 +465,15 @@ html {
   background: #191e28;
   color: white;
   display: flex;
-  min-height: 100vh;
-  flex-direction: column; }
+  flex-direction: column;
+  padding: 15px; }
   .sidebar__body {
     flex: 1; }
   .sidebar__footer {
     text-align: center;
     margin: 5px;
-    border-top: 1px solid #393f4f; }
+    border-top: 1px solid #393f4f;
+    padding-top: 15px; }
 
 .main {
   margin-left: 270px; }
@@ -492,7 +508,7 @@ html {
 	}
 */ }
   .btn:hover {
-    background-color: #393f4f;
+    background-color: #515a70;
     color: white; }
 
 .search {

@@ -5,21 +5,28 @@ body {
 }
 
 a {
-	text-decoration: none;
+	@include transition(0.1s);
+	color:#5f9aec;
+	&:hover {
+		color:white;
+	}
 }
 
 img {
 	display:block;
 }
 
+hr {
+	background:transparent;
+	border:0;
+	border-top:1px solid $sidebarBGlight;
+}
+
 
 /* ---------------------------------------- Forms */
 
 input[type=text], textarea {
-  -webkit-transition: all 0.30s ease-in-out;
-  -moz-transition: all 0.30s ease-in-out;
-  -ms-transition: all 0.30s ease-in-out;
-  -o-transition: all 0.30s ease-in-out;
+  @include transition(0.3s);
   outline: none;
   padding: 5px 0px 5px 5px;
   border: 1px solid #DDDDDD;

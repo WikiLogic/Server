@@ -33,20 +33,21 @@ $weightBold: 600;
 
 
 /* shades of grey */
-$brightGrey:	#393f4f;
-$mirage:		#191e28;
+$lightGrey:		#515a70;
+$middleGrey:	#393f4f;
+$darkGrey:		#191e28;
 
 /* colors */
 
 // Color Assignments
 // ------------------------------------------------------------------------------
-$sidebarBGdark: 	$mirage;
-$sidebarBGlight: 	$brightGrey;
+$sidebarBGdark: 	$darkGrey;
+$sidebarBGlight: 	$middleGrey;
 
 $ButtonClr: 		white;
-$ButtonBkg: 		$brightGrey;
+$ButtonBkg: 		$middleGrey;
 $ButtonClr-Hover: 	white;
-$ButtonBkg-Hover: 	$brightGrey;
+$ButtonBkg-Hover: 	$lightGrey;
 
 
 
