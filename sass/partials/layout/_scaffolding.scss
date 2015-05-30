@@ -25,6 +25,9 @@ html {
   color: white;
   display: flex;
   flex-direction: column;
+  &__description {
+    padding:15px;
+  }
   &__body {
       flex: 1;
       padding:15px;

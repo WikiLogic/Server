@@ -7,10 +7,6 @@
     <link rel="stylesheet" type="text/css" href="styles/main.css">
     <link href='http://fonts.googleapis.com/css?family=Roboto:100,300,700' rel='stylesheet' type='text/css'>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
-    {{#unless loggedIn}}
-		<!-- when not logged in, load this stylesheet to grey out areas that won't work -->
-		<link rel="stylesheet" type="text/css" href="styles/greyRestricted.css">
-    {{/unless}}
 </head>
 <body ng-app>
 	
@@ -22,13 +18,15 @@
 	</div>
 
 	<div class="sidebar">
-		{{!--#loggedIn--}}
+		{{#if loggedIn}}
 			<div class="nav-appToggle">
 				<a href="/profile" class="btn">Profile</a>
-				<a href="/explorer" class="btn">Explorer</a> 
+				<a href="/" class="btn">Explorer</a> 
 				<a href="/editor" class="btn">Editor</a>
 			</div>
-		{{!--/loggedIn--}}
+		{{else}}
+			<p class="sidebar__description">Quick description</p>
+		{{/if}}
 		<div class="sidebar__body">
 
 			<!-- Shows when user is in Explorer app -->
@@ -39,38 +37,43 @@
 					<a href="#">Influential</a>
 					<a href="#">Changing</a>
 					<a href="#">Random</a>
-				</div>
-				{{!--#loggedIn--}}
+				</div>	
+			</div>
+
+			<!-- Shows when user accesses their own profile -->
+			<div class="profile-nav">
+				{{#if loggedIn}}
 					<div class="nav-sidebar">
 						<a href="#">History</a>
 						<a href="#">Collections</a>
 						<a href="#">Watching</a>
 					</div>
-				{{!--/loggedIn--}}	
+				{{else}}
+					<p>You need to signup / login to access this section</p>
+				{{/if}}
 			</div>
 			
 			<!-- Shows when user is in Editor app -->
 			<div class="editor-nav">
-			{{!--#if loggedIn--}}
-				<!-- normal editor controls -->
-				<div class="nav-sidebar">
-					<a href="#">Published</a>
-					<a href="#">Draft statements(0)</a>
-				</div>
-			{{!--else--}}
-				<!-- show a preview -->
-				<p>You need to signup / login to access this section</p>
-			{{!--/if--}}	
+				{{#if loggedIn}}
+					<!-- normal editor controls -->
+					<div class="nav-sidebar">
+						<a href="#">Published</a>
+						<a href="#">Draft statements(0)</a>
+					</div>
+				{{else}}
+					<p>You need to signup / login to access this section</p>
+				{{/if}}	
 			</div>
 
 		</div>
 
 		<div class="sidebar__footer">
 			{{#if loggedIn}}
-				<a href="/logout" class="btn">Logout</a>
+				<a href="/logout" class="btn">Logout</a><br /><br />
 			{{else}}
-				<a href="#" class="btn">Signup</a>
-				<p>or <a href="#">Login</a> if you have an account.</p>
+				<a href="/signup" class="btn">Signup</a>
+				<p>or <a href="/login">Login</a> if you have an account.</p>
 			{{/if}}
 			<a href="#">Blog</a>,
 			<a href="#">Developers</a>,

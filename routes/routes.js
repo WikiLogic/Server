@@ -17,6 +17,14 @@ module.exports = function(router, passport) {
 		res.render('explorer/explorer.hbs');
 	});
 
+	router.get('/signup', function (req, res) {
+		res.render('common/signup.hbs');
+	});
+
+	router.get('/login', function (req, res) {
+		res.render('common/login.hbs');
+	});
+
 
 	/* USER AUTHENTICATION
 	=====================================================================
@@ -31,7 +39,7 @@ module.exports = function(router, passport) {
 	);
 
 	router.post('/login', passport.authenticate('local-login', {
-		successRedirect: '/profile',
+		successRedirect: '/editor',
 		failureRedirect: '/',
 		passReqToCallback : true
 		})
@@ -85,7 +93,7 @@ module.exports = function(router, passport) {
 
 	/* Serving the Editor Angular app */
 	router.get('/editor', hasAccess, function(req, res) {
-		res.render('editor');
+		res.render('editor/editor.hbs');
 	});
 
 

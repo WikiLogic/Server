@@ -1,7 +1,6 @@
 /* Used at the top of the sidebar to switch between the Explorer and Editor apps */
 .nav-appToggle {
 	display: flex;
-	padding-top:15px;
 	.btn {
 		-webkit-box-flex: auto;
 		-webkit-flex: auto;
@@ -9,8 +8,15 @@
 		flex: auto;
 		font-size:12px;
 		background: $darkGrey;
+		text-align: center;
 		&:hover {
 			background: $middleGrey;
+		}
+	}
+	&.selected {
+		background: $middleGrey;
+		&:hover {
+			cursor: default;
 		}
 	}
 }

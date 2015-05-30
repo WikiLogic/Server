@@ -465,6 +465,8 @@ html {
   color: white;
   display: flex;
   flex-direction: column; }
+  .sidebar__description {
+    padding: 15px; }
   .sidebar__body {
     flex: 1;
     padding: 15px; }
@@ -511,17 +513,21 @@ html {
 
 /* Used at the top of the sidebar to switch between the Explorer and Editor apps */
 .nav-appToggle {
-  display: flex;
-  padding-top: 15px; }
+  display: flex; }
   .nav-appToggle .btn {
     -webkit-box-flex: auto;
     -webkit-flex: auto;
     -ms-flex: auto;
     flex: auto;
     font-size: 12px;
-    background: #191e28; }
+    background: #191e28;
+    text-align: center; }
     .nav-appToggle .btn:hover {
       background: #393f4f; }
+  .nav-appToggle.selected {
+    background: #393f4f; }
+    .nav-appToggle.selected:hover {
+      cursor: default; }
 
 .search {
   perspective: 1000px;
