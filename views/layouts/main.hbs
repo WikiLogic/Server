@@ -18,53 +18,77 @@
 	</div>
 
 	<div class="sidebar">
-		{{#if loggedIn}}
-			<div class="nav-appToggle">
-				<a href="/profile" class="btn">Profile</a>
-				<a href="/" class="btn">Explorer</a> 
-				<a href="/editor" class="btn">Editor</a>
-			</div>
-		{{else}}
+		{{#unless loggedIn}}
 			<p class="sidebar__description">Quick description</p>
-		{{/if}}
-		<div class="sidebar__body">
+		{{/unless}}
 
-			<!-- Shows when user is in Explorer app -->
+		<div class="sidebar__body">
+			
+			{{#if loggedIn}}
+				<div class="profile-nav">				
+					<h3>YOUR PROFILE</h3>
+					<div class="nav-sidebar">
+						<a href="#">History</a>
+						<a href="#">Collections</a>
+						<a href="#">Watching</a>
+					</div>
+				</div>
+			{{/if}}	
+
+			<!-- This alwayse shows, the other two are for logged in people ONLY! :D -->
 			<div class="explorer-nav">
+				<h3>EXPLORER</h3>
 				<div class="nav-sidebar">
 					<a href="#">Recent</a>
 					<a href="#">Popular</a>
 					<a href="#">Influential</a>
 					<a href="#">Changing</a>
 					<a href="#">Random</a>
+					<a href="#">expand</a>
+					<a href="#">expand</a>
+					<a href="#">expand</a>
+					<a href="#">expand</a>
+					<a href="#">expand</a>
+					<a href="#">expand</a>
+					<a href="#">expand</a>
+					<a href="#">expand</a>
+					<a href="#">expand</a>
+					<a href="#">expand</a>
+					<a href="#">expand</a>
+					<a href="#">expand</a>
+					<a href="#">expand</a>
+					<a href="#">expand</a>
+					<a href="#">expand</a>
+					<a href="#">expand</a>
+					<a href="#">expand</a>
+					<a href="#">expand</a>
+					<a href="#">expand</a>
+					<a href="#">expand</a>
+					<a href="#">expand</a>
+					<a href="#">expand</a>
+					<a href="#">expand</a>
+					<a href="#">expand</a>
+					<a href="#">expand</a>
+					<a href="#">expand</a>
+					<a href="#">expand</a>
+					<a href="#">expand</a>
+					<a href="#">expand</a>
+					<a href="#">expand</a>
+					<a href="#">expand</a>
+					<a href="#">expand</a>
+					<a href="#">expand</a>
 				</div>	
 			</div>
 
-			<!-- Shows when user accesses their own profile -->
-			<div class="profile-nav">
-				{{#if loggedIn}}
-					<div class="nav-sidebar">
-						<a href="#">History</a>
-						<a href="#">Collections</a>
-						<a href="#">Watching</a>
-					</div>
-				{{else}}
-					<p>You need to signup / login to access this section</p>
-				{{/if}}
-			</div>
-			
-			<!-- Shows when user is in Editor app -->
-			<div class="editor-nav">
-				{{#if loggedIn}}
-					<!-- normal editor controls -->
+			{{#if loggedIn}}		
+				<div class="editor-nav">
+					<h3>EDITOR</h3>
 					<div class="nav-sidebar">
 						<a href="#">Published</a>
 						<a href="#">Draft statements(0)</a>
 					</div>
-				{{else}}
-					<p>You need to signup / login to access this section</p>
-				{{/if}}	
-			</div>
+				</div>
+			{{/if}}	
 
 		</div>
 

@@ -30,17 +30,21 @@ html {
   }
   &__body {
       flex: 1;
+      margin-right: 1px;
       padding:15px;
+      overflow-y: scroll;
   }
   &__footer {
     text-align: center;
     border-top: 1px solid $sidebarBGlight;
     padding:15px;
+    height:350px;
   }
+
 }
 
 .main {
-  margin-left: 270px;
+  margin-left: 190px;
 }
 
 /* =====================================================
@@ -50,5 +54,12 @@ html {
 @include breakpoint(medium) { 
   .sidebar {
     width: 270px;
+    &__footer {
+      height:270px;
+    }
+  }
+
+  .main {
+    margin-left: 270px;
   }
 }

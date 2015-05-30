@@ -361,6 +361,10 @@ body {
   font-weight: 300;
   font-size: 14px; }
 
+h3 {
+  margin: 0 0 5px 0;
+  font-weight: 100; }
+
 a {
   -webkit-transition: all 0.1s ease-in-out;
   -moz-transition: all 0.1s ease-in-out;
@@ -391,6 +395,24 @@ input[type=text], textarea {
 input[type=text]:focus, textarea:focus {
   box-shadow: 0 0 5px #51cbee;
   border: 1px solid #51cbee; }
+
+/* -------------------------------------- Scrollbar */
+::-webkit-scrollbar {
+  width: 10px; }
+
+/* Track */
+::-webkit-scrollbar-track {
+  -webkit-border-radius: 12px;
+  border-radius: 12px; }
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  background: #393f4f; }
+
+::-webkit-scrollbar-thumb:window-inactive {
+  background: #393f4f; }
 
 /* The logo and Search box.
 When the user clicks in the search, it should expand to fill the full width of the screen.
@@ -429,13 +451,12 @@ should expand to full screen width and push the main content down (or 'hover' ov
     width: 270px; } }
 
 .nav-sidebar {
-  padding-bottom: 20px;
-  border-bottom: 1px solid #393f4f; }
+  padding-bottom: 20px; }
   .nav-sidebar a {
     transition: none;
     display: block;
     color: white;
-    padding: 8px 10px;
+    padding: 6px 10px;
     margin: 1px 0px;
     border-radius: 4px;
     text-decoration: none; }
@@ -469,21 +490,28 @@ html {
     padding: 15px; }
   .sidebar__body {
     flex: 1;
-    padding: 15px; }
+    margin-right: 1px;
+    padding: 15px;
+    overflow-y: scroll; }
   .sidebar__footer {
     text-align: center;
     border-top: 1px solid #393f4f;
-    padding: 15px; }
+    padding: 15px;
+    height: 350px; }
 
 .main {
-  margin-left: 270px; }
+  margin-left: 190px; }
 
 /* =====================================================
 =======================================   Tablet and up
 ======================================================*/
 @media (min-width: 768px) {
   .sidebar {
-    width: 270px; } }
+    width: 270px; }
+    .sidebar__footer {
+      height: 270px; }
+  .main {
+    margin-left: 270px; } }
 
 .btn {
   display: inline-block;
@@ -510,24 +538,6 @@ html {
   .btn:hover {
     background-color: #515a70;
     color: white; }
-
-/* Used at the top of the sidebar to switch between the Explorer and Editor apps */
-.nav-appToggle {
-  display: flex; }
-  .nav-appToggle .btn {
-    -webkit-box-flex: auto;
-    -webkit-flex: auto;
-    -ms-flex: auto;
-    flex: auto;
-    font-size: 12px;
-    background: #191e28;
-    text-align: center; }
-    .nav-appToggle .btn:hover {
-      background: #393f4f; }
-  .nav-appToggle.selected {
-    background: #393f4f; }
-    .nav-appToggle.selected:hover {
-      cursor: default; }
 
 .search {
   perspective: 1000px;
