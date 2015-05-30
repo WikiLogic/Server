@@ -358,7 +358,8 @@ th {
 body {
   font-family: 'Roboto', sans-serif;
   /* 100 / 300 / 700 */
-  font-weight: 300; }
+  font-weight: 300;
+  font-size: 14px; }
 
 a {
   text-decoration: none; }
@@ -445,13 +446,18 @@ html {
   top: 50px;
   left: 0;
   bottom: 0;
-  width: 270px;
+  width: 190px;
   background: #191e28;
+  color: white;
   display: flex;
   min-height: 100vh;
   flex-direction: column; }
   .sidebar__body {
     flex: 1; }
+  .sidebar__footer {
+    text-align: center;
+    margin: 5px;
+    border-top: 1px solid #393f4f; }
 
 .main {
   margin-left: 270px; }
@@ -459,6 +465,10 @@ html {
 /* =====================================================
 =======================================   Tablet and up
 ======================================================*/
+@media (min-width: 768px) {
+  .sidebar {
+    width: 270px; } }
+
 .btn {
   display: inline-block;
   padding: 9px 14px 8px;
@@ -468,25 +478,22 @@ html {
   text-decoration: none;
   cursor: pointer;
   line-height: 15px;
+  color: white;
+  background-color: #393f4f;
   /*
-	&--primary {
-		color: $primaryButtonFontColor;
-		background-color: $primaryButtonBkg;
+	&--red {
+		color: $ButtonClr;
+		background-color: $ButtonBkg;
 
 		&:hover { 
-			background-color: $primaryButtonBkgHover; 
-			color: $primaryButtonFontColor;
+			background-color: $ButtonBkg-Hover; 
+			color: $ButtonClr;
 		}
 	}
-
-	&--secondary {
-		color: $secondaryButtonFontColor;
-		background-color: $secondaryButtonBkg;
-
-		&:hover { background-color: $secondaryButtonBkgHover; }
-	}
-	*/
-  color: yellow; }
+*/ }
+  .btn:hover {
+    background-color: #393f4f;
+    color: white; }
 
 .search {
   perspective: 1000px;

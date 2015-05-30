@@ -1,4 +1,32 @@
+@mixin button(){
+	display: inline-block;
+	padding: 9px 14px 8px;
+	font-weight: 500;
+	font-size:14px;
+	text-transform: uppercase;
+	text-decoration: none;
+	cursor: pointer;
+	line-height: 15px;
+	color: $ButtonClr;
+	background-color: $ButtonBkg;
+	&:hover {
+		background-color: $ButtonBkg-Hover; 
+		color: $ButtonClr-Hover;
+	}
+ /*
+	&--red {
+		color: $ButtonClr;
+		background-color: $ButtonBkg;
+
+		&:hover { 
+			background-color: $ButtonBkg-Hover; 
+			color: $ButtonClr;
+		}
+	}
+*/
+}
+
+
 .btn {
 	@include button();
-	color: yellow;
 }

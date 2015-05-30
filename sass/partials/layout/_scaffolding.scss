@@ -20,13 +20,19 @@ html {
   top: 50px; //to make room for the mini-header
   left: 0;
   bottom: 0;
-  width: 270px;
+  width: 190px;
   background: $sidebarBGdark;
+  color: white;
   display: flex;
   min-height: 100vh;
   flex-direction: column;
   &__body {
       flex: 1;
+  }
+  &__footer {
+    text-align: center;
+    margin: 5px;
+    border-top: 1px solid $sidebarBGlight;
   }
 }
 
@@ -39,5 +45,7 @@ html {
 ======================================================*/
 
 @include breakpoint(medium) { 
-
+  .sidebar {
+    width: 270px;
+  }
 }
