@@ -1,0 +1,13 @@
+.nav-sidebar {
+	margin-top: 10px;
+	a {
+		display: block;
+		color: white;
+		padding: 8px 10px;
+		margin: 1px 10px;
+		border-radius: 4px;
+		&:hover {
+			background-color: $sidebarBGlight;
+		}
+	}
+}

@@ -1,12 +1,5 @@
 /* shades of grey */
 /* colors */
-/* Text colors */
-/* grey Table colors */
-/* button colors */
-/* section header colors */
-/* misc colors */
-/* Portal things */
-/* Sidebar callout colors */
 /*! normalize.css v3.0.1 | MIT License | git.io/normalize */
 /**
  * 1. Set default font family to sans-serif.
@@ -362,6 +355,14 @@ td,
 th {
   padding: 0; }
 
+body {
+  font-family: 'Roboto', sans-serif;
+  /* 100 / 300 / 700 */
+  font-weight: 300; }
+
+a {
+  text-decoration: none; }
+
 img {
   display: block; }
 
@@ -415,6 +416,17 @@ should expand to full screen width and push the main content down (or 'hover' ov
     left: 0;
     width: 270px; } }
 
+.nav-sidebar {
+  margin-top: 10px; }
+  .nav-sidebar a {
+    display: block;
+    color: white;
+    padding: 8px 10px;
+    margin: 1px 10px;
+    border-radius: 4px; }
+    .nav-sidebar a:hover {
+      background-color: #393f4f; }
+
 /* =====================================================
 =======================================   Mobile and up
 ======================================================*/
@@ -434,7 +446,12 @@ html {
   left: 0;
   bottom: 0;
   width: 270px;
-  background: #191e28; }
+  background: #191e28;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column; }
+  .sidebar__body {
+    flex: 1; }
 
 .main {
   margin-left: 270px; }
@@ -451,18 +468,25 @@ html {
   text-decoration: none;
   cursor: pointer;
   line-height: 15px;
+  /*
+	&--primary {
+		color: $primaryButtonFontColor;
+		background-color: $primaryButtonBkg;
+
+		&:hover { 
+			background-color: $primaryButtonBkgHover; 
+			color: $primaryButtonFontColor;
+		}
+	}
+
+	&--secondary {
+		color: $secondaryButtonFontColor;
+		background-color: $secondaryButtonBkg;
+
+		&:hover { background-color: $secondaryButtonBkgHover; }
+	}
+	*/
   color: yellow; }
-  .btn--primary {
-    color: #ffffff;
-    background-color: #00a3d2; }
-    .btn--primary:hover {
-      background-color: #009acc;
-      color: #ffffff; }
-  .btn--secondary {
-    color: #4e4848;
-    background-color: #e9e8e8; }
-    .btn--secondary:hover {
-      background-color: #d0cece; }
 
 .search {
   perspective: 1000px;

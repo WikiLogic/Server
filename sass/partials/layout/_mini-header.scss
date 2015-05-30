@@ -6,7 +6,7 @@ should expand to full screen width and push the main content down (or 'hover' ov
 ============================*/
 .mini-header {
   perspective: 1000px;
-  background: #393f4f;
+  background: $sidebarBGlight;
   &__logo {
     display:inline-block;
     vertical-align: middle;

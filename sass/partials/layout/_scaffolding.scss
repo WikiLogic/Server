@@ -21,7 +21,13 @@ html {
   left: 0;
   bottom: 0;
   width: 270px;
-  background: #191e28;
+  background: $sidebarBGdark;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  &__body {
+      flex: 1;
+  }
 }
 
 .main {
