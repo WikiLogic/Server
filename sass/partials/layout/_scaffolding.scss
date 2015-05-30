@@ -24,16 +24,15 @@ html {
   background: $sidebarBGdark;
   color: white;
   display: flex;
-  //min-height: 100vh;
   flex-direction: column;
-  padding:15px;
   &__body {
       flex: 1;
+      padding:15px;
   }
   &__footer {
     text-align: center;
     border-top: 1px solid $sidebarBGlight;
-    padding-top:15px;
+    padding:15px;
   }
 }
 

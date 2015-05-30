@@ -29,4 +29,9 @@
 
 .btn {
 	@include button();
+	@if $restricted {
+		&.restricted {
+			color:#666;
+		}
+	}
 }
