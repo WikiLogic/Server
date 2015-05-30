@@ -379,22 +379,69 @@ input[type=text]:focus, textarea:focus {
   box-shadow: 0 0 5px #51cbee;
   border: 1px solid #51cbee; }
 
+/* The logo and Search box.
+When the user clicks in the search, it should expand to fill the full width of the screen.
+For smaller devices it should already be the full width and also show the toggle nav button.
+For larger screens, when the sidebar is small, when the user types beyond the width the mini-header 
+should expand to full screen width and push the main content down (or 'hover' over it?)
+============================*/
+.mini-header {
+  perspective: 1000px;
+  background: #393f4f; }
+  .mini-header__logo {
+    display: inline-block;
+    vertical-align: middle;
+    width: 50px;
+    height: 50px;
+    background: url(data:image/svg+xml;utf8,$svg-logo); }
+  .mini-header__search {
+    position: absolute;
+    left: 60px;
+    top: 11px;
+    width: 200px;
+    height: 28px;
+    z-index: 20;
+    border: 0;
+    border-radius: 15px; }
+    .mini-header__search:focus {
+      transform: translateZ(10px);
+      left: 5%;
+      width: 90%; }
+
+@media (min-width: 768px) {
+  .mini-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 270px; } }
+
+/* =====================================================
+=======================================   Mobile and up
+======================================================*/
+html {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box; }
+
+*, *:before, *:after {
+  -webkit-box-sizing: inherit;
+  -moz-box-sizing: inherit;
+  box-sizing: inherit; }
+
 .sidebar {
   position: fixed;
-  top: 0;
+  top: 50px;
   left: 0;
   bottom: 0;
   width: 270px;
   background: #191e28; }
-  .sidebar__header {
-    background: #393f4f; }
-    .sidebar__header .logo {
-      display: inline-block;
-      vertical-align: middle; }
 
 .main {
   margin-left: 270px; }
 
+/* =====================================================
+=======================================   Tablet and up
+======================================================*/
 .btn {
   display: inline-block;
   padding: 9px 14px 8px;
@@ -422,13 +469,21 @@ input[type=text]:focus, textarea:focus {
   display: inline-block;
   vertical-align: middle;
   width: 200px;
-  z-index: 20; }
+  height: 28px;
+  z-index: 20;
+  margin-left: 5px; }
   .search input {
     border: 0;
     border-radius: 15px;
     width: 200px; }
     .search input:focus {
       transform: translateZ(10px);
-      width: 600px; }
+      width: 100%;
+      /*
+			@include breakpoint(small) { width: 300px; }
+			@include breakpoint(medium) { width: 520px; }
+			@include breakpoint(wide) { width: 748px; }
+			@include breakpoint(superwide) { width: 960px; }
+			*/ }
 
 /* No files to import found in partials//pages//* */

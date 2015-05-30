@@ -3,7 +3,9 @@
 	display:inline-block;
 	vertical-align: middle;
 	width: 200px;
+	height:28px;
 	z-index: 20;
+	margin-left:5px;
 
 	input {
 		border:0;
@@ -11,7 +13,13 @@
 		width: 200px;
 		&:focus {
 			transform: translateZ(10px);
-			width: 600px; //I want this to be the width of the screen - padding
+			width: 100%;
+			/*
+			@include breakpoint(small) { width: 300px; }
+			@include breakpoint(medium) { width: 520px; }
+			@include breakpoint(wide) { width: 748px; }
+			@include breakpoint(superwide) { width: 960px; }
+			*/
 		}
 	}
 }

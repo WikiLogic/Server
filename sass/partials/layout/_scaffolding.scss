@@ -1,21 +1,37 @@
+/* =====================================================
+=======================================   Mobile and up
+======================================================*/
+
+html {
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+*, *:before, *:after {
+  -webkit-box-sizing: inherit;
+     -moz-box-sizing: inherit;
+          box-sizing: inherit;
+}
+
+
 
 .sidebar {
   position: fixed;
-  top: 0;
+  top: 50px; //to make room for the mini-header
   left: 0;
   bottom: 0;
   width: 270px;
   background: #191e28;
-
-  &__header{
-    background: #393f4f;
-    .logo {
-      display:inline-block;
-      vertical-align: middle;
-    }
-  }
 }
 
 .main {
   margin-left: 270px;
+}
+
+/* =====================================================
+=======================================   Tablet and up
+======================================================*/
+
+@include breakpoint(medium) { 
+
 }
