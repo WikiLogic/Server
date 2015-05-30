@@ -363,7 +363,7 @@ body {
 
 h3 {
   margin: 0 0 5px 0;
-  font-weight: 100; }
+  font-weight: 300; }
 
 a {
   -webkit-transition: all 0.1s ease-in-out;
@@ -497,7 +497,7 @@ html {
     text-align: center;
     border-top: 1px solid #393f4f;
     padding: 15px;
-    height: 350px; }
+    height: 170px; }
 
 .main {
   margin-left: 190px; }
@@ -509,7 +509,7 @@ html {
   .sidebar {
     width: 270px; }
     .sidebar__footer {
-      height: 270px; }
+      height: 150px; }
   .main {
     margin-left: 270px; } }
 
