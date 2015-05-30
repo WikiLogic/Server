@@ -6,14 +6,14 @@
   bottom: 0;
   width: 270px;
   background: #191e28;
-}
-.search {
-  position: relative;
-  height: 94px;
-  width:100%;
-  margin-bottom: 22px;
-  background: #393f4f;
-  z-index: 20;
+
+  &__header{
+    background: #393f4f;
+    .logo {
+      display:inline-block;
+      vertical-align: middle;
+    }
+  }
 }
 
 .main {

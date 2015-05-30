@@ -9,18 +9,22 @@
 </head>
 <body ng-app>
 	<div class="sidebar">
-		<a href="/">home</a> 
-		<div class="search">
-			<img src="/images/logo160.png" alt="" width="50">
-			<p>search box ad options</p>
+		<div class="sidebar__header">
+			<a class="logo" href="/">
+				<img src="/images/logo160.png" alt="WikiLogic Logo" width="50">
+			</a> 
+			<div class="search">
+				<input type="text">
+			</div>
 		</div>
+
 		<div class="explore-nav">
 			<a href="#">Recent</a>
 			<a href="#">Popular</a>
 			<a href="#">Influential</a>
 			<a href="#">Changing</a>
 		</div>
-		
+
 		{{#loggedIn}}
 			<a href="/profile">profile</a>
 			<a href="/logout">logout</a>
@@ -48,8 +52,9 @@
 		</div>	
 	</div>
 
- 
-    {{{body}}}
+ 	<div class="main">
+    	{{{body}}}
+    </div>
  
 
 </body>

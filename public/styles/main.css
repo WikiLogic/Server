@@ -362,6 +362,23 @@ td,
 th {
   padding: 0; }
 
+img {
+  display: block; }
+
+/* ---------------------------------------- Forms */
+input[type=text], textarea {
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -ms-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  outline: none;
+  padding: 5px 0px 5px 5px;
+  border: 1px solid #DDDDDD; }
+
+input[type=text]:focus, textarea:focus {
+  box-shadow: 0 0 5px #51cbee;
+  border: 1px solid #51cbee; }
+
 .sidebar {
   position: fixed;
   top: 0;
@@ -369,14 +386,11 @@ th {
   bottom: 0;
   width: 270px;
   background: #191e28; }
-
-.search {
-  position: relative;
-  height: 94px;
-  width: 100%;
-  margin-bottom: 22px;
-  background: #393f4f;
-  z-index: 20; }
+  .sidebar__header {
+    background: #393f4f; }
+    .sidebar__header .logo {
+      display: inline-block;
+      vertical-align: middle; }
 
 .main {
   margin-left: 270px; }
@@ -402,5 +416,19 @@ th {
     background-color: #e9e8e8; }
     .btn--secondary:hover {
       background-color: #d0cece; }
+
+.search {
+  perspective: 1000px;
+  display: inline-block;
+  vertical-align: middle;
+  width: 200px;
+  z-index: 20; }
+  .search input {
+    border: 0;
+    border-radius: 15px;
+    width: 200px; }
+    .search input:focus {
+      transform: translateZ(10px);
+      width: 600px; }
 
 /* No files to import found in partials//pages//* */
