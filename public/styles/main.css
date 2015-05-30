@@ -409,7 +409,7 @@ should expand to full screen width and push the main content down (or 'hover' ov
     background: url(data:image/svg+xml;utf8,$svg-logo); }
   .mini-header__search {
     position: absolute;
-    left: 60px;
+    left: 55px;
     top: 11px;
     width: 200px;
     height: 28px;
@@ -430,7 +430,7 @@ should expand to full screen width and push the main content down (or 'hover' ov
 
 .nav-sidebar {
   margin-top: 10px;
-  padding-bottom: 10px;
+  padding-bottom: 20px;
   border-bottom: 1px solid #393f4f; }
   .nav-sidebar a {
     transition: none;
@@ -471,7 +471,6 @@ html {
     flex: 1; }
   .sidebar__footer {
     text-align: center;
-    margin: 5px;
     border-top: 1px solid #393f4f;
     padding-top: 15px; }
 

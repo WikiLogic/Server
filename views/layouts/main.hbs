@@ -20,6 +20,9 @@
 	<div class="sidebar">
 
 		<div class="sidebar__body">
+			{{!--#loggedIn--}}
+				Profile | Explorer | Editor
+			{{!--/loggedIn--}}
 
 			<div class="nav-sidebar">
 				<a href="#">Recent</a>
@@ -28,7 +31,7 @@
 				<a href="#">Changing</a>
 			</div>
 
-			{{#loggedIn}}
+			{{!--#loggedIn--}}
 				<a href="/profile">profile</a>
 				<a href="/logout">logout</a>
 				<div class="nav-sidebar nav-sidebar--user">
@@ -43,16 +46,17 @@
 						<a href="#">Watching 2</a>
 					</div>
 				</div>
-			{{/loggedIn}}	
+			{{!--/loggedIn--}}	
 
 		</div>
 
 		<div class="sidebar__footer">
-			<a href="#" class="btn">Signup</a>
-			<p>or <a href="#">Login</a> if you already have an account</p>
-			<hr />
-			<a href="#">Blog</a>
-			<a href="#">Developers</a>
+			{{#unless loggedIn}}
+				<a href="#" class="btn">Signup</a>
+				<p>or <a href="#">Login</a> if you have an account.</p>
+			{{/unless}}
+			<a href="#">Blog</a>,
+			<a href="#">Developers</a>,
 			<a href="#">Manual/help</a>
 		</div>	
 
