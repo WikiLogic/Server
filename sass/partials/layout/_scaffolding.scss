@@ -14,37 +14,8 @@ html {
 }
 
 
-
-.sidebar {
-  position: fixed;
-  top: 50px; //to make room for the mini-header
-  left: 0;
-  bottom: 0;
-  width: 190px;
-  background: $sidebarBGdark;
-  color: white;
-  display: flex;
-  flex-direction: column;
-  &__description {
-    padding:15px;
-  }
-  &__body {
-      flex: 1;
-      margin-right: 1px;
-      padding:15px;
-      overflow-y: scroll;
-  }
-  &__footer {
-    text-align: center;
-    border-top: 1px solid $sidebarBGlight;
-    padding:15px;
-    height:170px;
-  }
-
-}
-
 .main {
-  margin-left: 190px;
+  margin-left: $sidebarWidthSmall;
 }
 
 /* =====================================================
@@ -52,14 +23,8 @@ html {
 ======================================================*/
 
 @include breakpoint(medium) { 
-  .sidebar {
-    width: 270px;
-    &__footer {
-      height:150px;
-    }
-  }
 
   .main {
-    margin-left: 270px;
+    margin-left: $sidebarWidthMedium;
   }
 }

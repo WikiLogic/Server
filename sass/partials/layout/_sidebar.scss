@@ -1,0 +1,100 @@
+/* The logo and Search box.
+The three sections (mini-header, sidebar, and sidebar--footer) are siblings in the dom.
+They are not contained within a parent sidebar.
+In a logged out state the sidebar--footer overlaps the bottom of the sidebar but this shouldn'e be a worry
+as the sidebar shouldn't every be that full for logged out people.  If this happens I've added some padding to the bottom.
+
+The search fun:
+When the user clicks in the search, it should expand to fill the full width of the sidebar.
+For smaller devices, the mini-header is the full width of the screen so clicking the search input will make it fill the screen width.
+For larger screens, when the sidebar is small, when the user types beyond the width the mini-header 
+should expand to full screen width and push the main content down (or 'hover' over it?).
+
+============================*/
+.mini-header {
+  perspective: 1000px;
+  background: $sidebarBGlight;
+  &__logo {
+    display:inline-block;
+    vertical-align: middle;
+    width:50px;
+    height:50px;
+    background: url(data:image/svg+xml;utf8,$svg-logo);
+  }
+  &__search {
+    position: absolute;
+    left: 55px;
+    top: 11px;
+    width: 200px;
+    height:28px;
+    z-index: 20;
+    border:0;
+    border-radius: 15px;
+    &:focus {
+      transform: translateZ(10px);
+      left: 5%;
+      width: 90%;
+    }
+  }
+}
+.sidebar {
+  position: fixed;
+  top: 50px; //to make room for the mini-header
+  left: 0;
+  bottom: 110px;
+  width: $sidebarWidthSmall;
+
+  margin-right: 1px;
+  padding:15px 15px 30px 15px;
+  overflow-y: scroll;
+
+  background: $sidebarBGdark;
+  color: white;
+
+  &__description {
+    padding:15px;
+  }
+}
+
+.sidebar--footer{
+  position:fixed;
+  bottom:0;
+  left:0;
+  width:$sidebarWidthSmall;
+
+  border-top: 1px solid $sidebarBGlight;
+  padding:15px;
+
+  text-align: center;
+  color:white;
+  background: $sidebarBGdark;
+}
+
+.footer--loggedin {
+  height:110px;
+}
+.footer--loggedout {
+  height:150px;
+}
+
+@include breakpoint(medium) { 
+  .mini-header {
+    position:absolute; top:0; left:0; //stops it from bumping the main content down
+    width: $sidebarWidthMedium;
+  }
+
+  .sidebar {
+    width: $sidebarWidthMedium;
+    bottom:100px;
+  }
+
+  .sidebar--footer {
+    width: $sidebarWidthMedium;
+  }
+  .footer--loggedin {
+    height:100px;
+  }
+  .footer--loggedout {
+    height:130px;
+  }
+}
