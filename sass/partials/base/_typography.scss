@@ -56,8 +56,6 @@ input[type=text]:focus, textarea:focus {
  
 /* Handle */
 ::-webkit-scrollbar-thumb {
-    -webkit-border-radius: 10px;
-    border-radius: 10px;
     background: $middleGrey; 
 }
 ::-webkit-scrollbar-thumb:window-inactive {

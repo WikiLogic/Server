@@ -49,6 +49,8 @@ should expand to full screen width and push the main content down (or 'hover' ov
   overflow-y: scroll;
 
   background: $sidebarBGdark;
+  border-top:1px solid $sidebarBGdark;
+  border-bottom: 1px solid $sidebarBGdark;
   color: white;
 
   &__description {

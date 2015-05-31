@@ -407,8 +407,6 @@ input[type=text]:focus, textarea:focus {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  -webkit-border-radius: 10px;
-  border-radius: 10px;
   background: #393f4f; }
 
 ::-webkit-scrollbar-thumb:window-inactive {
@@ -496,6 +494,8 @@ should expand to full screen width and push the main content down (or 'hover' ov
   padding: 15px 15px 30px 15px;
   overflow-y: scroll;
   background: #191e28;
+  border-top: 1px solid #191e28;
+  border-bottom: 1px solid #191e28;
   color: white; }
   .sidebar__description {
     padding: 15px; }
