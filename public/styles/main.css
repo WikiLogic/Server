@@ -442,6 +442,7 @@ html {
   margin-left: 190px; }
   .main__head {
     padding: 20px;
+    color: white;
     background: -webkit-linear-gradient(90deg, #4b6cb7 10%, #182848 90%);
     /* Chrome 10+, Saf5.1+ */
     background: -moz-linear-gradient(90deg, #4b6cb7 10%, #182848 90%);
