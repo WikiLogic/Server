@@ -446,6 +446,7 @@ input[type=text]:focus, textarea:focus {
     position: absolute;
     right: 20px;
     top: 20px;
+    margin: 0;
     color: white; }
 
 .nav-sidebar {
@@ -620,6 +621,12 @@ should expand to full screen width and push the main content down (or 'hover' ov
       margin-right: 10px; }
     .claim-preview__header p {
       margin: 0; }
+      .claim-preview__header p a {
+        color: #15181E;
+        text-decoration: none; }
+        .claim-preview__header p a:hover {
+          color: #15181E;
+          text-decoration: underline; }
 
 @media (min-width: 768px) {
   .claim-preview__header .icon {

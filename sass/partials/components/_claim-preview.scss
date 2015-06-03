@@ -14,8 +14,28 @@
 		}
 		p {
 			margin: 0;
+			a {
+				color: $textDark;
+				text-decoration: none;
+				&:hover {
+					color: $textDark;
+					text-decoration: underline;
+				}
+			}
 		}
+	}
 
+	&__footer {
+		&__supporting-row {
+			.supporting {
+
+			}
+		}
+		&__opposing-row {
+			.opposing {
+				
+			}
+		}
 	}
 }
 
