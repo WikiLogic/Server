@@ -9,6 +9,16 @@
 		margin: 1px 0px;
 		border-radius: 4px;
 		text-decoration: none;
+
+		span, p {
+			display: inline-block;
+			vertical-align: middle;
+		}
+		p {
+			margin:0 0 0 8px;
+		}
+
+
 		&:hover {
 			background-color: $sidebarBGlight;
 		}

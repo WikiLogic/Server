@@ -1,5 +1,13 @@
 /* shades of grey */
 /* colors */
+.icon {
+  width: 20px;
+  height: 20px;
+  display: inline-block; }
+
+.icon-history {
+  background-image: url(/images/icons/history.svg); }
+
 /*! normalize.css v3.0.1 | MIT License | git.io/normalize */
 /**
  * 1. Set default font family to sans-serif.
@@ -422,6 +430,9 @@ input[type=text]:focus, textarea:focus {
     margin: 1px 0px;
     border-radius: 4px;
     text-decoration: none; }
+    .nav-sidebar a span, .nav-sidebar a p {
+      display: inline-block;
+      vertical-align: middle; }
     .nav-sidebar a:hover {
       background-color: #393f4f; }
 
