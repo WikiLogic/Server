@@ -1,0 +1,25 @@
+.main__head {
+	color: white;
+    //http://uigradients.com/#
+    background: -webkit-linear-gradient(90deg, #4b6cb7 10%, #182848 90%); /* Chrome 10+, Saf5.1+ */
+    background:    -moz-linear-gradient(90deg, #4b6cb7 10%, #182848 90%); /* FF3.6+ */
+    background:     -ms-linear-gradient(90deg, #4b6cb7 10%, #182848 90%); /* IE10 */
+    background:      -o-linear-gradient(90deg, #4b6cb7 10%, #182848 90%); /* Opera 11.10+ */
+    background:         linear-gradient(90deg, #4b6cb7 10%, #182848 90%); /* W3C */
+
+    
+    background: -webkit-linear-gradient(90deg, #5f2c82 10%, #49a09d 90%); /* Chrome 10+, Saf5.1+ */
+    background:    -moz-linear-gradient(90deg, #5f2c82 10%, #49a09d 90%); /* FF3.6+ */
+    background:     -ms-linear-gradient(90deg, #5f2c82 10%, #49a09d 90%); /* IE10 */
+    background:      -o-linear-gradient(90deg, #5f2c82 10%, #49a09d 90%); /* Opera 11.10+ */
+    background:         linear-gradient(90deg, #5f2c82 10%, #49a09d 90%); /* W3C */
+
+
+	.learn-more {
+		position:absolute;
+		right:20px;
+		top:20px;
+		margin:0;
+		color: white;
+	}
+}
