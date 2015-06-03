@@ -6,6 +6,9 @@
 
 	&__header {
 		min-height:20px;
+		border-bottom: 1px solid $lightBorderClr;
+		padding-bottom:5px;
+		margin-bottom:5px;
 		.icon {
 			width: 20px;
 			height: 20px;
@@ -25,17 +28,41 @@
 		}
 	}
 
-	&__footer {
+	&__footer-left {
+		width:49%;
+		display: inline-block;
+		vertical-align: middle;
 		&__supporting-row {
+			display: block;
+			line-height:12px;
 			.supporting {
-
+				display: inline-block;
+				width:25px;
+				height:10px;
+				background:$trueGreen;
+				border-radius:2px;
+				vertical-align: middle;
 			}
 		}
 		&__opposing-row {
+			display: block;
+			line-height:12px;
 			.opposing {
-				
+				display: inline-block;
+				width:25px;
+				height:10px;
+				background:$falseRed;
+				border-radius:2px;
+				vertical-align: middle;
 			}
 		}
+	}
+
+	&__footer-right {
+		width:49%;
+		display: inline-block;
+		vertical-align: middle;
+		text-align: right;
 	}
 }
 

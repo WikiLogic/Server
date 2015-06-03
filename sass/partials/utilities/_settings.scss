@@ -41,18 +41,23 @@ $darkerGrey:	#15181E;
 
 /* colors */
 
+$Carnation:		#F25454; //Red
+$Apple:			#31D332; //Green
+
 // Color Assignments
 // ------------------------------------------------------------------------------
 $textDark:			$darkerGrey;
 
-$mainBGclr:			$gallery;
-$lightBorderClr:		$alto;
-$offWhiteText:		$silver;
+$trueGreen:			$Apple;
+$falseRed:			$Carnation;
 
+$mainBGclr:			$gallery;
+$lightBorderClr:	$alto;
+$offWhiteText:		$silver;
 
 $sidebarBGdark: 	$darkGrey;
 $sidebarBGlight: 	$middleGrey;
-$sidebarLinkClr:		$offWhiteText;
+$sidebarLinkClr:	$offWhiteText;
 
 $ButtonClr: 		white;
 $ButtonBkg: 		$middleGrey;

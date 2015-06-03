@@ -613,7 +613,10 @@ should expand to full screen width and push the main content down (or 'hover' ov
   padding: 10px;
   border-radius: 5px; }
   .claim-preview__header {
-    min-height: 20px; }
+    min-height: 20px;
+    border-bottom: 1px solid #dddddd;
+    padding-bottom: 5px;
+    margin-bottom: 5px; }
     .claim-preview__header .icon {
       width: 20px;
       height: 20px;
@@ -627,6 +630,34 @@ should expand to full screen width and push the main content down (or 'hover' ov
         .claim-preview__header p a:hover {
           color: #15181E;
           text-decoration: underline; }
+  .claim-preview__footer-left {
+    width: 49%;
+    display: inline-block;
+    vertical-align: middle; }
+    .claim-preview__footer-left__supporting-row {
+      display: block;
+      line-height: 12px; }
+      .claim-preview__footer-left__supporting-row .supporting {
+        display: inline-block;
+        width: 25px;
+        height: 10px;
+        background: #31D332;
+        border-radius: 2px;
+        vertical-align: middle; }
+    .claim-preview__footer-left__opposing-row {
+      display: block;
+      line-height: 12px; }
+      .claim-preview__footer-left__opposing-row .opposing {
+        display: inline-block;
+        width: 25px;
+        height: 10px;
+        background: #F25454;
+        border-radius: 2px;
+        vertical-align: middle; }
+  .claim-preview__footer-right {
+    width: 49%;
+    display: inline-block;
+    vertical-align: middle; }
 
 @media (min-width: 768px) {
   .claim-preview__header .icon {
