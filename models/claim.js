@@ -15,25 +15,17 @@ var claimSchema = mongoose.Schema({
         type: Boolean,
         default: false
     },
-    arguments: [{
-            argNum: {
-                type: Number,
-                default:0
-            }
-            supporting:{
-                type: Boolean,
-                default: false
-            },
-            status: {
-                type: Boolean,
-                default:false
-            },
-            reasons: [{
-                    type: Schema.ObjectId,
-                    ref: 'Claim',
-                    default: []
-            }],
-            default: []
+    supporting: [{
+            type: Schema.ObjectId,
+            ref: 'Argument'
+    }],
+    opposing: [{
+            type: Schema.ObjectId,
+            ref: 'Argument'
+    }],
+    usedIn: [{
+            type: Schema.ObjectId,
+            ref: 'Argument'
     }],
     meta: {
         user: {
@@ -43,7 +35,10 @@ var claimSchema = mongoose.Schema({
         created: {
             type: Date,
             default: Date.now
-        }
+        },
+        statusChangeCount: Number,
+        viewCount: Number
+
     }
 });
 
