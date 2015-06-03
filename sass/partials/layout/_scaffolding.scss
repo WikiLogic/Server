@@ -6,6 +6,8 @@ html {
   -webkit-box-sizing: border-box;
      -moz-box-sizing: border-box;
           box-sizing: border-box;
+  min-height:100%;
+  background: $mainBGclr;
 }
 *, *:before, *:after {
   -webkit-box-sizing: inherit;

@@ -433,6 +433,8 @@ input[type=text]:focus, textarea:focus {
     .nav-sidebar a span, .nav-sidebar a p {
       display: inline-block;
       vertical-align: middle; }
+    .nav-sidebar a p {
+      margin: 0 0 0 8px; }
     .nav-sidebar a:hover {
       background-color: #393f4f; }
 
@@ -442,7 +444,9 @@ input[type=text]:focus, textarea:focus {
 html {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
-  box-sizing: border-box; }
+  box-sizing: border-box;
+  min-height: 100%;
+  background: #eeeeee; }
 
 *, *:before, *:after {
   -webkit-box-sizing: inherit;
@@ -594,6 +598,31 @@ should expand to full screen width and push the main content down (or 'hover' ov
   .btn:hover {
     background-color: #515a70;
     color: white; }
+
+.claim-preview {
+  background: white;
+  border: 1px solid #dddddd;
+  padding: 10px;
+  border-radius: 5px; }
+  .claim-preview__header {
+    min-height: 20px; }
+    .claim-preview__header .icon {
+      width: 20px;
+      height: 20px;
+      float: left;
+      margin-right: 10px; }
+    .claim-preview__header p {
+      margin: 0; }
+
+@media (min-width: 768px) {
+  .claim-preview__header .icon {
+    float: none;
+    vertical-align: middle;
+    width: 50px;
+    height: 50px; }
+  .claim-preview__header p {
+    display: inline-block;
+    vertical-align: middle; } }
 
 .search {
   perspective: 1000px;

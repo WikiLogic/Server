@@ -31,7 +31,9 @@ $weightBold: 600;
 
 
 /* shades of grey */
-$offWhiteText:	#cccccc;
+$gallery:		#eeeeee;
+$alto:			#dddddd;
+$silver:		#cccccc;
 $lightGrey:		#515a70;
 $middleGrey:	#393f4f;
 $darkGrey:		#191e28;
@@ -41,6 +43,11 @@ $darkerGrey:	#15181E;
 
 // Color Assignments
 // ------------------------------------------------------------------------------
+$mainBGclr:			$gallery;
+$lightBorderClr:		$alto;
+$offWhiteText:		$silver;
+
+
 $sidebarBGdark: 	$darkGrey;
 $sidebarBGlight: 	$middleGrey;
 $sidebarLinkClr:		$offWhiteText;

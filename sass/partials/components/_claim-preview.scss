@@ -1,3 +1,37 @@
-.claim-preview{
-	
+.claim-preview {
+	background:white;
+	border: 1px solid $lightBorderClr;
+	padding: 10px;
+	border-radius: 5px;
+
+	&__header {
+		min-height:20px;
+		.icon {
+			width: 20px;
+			height: 20px;
+			float:left;
+			margin-right:10px;
+		}
+		p {
+			margin: 0;
+		}
+
+	}
+}
+
+@include breakpoint(medium) {
+	.claim-preview {
+		&__header {
+			.icon {
+				float: none;
+				vertical-align: middle;
+				width:50px;
+				height:50px;
+			}
+			p {
+				display: inline-block;
+				vertical-align: middle;
+			}			
+		}
+	}
 }
