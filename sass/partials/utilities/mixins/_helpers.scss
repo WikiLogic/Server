@@ -5,3 +5,10 @@
 	-ms-transition: all $time ease-in-out;
 	-o-transition: all $time ease-in-out;
 }
+
+@mixin whiteBox(){
+	background:white;
+	border: 1px solid $lightBorderClr;
+	padding: 10px;
+	border-radius: 5px;
+}

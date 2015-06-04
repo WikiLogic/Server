@@ -30,6 +30,13 @@ hr {
 
 /* ---------------------------------------- Forms */
 
+input {
+	background-color:white !important;
+	padding: 5px 10px;
+	border: 1px solid #DDDDDD;
+	border-radius: 4px;
+}
+
 input[type=text], textarea {
   @include transition(0.3s);
   outline: none;

@@ -391,6 +391,12 @@ hr {
   border-top: 1px solid #393f4f; }
 
 /* ---------------------------------------- Forms */
+input {
+  background-color: white !important;
+  padding: 5px 10px;
+  border: 1px solid #DDDDDD;
+  border-radius: 4px; }
+
 input[type=text], textarea {
   -webkit-transition: all 0.3s ease-in-out;
   -moz-transition: all 0.3s ease-in-out;
@@ -692,4 +698,22 @@ should expand to full screen width and push the main content down (or 'hover' ov
 			@include breakpoint(superwide) { width: 960px; }
 			*/ }
 
-/* No files to import found in partials//pages//* */
+.login-page {
+  text-align: center; }
+  .login-page__local {
+    background: white;
+    border: 1px solid #dddddd;
+    padding: 10px;
+    border-radius: 5px;
+    display: inline-block; }
+    .login-page__local input {
+      display: block;
+      width: 100%;
+      margin-top: 10px; }
+  .login-page__service {
+    background: white;
+    border: 1px solid #dddddd;
+    padding: 10px;
+    border-radius: 5px;
+    display: inline-block;
+    margin-top: 20px; }

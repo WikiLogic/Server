@@ -1,8 +1,5 @@
 .claim-preview {
-	background:white;
-	border: 1px solid $lightBorderClr;
-	padding: 10px;
-	border-radius: 5px;
+	@include whiteBox();
 
 	&__header {
 		min-height:20px;

@@ -1,0 +1,19 @@
+.login-page {
+	text-align:center;
+
+	&__local {
+		@include whiteBox();
+		display: inline-block;
+		input {
+			display: block;
+			width:100%;
+			margin-bottom:10px;
+		}
+	}
+
+	&__service {
+		@include whiteBox();
+		display: inline-block;
+		margin-top:20px;
+	}
+}
