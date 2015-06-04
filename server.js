@@ -37,8 +37,8 @@ console.timeEnd('         5: Configuring packages');
 =========================================*/
 console.time('        4: Defining public resources');
 app.use(express.static('public')); //Setting the location for general static files (styling, images)
-app.use('/explorer', express.static(__dirname + '/views/explorer/explorer_partials')); //Allowing the Explorer Angular app to load partials from this directory
-app.use('/editor', express.static(__dirname + '/views/editor/editor_partials')); //Allowing the Editor Angular app to load partials from this directory
+app.use('/explorer', express.static(__dirname + '/views/explorer/explorer_app')); //Allowing the Explorer Angular app to load partials from this directory
+app.use('/editor', express.static(__dirname + '/views/editor/editor_app')); //Allowing the Editor Angular app to load partials from this directory
 console.timeEnd('        4: Defining public resources');
 
 /* Setting up authentication using Passport

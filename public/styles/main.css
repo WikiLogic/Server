@@ -657,7 +657,8 @@ should expand to full screen width and push the main content down (or 'hover' ov
   .claim-preview__footer-right {
     width: 49%;
     display: inline-block;
-    vertical-align: middle; }
+    vertical-align: middle;
+    text-align: right; }
 
 @media (min-width: 768px) {
   .claim-preview__header .icon {

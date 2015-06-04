@@ -11,29 +11,31 @@
 
 	<div class="main__body">
 
-		<!-- This will get split out into it's own template file -->
-		<div class="claim-preview">
-			<div class="claim-preview__header">
-				<div class="icon icon-true">true</div>
-				<p><a href="#">Description of the claim will go here.</a></p>
-			</div>
-
-			<div class="claim-preview__footer-left">
-				<div class="claim-preview__footer-left__supporting-row">
-					<div class="supporting"></div>
-					<div class="supporting"></div>
-					<div class="supporting"></div>
+		<div class="list" ng-controller="ListController">
+			<!-- This will get split out into it's own template file -->
+			<div class="claim-preview">
+				<div class="claim-preview__header">
+					<div class="icon icon-true">true</div>
+					<p><a href="#">Description of the claim will go here.</a></p>
 				</div>
-				<div class="claim-preview__footer-left__opposing-row">
-					<div class="opposing"></div>
-					<div class="opposing"></div>
-				</div>
-			</div>
 
-			<div class="claim-preview__footer-right">
-				<div class="icon icon-DLW">DLW</div>
-				<div class="icon icon-save">saves</div>
-				<div class="icon icon-share">share</div>
+				<div class="claim-preview__footer-left">
+					<div class="claim-preview__footer-left__supporting-row">
+						<div class="supporting"></div>
+						<div class="supporting"></div>
+						<div class="supporting"></div>
+					</div>
+					<div class="claim-preview__footer-left__opposing-row">
+						<div class="opposing"></div>
+						<div class="opposing"></div>
+					</div>
+				</div>
+
+				<div class="claim-preview__footer-right">
+					<div class="icon icon-DLW">DLW</div>
+					<div class="icon icon-save">saves</div>
+					<div class="icon icon-share">share</div>
+				</div>
 			</div>
 		</div>
 
@@ -42,3 +44,5 @@
 </div>
 
 <!-- Import angular app scripts here -->
+<script src="explorer/app.js"></script>
+<script src="explorer/controllers/explorer-list.js"></script>

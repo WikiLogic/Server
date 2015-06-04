@@ -1,8 +1,4 @@
-'use strict';
-
-angular.module('explorer', [
-  'ngRoute'
-]).config(['$routeProvider', function($routeProvider) {
-  
-
-}])
+(function(){
+  'use strict';
+  angular.module('explorer', []);
+})();
