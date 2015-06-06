@@ -23,11 +23,11 @@ gulp.task('startDB', function () {
 });
 
 gulp.task('startNODE', function () {
-	nodemon({
-		script: 'server.js',
-		ext: 'js html',
-		env: { 'NODE_ENV': 'development' }
-	});
+    return nodemon({
+        script: 'server.js',
+        env: { 'NODE_ENV': 'development' },
+        watch: ['app.js']
+    })
 });
 
 gulp.task('default', ['sass','startDB','startNODE']);
