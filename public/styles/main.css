@@ -709,7 +709,7 @@ should expand to full screen width and push the main content down (or 'hover' ov
     .login-page__local input {
       display: block;
       width: 100%;
-      margin-top: 10px; }
+      margin-bottom: 10px; }
   .login-page__service {
     background: white;
     border: 1px solid #dddddd;

@@ -42,6 +42,7 @@ To run WikiLogic locally you'll need a few things installed:
 4. [Gulp](http://gulpjs.com/) - A task runner to make life easier, `npm install -g gulp`, also global
 5. [Compass](http://compass-style.org/) to build the Sass *Note, after changing to gulp I'm not sure if we need this anymore?*
 
+[Browser Sync](http://www.browsersync.io/) `npm install -g browser-sync`
 
 With all that set up we can now get the Wikilogic specific stuff onto your machine.
 
