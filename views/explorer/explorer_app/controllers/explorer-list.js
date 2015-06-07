@@ -6,7 +6,7 @@
 (function(){ 
 	'use strict';
 	angular.module('Explorer')
-		.controller('ListController', ['$scope', function($scope) {
+		.controller('ListController', ['$scope', '$rootScope', function($scope, $rootScope) {
  			$scope.testing = 'hiya';
 		 	console.log('HIYA!');
 
@@ -106,8 +106,9 @@
 					genericClaim
 				]
 
-				$scope.list = recentList;
-				console.log('$scope.list: ', $scope.list);
+				/* Will have to set root scope.  The controller nav is way far in the DOM */
+				$rootScope.list = recentList;
+				console.log('$scope.list: ', $rootScope.list);
 
 		 	 	//return recentList;
 		 	 }

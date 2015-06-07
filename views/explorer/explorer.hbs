@@ -1,25 +1,103 @@
-{{!-- This template serves the EXPLORER angular app --}}
+<!--
+	This template serves the EXPLORER angular app, 
+	it's called into main.hbs by {{{body}}} 
+-->
+<div ng-app="Explorer">
 
-<!-- everything within here changes for the explorer routes -->
-<div class="explorer">
-
-	<div class="main__head">
-		<!-- This might need to eb split out too -->
-		<h1>The Explorer.</h1>
-		<p class="learn-more">What is WikiLogic?</p>
+	<!-- The mini header, preseant for everything but can work differently in each app as it's within ng-app="..." -->
+	<div class="mini-header">
+		<a class="mini-header__logo" href="/">
+			<img src="/images/logo.svg" alt="WikiLogic Logo" width="50">
+		</a> 
+		<input class="mini-header__search" type="text">
 	</div>
 
-	<div class="main__body" ng-controller="ListController">
+	<div class="sidebar">
+		{{#unless loggedIn}}
+			<p class="sidebar__description">Quick description</p>
+		{{/unless}}
 
-		<button ng-click="setListToRecent()">Get recent list</button>
+		{{#if loggedIn}}
+			<div class="profile-nav">
+				<div class="nav-sidebar">
+					<h3><a href="/profile">YOUR PROFILE</a></h3>
+					<a href="#"><span class="icon icon-history"></span><p>History</p></a>
+					<a href="#">Collections</a>
+					<a href="#">Watching</a>
+				</div>
+			</div>
+		{{/if}}	
 
-		<!-- need to get the list into here with angular -->
-		<div ng-include src="'/explorer/partials/list.html'"></div>
+		<!-- This alwayse shows, the other two are for logged in people ONLY! :D -->
+		<!-- Important note for a tiny detail, keep the logged out version of this menu small otherwise the scrollbar 
+		will appear and it will dip below the sidebar footer which isn't really my jam -->
+		<div class="explorer-nav" ng-controller="ListController">
+			<div class="nav-sidebar">
+				<h3><a href="/">EXPLORER</a></h3>
+				<a href="#" ng-click="setListToRecent()">Recent</a>
+				<a href="#">Popular</a>
+				<a href="#">Influential</a>
+				<a href="#">Changing</a>
+				<a href="#">Random</a>
+			</div>	
+		</div>
 
+		{{#if loggedIn}}		
+			<div class="editor-nav">
+				<div class="nav-sidebar">
+					<h3><a href="/editor">EDITOR</a></h3>
+					<a href="#">Published</a>
+					<a href="#">Draft statements(0)</a>
+				</div>
+			</div>
+		{{/if}}	
+
+	</div> <!-- End of the main sidebar -->
+
+	{{!-- Yes, there's repetition, but come on - it's tiny! --}}
+	{{#if loggedIn}}
+		<div class="sidebar--footer footer--loggedin">
+			<a href="/logout" class="btn">Logout</a>
+			<br />
+			<br />
+			<a href="#">Blog</a>,
+			<a href="#">Developers</a>,
+			<a href="#">Manual/help</a>
+		</div>	
+	{{else}}
+		<div class="sidebar--footer footer--loggedout">
+			<a href="/signup" class="btn">Signup</a>
+			<p>or <a href="/login">Login</a> if you have an account.</p>
+			
+			<a href="#">Blog</a>,
+			<a href="#">Developers</a>,
+			<a href="#">Manual/help</a>
+		</div>	
+	{{/if}}
+
+	<div class="main">
+		<div class="explorer">
+
+			<div class="main__head">
+				<!-- This might need to eb split out too -->
+				<h1>The Explorer.</h1>
+				<p class="learn-more">What is WikiLogic?</p>
+			</div>
+
+			<div class="main__body">
+
+				<!-- The List component. -->
+				<div ng-include src="'/explorer/partials/list.html'"></div>
+
+			</div>
+
+		</div>
 	</div>
 
-</div>
+</div> <!-- END of ng-app="Explorer" -->
 
 <!-- Import angular app scripts here -->
 <script src="explorer/app.js"></script>
 <script src="explorer/controllers/explorer-list.js"></script>
+
+{{!-- The body tag comes after this in the main.hbs file.  This is the end of the Explorer app! --}}
