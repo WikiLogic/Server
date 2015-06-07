@@ -1,0 +1,41 @@
+<div class="sidebar">
+	{{#unless loggedIn}}
+		<p class="sidebar__description">Quick description</p>
+	{{/unless}}
+
+	{{#if loggedIn}}
+		<div class="profile-nav">
+			<div class="nav-sidebar">
+				<h3><a href="/profile">YOUR PROFILE</a></h3>
+				<a href="#"><span class="icon icon-history"></span><p>History</p></a>
+				<a href="#">Collections</a>
+				<a href="#">Watching</a>
+			</div>
+		</div>
+	{{/if}}	
+
+	<!-- This alwayse shows, the other two are for logged in people ONLY! :D -->
+	<!-- Important note for a tiny detail, keep the logged out version of this menu small otherwise the scrollbar 
+	will appear and it will dip below the sidebar footer which isn't really my jam -->
+	<div class="explorer-nav" ng-controller="ListController">
+		<div class="nav-sidebar">
+			<h3><a href="/">EXPLORER</a></h3>
+			<a href="#" ng-click="setListToRecent()">Recent</a>
+			<a href="#">Popular</a>
+			<a href="#">Influential</a>
+			<a href="#">Changing</a>
+			<a href="#">Random</a>
+		</div>	
+	</div>
+
+	{{#if loggedIn}}		
+		<div class="editor-nav">
+			<div class="nav-sidebar">
+				<h3><a href="/editor">EDITOR</a></h3>
+				<a href="#">Published</a>
+				<a href="#">Draft statements(0)</a>
+			</div>
+		</div>
+	{{/if}}	
+
+</div> <!-- End of the main sidebar -->

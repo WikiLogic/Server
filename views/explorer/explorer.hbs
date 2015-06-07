@@ -4,77 +4,12 @@
 -->
 <div ng-app="Explorer">
 
-	<!-- The mini header, preseant for everything but can work differently in each app as it's within ng-app="..." -->
-	<div class="mini-header">
-		<a class="mini-header__logo" href="/">
-			<img src="/images/logo.svg" alt="WikiLogic Logo" width="50">
-		</a> 
-		<input class="mini-header__search" type="text">
-	</div>
+	{{!-- These partials are called from views/common, they're here so that they get caught under the control of ng-app --}}
+	{{> mini-header }} 
+	{{> main-sidebar }} 
+	{{> footer-sidebar }}
 
-	<div class="sidebar">
-		{{#unless loggedIn}}
-			<p class="sidebar__description">Quick description</p>
-		{{/unless}}
-
-		{{#if loggedIn}}
-			<div class="profile-nav">
-				<div class="nav-sidebar">
-					<h3><a href="/profile">YOUR PROFILE</a></h3>
-					<a href="#"><span class="icon icon-history"></span><p>History</p></a>
-					<a href="#">Collections</a>
-					<a href="#">Watching</a>
-				</div>
-			</div>
-		{{/if}}	
-
-		<!-- This alwayse shows, the other two are for logged in people ONLY! :D -->
-		<!-- Important note for a tiny detail, keep the logged out version of this menu small otherwise the scrollbar 
-		will appear and it will dip below the sidebar footer which isn't really my jam -->
-		<div class="explorer-nav" ng-controller="ListController">
-			<div class="nav-sidebar">
-				<h3><a href="/">EXPLORER</a></h3>
-				<a href="#" ng-click="setListToRecent()">Recent</a>
-				<a href="#">Popular</a>
-				<a href="#">Influential</a>
-				<a href="#">Changing</a>
-				<a href="#">Random</a>
-			</div>	
-		</div>
-
-		{{#if loggedIn}}		
-			<div class="editor-nav">
-				<div class="nav-sidebar">
-					<h3><a href="/editor">EDITOR</a></h3>
-					<a href="#">Published</a>
-					<a href="#">Draft statements(0)</a>
-				</div>
-			</div>
-		{{/if}}	
-
-	</div> <!-- End of the main sidebar -->
-
-	{{!-- Yes, there's repetition, but come on - it's tiny! --}}
-	{{#if loggedIn}}
-		<div class="sidebar--footer footer--loggedin">
-			<a href="/logout" class="btn">Logout</a>
-			<br />
-			<br />
-			<a href="#">Blog</a>,
-			<a href="#">Developers</a>,
-			<a href="#">Manual/help</a>
-		</div>	
-	{{else}}
-		<div class="sidebar--footer footer--loggedout">
-			<a href="/signup" class="btn">Signup</a>
-			<p>or <a href="/login">Login</a> if you have an account.</p>
-			
-			<a href="#">Blog</a>,
-			<a href="#">Developers</a>,
-			<a href="#">Manual/help</a>
-		</div>	
-	{{/if}}
-
+	
 	<div class="main">
 		<div class="explorer">
 
