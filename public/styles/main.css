@@ -177,7 +177,6 @@ figure {
  * Address differences between Firefox and other browsers.
  */
 hr {
-  -moz-box-sizing: content-box;
   box-sizing: content-box;
   height: 0; }
 
@@ -305,8 +304,6 @@ input[type="number"]::-webkit-outer-spin-button {
 input[type="search"] {
   -webkit-appearance: textfield;
   /* 1 */
-  -moz-box-sizing: content-box;
-  -webkit-box-sizing: content-box;
   /* 2 */
   box-sizing: content-box; }
 
@@ -416,7 +413,6 @@ input[type=text]:focus, textarea:focus {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  -webkit-border-radius: 12px;
   border-radius: 12px; }
 
 /* Handle */
@@ -430,22 +426,18 @@ input[type=text]:focus, textarea:focus {
   color: white;
   background: -webkit-linear-gradient(90deg, #4b6cb7 10%, #182848 90%);
   /* Chrome 10+, Saf5.1+ */
-  background: -moz-linear-gradient(90deg, #4b6cb7 10%, #182848 90%);
   /* FF3.6+ */
-  background: -ms-linear-gradient(90deg, #4b6cb7 10%, #182848 90%);
   /* IE10 */
-  background: -o-linear-gradient(90deg, #4b6cb7 10%, #182848 90%);
   /* Opera 11.10+ */
+  background: -webkit-linear-gradient(0deg, #4b6cb7 10%, #182848 90%);
   background: linear-gradient(90deg, #4b6cb7 10%, #182848 90%);
   /* W3C */
   background: -webkit-linear-gradient(90deg, #5f2c82 10%, #49a09d 90%);
   /* Chrome 10+, Saf5.1+ */
-  background: -moz-linear-gradient(90deg, #5f2c82 10%, #49a09d 90%);
   /* FF3.6+ */
-  background: -ms-linear-gradient(90deg, #5f2c82 10%, #49a09d 90%);
   /* IE10 */
-  background: -o-linear-gradient(90deg, #5f2c82 10%, #49a09d 90%);
   /* Opera 11.10+ */
+  background: -webkit-linear-gradient(0deg, #5f2c82 10%, #49a09d 90%);
   background: linear-gradient(90deg, #5f2c82 10%, #49a09d 90%);
   /* W3C */ }
   .main__head .learn-more {
@@ -458,7 +450,8 @@ input[type=text]:focus, textarea:focus {
 .nav-sidebar {
   padding-bottom: 20px; }
   .nav-sidebar a {
-    transition: none;
+    -webkit-transition: none;
+            transition: none;
     display: block;
     color: white;
     padding: 6px 10px;
@@ -477,15 +470,11 @@ input[type=text]:focus, textarea:focus {
 =======================================   Mobile and up
 ======================================================*/
 html {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
   min-height: 100%;
   background: #eeeeee; }
 
 *, *:before, *:after {
-  -webkit-box-sizing: inherit;
-  -moz-box-sizing: inherit;
   box-sizing: inherit; }
 
 .main {
@@ -516,7 +505,8 @@ should expand to full screen width and push the main content down (or 'hover' ov
 
 ============================*/
 .mini-header {
-  perspective: 1000px;
+  -webkit-perspective: 1000px;
+          perspective: 1000px;
   background: #393f4f; }
   .mini-header__logo {
     display: inline-block;
@@ -534,7 +524,8 @@ should expand to full screen width and push the main content down (or 'hover' ov
     border: 0;
     border-radius: 15px; }
     .mini-header__search:focus {
-      transform: translateZ(10px);
+      -webkit-transform: translateZ(10px);
+              transform: translateZ(10px);
       left: 5%;
       width: 90%; }
 
@@ -677,7 +668,8 @@ should expand to full screen width and push the main content down (or 'hover' ov
     vertical-align: middle; } }
 
 .search {
-  perspective: 1000px;
+  -webkit-perspective: 1000px;
+          perspective: 1000px;
   display: inline-block;
   vertical-align: middle;
   width: 200px;
@@ -689,7 +681,8 @@ should expand to full screen width and push the main content down (or 'hover' ov
     border-radius: 15px;
     width: 200px; }
     .search input:focus {
-      transform: translateZ(10px);
+      -webkit-transform: translateZ(10px);
+              transform: translateZ(10px);
       width: 100%;
       /*
 			@include breakpoint(small) { width: 300px; }

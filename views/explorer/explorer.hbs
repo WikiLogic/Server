@@ -1,7 +1,7 @@
 {{!-- This template serves the EXPLORER angular app --}}
 
 <!-- everything within here changes for the explorer routes -->
-<div ng-view class="explorer">
+<div class="explorer">
 
 	<div class="main__head">
 		<!-- This might need to eb split out too -->
@@ -9,35 +9,12 @@
 		<p class="learn-more">What is WikiLogic?</p>
 	</div>
 
-	<div class="main__body">
+	<div class="main__body" ng-controller="ListController">
 
-		<div class="list" ng-controller="ListController">
-			<!-- This will get split out into it's own template file -->
-			<div class="claim-preview">
-				<div class="claim-preview__header">
-					<div class="icon icon-true">true</div>
-					<p><a href="#">Description of the claim will go here.</a></p>
-				</div>
+		<button ng-click="setListToRecent()">Get recent list</button>
 
-				<div class="claim-preview__footer-left">
-					<div class="claim-preview__footer-left__supporting-row">
-						<div class="supporting"></div>
-						<div class="supporting"></div>
-						<div class="supporting"></div>
-					</div>
-					<div class="claim-preview__footer-left__opposing-row">
-						<div class="opposing"></div>
-						<div class="opposing"></div>
-					</div>
-				</div>
-
-				<div class="claim-preview__footer-right">
-					<div class="icon icon-DLW">DLW</div>
-					<div class="icon icon-save">saves</div>
-					<div class="icon icon-share">share</div>
-				</div>
-			</div>
-		</div>
+		<!-- need to get the list into here with angular -->
+		<div ng-include src="'/explorer/partials/list.html'"></div>
 
 	</div>
 

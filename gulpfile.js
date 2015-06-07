@@ -20,10 +20,6 @@ gulp.task('sass', function() {
     .pipe(gulp.dest('public/styles'));
 });
 
-//Run by 'gulp' this watches for any sass changes then only runs the sass task, nothing else needs to run.
-gulp.task('watch-styles', function() {
-  gulp.watch('sass/*.scss', ['sass']);
-});
 
 /*
  * This task starts a MongoDB server.
@@ -45,15 +41,26 @@ gulp.task('startDB', function () {
  *     server.js, passport.js, routes, controllers (although they're not set up yet), & models
  */
 gulp.task('startNODE', function () {
-    return nodemon({
+    nodemon({
         script: 'server.js',
-        env: { 'NODE_ENV': 'development' },
-        watch: ['server.js', 'passport.js', 'routes/']
-    })
+        env: { 'NODE_ENV': 'development' }
+    }).on('start', ['watch'])
+    .on('change', ['watch'])
+    .on('restart', function () {
+      console.log('restarted!');
+    });
 });
 
+/*
+ * The watchers on the wall
+ */
+ //watch: ['server.js', 'passport.js', 'routes/']
+gulp.task('watch', function() {
+    console.log('GULP: watch');
+  gulp.watch('sass/**/*.scss', ['sass']);
+});
 
 /*
  * This runs all the gulp tasks in order
  */
-gulp.task('default', ['sass','startDB','startNODE','watch-styles']);
+gulp.task('default', ['sass','startDB','startNODE']);
