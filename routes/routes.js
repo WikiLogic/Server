@@ -13,10 +13,20 @@ module.exports = function(router, passport) {
 	=====================================================================*/
 
 	/* Serving the Explorer Angular app.*/
-	/* Need to set 'Explorer' as value of angluar-app */
 	router.get('/', function (req, res) {
 		res.render('explorer/explorer.hbs');
 	});
+
+	router.get('/list-claims/:by', function (req, res) {
+		res.send('you have a request?');
+	});
+	
+
+
+	/* USER AUTHENTICATION
+	=====================================================================
+	=====================================================================
+	=====================================================================*/
 
 	router.get('/signup', function (req, res) {
 		res.render('common/signup.hbs');
@@ -25,12 +35,6 @@ module.exports = function(router, passport) {
 	router.get('/login', function (req, res) {
 		res.render('common/login.hbs');
 	});
-
-
-	/* USER AUTHENTICATION
-	=====================================================================
-	=====================================================================
-	=====================================================================*/
 
 	router.post('/signup', passport.authenticate('local-signup', {
 		successRedirect: '/profile',
