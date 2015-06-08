@@ -1,5 +1,2 @@
-(function(){
-  'use strict';
-  angular.module('Explorer', [])
-
-})();
+'use strict';
+var Explorer = angular.module('Explorer', []);
