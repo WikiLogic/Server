@@ -5,8 +5,8 @@
  * The server will probably be the one dealing with figuring out the actual list content.
  */
 
-Explorer.factory('getterOfClaims',
-	function(){
+Explorer.factory('getterOfClaims',['$http',
+	function($http){
 		var service = {
 			getListOfClaimsBy: function(expression){
 				// Server side, this will be the equivolent of WP_Query();
@@ -14,12 +14,10 @@ Explorer.factory('getterOfClaims',
 				switch(expression) {
 					case 'recent':
 						console.log('getting most recent');
-						$http.get('/list-claims').success(function(data, status, headers, config) {
-						    // this callback will be called asynchronously
-						    // when the response is available
+						$http.get('/list-claims/:recent').success(function(data, status, headers, config) {
+						    console.log('Got the most recent!', data);
 						  }).error(function(data, status, headers, config) {
-						    // called asynchronously if an error occurs
-						    // or server returns response with an error status.
+						    console.log('not got the most recent');
 						  });
 						break;
 					case 'popularity':
@@ -39,5 +37,5 @@ Explorer.factory('getterOfClaims',
 			}
 		};
 		return service;
-	}
+	}]
 );

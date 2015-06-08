@@ -18,7 +18,8 @@ module.exports = function(router, passport) {
 	});
 
 	router.get('/list-claims/:by', function (req, res) {
-		res.send('you have a request?');
+		//Split this out to it's own file.
+		res.send('you have a request?: ' + req.param('by'));
 	});
 	
 
