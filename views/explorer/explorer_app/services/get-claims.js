@@ -14,7 +14,7 @@ Explorer.factory('getterOfClaims',['$http',
 				 * At the moment we're only asking for order by a few different params.
 				 * more will come in the future!  Will have to build up our own query system :)
 				 */
-				$http.get('/list-claims?sortBy=' + sortBy).success(function(data, status, headers, config) {
+				return $http.get('/list-claims?sortBy=' + sortBy).success(function(data, status, headers, config) {
 					console.log('Get Claims Service recieving data: ', data);
 					return data;
 				}).error(function(data, status, headers, config) {
