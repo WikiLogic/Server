@@ -1,5 +1,8 @@
 var express = require('express'),
-    router = express.Router();
+    router = express.Router(),
+    mongoose = require('mongoose');
+
+    var Claim = require('../models/claim');
 
 /*          /list-claims
  * =================================
@@ -30,6 +33,11 @@ var express = require('express'),
 			default:
 				console.log('getting claims by any way I want!');
 		}
+
+		Claim.find(function (err, claims) {
+			if (err) return console.error(err);
+			console.log(claims);
+		});
 
 		res.send(sortBy);
 	});

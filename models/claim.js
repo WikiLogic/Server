@@ -1,4 +1,6 @@
-var mongoose = require('mongoose');
+var mongoose = require('mongoose'),
+    Schema = mongoose.Schema;
+
 
 var claimSchema = mongoose.Schema({
     description: {
@@ -55,4 +57,4 @@ claimSchema.methods.evaluate = function() {
 
 
 /* creates a model and exports it for the app to use */
-module.exports = mongoose.model('Claim', claimtSchema);
+module.exports = mongoose.model('Claim', claimSchema);
