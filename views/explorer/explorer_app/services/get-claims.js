@@ -8,42 +8,19 @@
 Explorer.factory('getterOfClaims',['$http',
 	function($http){
 		var service = {
-			getListOfClaimsBy: function(expression){
-				// Server side, this will be the equivolent of WP_Query();
-				//ask the server to send us a list of claims by:
-				console.log('Service making request for: ' + expression);
-//    /:' + expression
-				$http.get('/list-claims/:' + expression).success(function(data, status, headers, config) {
-					console.log('Service recieving data: ', data);
+			getListOfClaimsBy: function(sortBy){
+				
+				/* Server side, this will be the equivolent of WP_Query();
+				 * At the moment we're only asking for order by a few different params.
+				 * more will come in the future!  Will have to build up our own query system :)
+				 */
+				$http.get('/list-claims?sortBy=' + sortBy).success(function(data, status, headers, config) {
+					console.log('Get Claims Service recieving data: ', data);
 					return data;
 				}).error(function(data, status, headers, config) {
-					console.log('not got the most recent');
+					console.log('Get Claims Service error');
 				});
-/*
-				switch(expression) {
-					case 'recent':
-						console.log('getting most recent');
-						$http.get('/list-claims/:recent').success(function(data, status, headers, config) {
-						    console.log('Service recieving data: ', data);
-						    return data;
-						  }).error(function(data, status, headers, config) {
-						    console.log('not got the most recent');
-						  });
-						break;
-					case 'popularity':
-						console.log('getting popular');
-						break;
-					case 'Influence':
-						console.log('getting claims by influence');
-						break;
-					case 'Changability':
-						console.log('gettign claims by changefuless');
-						break;
-					case 'Random':
-						console.log('getting claims by randomness!');
-					default:
-						console.log('getting claims by any way I want!');
-				}*/
+
 			}
 		};
 		return service;

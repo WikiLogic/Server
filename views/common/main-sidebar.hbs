@@ -20,11 +20,11 @@
 	<div class="explorer-nav" ng-controller="ListController">
 		<div class="nav-sidebar">
 			<h3><a href="/">EXPLORER</a></h3>
-			<a href="#" ng-click="setListToRecent()">Recent</a>
-			<a href="#">Popular</a>
-			<a href="#">Influential</a>
-			<a href="#">Changing</a>
-			<a href="#">Random</a>
+			<a href="#" ng-click="setListOrderTo('recent')">Recent</a>
+			<a href="#" ng-click="setListOrderTo('popular')">Popular</a>
+			<a href="#" ng-click="setListOrderTo('influence')">Influential</a>
+			<a href="#" ng-click="setListOrderTo('capricious')">Capricious</a>
+			<a href="#" ng-click="setListOrderTo('random')">Random</a>
 		</div>	
 	</div>
 

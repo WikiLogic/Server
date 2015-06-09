@@ -19,36 +19,16 @@ Explorer.controller('ListController', ['$scope', '$rootScope', 'getterOfClaims',
  	 * May have to define a style guide if we're going to pass in parameters to these options.
  	 */
 
- 	 $scope.setListToRecent = function(){
+ 	 $scope.setListOrderTo = function(sortBy){
 
-		
- 	 	console.log('controller asking for: Recent list');
-		var listArray = getterOfClaims.getListOfClaimsBy('recent');
-		console.log('controller recieving: ', listArray);
+		var listArray = getterOfClaims.getListOfClaimsBy(sortBy);
 
 		/* Will have to set root scope.  The controller nav is way far in the DOM */
 		$rootScope.list = {
-			claims:recentList,
+			claims:listArray,
 			listType: 'recent'
 		}
 
-
- 	 	//return recentList;
- 	 }
-
- 	 $scope.setListToPopular = function(){
-
- 	 }
-
- 	 $scope.setListToInfluential = function(){
-
- 	 }
-
- 	 $scope.setListToChanging = function(){
-
- 	 }
-
- 	 $scope.setListToRandom = function(){
 
  	 }
 
