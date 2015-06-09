@@ -17,11 +17,8 @@ module.exports = function(router, passport) {
 		res.render('explorer/explorer.hbs');
 	});
 
-	router.get('/list-claims/:by', function (req, res) {
-		//Split this out to it's own file.
-		res.send('you have a request?: ' + req.param('by'));
-	});
-	
+
+	router.use('/list-claims', require('./listClaims') );
 
 
 	/* USER AUTHENTICATION

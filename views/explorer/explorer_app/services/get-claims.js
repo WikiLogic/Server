@@ -11,11 +11,21 @@ Explorer.factory('getterOfClaims',['$http',
 			getListOfClaimsBy: function(expression){
 				// Server side, this will be the equivolent of WP_Query();
 				//ask the server to send us a list of claims by:
+				console.log('Service making request for: ' + expression);
+//    /:' + expression
+				$http.get('/list-claims/:' + expression).success(function(data, status, headers, config) {
+					console.log('Service recieving data: ', data);
+					return data;
+				}).error(function(data, status, headers, config) {
+					console.log('not got the most recent');
+				});
+/*
 				switch(expression) {
 					case 'recent':
 						console.log('getting most recent');
 						$http.get('/list-claims/:recent').success(function(data, status, headers, config) {
-						    console.log('Got the most recent!', data);
+						    console.log('Service recieving data: ', data);
+						    return data;
 						  }).error(function(data, status, headers, config) {
 						    console.log('not got the most recent');
 						  });
@@ -33,7 +43,7 @@ Explorer.factory('getterOfClaims',['$http',
 						console.log('getting claims by randomness!');
 					default:
 						console.log('getting claims by any way I want!');
-				}
+				}*/
 			}
 		};
 		return service;

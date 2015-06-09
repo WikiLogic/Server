@@ -21,87 +21,10 @@ Explorer.controller('ListController', ['$scope', '$rootScope', 'getterOfClaims',
 
  	 $scope.setListToRecent = function(){
 
-		var genericClaim = {
-			description: 'this is claim 1',
-			axiom: false,
-			status: true,
-			supporting: [
-				{
-					status: true,
-					reasons: [
-						{
-							description: 'this is a child claim',
-							status: true
-						}
-					]
-				},
-				{
-					status: true,
-					reasons: [
-						{
-							description: 'this is a child claim',
-							status: true
-						}
-					]
-				}
-			],
-			opposing: [
-				{
-					status: false,
-					reasons: [
-						{
-							description: 'this is a child claim',
-							status: false
-						}
-					]
-				},
-				{
-					status: false,
-					reasons: [
-						{
-							description: 'this is a child claim',
-							status: false
-						}
-					]
-				}
-			],
-			usedIn: [
-				{
-					status: true,
-					reasons: [
-						{
-							description: 'this is a parent claim',
-							status: true
-						}
-					]
-				},
-				{
-					status: true,
-					reasons: [
-						{
-							description: 'this is a parent claim',
-							status: true
-						}
-					]
-				}
-			],
-			meta: {
-				user: {
-					local: {
-						email: 'email@email.com'
-					}
-				},
-				created: 'today',
-				statusChangeCount: 12,
-				viewCount: 100
-			}
-		};
-
-		var recentList = [
-			genericClaim
-		]
-
-		getterOfClaims.getListOfClaimsBy('recent');
+		
+ 	 	console.log('controller asking for: Recent list');
+		var listArray = getterOfClaims.getListOfClaimsBy('recent');
+		console.log('controller recieving: ', listArray);
 
 		/* Will have to set root scope.  The controller nav is way far in the DOM */
 		$rootScope.list = {

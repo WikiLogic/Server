@@ -1,2 +1,39 @@
-{{!-- This template serves the EDITOR angular app --}}
-<h1>The Editor.</h1>
+<!--
+	This template serves the EDITOR angular app, 
+	it's called into main.hbs by {{{body}}} 
+-->
+<div ng-app="Editor">
+
+	{{!-- These partials are called from views/common, they're here so that they get caught under the control of ng-app --}}
+	{{> mini-header }} 
+	{{> main-sidebar }} 
+	{{> footer-sidebar }}
+
+	
+	<div class="main">
+		<div class="editor">
+
+			<div class="main__head">
+				<!-- This might need to eb split out too -->
+				<h1>The Explorer.</h1>
+				<p class="learn-more">What is WikiLogic?</p>
+			</div>
+
+			<div class="main__body">
+
+				<!-- The List component. -->
+				<div ng-include src="'/explorer/partials/list.html'"></div>
+
+			</div>
+
+		</div>
+	</div>
+
+</div> <!-- END of ng-app="Explorer" -->
+
+<!-- Import angular app scripts here -->
+<script src="editor/app.js"></script>
+<script src="explorer/services/get-claims.js"></script>
+<script src="explorer/controllers/explorer-list.js"></script>
+
+{{!-- The body tag comes after this in the main.hbs file.  This is the end of the Explorer app! --}}

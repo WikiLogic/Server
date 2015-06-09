@@ -61,7 +61,8 @@ console.timeEnd('      2: Connecting to DB');
  * TODO: need to change to express.router
  * =========================================*/
 console.time('     1: Setting up the routes');
-require('./routes/routes.js')(router, passport);
+require('./controllers')(router, passport);
+//app.use(require('./controllers'))
 app.use('/', router);
 console.timeEnd('     1: Setting up the routes');
 
