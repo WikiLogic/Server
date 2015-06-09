@@ -37,9 +37,93 @@ var express = require('express'),
 		Claim.find(function (err, claims) {
 			if (err) return console.error(err);
 			console.log(claims);
+		}).then(function(result){
+			res.send(result);
 		});
 
-		res.send(sortBy);
+		
 	});
 
-module.exports = router
+module.exports = router;
+/*
+db.claims.insert({'description':'this is claim 1', axiom:false, status:true})
+
+
+	{
+}
+-			description: 'this is claim 1',
+-			axiom: false,
+-			status: true,
+-			supporting: [
+-				{
+-					status: true,
+-					reasons: [
+-						{
+-							description: 'this is a child claim',
+-							status: true
+-						}
+-					]
+-				},
+-				{
+-					status: true,
+-					reasons: [
+-						{
+-							description: 'this is a child claim',
+-							status: true
+-						}
+-					]
+-				}
+-			],
+-			opposing: [
+-				{
+-					status: false,
+-					reasons: [
+-						{
+-							description: 'this is a child claim',
+-							status: false
+-						}
+-					]
+-				},
+-				{
+-					status: false,
+-					reasons: [
+-						{
+-							description: 'this is a child claim',
+-							status: false
+-						}
+-					]
+-				}
+-			],
+-			usedIn: [
+-				{
+-					status: true,
+-					reasons: [
+-						{
+-							description: 'this is a parent claim',
+-							status: true
+-						}
+-					]
+-				},
+-				{
+-					status: true,
+-					reasons: [
+-						{
+-							description: 'this is a parent claim',
+-							status: true
+-						}
+-					]
+-				}
+-			],
+-			meta: {
+-				user: {
+-					local: {
+-						email: 'email@email.com'
+-					}
+-				},
+-				created: 'today',
+-				statusChangeCount: 12,
+-				viewCount: 100
+-			}
+-		}
+)
+*/

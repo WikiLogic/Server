@@ -16,7 +16,7 @@ Explorer.factory('getterOfClaims',['$http',
 				 */
 				return $http.get('/list-claims?sortBy=' + sortBy).success(function(data, status, headers, config) {
 					console.log('Get Claims Service recieving data: ', data);
-					return data;
+					service.claims = data;
 				}).error(function(data, status, headers, config) {
 					console.log('Get Claims Service error');
 				});

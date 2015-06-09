@@ -21,21 +21,19 @@ Explorer.controller('ListController', ['$scope', '$rootScope', 'getterOfClaims',
 
  	 $scope.setListOrderTo = function(sortBy){
 
-		getterOfClaims.getListOfClaimsBy(sortBy).then(function(result){
-			console.log('Angular Controller called back!', result);
-			listArray = result.data;
+		getterOfClaims.getListOfClaimsBy(sortBy).success(function(result){
+
+			var listArray = result;
+			
 			$rootScope.list = {
 				claims:listArray,
 				listType: 'recent'
 			}
+
+		}).error(function(){
+			console.log('getting the claims failed somehow');
 		});
-		//listArray needs to return a promise that will set $rootScope.list on resolving
-		//console.log('listArray: ', listArray);
-
-		/* Will have to set root scope.  The controller nav is way far in the DOM */
 		
-
-
  	 }
 
 }]);
