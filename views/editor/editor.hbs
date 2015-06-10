@@ -20,9 +20,9 @@
 			</div>
 
 			<div class="main__body">
-				<p>new claim form below here... soon.</p>
+
 				<!-- The creat new claim component. -->
-				<div ng-controller="NewClaimController">
+				<div ng-controller="NewClaimController"> <!-- can't have controller and include on one div :( -->
 					<div ng-include src="'/editor/partials/new-claim.html'"></div>
 				</div>
 			</div>
