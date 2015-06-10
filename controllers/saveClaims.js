@@ -4,7 +4,7 @@ var express = require('express'),
 
     var Claim = require('../models/claim');
 
-/*          /save-claims
+/*          /save-claim
  * =================================
  * This is a server side controller that deals with putting claims into the Database.
  * It should be able to deal with single claims AND saving groups of claims (if someone has been having an editing session)
@@ -12,21 +12,45 @@ var express = require('express'),
  * 
  */
 
-	router.get('/', function(req, res) {
-		//var sortBy = req.query.sortBy;
+ 	//route for saving individual claims
+	router.get('/single', function(req, res) {
 		
+
+		var newClaim = new Claim();
+
+		//newClaim.description = 'description passed in here';
+		//newClaim.axiom = false;
+		//newClaim.status = true;
+		//newClaim.meta.user = ??;
+
+		//creation date is dealt with by the model
 		/*
-		Claim.find(function (err, claims) {
-			if (err) return console.error(err);
-			console.log(claims);
-		}).then(function(result){
-			res.send(result);
+		newClaim.save(function(err){
+			if(err) {
+				res.send('ERROR!');
+			} else {
+				res.send('SUCCESS!');
+			}
 		});
 		*/
-		
 	});
 
+	//route for saving an array of claims
+	router.get('/array', function(req, res) {
+		res.send('not implemented yet');
+	});
+
+/* Helper functions 
+=========================================================================*/
+
+/* isNew() takes a claim object and checks with the db to see if it exists
+ * returns true / false
+ */
+function isNew(claim){
+	return true;
+}
+
+
+/* The End!
+=========================================================================*/
 module.exports = router;
-/*
-db.claims.insert({'description':'this is claim 1', axiom:false, status:true})
-*/

@@ -48,6 +48,12 @@ var claimSchema = mongoose.Schema({
  * 
 =========================================================================*/
 
+/* If there isn't a date, set the creation date to now! */
+claimSchema.pre('save', function (next) {
+  if (!this.meta.created) this.meta.created = new Date;
+  next();
+})
+
 // Check groups to see if the statement is true
 claimSchema.methods.evaluate = function() {
     //

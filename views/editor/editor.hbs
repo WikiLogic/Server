@@ -15,25 +15,24 @@
 
 			<div class="main__head">
 				<!-- This might need to eb split out too -->
-				<h1>The Explorer.</h1>
+				<h1>The Editor.</h1>
 				<p class="learn-more">What is WikiLogic?</p>
 			</div>
 
 			<div class="main__body">
 
-				<!-- The List component. -->
-				<div ng-include src="'/explorer/partials/list.html'"></div>
+				<!-- The creat new claim component. -->
+				<div ng-controller="NewClaimController" ng-include src="'/editor/partials/new-claim.html'"></div>
 
 			</div>
 
 		</div>
 	</div>
 
-</div> <!-- END of ng-app="Explorer" -->
+</div> <!-- END of ng-app="Editor" -->
 
 <!-- Import angular app scripts here -->
-<script src="editor/app.js"></script>
-<script src="explorer/services/get-claims.js"></script>
-<script src="explorer/controllers/explorer-list.js"></script>
+<script src="/editor/editor-app.js"></script>
+<script src="/editor/controllers/new-claim.js"></script>
 
-{{!-- The body tag comes after this in the main.hbs file.  This is the end of the Explorer app! --}}
+{{!-- The body tag comes after this in the main.hbs file.  This is the end of the Editor app! --}}
