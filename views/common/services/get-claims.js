@@ -5,7 +5,8 @@
  * The server will probably be the one dealing with figuring out the actual list content.
  */
 
-Explorer.factory('getterOfClaims',['$http',
+angular.module('wl-services', [])
+.factory('getterOfClaims',['$http',
 	function($http){
 		var service = {
 			getListOfClaimsBy: function(sortBy){
