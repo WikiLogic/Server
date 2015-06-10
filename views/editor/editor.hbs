@@ -20,10 +20,11 @@
 			</div>
 
 			<div class="main__body">
-
+				<p>new claim form below here... soon.</p>
 				<!-- The creat new claim component. -->
-				<div ng-include src="'/editor/partials/new-claim.html'"></div>
-
+				<div ng-controller="NewClaimController">
+					<div ng-include src="'/editor/partials/new-claim.html'"></div>
+				</div>
 			</div>
 
 		</div>
@@ -33,6 +34,7 @@
 
 <!-- Import angular app scripts here -->
 <script src="/editor/editor-app.js"></script>
+<script src="/common/services/get-claims.js"></script>
 <script src="/editor/controllers/new-claim.js"></script>
 <script src="/editor/controllers/editor-list.js"></script>
 
