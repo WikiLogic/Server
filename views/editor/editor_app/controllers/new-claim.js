@@ -4,14 +4,17 @@
  * deals with defining new claims.
  */
 
-Editor.controller('NewClaimController', ['$scope', '$rootScope', function($scope, $rootScope) {
+Editor.controller('NewClaimController', ['$scope', '$rootScope', 'saviorOfClaims', function($scope, $rootScope, saviorOfClaims) {
 
  	/*
  	 * 
  	 */
 
- 	 $scope.setListOrderTo = function(sortBy){
+ 	 $scope.newClaim = {};
 
+ 	 $scope.saveToProfile = function(){
+ 	 	console.log('controller saving claim');
+ 	 	saviorOfClaims.saveClaimToProfile($scope.newClaim);
  	 }
 
 }]);
