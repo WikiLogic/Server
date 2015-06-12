@@ -17,6 +17,7 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
 @import "partials/base/normalize";
 //@import "partials/base/fonts";
 @import "partials/base/typography";
+@import "partials/base/forms";
 
 //Major/Macro layout - the big stuff - site wire-frame
 @import "partials/layout/*";

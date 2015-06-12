@@ -28,26 +28,7 @@ hr {
 }
 
 
-/* ---------------------------------------- Forms */
 
-input {
-	background-color:white !important;
-	padding: 5px 10px;
-	border: 1px solid #DDDDDD;
-	border-radius: 4px;
-}
-
-input[type=text], textarea {
-  @include transition(0.3s);
-  outline: none;
-  padding: 5px 0px 5px 5px;
-  border: 1px solid #DDDDDD;
-}
- 
-input[type=text]:focus, textarea:focus {
-  box-shadow: 0 0 5px rgba(81, 203, 238, 1);
-  border: 1px solid rgba(81, 203, 238, 1);
-}
 
 /* -------------------------------------- Scrollbar */
 

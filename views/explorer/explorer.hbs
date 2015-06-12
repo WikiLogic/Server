@@ -22,7 +22,7 @@
 			<div class="main__body">
 
 				<!-- The List component. -->
-				<div ng-include src="'/explorer/partials/list.html'"></div>
+				<div ng-include src="'/explorer/partials/list-partial.html'"></div>
 
 			</div>
 
@@ -34,7 +34,7 @@
 <!-- Import angular app scripts here -->
 <script src="explorer/explorer-app.js"></script>
 <!--<script src="explorer/services/get-claims.js"></script>-->
-<script src="common/services/get-claims.js"></script>
-<script src="explorer/controllers/explorer-list.js"></script>
+<script src="common/services/getClaims-service.js"></script>
+<script src="explorer/controllers/explorerList-controller.js"></script>
 
 {{!-- The body tag comes after this in the main.hbs file.  This is the end of the Explorer app! --}}

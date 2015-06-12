@@ -387,26 +387,6 @@ hr {
   border: 0;
   border-top: 1px solid #393f4f; }
 
-/* ---------------------------------------- Forms */
-input {
-  background-color: white !important;
-  padding: 5px 10px;
-  border: 1px solid #DDDDDD;
-  border-radius: 4px; }
-
-input[type=text], textarea {
-  -webkit-transition: all 0.3s ease-in-out;
-  -moz-transition: all 0.3s ease-in-out;
-  -ms-transition: all 0.3s ease-in-out;
-  -o-transition: all 0.3s ease-in-out;
-  outline: none;
-  padding: 5px 0px 5px 5px;
-  border: 1px solid #DDDDDD; }
-
-input[type=text]:focus, textarea:focus {
-  box-shadow: 0 0 5px #51cbee;
-  border: 1px solid #51cbee; }
-
 /* -------------------------------------- Scrollbar */
 ::-webkit-scrollbar {
   width: 10px; }
@@ -422,16 +402,44 @@ input[type=text]:focus, textarea:focus {
 ::-webkit-scrollbar-thumb:window-inactive {
   background: #393f4f; }
 
+/* ---------------------------------------- Forms */
+input, textarea {
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -ms-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  background-color: white !important;
+  padding: 5px 10px;
+  border: 1px solid #DDDDDD;
+  border-radius: 4px;
+  outline: none; }
+  input:focus, textarea:focus {
+    box-shadow: 0 0 5px #51cbee;
+    border: 1px solid #51cbee; }
+  input.big, textarea.big {
+    padding: 10px 15px;
+    font-size: 18px; }
+
+.inputAddon {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex; }
+  .inputAddon__field {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+        -ms-flex: 1;
+            flex: 1;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0; }
+  .inputAddon__button {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-left: 0; }
+
+/* */
 .main__head {
   color: white;
-  background: -webkit-linear-gradient(90deg, #4b6cb7 10%, #182848 90%);
-  /* Chrome 10+, Saf5.1+ */
-  /* FF3.6+ */
-  /* IE10 */
-  /* Opera 11.10+ */
-  background: -webkit-linear-gradient(0deg, #4b6cb7 10%, #182848 90%);
-  background: linear-gradient(90deg, #4b6cb7 10%, #182848 90%);
-  /* W3C */
   background: -webkit-linear-gradient(90deg, #5f2c82 10%, #49a09d 90%);
   /* Chrome 10+, Saf5.1+ */
   /* FF3.6+ */
@@ -446,6 +454,16 @@ input[type=text]:focus, textarea:focus {
     top: 20px;
     margin: 0;
     color: white; }
+
+.editor .main__head {
+  background: -webkit-linear-gradient(90deg, #870000 10%, #190A05 90%);
+  /* Chrome 10+, Saf5.1+ */
+  /* FF3.6+ */
+  /* IE10 */
+  /* Opera 11.10+ */
+  background: -webkit-linear-gradient(0deg, #870000 10%, #190A05 90%);
+  background: linear-gradient(90deg, #870000 10%, #190A05 90%);
+  /* W3C */ }
 
 .nav-sidebar {
   padding-bottom: 20px; }
@@ -601,6 +619,32 @@ should expand to full screen width and push the main content down (or 'hover' ov
 	}
 */ }
   .btn:hover {
+    background-color: #515a70;
+    color: white; }
+
+button {
+  display: inline-block;
+  padding: 9px 14px 8px;
+  font-weight: 500;
+  font-size: 14px;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  line-height: 15px;
+  color: white;
+  background-color: #393f4f;
+  /*
+	&--red {
+		color: $ButtonClr;
+		background-color: $ButtonBkg;
+
+		&:hover { 
+			background-color: $ButtonBkg-Hover; 
+			color: $ButtonClr;
+		}
+	}
+*/ }
+  button:hover {
     background-color: #515a70;
     color: white; }
 

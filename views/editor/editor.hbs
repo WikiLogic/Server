@@ -23,8 +23,14 @@
 
 				<!-- The creat new claim component. -->
 				<div ng-controller="NewClaimController"> <!-- can't have controller and include on one div :( -->
-					<div ng-include src="'/editor/partials/new-claim.html'"></div>
+					<div ng-include src="'/editor/partials/newClaim-partial.html'"></div>
 				</div>
+
+				<!-- List my claims in progress -->
+
+				<!-- List my published claims -->
+
+
 			</div>
 
 		</div>
@@ -34,9 +40,9 @@
 
 <!-- Import angular app scripts here -->
 <script src="/editor/editor-app.js"></script>
-<script src="/common/services/get-claims.js"></script>
-<script src="/editor/services/saviorOfClaims.js"></script>
-<script src="/editor/controllers/new-claim.js"></script>
-<script src="/editor/controllers/editor-list.js"></script>
+<script src="/common/services/getClaims-service.js"></script>
+<script src="/editor/services/saveClaims-service.js"></script>
+<script src="/editor/controllers/newClaim-controller.js"></script>
+<script src="/editor/controllers/editorList-controller.js"></script>
 
 {{!-- The body tag comes after this in the main.hbs file.  This is the end of the Editor app! --}}

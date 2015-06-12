@@ -31,3 +31,7 @@
 .btn {
 	@include button();
 }
+button {
+	@include button();
+	border:0;	
+}
