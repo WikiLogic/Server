@@ -4,18 +4,18 @@ var express = require('express'),
 
     var Claim = require('../models/claim');
 
-/*          /save-claim
+/*          /new-claim
  * =================================
- * This is a server side controller that deals with putting claims into the Database.
- * It should be able to deal with single claims AND saving groups of claims (if someone has been having an editing session)
- * This is a protected route, only logged in users may save/create/edit claims.
+ * This is a server side controller that deals with putting new claims into the Database.
+ * This is a protected route, only logged in users may submit new claims
  * 
  */
 
- 	//route for saving individual claims
-	router.post('/single', function(req, res) {
+ 	//route for saving individual claims to a user's profile (not public yet)
+	router.post('/draft', function(req, res) {
 		
-		console.log('GOT CLAIM TO SAVE:', req.body);
+		//clean the claim
+		//Does the claim exist on the user's profile? check by ID. if so then replace, if not then add.
 
 		var newClaim = new Claim();
 
@@ -25,8 +25,8 @@ var express = require('express'),
 		//newClaim.axiom = false;
 		//newClaim.status = true;
 		//newClaim.meta.user = ??;
-
 		//creation date is dealt with by the model
+
 		/*
 		newClaim.save(function(err){
 			if(err) {
@@ -38,10 +38,19 @@ var express = require('express'),
 		*/
 	});
 
-	//route for saving an array of claims
-	router.get('/array', function(req, res) {
+	//route to publish an individual claim to the public network
+	router.post('/publish', function(req, res){
+		//Clean the claim
+		//Does the claim object list any arguments, if not then fail
+		//Check the DB - does this claim exist already (check by description), if true then fail, if close then flag
+		//seems it's passed, time to save it to the main database!
+	});
+
+	//route for saving an array of claims - for the future!
+	router.post('/array', function(req, res) {
 		res.send('not implemented yet');
 	});
+
 
 /* Helper functions 
 =========================================================================*/

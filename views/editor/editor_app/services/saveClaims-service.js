@@ -17,7 +17,7 @@ angular.module('Editor')
 				 * more will come in the future!  Will have to build up our own query system :)
 				 */
 				 
-				return $http.post('/save-claim/single', {claim:newClaim}).success(function(data, status, headers, config) {
+				return $http.post('/new-claim/draft', {claim:newClaim}).success(function(data, status, headers, config) {
 					console.log('Claim saved! ', data);
 				}).error(function(data, status, headers, config) {
 					console.log('Could not save claim - womp womp :(');
