@@ -9,21 +9,20 @@ angular.module('Editor')
 	function($http){
 		var service = {
 			saveClaimToProfile: function(newClaim){
-				console.log('service saving claim');
+				//console.log('service saving claim');
 				
-				console.log(newClaim);
+				//console.log(newClaim);
 				/* Server side, this will be the equivolent of WP_Query();
 				 * At the moment we're only asking for order by a few different params.
 				 * more will come in the future!  Will have to build up our own query system :)
 				 */
-				 /*
-				return $http.get('/list-claims?sortBy=' + sortBy).success(function(data, status, headers, config) {
-					console.log('Get Claims Service recieving data: ', data);
-					service.claims = data;
+				 
+				return $http.post('/save-claim/single', {claim:newClaim}).success(function(data, status, headers, config) {
+					console.log('Claim saved! ', data);
 				}).error(function(data, status, headers, config) {
-					console.log('Get Claims Service error');
+					console.log('Could not save claim - womp womp :(');
 				});
-				*/
+				
 
 			}
 		};

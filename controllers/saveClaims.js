@@ -15,6 +15,7 @@ var express = require('express'),
  	//route for saving individual claims
 	router.get('/single', function(req, res) {
 		
+		console.log('GOT CLAIM TO SAVE:', req.body);
 
 		var newClaim = new Claim();
 

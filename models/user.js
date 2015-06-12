@@ -1,4 +1,5 @@
-var mongoose = require('mongoose');
+var mongoose = require('mongoose'),
+    Schema = mongoose.Schema;
 var bcrypt = require('bcrypt-nodejs');
 
 var userSchema = mongoose.Schema({
@@ -23,8 +24,17 @@ var userSchema = mongoose.Schema({
         token        : String,
         email        : String,
         name         : String
+    },
+    meta: {
+        unPublished: [{
+            type: Schema.ObjectId,
+            ref: 'Argument'
+        }],
+        published: [{
+            type: Schema.ObjectId,
+            ref: 'Argument'
+        }]
     }
-
 });
 
 /* Encryption methods 
