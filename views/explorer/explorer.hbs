@@ -22,8 +22,12 @@
 			<div class="main__body">
 
 				<!-- The List component. -->
-				<div ng-include src="'/explorer/partials/list-partial.html'"></div>
-
+				<div class="list">
+					<div class="claim-preview" ng-repeat="claim in list.claims">
+						<div ng-include src="'/common/partials/claimPreview-partial.html'"></div>
+					</div>
+				</div>
+				
 			</div>
 
 		</div>

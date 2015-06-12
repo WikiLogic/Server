@@ -643,7 +643,8 @@ button {
 			color: $ButtonClr;
 		}
 	}
-*/ }
+*/
+  border: 0; }
   button:hover {
     background-color: #515a70;
     color: white; }
