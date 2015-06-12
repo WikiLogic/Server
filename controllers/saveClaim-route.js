@@ -13,11 +13,13 @@ var express = require('express'),
  */
 
  	//route for saving individual claims
-	router.get('/single', function(req, res) {
+	router.post('/single', function(req, res) {
 		
 		console.log('GOT CLAIM TO SAVE:', req.body);
 
 		var newClaim = new Claim();
+
+		res.send('got it!');
 
 		//newClaim.description = 'description passed in here';
 		//newClaim.axiom = false;
