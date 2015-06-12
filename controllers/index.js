@@ -18,8 +18,8 @@ module.exports = function(router, passport) {
 	});
 
 
-	router.use('/list-claims', require('./listClaims') ); //Read
-	router.use('/save-claim', hasAccess, require('./saveClaims') ); //Create & Update
+	router.use('/list-claims', require('./listClaims-route') ); //Read
+	router.use('/save-claim', hasAccess, require('./saveClaim-route') ); //Create & Update
 	// Delete?- do we give the option to delete? May need a super user level.
 
 
