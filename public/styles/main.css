@@ -712,6 +712,15 @@ button {
     display: inline-block;
     vertical-align: middle; } }
 
+/* Holder for the many variations of claim lists */
+.list {
+  padding: 0 10px 10px 10px;
+  border: 1px dashed #393f4f;
+  border-radius: 8px;
+  margin-bottom: 5px; }
+  .list__title {
+    margin: 0; }
+
 .search {
   -webkit-perspective: 1000px;
           perspective: 1000px;

@@ -28,13 +28,15 @@
 
 				<!-- List my claims in progress -->
 				<div ng-include src="'/common/partials/claimPreview-partial.html'"></div><div class="list">
+					<p class="list__title">My claims in progress</p>
 					<div class="claim-preview" ng-repeat="claim in list.claims">
 						<div ng-include src="'/common/partials/claimPreview-partial.html'"></div>
 					</div>
 				</div>
-				
+
 				<!-- List my published claims -->
 				<div class="list">
+					<p class="list__title">My published claims</p>
 					<div class="claim-preview" ng-repeat="claim in list.claims">
 						<div ng-include src="'/common/partials/claimPreview-partial.html'"></div>
 					</div>

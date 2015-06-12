@@ -23,11 +23,12 @@
 
 				<!-- The List component. -->
 				<div class="list">
+					<p class="list__title">List of claims by: {{list.listType}}</p>
 					<div class="claim-preview" ng-repeat="claim in list.claims">
 						<div ng-include src="'/common/partials/claimPreview-partial.html'"></div>
 					</div>
 				</div>
-				
+
 			</div>
 
 		</div>

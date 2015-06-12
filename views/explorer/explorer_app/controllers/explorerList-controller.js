@@ -19,6 +19,10 @@ Explorer.controller('ListController', ['$scope', '$rootScope', 'getterOfClaims',
  	 * May have to define a style guide if we're going to pass in parameters to these options.
  	 */
 
+ 	 $rootScope.list = {
+ 	 	listType:'default'
+ 	 }
+
  	 $scope.setListOrderTo = function(sortBy){
 
 		getterOfClaims.getListOfClaimsBy(sortBy).success(function(result){

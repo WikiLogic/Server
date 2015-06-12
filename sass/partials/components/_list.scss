@@ -1,0 +1,12 @@
+/* Holder for the many variations of claim lists */
+.list {
+	padding: 0 10px 10px 10px;
+	border: 1px dashed $darkBorderClr;
+	border-radius: 8px;
+	margin-bottom: 5px;
+
+	&__title {
+		margin:0;
+		
+	}
+}
