@@ -28,11 +28,11 @@ var userSchema = mongoose.Schema({
     meta: {
         unPublished: [{
             type: Schema.ObjectId,
-            ref: 'Argument'
+            ref: 'Claim'
         }],
         published: [{
             type: Schema.ObjectId,
-            ref: 'Argument'
+            ref: 'Claim'
         }]
     }
 });

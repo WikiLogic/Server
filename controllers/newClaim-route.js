@@ -1,8 +1,10 @@
 var express = require('express'),
     router = express.Router(),
-    mongoose = require('mongoose');
+    mongoose = require('mongoose'),
+    async = require('async');
 
-    var Claim = require('../models/claim');
+    var User = require('../models/user'),
+    	DraftClaim = require('../models/draftClaim');
 
 /*          /new-claim
  * =================================
@@ -11,31 +13,53 @@ var express = require('express'),
  * 
  */
 
- 	//route for saving individual claims to a user's profile (not public yet)
+ 	/* SAVE DRAFT CLAIM (new or existing) TO USER PROFILE
+ 	 * 
+ 	 */
 	router.post('/draft', function(req, res) {
 		
-		//clean the claim
-		//Does the claim exist on the user's profile? check by ID. if so then replace, if not then add.
+		//clean the input?
+		var candidateClaim = req.body.draftClaim;
+		var currentUser = req.user;
 
-		var newClaim = new Claim();
+		//is it new or existing?
+		if (candidateClaim._id) {
+			//the candidate claims to be an existing draft - check if _id matches in user profile.
+			console.log('CLAIM ID');
+		} else {
+			//the candidate does not claim to be an existing draft, save it and add a refrence to the user profile!
+			
+			//1. Create new draft claim object
+			console.log('ONE');
+			var draftClaim = new DraftClaim;
+			draftClaim.description = candidateClaim.description;
+			draftClaim.meta.user = currentUser;
 
-		res.send('got it!');
+			async.waterfall([
+				function(callback){
+					//2. save draft claim object to database
+					draftClaim.save(function(err){
+						if(err) {
+							res.status(500).send('Error in saving new draft Claim to database.');
+						} else {
+							callback(null); //keeps async going
+						}
+					});
+				},
+				function(callback){ 
+					//3. add draft claim refrence to user's profile
+					currentUser.meta.unPublished.push(draftClaim);
+					currentUser.save(function(err){
+						if(err) {
+							res.status(500).send('Error in saving draftClaim to user profile.');
+						} else {
+							res.status(200).send('Draft claim saved and user profile updated!')
+						}
+					});
+				}
+			]);
 
-		//newClaim.description = 'description passed in here';
-		//newClaim.axiom = false;
-		//newClaim.status = true;
-		//newClaim.meta.user = ??;
-		//creation date is dealt with by the model
-
-		/*
-		newClaim.save(function(err){
-			if(err) {
-				res.send('ERROR!');
-			} else {
-				res.send('SUCCESS!');
-			}
-		});
-		*/
+		}
 	});
 
 	//route to publish an individual claim to the public network
@@ -58,7 +82,7 @@ var express = require('express'),
 /* isNew() takes a claim object and checks with the db to see if it exists
  * returns true / false
  */
-function isNew(claim){
+function isNew(claim, profile){
 	return true;
 }
 

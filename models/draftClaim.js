@@ -2,13 +2,13 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 /*
- * The bread and butter of WikiLogic!
- * A published claim may not have it's description edited.
- * A published claim may not be deleted. (should we create thie ability for super-admins? (should we create super-admins?))
- * flags determin if something has been noted as wrong or missing - need to determin a list of letters to use and what they mean.
+ * Draft Claims are Claims in progress being worked on by a user.
+ * They are not public and cannot be added as a reason within an argument.
+ * They require at least one argument before being published.
+ * The user model has a refrence to draft claims - (user refrence has been removed from this modal)
  */
 
-var claimSchema = mongoose.Schema({
+var draftClaimSchema = mongoose.Schema({
     description: {
         type: String,
         default: '',
@@ -23,9 +23,6 @@ var claimSchema = mongoose.Schema({
         type: Boolean,
         default: false
     },
-    flags: {
-        type: String,
-    },
     supporting: [{
             type: Schema.ObjectId,
             ref: 'Argument'
@@ -34,22 +31,11 @@ var claimSchema = mongoose.Schema({
             type: Schema.ObjectId,
             ref: 'Argument'
     }],
-    usedIn: [{
-            type: Schema.ObjectId,
-            ref: 'Argument'
-    }],
     meta: {
-        author: {
-            type: Schema.ObjectId,
-            ref: 'User'
-        },
         created: {
             type: Date,
             default: Date.now
         },
-        statusChangeCount: Number,
-        viewCount: Number
-
     }
 });
 
@@ -58,13 +44,13 @@ var claimSchema = mongoose.Schema({
 =========================================================================*/
 
 /* If there isn't a date, set the creation date to now! */
-claimSchema.pre('save', function (next) {
+draftClaimSchema.pre('save', function (next) {
   if (!this.meta.created) this.meta.created = new Date;
   next();
 })
 
-// Check groups to see if the statement is true
-claimSchema.methods.evaluate = function() {
+// Check arguments to see if the statement is true
+draftClaimSchema.methods.evaluate = function() {
     //
     return true;
 };
@@ -72,4 +58,4 @@ claimSchema.methods.evaluate = function() {
 
 
 /* creates a model and exports it for the app to use */
-module.exports = mongoose.model('Claim', claimSchema);
+module.exports = mongoose.model('DraftClaim', draftClaimSchema);
