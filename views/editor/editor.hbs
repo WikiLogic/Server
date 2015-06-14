@@ -16,7 +16,7 @@
 			<div ng-controller="MyProfileController" class="main__head">
 				<!-- This might need to eb split out too -->
 				<h1>The Editor.</h1>
-				<p class="learn-more">What is WikiLogic?</p>
+				<p class="learn-more">{{user.local.email}}</p>
 			</div>
 
 			<div class="main__body">
@@ -29,7 +29,7 @@
 				<!-- List my claims in progress -->
 				<div ng-controller="MyDraftsController" class="list">
 					<p class="list__title">My claims in progress</p>
-					<div class="claim-preview" ng-repeat="claim in list.draftClaims">
+					<div class="claim-preview" ng-repeat="claim in user.meta.unPublished">
 						<div ng-include src="'/common/partials/claimPreview-partial.html'"></div>
 					</div>
 				</div>
@@ -37,7 +37,7 @@
 				<!-- List my published claims -->
 				<div ng-controller="MyClaimsController" class="list">
 					<p class="list__title">My published claims</p>
-					<div class="claim-preview" ng-repeat="claim in list.publishedClaims">
+					<div class="claim-preview" ng-repeat="claim in user.meta.published">
 						<div ng-include src="'/common/partials/claimPreview-partial.html'"></div>
 					</div>
 				</div>
