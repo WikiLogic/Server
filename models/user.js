@@ -1,6 +1,7 @@
 var mongoose = require('mongoose'),
-    Schema = mongoose.Schema;
-var bcrypt = require('bcrypt-nodejs');
+    Schema = mongoose.Schema,
+    bcrypt = require('bcrypt-nodejs'),
+    gravatar = require('gravatar');
 
 var userSchema = mongoose.Schema({
     local            : {
@@ -26,6 +27,8 @@ var userSchema = mongoose.Schema({
         name         : String
     },
     meta: {
+        name: String,
+        gravatar: String,
         unPublished: [{
             type: Schema.ObjectId,
             ref: 'Claim'
@@ -53,6 +56,11 @@ userSchema.methods.validPassword = function(password) {
 	//this.local.password is the hash that was generated
 	return bcrypt.compareSync(password, this.local.password); // true
 };
+
+userSchema.pre('save', function (next) {
+  if (!this.meta.gravatar) this.meta.gravatar = gravatar.url(this.local.email);
+  next();
+})
 
 
 /* creates a model and exports it for the app to use */
