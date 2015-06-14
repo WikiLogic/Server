@@ -31,7 +31,6 @@ Editor.controller('MyDraftsController', ['$scope', '$rootScope', 'getterOfUsers'
  	 	*/
  	 }
 
- 	 $scope.setUserData();
 
  	 /*
  	  * Going to have to refactor this

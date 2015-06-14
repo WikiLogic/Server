@@ -14,11 +14,7 @@ Editor.controller('MyClaimsController', ['$scope', '$rootScope', 'getterOfUsers'
  	 	//0. Don't need the user's id - it's set in the session!
 
  	 	//1. ask getterOfUsers service for this users data
- 	 	getterOfUsers.getMyData().success(function(result){
-			console.log('got user data!', result);
-		}).error(function(){
-			console.log('getting the user data failed somehow');
-		});
+
 
 		//3. Inject this users data into the DOM
 		/*
@@ -31,7 +27,6 @@ Editor.controller('MyClaimsController', ['$scope', '$rootScope', 'getterOfUsers'
  	 	*/
  	 }
 
- 	 $scope.setUserData();
 
  	 /*
  	  * Going to have to refactor this

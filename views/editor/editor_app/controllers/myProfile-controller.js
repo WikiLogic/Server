@@ -5,7 +5,7 @@
  * the controller name is a duplicate of the Explorer as the list controlls are common but function differently in each app
  */
 
-Editor.controller('ListController', ['$scope', '$rootScope', 'getterOfUsers', function($scope, $rootScope, getterOfUsers) {
+Editor.controller('MyProfileController', ['$scope', '$rootScope', 'getterOfUsers', function($scope, $rootScope, getterOfUsers) {
 
  	 /*
  	  * Once the client side is loaded - this fires off another request to get the list
@@ -15,7 +15,9 @@ Editor.controller('ListController', ['$scope', '$rootScope', 'getterOfUsers', fu
 
  	 	//1. ask getterOfUsers service for this users data
  	 	getterOfUsers.getMyData().success(function(result){
-			console.log('got user data!', result);
+			console.log('got user data!' + result);
+			$rootScope.user = result;
+			console.log($rootScope);
 		}).error(function(){
 			console.log('getting the user data failed somehow');
 		});
@@ -31,6 +33,7 @@ Editor.controller('ListController', ['$scope', '$rootScope', 'getterOfUsers', fu
  	 	*/
  	 }
 
+ 	 $scope.setUserData();
 
  	 /*
  	  * Going to have to refactor this

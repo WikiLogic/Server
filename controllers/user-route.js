@@ -14,8 +14,7 @@ var express = require('express'),
 		 * This provides information to users who have logged in about themselves.
 		 * Even though it requires access it should not send any sensitive data. 
 		 */
-		console.log(res.user, ' IS REQUESTING ACCESS TO THEIR DATA');
-		res.send(res.user);
+		res.status(200).send(req.user);
 	});
 
 module.exports = router;
