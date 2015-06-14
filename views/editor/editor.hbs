@@ -27,7 +27,7 @@
 				</div>
 
 				<!-- List my claims in progress -->
-				<div ng-controller="ListController" class="list">
+				<div ng-controller="MyDraftsController" class="list">
 					<p class="list__title">My claims in progress</p>
 					<div class="claim-preview" ng-repeat="claim in list.draftClaims">
 						<div ng-include src="'/common/partials/claimPreview-partial.html'"></div>
@@ -35,7 +35,7 @@
 				</div>
 
 				<!-- List my published claims -->
-				<div ng-controller="ListController" class="list">
+				<div ng-controller="MyClaimsController" class="list">
 					<p class="list__title">My published claims</p>
 					<div class="claim-preview" ng-repeat="claim in list.publishedClaims">
 						<div ng-include src="'/common/partials/claimPreview-partial.html'"></div>
@@ -55,6 +55,8 @@
 <script src="/common/services/getUsers-service.js"></script>
 <script src="/editor/services/saveClaims-service.js"></script>
 <script src="/editor/controllers/newClaim-controller.js"></script>
+<script src="/editor/controllers/myDrafts-controller.js"></script>
+<script src="/editor/controllers/myClaims-controller.js"></script>
 <script src="/editor/controllers/editorList-controller.js"></script>
 
 {{!-- The body tag comes after this in the main.hbs file.  This is the end of the Editor app! --}}
