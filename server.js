@@ -25,9 +25,9 @@ console.timeEnd('          6: Requiring modules');
 =========================================*/
 console.time('         5: Configuring packages');
 app.set('views', './views'); //Setting the location for template files
-app.engine('hbs', expressHbs({extname:'hbs', defaultLayout:'main', partialsDir:'views/common'})); //Setting the template rendering engine
+app.engine('hbs', expressHbs({extname:'hbs', defaultLayout:'explorer', partialsDir:'views/common'})); //Setting the template rendering engine
 app.set('view engine', 'hbs');
-app.set('partialsDir', 'views/common');
+app.set('partialsDir', 'views/partials');
 app.use(bodyParser.json()); // Lets us get data from form submittion
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser()); //Getting data from cookies
@@ -38,10 +38,6 @@ console.timeEnd('         5: Configuring packages');
 =========================================*/
 console.time('        4: Defining public resources');
 app.use(express.static('public')); //Setting the location for general static files (styling, images)
-app.use('/explorer', express.static(__dirname + '/views/explorer/explorer_app')); //Allowing the Explorer Angular app to load partials from this directory
-app.use('/editor', express.static(__dirname + '/views/editor/editor_app')); //Allowing the Editor Angular app to load partials from this directory
-app.use('/common', express.static(__dirname + '/views/common')); //For services and common partials
-
 console.timeEnd('        4: Defining public resources');
 
 /* Setting up authentication using Passport

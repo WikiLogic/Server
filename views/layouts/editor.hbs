@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Wikilogic</title>
+    <link rel="stylesheet" type="text/css" href="/styles/main.css">
+    <link href='http://fonts.googleapis.com/css?family=Roboto:100,300,700' rel='stylesheet' type='text/css'>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+    <script src="//code.angularjs.org/1.3.15/angular-route.js"></script>
+</head>
+<body>
+
+	<div ng-app="Editor">
+
+		{{!-- These partials are called from views/common, they're here so that they get caught under the control of ng-app --}}
+		{{> mini-header }} 
+		{{> main-sidebar }} 
+		{{> footer-sidebar }}
+
+		
+		<div class="main">
+			<div class="editor">
+
+				<div ng-controller="MyProfileController" class="main__head">
+					<!-- This might need to eb split out too -->
+					<h1>The Editor.</h1>
+					<div class="profile-small">
+						<img src="{{user.meta.gravatar}}" alt="">
+						<p class="profile-small__alias">{{user.meta.alias}}</p>
+					</div>
+				</div>
+
+				<div class="main__body">
+
+					<!-- The creat new claim component. -->
+					<div ng-controller="NewClaimController"> <!-- can't have controller and include on one div :( -->
+						<div ng-include src="'/editor/partials/newClaim-partial.html'"></div>
+					</div>
+
+					<!-- List my claims in progress -->
+					<div ng-controller="MyDraftsController" class="list">
+						<p class="list__title">My claims in progress</p>
+						<div class="claim-preview" ng-repeat="claim in user.meta.unPublished">
+							<div ng-include src="'/explorer/partials/claimPreview-partial.html'"></div>
+						</div>
+					</div>
+
+					<!-- List my published claims -->
+					<div ng-controller="MyClaimsController" class="list">
+						<p class="list__title">My published claims</p>
+						<div class="claim-preview" ng-repeat="claim in user.meta.published">
+							<div ng-include src="'/explorer/partials/claimPreview-partial.html'"></div>
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+
+	</div> <!-- END of ng-app="Editor" -->
+
+	<!-- Import angular app scripts here -->
+	<script src="/editor/editor-app.js"></script>
+	<script src="/explorer/services/getClaims-service.js"></script>
+	<script src="/explorer/services/getUsers-service.js"></script>
+	<script src="/editor/services/saveClaims-service.js"></script>
+	<script src="/editor/controllers/newClaim-controller.js"></script>
+	<script src="/editor/controllers/myProfile-controller.js"></script>
+	<script src="/editor/controllers/myDrafts-controller.js"></script>
+	<script src="/editor/controllers/myClaims-controller.js"></script>
+	<script src="/editor/controllers/editorList-controller.js"></script>
+
+</body>
+</html>

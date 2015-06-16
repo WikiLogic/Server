@@ -27,7 +27,7 @@ var userSchema = mongoose.Schema({
         name         : String
     },
     meta: {
-        name: String,
+        alias: String,
         gravatar: String,
         unPublished: [{
             type: Schema.ObjectId,

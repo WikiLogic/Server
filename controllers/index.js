@@ -14,7 +14,7 @@ module.exports = function(router, passport) {
 
 	/* Serving the Explorer Angular app.*/
 	router.get('/', function (req, res) {
-		res.render('explorer/explorer.hbs');
+		res.render('layouts/explorer.hbs');
 	});
 
 
@@ -102,7 +102,7 @@ module.exports = function(router, passport) {
 	/* Serving the Editor Angular app */
 	/* Need to set 'Editor' as value of angluar-app */
 	router.get('/editor', hasAccess, function(req, res) {
-		res.render('editor/editor.hbs');
+		res.render('layouts/editor.hbs');
 	});
 
 
