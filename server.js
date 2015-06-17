@@ -25,9 +25,8 @@ console.timeEnd('          6: Requiring modules');
 =========================================*/
 console.time('         5: Configuring packages');
 app.set('views', './views'); //Setting the location for template files
-app.engine('hbs', expressHbs({extname:'hbs', defaultLayout:'explorer', partialsDir:'views/common'})); //Setting the template rendering engine
+app.engine('hbs', expressHbs({extname:'hbs', defaultLayout:'explorer', partialsDir:'views/partials'})); //Setting the template rendering engine
 app.set('view engine', 'hbs');
-app.set('partialsDir', 'views/partials');
 app.use(bodyParser.json()); // Lets us get data from form submittion
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser()); //Getting data from cookies

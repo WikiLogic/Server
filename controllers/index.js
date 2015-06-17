@@ -32,11 +32,11 @@ module.exports = function(router, passport) {
 	=====================================================================*/
 
 	router.get('/signup', function (req, res) {
-		res.render('common/signup.hbs');
+		res.render('partials/signup.hbs');
 	});
 
 	router.get('/login', function (req, res) {
-		res.render('common/login.hbs');
+		res.render('partials/login.hbs');
 	});
 
 	router.post('/signup', passport.authenticate('local-signup', {
