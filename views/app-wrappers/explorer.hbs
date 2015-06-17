@@ -1,0 +1,38 @@
+<div ng-app="Explorer">
+
+	{{!-- These partials are called from views/common, they're here so that they get caught under the control of ng-app --}}
+	{{> mini-header }} 
+	{{> main-sidebar }} 
+	{{> footer-sidebar }}
+
+	
+	<div class="main">
+		<div class="explorer">
+
+			<div class="main__head">
+				<!-- This might need to eb split out too -->
+				<h1>The Explorer.</h1>
+				<p class="learn-more">What is WikiLogic?</p>
+			</div>
+
+			<div class="main__body">
+
+				<!-- The List component. -->
+				<div class="list">
+					<p class="list__title">List of claims by: {{list.listType}}</p>
+					<div class="claim-preview" ng-repeat="claim in list.claims">
+						<div ng-include src="'/explorer/partials/claimPreview-partial.html'"></div>
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+
+</div> <!-- END of ng-app="Explorer" -->
+
+<!-- Import angular app scripts here -->
+<script src="explorer/explorer-app.js"></script>
+<script src="explorer/services/getClaims-service.js"></script>
+<script src="explorer/controllers/explorerList-controller.js"></script>

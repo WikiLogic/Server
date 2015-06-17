@@ -14,7 +14,7 @@ module.exports = function(router, passport) {
 
 	/* Serving the Explorer Angular app.*/
 	router.get('/', function (req, res) {
-		res.render('layouts/explorer.hbs');
+		res.render('app-wrappers/explorer.hbs');
 	});
 
 
@@ -32,11 +32,11 @@ module.exports = function(router, passport) {
 	=====================================================================*/
 
 	router.get('/signup', function (req, res) {
-		res.render('partials/signup.hbs');
+		res.render('layouts/signup.hbs', {layout: false});
 	});
 
 	router.get('/login', function (req, res) {
-		res.render('partials/login.hbs');
+		res.render('layouts/login.hbs', {layout: false});
 	});
 
 	router.post('/signup', passport.authenticate('local-signup', {
@@ -102,7 +102,7 @@ module.exports = function(router, passport) {
 	/* Serving the Editor Angular app */
 	/* Need to set 'Editor' as value of angluar-app */
 	router.get('/editor', hasAccess, function(req, res) {
-		res.render('layouts/editor.hbs');
+		res.render('app-wrappers/editor.hbs');
 	});
 
 
