@@ -745,22 +745,17 @@ button {
 			@include breakpoint(superwide) { width: 960px; }
 			*/ }
 
-.login-page {
+.single-form-page {
   text-align: center; }
-  .login-page__local {
-    background: white;
-    border: 1px solid #dddddd;
-    padding: 10px;
-    border-radius: 5px;
-    display: inline-block; }
-    .login-page__local input {
-      display: block;
-      width: 100%;
-      margin-bottom: 10px; }
-  .login-page__service {
+  .single-form-page__form {
     background: white;
     border: 1px solid #dddddd;
     padding: 10px;
     border-radius: 5px;
     display: inline-block;
-    margin-top: 20px; }
+    width: 250px;
+    margin-bottom: 20px; }
+    .single-form-page__form input {
+      display: block;
+      width: 100%;
+      margin-bottom: 10px; }

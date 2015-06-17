@@ -13,18 +13,17 @@
 		<p class="learn-more">What is WikiLogic?</p>
 	</div>
 
-	<div class="main__body login-page">
-
-		<div class="login-page__local">	
-			<p>Existing users! sign in</p>
-			<form action="/login" method="post">
-				<input type="text" name="email" placeholder="email">
-				<input type="password" name="password" placeholder="password">
-				<input type="submit" value="Log In">
-			</form>
-		</div>
+	<div class="main__body single-form-page">	
+			
+		<form class="single-form-page__form" action="/login" method="post">
+			<p>Sign in</p>
+			<input type="text" name="email" placeholder="email">
+			<input type="password" name="password" placeholder="password">
+			<input type="submit" value="Log In">
+		</form>
+		
 		<br />
-		<div class="login-page__service">
+		<div class="single-form-page__form">
 			<a href="/auth/facebook">Facebook</a> 
 			<a href="/auth/twitter">Twitter</a> 
 			<a href="/auth/google">Google</a>

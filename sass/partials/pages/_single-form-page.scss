@@ -1,19 +1,15 @@
-.login-page {
+.single-form-page {
 	text-align:center;
 
-	&__local {
+	&__form {
 		@include whiteBox();
 		display: inline-block;
+		width:250px;
+		margin-bottom:20px;
 		input {
 			display: block;
 			width:100%;
 			margin-bottom:10px;
 		}
-	}
-
-	&__service {
-		@include whiteBox();
-		display: inline-block;
-		margin-top:20px;
 	}
 }
