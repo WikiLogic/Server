@@ -5,7 +5,7 @@
  * The server will probably be the one dealing with figuring out the actual list content.
  */
 
-angular.module('wl-services', [])
+angular.module('Explorer')
 .factory('getterOfClaims',['$http',
 	function($http){
 		var service = {
