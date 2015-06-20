@@ -30,11 +30,11 @@ var userSchema = mongoose.Schema({
         alias: String,
         gravatar: String,
         unPublished: [{
-            type: Schema.ObjectId,
+            type: Schema.Types.ObjectId,
             ref: 'Claim'
         }],
         published: [{
-            type: Schema.ObjectId,
+            type: Schema.Types.ObjectId,
             ref: 'Claim'
         }]
     }

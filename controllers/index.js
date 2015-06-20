@@ -1,8 +1,10 @@
 module.exports = function(router, passport) {
 
 	router.use(function (req, res, next){
-		//This var is used by layouts to determin if various options should be rendered
-		if (req.user){ res.locals.loggedIn = true; res.locals.user = req.user; console.log(res.locals)}
+		if (req.user){ 
+			res.locals.loggedIn = true; 
+			res.locals.user = req.user;
+		} 
 		next();
 	});
 

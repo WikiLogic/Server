@@ -34,6 +34,7 @@ var express = require('express'),
 				console.log('getting claims by any way I want!');
 		}
 
+		//Finds ALL the claims - might need pagination / infinite scrolling / limit
 		Claim.find(function (err, claims) {
 			if (err) return console.error(err);
 			console.log(claims);
