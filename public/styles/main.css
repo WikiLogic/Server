@@ -462,6 +462,8 @@ input, textarea {
         -ms-flex-positive: 1;
             flex-grow: 1;
     margin: 0; }
+  .main__head img {
+    border-radius: 2px; }
   .main__head .learn-more {
     position: absolute;
     right: 20px;
