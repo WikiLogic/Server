@@ -83,3 +83,7 @@ views/
 		changing.hbs
 	editor/
 		index.hbs *The editor SPA *
+
+---
+
+Shout out to [useiconic](https://useiconic.com/open/) for the icons!
