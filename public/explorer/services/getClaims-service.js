@@ -11,7 +11,8 @@ angular.module('Explorer')
 		var service = {
 			getListOfClaimsBy: function(sortBy){
 				
-				/* Server side, this will be the equivolent of WP_Query();
+				/* 
+				 * Server side, this will be the equivolent of WP_Query();
 				 * At the moment we're only asking for order by a few different params.
 				 * more will come in the future!  Will have to build up our own query system :)
 				 */

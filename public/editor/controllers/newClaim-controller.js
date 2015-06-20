@@ -12,9 +12,18 @@ Editor.controller('NewClaimController', ['$scope', '$rootScope', 'saviorOfClaims
 
  	 $scope.newClaim = {};
 
+ 	 /*
+ 	  * Take what's in the draft claim input, pass it to the servcice to save,
+ 	  * Once saved the server returns the new draftClaim object with all it's fancyness
+ 	  */
  	 $scope.saveToProfile = function(){
- 	 	console.log('controller saving claim');
- 	 	saviorOfClaims.saveClaimToProfile($scope.newClaim);
+ 	 	saviorOfClaims.saveClaimToProfile($scope.newClaim).success(function(result){
+
+			$scope.user.meta.unPublished.push(result);
+
+		}).error(function(){
+			console.log('saving the draft claim to your profile failed somehow');
+		});
  	 }
 
 }]);

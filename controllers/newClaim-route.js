@@ -47,13 +47,13 @@ var express = require('express'),
 					});
 				},
 				function(callback){ 
-					//3. add draft claim refrence to user's profile
+					//3. add draft claim refrence to user's profile and return it to the client
 					currentUser.meta.unPublished.push(draftClaim);
 					currentUser.save(function(err){
 						if(err) {
 							res.status(500).send('Error in saving draftClaim to user profile.');
 						} else {
-							res.status(200).send('Draft claim saved and user profile updated!')
+							res.status(200).send(draftClaim);
 						}
 					});
 				}
