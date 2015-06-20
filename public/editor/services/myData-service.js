@@ -5,18 +5,17 @@
  * The server will probably be the one dealing with figuring out the actual list content.
  */
 
-angular.module('Explorer')
-.factory('getterOfUsers',['$http',
+angular.module('Editor')
+.factory('myDataService',['$http',
 	function($http){
 		var service = {
-			getMyData: function(){
+			getMyWork: function(){
 				
 				/* 
-				 * This gets data for an individual user
-				 * It should not return any sensitive data
+				 * This asks the server for a list of claims authored by the current user
+				 * It returns an object with 2 arrays: published and unPublished
 				 */
-				return $http.get('/user/myData').success(function(data, status, headers, config) {
-					console.log('Got user data in the service! ', data);
+				return $http.get('/user/myWork').success(function(data, status, headers, config) {
 					service.myData = data;
 				}).error(function(data, status, headers, config) {
 					console.log('Getting user data failed - http request error in the service');

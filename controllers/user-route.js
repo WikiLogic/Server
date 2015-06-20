@@ -11,15 +11,15 @@ var express = require('express'),
  * This provides data to the user about the user
  */
 
-	router.get('/myData', function(req, res) {
+	router.get('/myWork', function(req, res) {
 		/*
-		 * This provides information to users who have logged in about themselves.
-		 * Even though it requires access it should not send any sensitive data. 
+		 * This queries the DB for any claims authored by the current user
+		 * async runs the two queries in prarllel and returns both as arrays in an object
 		 */
+
 		var unPublishedIDarray = req.user.meta.unPublished;
 		var publishedIDarray = req.user.meta.published;
 
-		//async here! build the user's meta object to send
 		async.parallel({
 			drafts: function(callback){
 				DraftClaim.find({'_id': { $in: unPublishedIDarray } }, function(err,drafts){
@@ -33,8 +33,9 @@ var express = require('express'),
 			}
 		},
 		function(err, results){
+			if (err) { console.log('oh shit!'); }
+
 			// results is now equals to: {drafts: array, published: array}
-			console.log('USER MEA BUILDING: ', results);
 			res.status(200).send(results);
 		});
 		
@@ -42,6 +43,3 @@ var express = require('express'),
 	});
 
 module.exports = router;
-/*
-db.claims.insert({'description':'this is claim 1', axiom:false, status:true})
-*/

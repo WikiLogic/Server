@@ -5,8 +5,7 @@
  * the controller name is a duplicate of the Explorer as the list controlls are common but function differently in each app
  */
 
-Editor.controller('MyProfileController', ['$scope', '$rootScope', 'getterOfUsers', function($scope, $rootScope, getterOfUsers) {
-
+Editor.controller('MyProfileController', ['$scope', '$rootScope', 'myDataService', function($scope, $rootScope, myDataService) {
  	 /*
  	  * Once the client side is loaded - this fires off another request to get the list
  	  */
@@ -14,9 +13,14 @@ Editor.controller('MyProfileController', ['$scope', '$rootScope', 'getterOfUsers
  	 	//0. Don't need the user's id - it's set in the session!
 
  	 	//1. ask getterOfUsers service for this users data
- 	 	getterOfUsers.getMyData().success(function(result){
-			console.log('got user data!' + result);
-			$rootScope.user = result;
+ 	 	myDataService.getMyWork().success(function(result){
+			console.log('got user data!', result);
+			$rootScope.user = {
+				meta : {
+					unPublished : result.drafts,
+					published : result.published
+				}
+			}
 			console.log($rootScope);
 		}).error(function(){
 			console.log('getting the user data failed somehow');
