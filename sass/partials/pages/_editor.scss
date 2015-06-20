@@ -1,0 +1,13 @@
+/* The editor home page */
+.draft-list-title {
+	@include titleBar();
+	h3 {
+		margin-left: 25px;
+	}
+}
+.published-list-title {
+	@include titleBar();
+	h3 {
+		margin-left: 25px;
+	}
+}

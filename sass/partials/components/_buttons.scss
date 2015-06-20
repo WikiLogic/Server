@@ -30,7 +30,13 @@
 
 .btn {
 	@include button();
+	&--small {
+		padding: 4px 8px 4px;
+		border-radius: 2px;
+		text-transform: none;
+	}
 }
+
 button {
 	@include button();
 	border:0;	

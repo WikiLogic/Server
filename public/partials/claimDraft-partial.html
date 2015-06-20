@@ -1,9 +1,11 @@
-<div class="draftClaim">
-	<div class="icon icon-true">true</div>
-	<div class="draftClaim__header">
-		{{claim.description}}
+<!-- A claim item to be used in a list of claims -->
+<div class="claim-preview">
+	<div class="claim-preview__status">
+		<img src="/icons/check.svg" alt="true">
 	</div>
-	<div class="draftClaim__meta">
-		
+	<div class="claim-preview__description">
+		<a href="#">{{claim.description}}</a>
 	</div>
+	<div class="btn btn--small">Publish</div>
+	<div class="btn btn--small">Delete</div>
 </div>

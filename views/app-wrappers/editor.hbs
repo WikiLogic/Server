@@ -26,20 +26,16 @@
 				</div>
 
 				<!-- List my claims in progress -->
-				<div ng-controller="MyDraftsController" class="list">
-					<p class="list__title">My claims in progress</p>
-					<div class="claim-preview" ng-repeat="claim in user.meta.unPublished">
-						<div ng-include src="'/partials/claimDraft-partial.html'"></div>
-					</div>
+				<div class="draft-list-title">
+					<h3>My claims in progress</h3>
 				</div>
+				<div ng-repeat="claim in user.meta.unPublished" ng-include src="'/partials/claimDraft-partial.html'"></div>
 
 				<!-- List my published claims -->
-				<div ng-controller="MyClaimsController" class="list">
-					<p class="list__title">My published claims</p>
-					<div class="claim-preview" ng-repeat="claim in user.meta.published">
-						<div ng-include src="'/partials/claimPreview-partial.html'"></div>
-					</div>
+				<div class="published-list-title">
+					<h3>My published claims</h3>
 				</div>
+				<div ng-repeat="claim in user.meta.published" ng-include src="'/partials/claimPreview-partial.html'"></div>
 
 			</div>
 

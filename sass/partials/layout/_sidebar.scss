@@ -14,7 +14,6 @@ should expand to full screen width and push the main content down (or 'hover' ov
 .mini-header {
   perspective: 1000px;
   background: $sidebarBGlight;
-  position: fixed;
   &__logo {
     display:inline-block;
     vertical-align: middle;
@@ -82,7 +81,7 @@ should expand to full screen width and push the main content down (or 'hover' ov
 
 @include breakpoint(medium) { 
   .mini-header {
-    position:absolute; top:0; left:0; //stops it from bumping the main content down
+    position:fixed; top:0; left:0; //stops it from bumping the main content down
     width: $sidebarWidthMedium;
   }
 
