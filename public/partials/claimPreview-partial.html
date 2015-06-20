@@ -1,9 +1,16 @@
 <!-- A claim item to be used in a list of claims -->
-<div class="claim-preview__header">
-	<div class="icon icon-true">true</div>
-	<p><a href="#">{{claim.description}}</a></p>
+<div class="claim-preview">
+	<div class="claim-preview__status">
+		<img src="/icons/check.svg" alt="true">
+	</div>
+	<div class="claim-preview__description">
+		<a href="#">{{claim.description}}</a>
+	</div>
+	<div class="button">Show in map</div>
+	<div class="button">save to favs</div>
+	<div class="button">share</div>
 </div>
-
+<!--
 <div class="claim-preview__footer-left">
 	<div class="claim-preview__footer-left__supporting-row">
 		<div class="supporting"></div>
@@ -15,9 +22,4 @@
 		<div class="opposing"></div>
 	</div>
 </div>
-
-<div class="claim-preview__footer-right">
-	<div class="icon icon-DLW">DLW</div>
-	<div class="icon icon-save">saves</div>
-	<div class="icon icon-share">share</div>
-</div>
+-->

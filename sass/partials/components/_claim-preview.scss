@@ -1,28 +1,43 @@
-.claim-preview {
+.claim-preview-list {
 	@include whiteBox();
+}
+.claim-preview {
 
-	&__header {
-		min-height:20px;
-		border-bottom: 1px solid $lightBorderClr;
-		padding-bottom:5px;
-		margin-bottom:5px;
-		.icon {
-			width: 20px;
-			height: 20px;
-			float:left;
-			margin-right:10px;
+	display: flex;
+	padding: 4px;
+	+.claim-preview { border-top: 1px solid $lightBorderClr; }
+
+	&__status {
+		width: 16px;
+		height: 16px;
+		margin-right:5px;
+		img {
+			width:100%;
 		}
-		p {
-			margin: 0;
-			a {
+	}
+	&__description {
+		flex-grow:1;
+		a {	
+			color: $textDark;
+			text-decoration: none;
+			&:hover {
 				color: $textDark;
-				text-decoration: none;
-				&:hover {
-					color: $textDark;
-					text-decoration: underline;
-				}
+				text-decoration: underline;
 			}
 		}
+	}
+
+	.button {
+		margin-left:5px;
+		opacity: 0;
+	}
+	&:hover .button {
+		opacity: 1;
+	}
+	
+	
+	&__right {
+		text-align: right;
 	}
 
 	&__footer-left {
@@ -65,17 +80,10 @@
 
 @include breakpoint(medium) {
 	.claim-preview {
-		&__header {
-			.icon {
-				float: none;
-				vertical-align: middle;
-				width:50px;
-				height:50px;
-			}
-			p {
-				display: inline-block;
-				vertical-align: middle;
-			}			
+		.icon {
 		}
+		a {
+
+		}		
 	}
 }
