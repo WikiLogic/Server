@@ -689,6 +689,8 @@ button {
     background: white; }
     .claim-preview:hover .btn {
       opacity: 1; }
+  .claim-preview .selected {
+    background: white; }
   .claim-preview__right {
     text-align: right; }
   .claim-preview__footer-left {
@@ -752,7 +754,8 @@ button {
   display: -ms-flexbox;
   display: flex;
   border-bottom: 1px solid #393f4f;
-  margin-top: 20px; }
+  margin-top: 20px;
+  margin-bottom: 5px; }
   .draft-list-title h3 {
     margin-left: 25px; }
 
@@ -762,8 +765,20 @@ button {
   display: -ms-flexbox;
   display: flex;
   border-bottom: 1px solid #393f4f;
-  margin-top: 20px; }
+  margin-top: 20px;
+  margin-bottom: 5px; }
   .published-list-title h3 {
+    margin-left: 25px; }
+
+.deleted-list-title {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  border-bottom: 1px solid #393f4f;
+  margin-top: 20px;
+  margin-bottom: 5px; }
+  .deleted-list-title h3 {
     margin-left: 25px; }
 
 .single-form-page {

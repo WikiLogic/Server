@@ -19,6 +19,7 @@ var express = require('express'),
 
 		var unPublishedIDarray = req.user.meta.unPublished;
 		var publishedIDarray = req.user.meta.published;
+		var trashedIDarray = req.user.meta.trashed;
 
 		async.parallel({
 			drafts: function(callback){
@@ -28,6 +29,11 @@ var express = require('express'),
 			},
 			published: function(callback){
 				Claim.find({ '_id': { $in: publishedIDarray } }, function(err,claims){
+					callback(null, claims);
+				})
+			},
+			trashed: function(callback){
+				Claim.find({ '_id': { $in: trashedIDarray } }, function(err,claims){
 					callback(null, claims);
 				})
 			}

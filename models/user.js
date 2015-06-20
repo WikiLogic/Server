@@ -33,6 +33,10 @@ var userSchema = mongoose.Schema({
             type: Schema.Types.ObjectId,
             ref: 'Claim'
         }],
+        trashed: [{
+            type: Schema.Types.ObjectId,
+            ref: 'Claim'
+        }],
         published: [{
             type: Schema.Types.ObjectId,
             ref: 'Claim'

@@ -26,16 +26,28 @@
 				</div>
 
 				<!-- List my claims in progress -->
-				<div class="draft-list-title">
-					<h3>My claims in progress</h3>
+				<div ng-controller="MyDraftsController">
+					<div class="draft-list-title">
+						<h3>My claims in progress</h3>
+					</div>
+					<div ng-repeat="claim in user.meta.unPublished" ng-include src="'/partials/claimDraft-partial.html'"></div>
 				</div>
-				<div ng-repeat="claim in user.meta.unPublished" ng-include src="'/partials/claimDraft-partial.html'"></div>
 
 				<!-- List my published claims -->
-				<div class="published-list-title">
-					<h3>My published claims</h3>
+				<div ng-controller="MyClaimsController">
+					<div class="published-list-title">
+						<h3>My published claims</h3>
+					</div>
+					<div ng-repeat="claim in user.meta.published" ng-include src="'/partials/claimPreview-partial.html'"></div>
 				</div>
-				<div ng-repeat="claim in user.meta.published" ng-include src="'/partials/claimPreview-partial.html'"></div>
+
+				<!-- List my deleted drafts -->
+				<div ng-controller="MyTrashController">
+					<div class="deleted-list-title">
+						<h3>Deleted drafts</h3>
+					</div>
+					<div ng-repeat="claim in user.meta.trashed" ng-include src="'/partials/claimDraft-partial.html'"></div>
+				</div>
 
 			</div>
 
@@ -57,4 +69,5 @@
 <script src="/editor/controllers/myProfile-controller.js"></script>
 <script src="/editor/controllers/myDrafts-controller.js"></script>
 <script src="/editor/controllers/myClaims-controller.js"></script>
+<script src="/editor/controllers/myTrash-controller.js"></script>
 <script src="/editor/controllers/editorList-controller.js"></script>

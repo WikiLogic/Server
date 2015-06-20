@@ -36,7 +36,9 @@
 			opacity: 1;
 		}
 	}
-	
+	.selected {
+		background: white;
+	}
 	
 	&__right {
 		text-align: right;

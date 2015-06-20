@@ -11,3 +11,9 @@
 		margin-left: 25px;
 	}
 }
+.deleted-list-title {
+	@include titleBar();
+	h3 {
+		margin-left: 25px;
+	}
+}

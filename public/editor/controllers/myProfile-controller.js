@@ -7,7 +7,9 @@
 
 Editor.controller('MyProfileController', ['$scope', '$rootScope', 'myDataService', function($scope, $rootScope, myDataService) {
  	 /*
- 	  * Once the client side is loaded - this fires off another request to get the list
+ 	  * This fills the various parts of the user's profile with data,
+ 	  * normal interaction with these things are handeled by thier own controllers
+ 	  * but this initial load is more efficent in one place, which is why this is here.
  	  */
  	 $scope.setUserData = function(){
  	 	//0. Don't need the user's id - it's set in the session!
@@ -18,7 +20,8 @@ Editor.controller('MyProfileController', ['$scope', '$rootScope', 'myDataService
 			$rootScope.user = {
 				meta : {
 					unPublished : result.drafts,
-					published : result.published
+					published : result.published,
+					trashed : result.trashed
 				}
 			}
 			console.log($rootScope);
