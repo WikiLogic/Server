@@ -476,11 +476,14 @@ input, textarea {
     margin: 1px 0px;
     border-radius: 4px;
     text-decoration: none; }
-    .nav-sidebar a span, .nav-sidebar a p {
+    .nav-sidebar a span, .nav-sidebar a p, .nav-sidebar a img {
       display: inline-block;
       vertical-align: middle; }
     .nav-sidebar a p {
       margin: 0 0 0 8px; }
+    .nav-sidebar a img {
+      height: 16px;
+      width: 16px; }
     .nav-sidebar a:hover {
       background-color: #393f4f; }
 

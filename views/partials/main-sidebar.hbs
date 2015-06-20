@@ -4,12 +4,17 @@
 	{{/unless}}
 
 	{{#if loggedIn}}
+		<div class="editor-nav">
+			<div class="nav-sidebar">
+				<h3><a href="/editor">EDITOR</a></h3>
+			</div>
+		</div>
 		<div class="profile-nav">
 			<div class="nav-sidebar">
 				<h3><a href="/profile">YOUR PROFILE</a></h3>
-				<a href="#"><span class="icon icon-history"></span><p>History</p></a>
-				<a href="#">Collections</a>
-				<a href="#">Watching</a>
+				<a href="#"><img src="/icons/media-skip-backward.svg"><p>History</p></a>
+				<a href="#"><img src="/icons/spreadsheet.svg"><p>Collections</p></a>
+				<a href="#"><img src="/icons/eye.svg"><p>Watching</p></a>
 			</div>
 		</div>
 	{{/if}}	
@@ -20,22 +25,13 @@
 	<div class="explorer-nav" ng-controller="ListController">
 		<div class="nav-sidebar">
 			<h3><a href="/">EXPLORER</a></h3>
-			<a href="#" ng-click="setListOrderTo('recent')">Recent</a>
-			<a href="#" ng-click="setListOrderTo('popular')">Popular</a>
-			<a href="#" ng-click="setListOrderTo('influence')">Influential</a>
-			<a href="#" ng-click="setListOrderTo('capricious')">Capricious</a>
-			<a href="#" ng-click="setListOrderTo('random')">Random</a>
+			<a href="#" ng-click="setListOrderTo('recent')"><img src="/icons/clock.svg"><p>Recent</p></a>
+			<a href="#" ng-click="setListOrderTo('popular')"><img src="/icons/graph.svg"><p>Popular</p></a>
+			<a href="#" ng-click="setListOrderTo('influence')"><img src="/icons/globe.svg"><p>Influential</p></a>
+			<a href="#" ng-click="setListOrderTo('capricious')"><img src="/icons/fire.svg"><p>Capricious</p></a>
+			<a href="#" ng-click="setListOrderTo('random')"><img src="/icons/random.svg"><p>Random</p></a>
 		</div>	
 	</div>
 
-	{{#if loggedIn}}		
-		<div class="editor-nav">
-			<div class="nav-sidebar">
-				<h3><a href="/editor">EDITOR</a></h3>
-				<a href="#">Published</a>
-				<a href="#">Draft statements(0)</a>
-			</div>
-		</div>
-	{{/if}}	
 
 </div> <!-- End of the main sidebar -->

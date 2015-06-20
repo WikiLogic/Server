@@ -10,12 +10,16 @@
 		border-radius: 4px;
 		text-decoration: none;
 
-		span, p {
+		span, p, img {
 			display: inline-block;
 			vertical-align: middle;
 		}
 		p {
 			margin:0 0 0 8px;
+		}
+		img {
+			height:16px;
+			width:16px;
 		}
 
 
