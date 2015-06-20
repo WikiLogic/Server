@@ -22,14 +22,14 @@
 
 				<!-- The creat new claim component. -->
 				<div ng-controller="NewClaimController"> <!-- can't have controller and include on one div :( -->
-					<div ng-include src="'/editor/partials/newClaim-partial.html'"></div>
+					<div ng-include src="'/partials/newClaim-partial.html'"></div>
 				</div>
 
 				<!-- List my claims in progress -->
 				<div ng-controller="MyDraftsController" class="list">
 					<p class="list__title">My claims in progress</p>
 					<div class="claim-preview" ng-repeat="claim in user.meta.unPublished">
-						<div ng-include src="'/explorer/partials/claimPreview-partial.html'"></div>
+						<div ng-include src="'/partials/claimDraft-partial.html'"></div>
 					</div>
 				</div>
 
@@ -37,7 +37,7 @@
 				<div ng-controller="MyClaimsController" class="list">
 					<p class="list__title">My published claims</p>
 					<div class="claim-preview" ng-repeat="claim in user.meta.published">
-						<div ng-include src="'/explorer/partials/claimPreview-partial.html'"></div>
+						<div ng-include src="'/partials/claimPreview-partial.html'"></div>
 					</div>
 				</div>
 
