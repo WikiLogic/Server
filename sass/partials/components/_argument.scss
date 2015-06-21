@@ -3,17 +3,17 @@
 	border-radius: 5px;
 	overflow: hidden;
 	margin-bottom: 15px;
+
 	&__head {
 		display:flex;
 		align-items: center;
 		padding: 4px;
-		border-bottom: 1px solid;
-		margin-bottom: 2px;
+		border-bottom: 1px solid $lightBorderClr;
 
 		&__status {
 			width: 16px;
 			height: 16px;
-			margin-right:5px;
+			margin:0 5px 0 3px;
 			img {
 				width:100%;
 			}
@@ -35,6 +35,19 @@
 			& ~ .reason {
 				background:white;
 			}
+		}
+	}
+
+	&--impact-false {
+		border-color:$falseRed;
+		.argument__head {
+			border-color:$falseRed;
+		}
+	}
+	&--impact-true {
+		border-color:$trueGreen;
+		.argument__head {
+			border-color:$trueGreen;
 		}
 	}
 }

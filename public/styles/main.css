@@ -630,12 +630,11 @@ should expand to full screen width and push the main content down (or 'hover' ov
         -ms-flex-align: center;
             align-items: center;
     padding: 4px;
-    border-bottom: 1px solid;
-    margin-bottom: 2px; }
+    border-bottom: 1px solid #dddddd; }
     .argument__head__status {
       width: 16px;
       height: 16px;
-      margin-right: 5px; }
+      margin: 0 5px 0 3px; }
       .argument__head__status img {
         width: 100%; }
     .argument__head__author {
@@ -652,6 +651,14 @@ should expand to full screen width and push the main content down (or 'hover' ov
         opacity: 1; }
       .argument__head:hover ~ .reason {
         background: white; }
+  .argument--impact-false {
+    border-color: #F25454; }
+    .argument--impact-false .argument__head {
+      border-color: #F25454; }
+  .argument--impact-true {
+    border-color: #31D332; }
+    .argument--impact-true .argument__head {
+      border-color: #31D332; }
 
 .btn {
   display: inline-block;
@@ -801,6 +808,15 @@ button {
     -webkit-flex-grow: 1;
         -ms-flex-positive: 1;
             flex-grow: 1; }
+  .draft-claim-editor__args-row__column-title {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    border-bottom: 1px solid #393f4f;
+    margin-top: 20px;
+    margin-bottom: 5px;
+    margin-bottom: 15px; }
 
 .reason {
   display: -webkit-box;
@@ -815,7 +831,7 @@ button {
   .reason__status {
     width: 12px;
     height: 12px;
-    margin-right: 4px; }
+    margin: 0 4px 0 3px; }
     .reason__status img {
       width: 100%; }
   .reason__description {

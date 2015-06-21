@@ -14,5 +14,12 @@
 		&__against-column {
 			flex-grow: 1;
 		}
+		&__column-title {
+			@include titleBar();
+			margin-bottom: 15px;
+			h3 {
+				
+			}
+		}
 	}
 }
