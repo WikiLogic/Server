@@ -47,6 +47,10 @@ var claimSchema = mongoose.Schema({
             type: Date,
             default: Date.now
         },
+        published: {
+            type: Date,
+            default: Date.now
+        },
         statusChangeCount: Number,
         viewCount: Number
 
@@ -60,6 +64,7 @@ var claimSchema = mongoose.Schema({
 /* If there isn't a date, set the creation date to now! */
 claimSchema.pre('save', function (next) {
   if (!this.meta.created) this.meta.created = new Date;
+  if (!this.meta.published) this.meta.published = new Date;
   next();
 })
 

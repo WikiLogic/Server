@@ -17,6 +17,17 @@ angular.module('Editor')
 				}).error(function(data, status, headers, config) {
 					console.log('Could not save claim - womp womp :(');
 				});
+			},
+			publishDraftClaim: function(draftClaim){
+				/*
+				 * Taking an existing draft claim and publishing it!
+				 * The claim mush have at least 1 argument - might cause problems, maybe not
+				 */
+				return $http.post('/new-claim/publish', {'draftClaim':draftClaim}).success(function(data, status, headers, config) {
+					console.log('Claim published! ', data);
+				}).error(function(data, status, headers, config) {
+					console.log('Could not publish claim - womp womp :(');
+				});
 			}
 		};
 		return service;
