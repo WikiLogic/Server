@@ -615,6 +615,12 @@ should expand to full screen width and push the main content down (or 'hover' ov
   .footer--loggedout {
     height: 130px; } }
 
+.argument {
+  background: white;
+  border: 1px solid #dddddd;
+  padding: 5px 10px;
+  border-radius: 5px; }
+
 .btn {
   display: inline-block;
   padding: 9px 14px 8px;
@@ -741,6 +747,26 @@ button {
     display: inline-block;
     vertical-align: middle;
     text-align: right; }
+
+.draft-claim-editor__claim {
+  width: 100%;
+  text-align: center; }
+
+.draft-claim-editor__args-row {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex; }
+  .draft-claim-editor__args-row__for-column {
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+        -ms-flex-positive: 1;
+            flex-grow: 1; }
+  .draft-claim-editor__args-row__against-column {
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+        -ms-flex-positive: 1;
+            flex-grow: 1; }
 
 .search {
   -webkit-perspective: 1000px;

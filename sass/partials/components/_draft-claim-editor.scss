@@ -1,0 +1,15 @@
+.draft-claim-editor {
+	&__claim {
+		width:100%;
+		text-align:center;
+	}
+	&__args-row {
+		display: flex;
+		&__for-column {
+			flex-grow: 1;
+		}
+		&__against-column {
+			flex-grow: 1;
+		}
+	}
+}
