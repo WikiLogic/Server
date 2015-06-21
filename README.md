@@ -86,4 +86,17 @@ views/
 
 ---
 
+###DB command ref
+
+see user profile:
+`db.users.find({"local.email":"email here"}).pretty()`
+
+remove drafts from user profile:
+`db.users.update({"local.email":"email here"},{$set:{"meta.unPublished":[ ]}})`
+
+clear out claims:
+`db.claims.remove({"status":false})` / true
+
+---
+
 Shout out to [useiconic](https://useiconic.com/open/) for the icons!
