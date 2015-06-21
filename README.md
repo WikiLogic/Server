@@ -9,6 +9,10 @@ This is an open source project so please feel free to get involved!
 
 ---
 
+[Feynman on magnets](https://www.youtube.com/watch?v=wMFPe-DwULM), watch it and think of what he's saying.
+
+---
+
 
 ###Road map to our online presence
 
@@ -99,6 +103,21 @@ clear out claims:
 `db.claims.remove({"status":false})` / true
 
 clear out drafts
+
+---
+
+Root statement:
+
+* Hypothesis (prediction)
+* Observation
+* Undisputed fact
+* Absolute truth
+
+---
+
+Example claims
+>There are no absolute truths
+(it would be an argument against itself)
 
 ---
 
