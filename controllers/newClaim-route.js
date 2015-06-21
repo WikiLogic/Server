@@ -69,15 +69,9 @@ var express = require('express'),
 		var candidateClaim = req.body.draftClaim;
 		var currentUser = req.user;
 
-		//Does the claim object list any arguments, if not then fail - or not
-
-		//Check the DB - does this claim exist already (check by description), if true then fail, if close then flag
-		console.log('candidate claim =================', candidateClaim);
-
 		async.waterfall([
 				function(callback) {
-					console.log('1: check if there is an identicle claim already published');
-					//1: check if there's an identicle claim already published
+				//1: check if there's an identicle claim already published
 					Claim.find({'description':candidateClaim.description}).exec(function(err,result){
 						if(err) callback(err);
 
@@ -91,8 +85,7 @@ var express = require('express'),
 					});
 				},
 				function(callback) {
-					console.log('2: Save draft claim as published claim');
-					//2: Save draft claim as published claim
+				//2: Save draft claim as published claim
 					var newClaim = new Claim;
 					newClaim.description = candidateClaim.description;
 					newClaim.supporting = candidateClaim.supporting;
@@ -108,33 +101,25 @@ var express = require('express'),
 					});
 				},
 				function(newPublishedClaim,callback) {
-					//3.1: add newClaim to user's published list
-					console.log('3: move claim in user lists');
-					
+				//3.1: add newClaim to user's published list
 					currentUser.meta.published.push(newPublishedClaim._id);
 					
-					//3.2: remove draftClaim from user's unPublished list
-					console.log('killing before:', currentUser.meta.unPublished);
+				//3.2: remove draftClaim from user's unPublished list
 					var killDex = currentUser.meta.unPublished.indexOf(candidateClaim._id);
 					currentUser.meta.unPublished.splice(killDex, 1);
-					console.log('killing after:', currentUser.meta.unPublished);
 
+				//3.3: save updated user profile to db
 					currentUser.save(function(err, result){
 						if(err) console.log('error in adding publishd claim to user profile', err);
 						console.log('Saved user :D ', result);
-						callback(null, newPublishedClaim, result);
+						callback(null, newPublishedClaim);
 					});
 				}
 			],
-			function (err, newPublishedClaim, updatedUser) {//finished!
+			function (err, newPublishedClaim) {//finished!
 				if(err) console.error('Error finding claim from newClaim-route.js');
-				//return
-				returnObj = {
-					newClaim: newPublishedClaim,
-					newUser: updatedUser
-				}
-				console.log('Final called :)', returnObj);
-				res.status(200).send(returnObj);
+				//return the new claim to be put into the published list client side
+				res.status(200).send(newPublishedClaim);
 			}
 		);
 	});

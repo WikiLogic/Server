@@ -93,9 +93,12 @@ see user profile:
 
 remove drafts from user profile:
 `db.users.update({"local.email":"email here"},{$set:{"meta.unPublished":[ ]}})`
+`db.users.update({"local.email":"email here"},{$set:{"meta.published":[ ]}})`
 
 clear out claims:
 `db.claims.remove({"status":false})` / true
+
+clear out drafts
 
 ---
 
