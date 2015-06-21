@@ -828,6 +828,11 @@ button {
       -ms-flex-align: center;
           align-items: center;
   padding: 4px; }
+  .reason__breaking-claim {
+    width: 12px;
+    height: 12px; }
+    .reason__breaking-claim img {
+      width: 100%; }
   .reason__status {
     width: 12px;
     height: 12px;
