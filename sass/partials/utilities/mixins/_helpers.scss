@@ -19,3 +19,9 @@
 	padding: 5px 10px;
 	border-radius: 5px;
 }
+
+@mixin dashedLineBox(){
+	border: 1px dashed $darkBorderClr;
+	border-radius: 5px;
+	padding:10px;
+}

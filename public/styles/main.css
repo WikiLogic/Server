@@ -616,10 +616,42 @@ should expand to full screen width and push the main content down (or 'hover' ov
     height: 130px; } }
 
 .argument {
-  background: white;
-  border: 1px solid #dddddd;
-  padding: 5px 10px;
-  border-radius: 5px; }
+  border: 1px dashed #dddddd;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-bottom: 15px; }
+  .argument__head {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+    padding: 4px;
+    border-bottom: 1px solid;
+    margin-bottom: 2px; }
+    .argument__head__status {
+      width: 16px;
+      height: 16px;
+      margin-right: 5px; }
+      .argument__head__status img {
+        width: 100%; }
+    .argument__head__author {
+      -webkit-box-flex: 1;
+      -webkit-flex-grow: 1;
+          -ms-flex-positive: 1;
+              flex-grow: 1; }
+    .argument__head .btn {
+      margin-left: 5px;
+      opacity: 0; }
+    .argument__head:hover {
+      background: white; }
+      .argument__head:hover .btn {
+        opacity: 1; }
+      .argument__head:hover ~ .reason {
+        background: white; }
 
 .btn {
   display: inline-block;
@@ -762,11 +794,42 @@ button {
     -webkit-flex-grow: 1;
         -ms-flex-positive: 1;
             flex-grow: 1; }
+  .draft-claim-editor__args-row__spacer-column {
+    width: 10px; }
   .draft-claim-editor__args-row__against-column {
     -webkit-box-flex: 1;
     -webkit-flex-grow: 1;
         -ms-flex-positive: 1;
             flex-grow: 1; }
+
+.reason {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 4px; }
+  .reason__status {
+    width: 12px;
+    height: 12px;
+    margin-right: 4px; }
+    .reason__status img {
+      width: 100%; }
+  .reason__description {
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+        -ms-flex-positive: 1;
+            flex-grow: 1; }
+  .reason .btn {
+    margin-left: 5px;
+    opacity: 0; }
+  .reason:hover {
+    background: white; }
+    .reason:hover .btn {
+      opacity: 1; }
 
 .search {
   -webkit-perspective: 1000px;
