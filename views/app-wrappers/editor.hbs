@@ -26,12 +26,16 @@
 				<!-- Draft claim editor -->
 				<div class="draft-claim-editor">
 					
-					<div class="draft-claim-editor__claim"><h1>Main claim here</h1></div>
+					<div class="draft-claim-editor__claim">
+						<!-- if draft then contentEditable -->
+						<h1 contentEditable="true">Main claim here</h1>
+					</div>
 
 					<div class="draft-claim-editor__args-row">
 						<div class="draft-claim-editor__args-row__for-column">
 							<div class="draft-claim-editor__args-row__column-title">
 								<h3>For</h3>
+								<div class="btn btn--small">Add argument</div>
 							</div>
 
 							<div ng-include src="'/partials/argument-partial.html'"></div>
@@ -44,11 +48,12 @@
 						<div class="draft-claim-editor__args-row__against-column">
 							<div class="draft-claim-editor__args-row__column-title">
 								<h3>Against</h3>
+								<div class="btn btn--small">Add argument</div>
 							</div>
 							
 							<div ng-include src="'/partials/argument-partial.html'"></div>
 							<div ng-include src="'/partials/argument-partial.html'"></div>		
-							
+
 						</div>
 					</div>
 				</div>

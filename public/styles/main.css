@@ -649,7 +649,7 @@ should expand to full screen width and push the main content down (or 'hover' ov
       background: white; }
       .argument__head:hover .btn {
         opacity: 1; }
-      .argument__head:hover ~ .reason {
+      .argument__head:hover ~ .ng-scope {
         background: white; }
   .argument--impact-false {
     border-color: #F25454; }
@@ -816,7 +816,26 @@ button {
     border-bottom: 1px solid #393f4f;
     margin-top: 20px;
     margin-bottom: 5px;
-    margin-bottom: 15px; }
+    margin-bottom: 15px;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+    padding: 4px; }
+    .draft-claim-editor__args-row__column-title h3 {
+      -webkit-box-flex: 1;
+      -webkit-flex-grow: 1;
+          -ms-flex-positive: 1;
+              flex-grow: 1; }
+    .draft-claim-editor__args-row__column-title .btn {
+      opacity: 0; }
+    .draft-claim-editor__args-row__column-title:hover {
+      background: white; }
+      .draft-claim-editor__args-row__column-title:hover .btn {
+        opacity: 1; }
+      .draft-claim-editor__args-row__column-title:hover ~ .ng-scope {
+        background: white; }
 
 .reason {
   display: -webkit-box;
