@@ -15,7 +15,17 @@ angular.module('Editor')
 				return $http.post('/draft-claim/new', {'draftClaim':draftClaim}).success(function(data, status, headers, config) {
 					console.log('Claim saved! ', data);
 				}).error(function(data, status, headers, config) {
-					console.log('Could not save claim - womp womp :(');
+					console.log('save claims service: Could not save claim - womp womp :(');
+				});
+			},
+			updateDraft: function(draftClaim){
+				/*
+				 * Asking the server to update an existing draftClaim on the current users profile
+				 */
+				return $http.post('/draft-claim/update', {'draftClaim':draftClaim}).success(function(data, status, headers, config) {
+					console.log('Claim updated! ', data);
+				}).error(function(data, status, headers, config) {
+					console.log('save claims service: Could not update claim - womp womp :(');
 				});
 			},
 			publishDraftClaim: function(draftClaim){
@@ -26,7 +36,7 @@ angular.module('Editor')
 				return $http.post('/draft-claim/publish', {'draftClaim':draftClaim}).success(function(data, status, headers, config) {
 					console.log('Claim published! ', data);
 				}).error(function(data, status, headers, config) {
-					console.log('Could not publish claim - womp womp :(');
+					console.log('save claims service: Could not publish claim - womp womp :(');
 				});
 			}
 		};

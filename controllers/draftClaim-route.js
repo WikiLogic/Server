@@ -22,45 +22,44 @@ var express = require('express'),
 		//clean the input?
 		var candidateClaim = req.body.draftClaim;
 		var currentUser = req.user;
-
-		//is it new or existing?
-		if (candidateClaim._id) {
-			//the candidate claims to be an existing draft - check if _id matches in user profile.
-			console.log('CLAIM ID');
-		} else {
-			//the candidate does not claim to be an existing draft, save it and add a refrence to the user profile!
 			
-			//1. Create new draft claim object
-			console.log('ONE');
-			var draftClaim = new DraftClaim;
-			draftClaim.description = candidateClaim.description;
-			draftClaim.meta.user = currentUser;
+		//1. Create new draft claim object
+		console.log('ONE');
+		var draftClaim = new DraftClaim;
+		draftClaim.description = candidateClaim.description;
+		draftClaim.meta.user = currentUser;
 
-			async.waterfall([
-				function(callback){
-					//2. save draft claim object to database
-					draftClaim.save(function(err){
-						if(err) {
-							res.status(500).send('Error in saving new draft Claim to database.');
-						} else {
-							callback(null); //keeps async going
-						}
-					});
-				},
-				function(callback){ 
-					//3. add draft claim refrence to user's profile and return it to the client
-					currentUser.meta.unPublished.push(draftClaim);
-					currentUser.save(function(err){
-						if(err) {
-							res.status(500).send('Error in saving draftClaim to user profile.');
-						} else {
-							res.status(200).send(draftClaim);
-						}
-					});
-				}
-			]);
-
-		}
+		async.waterfall([
+			function(callback){
+				//2.check if this description exists on the user's profile
+				//get array of draft id's from current user in db
+				var usersDraftIDarray = [];
+				//from that array, find any matching descriptions
+				draftClaim.find({'_id': { $in: usersDraftIDarray } })
+				//if match call err, else - continue and save!
+			},
+			function(callback){
+				//3. save draft claim object to database
+				draftClaim.save(function(err){
+					if(err) {
+						res.status(500).send('Error in saving new draft Claim to database.');
+					} else {
+						callback(null); //keeps async going
+					}
+				});
+			},
+			function(callback){ 
+				//4. add draft claim refrence to user's profile and return it to the client
+				currentUser.meta.unPublished.push(draftClaim);
+				currentUser.save(function(err){
+					if(err) {
+						res.status(500).send('Error in saving draftClaim to user profile.');
+					} else {
+						res.status(200).send(draftClaim);
+					}
+				});
+			}
+		]);
 	});
 
 	//route to update an existing draft claim
