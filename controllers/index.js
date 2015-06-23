@@ -24,7 +24,7 @@ module.exports = function(router, passport) {
 	router.use('/users', require('./users-route') ); //careful here - provides public data about users
 
 	router.use('/user', hasAccess, require('./user-route') ); //provides data about the user to the user
-	router.use('/new-claim', hasAccess, require('./newClaim-route') ); //Create & Update
+	router.use('/draft-claim', hasAccess, require('./draftClaim-route') ); //Create & Update
 	// Delete?- do we give the option to delete? May need a super user level.
 
 

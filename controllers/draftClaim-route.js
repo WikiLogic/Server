@@ -7,7 +7,7 @@ var express = require('express'),
     	DraftClaim = require('../models/draftClaim'),
     	Claim = require('../models/claim');
 
-/*          /new-claim
+/*          /draft-claim
  * =================================
  * This is a server side controller that deals with putting new claims into the Database.
  * This is a protected route, only logged in users may submit new claims
@@ -17,7 +17,7 @@ var express = require('express'),
  	/* SAVE DRAFT CLAIM (new or existing) TO USER PROFILE
  	 * 
  	 */
-	router.post('/draft', function(req, res) {
+	router.post('/new', function(req, res) {
 		
 		//clean the input?
 		var candidateClaim = req.body.draftClaim;
@@ -61,6 +61,11 @@ var express = require('express'),
 			]);
 
 		}
+	});
+
+	//route to update an existing draft claim
+	router.post('/update', function(req, res) {
+
 	});
 
 	//route to publish an individual claim to the public network
