@@ -528,7 +528,7 @@ html {
   .app-rap .header {
     background: #191e28;
     color: #eeeeee;
-    height: 50px; }
+    min-height: 50px; }
     .app-rap .header__logo {
       display: inline-block;
       vertical-align: middle; }
