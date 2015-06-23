@@ -1,13 +1,19 @@
-<div ng-app="Explorer">
+<div ng-app="Explorer" class="app-rap">
 
 	{{!-- These partials are called from views/common, they're here so that they get caught under the control of ng-app --}}
-	{{> mini-header }} 
-	{{> main-sidebar }} 
-	{{> footer-sidebar }}
 
+	<div class="header">
+		{{> header-content }}
+	</div> 
 	
-	<div class="main">
-		<div class="explorer">
+
+	<div class="body">
+
+		<div class="sidebar-left">
+			{{> sidebar-left-content }}
+		</div>
+
+		<div class="main explorer">
 
 			<div class="main__head">
 				<!-- This might need to eb split out too -->
@@ -24,6 +30,14 @@
 			</div>
 
 		</div>
+
+		<div class="sidebar-right">
+			
+		</div>
+	</div>
+
+	<div class="footer">
+		
 	</div>
 
 </div> <!-- END of ng-app="Explorer" -->

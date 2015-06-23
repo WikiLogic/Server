@@ -514,107 +514,92 @@ html {
 *, *:before, *:after {
   box-sizing: inherit; }
 
-.main {
-  margin-left: 190px; }
-  .main__head {
-    padding: 20px; }
-  .main__body {
-    padding: 20px; }
+.app-rap {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  height: 100vh; }
+  .app-rap .header {
+    background: #191e28;
+    color: #eeeeee;
+    height: 50px; }
+    .app-rap .header__logo {
+      display: inline-block;
+      vertical-align: middle; }
+    .app-rap .header__search {
+      display: inline-block;
+      vertical-align: middle; }
+  .app-rap .body {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+        -ms-flex-positive: 1;
+            flex-grow: 1; }
+    .app-rap .body .sidebar-left {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+      -webkit-flex-direction: column;
+          -ms-flex-direction: column;
+              flex-direction: column;
+      background: #191e28;
+      color: #eeeeee;
+      padding: 10px; }
+      .app-rap .body .sidebar-left__body {
+        -webkit-box-flex: 1;
+        -webkit-flex-grow: 1;
+            -ms-flex-positive: 1;
+                flex-grow: 1;
+        overflow-y: scroll; }
+      .app-rap .body .sidebar-left__footer {
+        text-align: center; }
+    .app-rap .body .main {
+      -webkit-box-flex: 1;
+      -webkit-flex-grow: 1;
+          -ms-flex-positive: 1;
+              flex-grow: 1;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+      -webkit-flex-direction: column;
+          -ms-flex-direction: column;
+              flex-direction: column;
+      background: #eeeeee;
+      color: #393f4f;
+      overflow-y: scroll; }
+      .app-rap .body .main__head {
+        padding: 20px; }
+      .app-rap .body .main__body {
+        padding: 20px; }
+    .app-rap .body .sidebar-right {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+      -webkit-flex-direction: column;
+          -ms-flex-direction: column;
+              flex-direction: column; }
 
 /* =====================================================
 =======================================   Tablet and up
 ======================================================*/
-@media (min-width: 768px) {
-  .main {
-    margin-left: 270px; } }
-
-/* The logo and Search box.
-The three sections (mini-header, sidebar, and sidebar--footer) are siblings in the dom.
-They are not contained within a parent sidebar.
-In a logged out state the sidebar--footer overlaps the bottom of the sidebar but this shouldn'e be a worry
-as the sidebar shouldn't every be that full for logged out people.  If this happens I've added some padding to the bottom.
-
-The search fun:
-When the user clicks in the search, it should expand to fill the full width of the sidebar.
-For smaller devices, the mini-header is the full width of the screen so clicking the search input will make it fill the screen width.
-For larger screens, when the sidebar is small, when the user types beyond the width the mini-header 
-should expand to full screen width and push the main content down (or 'hover' over it?).
-
-============================*/
-.mini-header {
-  -webkit-perspective: 1000px;
-          perspective: 1000px;
-  background: #393f4f; }
-  .mini-header__logo {
-    display: inline-block;
-    vertical-align: middle;
-    width: 50px;
-    height: 50px;
-    background: url(data:image/svg+xml;utf8,$svg-logo); }
-  .mini-header__search {
-    position: absolute;
-    left: 55px;
-    top: 11px;
-    width: 200px;
-    height: 28px;
-    z-index: 20;
-    border: 0;
-    border-radius: 15px; }
-    .mini-header__search:focus {
-      -webkit-transform: translateZ(10px);
-              transform: translateZ(10px);
-      left: 5%;
-      width: 90%; }
-
-.sidebar {
-  position: fixed;
-  top: 50px;
-  left: 0;
-  bottom: 110px;
-  width: 190px;
-  margin-right: 1px;
-  padding: 15px 15px 30px 15px;
-  overflow-y: scroll;
-  background: #191e28;
-  border-top: 1px solid #191e28;
-  border-bottom: 1px solid #191e28;
-  color: white; }
-  .sidebar__description {
-    padding: 15px; }
-
-.sidebar--footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 190px;
-  border-top: 1px solid #393f4f;
-  padding: 15px;
-  text-align: center;
-  color: white;
-  background: #191e28; }
-
-.footer--loggedin {
-  height: 110px; }
-
-.footer--loggedout {
-  height: 150px; }
-
-@media (min-width: 768px) {
-  .mini-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 270px; }
-  .sidebar {
-    width: 270px;
-    bottom: 100px; }
-  .sidebar--footer {
-    width: 270px; }
-  .footer--loggedin {
-    height: 100px; }
-  .footer--loggedout {
-    height: 130px; } }
-
 .argument {
   border: 1px dashed #dddddd;
   border-radius: 5px;

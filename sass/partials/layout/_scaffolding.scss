@@ -15,16 +15,64 @@ html {
           box-sizing: inherit;
 }
 
+.app-rap {
+  display: flex;
+  flex-direction: column;
+  height:100vh;
 
-.main {
-  margin-left: $sidebarWidthSmall;
-  &__head {
-    padding:20px;  
-        
+  .header {
+    @include darkSection();
+    min-height:50px;
+    &__logo {
+      display:inline-block;
+      vertical-align: middle;
+    }
+    &__search {
+      display:inline-block;
+      vertical-align: middle;
+    }
   }
-  &__body {
-    padding:20px;
-  } 
+  
+  .body {
+    display: flex;
+    flex-grow: 1;
+
+    .sidebar-left {
+      display: flex;
+      flex-direction: column;
+      @include darkSection();
+      padding:10px;
+      &__body {
+        flex-grow: 1;
+        overflow-y: scroll;
+      }
+      &__footer {
+        text-align: center;
+      }
+    }
+    .main {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      @include lightSection();
+      overflow-y: scroll;
+      &__head {
+        padding:20px;  
+            
+      }
+      &__body {
+        padding:20px;
+      } 
+    }
+    .sidebar-right {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  .footer {
+
+  }
 }
 
 /* =====================================================
@@ -34,6 +82,6 @@ html {
 @include breakpoint(medium) { 
 
   .main {
-    margin-left: $sidebarWidthMedium;
+
   }
 }

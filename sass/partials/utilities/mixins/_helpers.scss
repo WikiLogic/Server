@@ -25,3 +25,13 @@
 	border-radius: 5px;
 	padding:10px;
 }
+
+@mixin darkSection(){
+	background: $darkBG;
+	color: $lightText;
+}
+
+@mixin lightSection(){
+	background: $lightBG;
+	color: $darkText;
+}
