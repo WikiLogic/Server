@@ -71,6 +71,26 @@ var express = require('express'),
 
 	});
 
+	//DELETE a draft claim, double check on the client side
+	router.post('/delete', function(req, res) {
+		console.log('deleting: ', req.body.draftClaimID);
+		
+
+		async.waterfall([
+			function(callback){
+				//1. Delete draft claim
+				DraftClaim.find({'_id':req.body.draftClaimID}).remove().exec(function(err,result){
+					if(err) res.status(500).send('DB error in deleting draftClaim');
+					res.status(200).send('draft claim deleted from DB');
+				});
+			},
+			function(callback){
+				//2. Delete refrence to draft claim from user's profile
+				
+			}
+		]);
+	});
+
 	//route to publish an individual claim to the public network
 	router.post('/publish', function(req, res){
 		//clean the input?

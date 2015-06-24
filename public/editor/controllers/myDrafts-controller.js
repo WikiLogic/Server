@@ -19,9 +19,19 @@ Editor.controller('MyDraftsController', ['$scope', '$rootScope', 'saviorOfClaims
 			$rootScope.user.meta.unPublished.splice(killDex, 1);
 			
 		}).error(function(){
-			console.log('publish service failed somehow :(');
+			//TODO: do something when publish fails
 		});
- 	 	
+ 	 }
+
+ 	 $scope.deleteDraft = function(draftClaim){
+ 	 	//TODO: double check that the user want's to do this
+ 	 	saviorOfClaims.deleteDraft(draftClaim).success(function(result){
+			console.log('draft claim deleted');
+			//TODO: remove it from interface
+			
+		}).error(function(){
+			//TODO: Do something when delete fails
+		});
  	 }
 
 

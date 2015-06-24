@@ -28,6 +28,16 @@ angular.module('Editor')
 					console.log('save claims service: Could not update claim - womp womp :(');
 				});
 			},
+			deleteDraft: function(draftClaim){
+				/*
+				 *
+				 */
+				return $http.post('/draft-claim/delete', {'draftClaimID':draftClaim._id}).success(function(data, status, headers, config) {
+					console.log('Claim deleted! ', data);
+				}).error(function(data, status, headers, config) {
+					console.log('save claims service: Could not delete draft - womp womp :(');
+				});
+			},
 			publishDraftClaim: function(draftClaim){
 				/*
 				 * Taking an existing draft claim and publishing it!
