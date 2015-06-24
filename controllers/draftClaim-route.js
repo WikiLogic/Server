@@ -22,21 +22,25 @@ var express = require('express'),
 		//clean the input?
 		var candidateClaim = req.body.draftClaim;
 		var currentUser = req.user;
+		var usersDraftIDarray = [];
 			
 		//1. Create new draft claim object
 		console.log('ONE');
 		var draftClaim = new DraftClaim;
 		draftClaim.description = candidateClaim.description;
-		draftClaim.meta.user = currentUser;
+		draftClaim.meta.author = currentUser._id;
 
 		async.waterfall([
 			function(callback){
-				//2.check if this description exists on the user's profile
-				//get array of draft id's from current user in db
-				var usersDraftIDarray = [];
-				//from that array, find any matching descriptions
-				draftClaim.find({'_id': { $in: usersDraftIDarray } })
-				//if match call err, else - continue and save!
+				//2. check to see if there are any identicle drafts by the current user
+				DraftClaim.find({'meta.author': currentUser._id, 'description':draftClaim.description}).exec(function(err,result){
+					if(err) console.log(err);
+					if (result.length > 0) {
+						res.status(500).send('Error: you aready have an identicle draft saved.');
+					} else {
+						callback(null);
+					}
+				});
 			},
 			function(callback){
 				//3. save draft claim object to database

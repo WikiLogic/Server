@@ -32,10 +32,14 @@ var draftClaimSchema = mongoose.Schema({
             ref: 'Argument'
     }],
     meta: {
+        author: {
+            type: Schema.ObjectId,
+            ref: 'User'
+        },
         created: {
             type: Date,
             default: Date.now
-        },
+        }
     }
 });
 
