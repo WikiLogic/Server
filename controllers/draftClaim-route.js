@@ -14,8 +14,8 @@ var express = require('express'),
  * 
  */
 
- 	/* SAVE DRAFT CLAIM (new or existing) TO USER PROFILE
- 	 * 
+ 	/* 
+ 	 * SAVE DRAFT CLAIM (new or existing) TO USER PROFILE
  	 */
 	router.post('/new', function(req, res) {
 		

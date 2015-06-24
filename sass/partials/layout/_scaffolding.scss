@@ -42,13 +42,14 @@ html {
       display: flex;
       flex-direction: column;
       @include darkSection();
-      padding:10px;
       &__body {
         flex-grow: 1;
         overflow-y: scroll;
+        padding:10px;
       }
       &__footer {
         text-align: center;
+        padding:10px;
       }
     }
     .main {
