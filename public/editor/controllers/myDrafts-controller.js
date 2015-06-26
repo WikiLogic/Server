@@ -29,6 +29,7 @@ Editor.controller('MyDraftsController', ['$scope', '$rootScope', 'saviorOfClaims
 			console.log('draft claim deleted');
 			//TODO: remove it from interface
 			
+			
 		}).error(function(){
 			//TODO: Do something when delete fails
 		});

@@ -74,6 +74,7 @@ var express = require('express'),
 	//DELETE a draft claim, double check on the client side
 	router.post('/delete', function(req, res) {
 		console.log('deleting: ', req.body.draftClaimID);
+		var currentUser = req.user;
 		
 
 		async.waterfall([
@@ -81,12 +82,20 @@ var express = require('express'),
 				//1. Delete draft claim
 				DraftClaim.find({'_id':req.body.draftClaimID}).remove().exec(function(err,result){
 					if(err) res.status(500).send('DB error in deleting draftClaim');
-					res.status(200).send('draft claim deleted from DB');
+					callback(null);
 				});
 			},
 			function(callback){
-				//2. Delete refrence to draft claim from user's profile
-				
+				//2.1 remove from user's list of drafts
+				var killDex = currentUser.meta.unPublished.indexOf(req.body.draftClaimID);
+				currentUser.meta.unPublished.splice(killDex, 1);
+
+				//2.2 Save modification of user to db
+				currentUser.save(function(err, result){
+					if(err) console.log('error in adding publishd claim to user profile', err);
+					console.log('Saved user :D ', result);
+					res.status(200).send();
+				});
 			}
 		]);
 	});
