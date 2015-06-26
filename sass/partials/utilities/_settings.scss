@@ -42,6 +42,8 @@ $darkerGrey:	#15181E;
 /* colors */
 
 $Carnation:		#F25454; //Red
+$redBerry:		#8B0000; //dark Red
+$rosewood:		#640000; //darker Red
 $Apple:			#31D332; //Green
 
 $redLight:		#FFA084;
@@ -58,7 +60,8 @@ $lightText:			$gallery;
 $lightBG:			$gallery; //for the light backgrounded main sections
 $darkText:			$middleGrey;
 
-
+$alertRed:			$redBerry;
+$alertRedBorder:	$rosewood;
 
 $textDark:			$darkerGrey;
 

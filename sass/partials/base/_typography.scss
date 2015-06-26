@@ -8,7 +8,9 @@ h3 {
 	margin:0 0 5px 0;
 	font-weight:300;
 }
-
+p {
+	margin:0;
+}
 a {
 	@include transition(0.1s);
 	color:#5f9aec;
