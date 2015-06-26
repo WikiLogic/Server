@@ -26,9 +26,18 @@ Editor.controller('MyDraftsController', ['$scope', '$rootScope', 'saviorOfClaims
  	 $scope.deleteDraft = function(draftClaim){
  	 	//TODO: double check that the user want's to do this
  	 	saviorOfClaims.deleteDraft(draftClaim).success(function(result){
-			console.log('draft claim deleted');
+			console.log('Kill ID ' + draftClaim._id);
+			console.log('kill list: ' + $rootScope.user.meta.unPublished);
+			var unPupList = $rootScope.user.meta.unPublished;
 			//TODO: remove it from interface
-			
+			for(var i = 0; i < unPupList.length; i++){
+				if (unPupList[i]._id == draftClaim._id){
+					var killDex = i;
+					break;
+				}
+			}
+			console.log('Killdex: ' + killDex);
+			$rootScope.user.meta.unPublished.splice(killDex, 1);
 			
 		}).error(function(){
 			//TODO: Do something when delete fails
