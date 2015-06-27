@@ -1,24 +1,22 @@
 'use strict';
 /**
- * 
+ * saveEdit(draftClaim)
+ *
+ * publishClaim(draftClaim)
+ *
+ * deleteDraft(draftClaim)
+ *
  */
 
-Editor.controller('MyDraftsController', ['$scope', '$rootScope', 'saviorOfClaims', function($scope, $rootScope, saviorOfClaims) {
+Editor.controller('draftEditorController', ['$scope', '$rootScope', 'saviorOfClaims', function($scope, $rootScope, saviorOfClaims) {
 
-	$rootScope.alerts = [];
-	var dummyAlert = {
-		type:'bad',
-		message:'dummy alert!'
-	}
-	$rootScope.alerts.push(dummyAlert);
-	var dummy2 = {
-		type:'bad',
-		message: 'message'
-	}
-	$rootScope.alerts.push(dummy2);
  	 /*
  	  * 
  	  */
+ 	 $scope.saveEdit = function(draftClaim){
+
+ 	 }
+
  	 $scope.publishClaim = function(claim){
  	 	console.log('going to publish ', claim);
  	 	saviorOfClaims.publishDraftClaim(claim).success(function(result){

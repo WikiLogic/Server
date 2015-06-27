@@ -1,6 +1,6 @@
 <form class="inputAddon">
-		<input type="text" class="inputAddon__field big" ng-model="newClaim.description" placeholder="write up a new claim here" />   
-	    <input type="submit" class="inputAddon__button" ng-click="saveToProfile(newClaim)" value="Save to Profile" />
+	<input type="text" class="inputAddon__field big" ng-model="newDraft.description" ng-change="newDescriptionCheck()" placeholder="write up a new claim here" />   
+	<input type="submit" class="inputAddon__button" ng-click="saveToProfile(newClaim)" value="Save to Profile" />
 </form>
 
 <!--

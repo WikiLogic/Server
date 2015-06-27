@@ -23,12 +23,12 @@
 			<div class="main__body">
 
 				<!-- The creat new claim component. -->
-				<div ng-controller="NewClaimController"> <!-- can't have controller and include on one div :( -->
+				<div ng-controller="NewDraftController"> <!-- can't have controller and include on one div :( -->
 					<div ng-include src="'/partials/newClaim-partial.html'"></div>
 				</div>
 
 				<!-- Draft claim editor -->
-				<div class="draft-claim-editor">
+				<div ng-controller="draftEditorController" class="draft-claim-editor">
 					
 					<div class="draft-claim-editor__claim">
 						<!-- if draft then contentEditable -->
@@ -112,7 +112,8 @@
 <script src="/editor/services/saveClaims-service.js"></script>
 <script src="/editor/services/myData-service.js"></script>
 <script src="/editor/services/notification-service.js"></script>
-<script src="/editor/controllers/newClaim-controller.js"></script>
+<script src="/editor/controllers/newDraft-controller.js"></script>
+<script src="/editor/controllers/draftEditor-controller.js"></script>
 <script src="/editor/controllers/myProfile-controller.js"></script>
 <script src="/editor/controllers/myDrafts-controller.js"></script>
 <script src="/editor/controllers/myClaims-controller.js"></script>

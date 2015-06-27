@@ -4,13 +4,21 @@
  * deals with defining new claims.
  */
 
-Editor.controller('NewClaimController', ['$scope', '$rootScope', 'saviorOfClaims', function($scope, $rootScope, saviorOfClaims) {
+Editor.controller('NewDraftController', ['$scope', '$rootScope', 'saviorOfClaims', function($scope, $rootScope, saviorOfClaims) {
 
  	/*
  	 * 
  	 */
 
- 	 $scope.newClaim = {};
+ 	 $scope.newDraft = {};
+
+ 	 /*
+ 	  * Fires when the user is typing in the description for a new draft claim 
+ 	  * also when editing an existing draftClaim
+ 	  */
+ 	 $scope.newDescriptionCheck = function(){
+ 	 	console.log('typing description! ', $scope.newDraft.description);
+ 	 }
 
  	 /*
  	  * Take what's in the draft claim input, pass it to the servcice to save,
