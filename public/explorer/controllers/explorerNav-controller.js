@@ -4,7 +4,7 @@
  * deals with the various types of lists that get laied out
  */
 
-Explorer.controller('ListController', ['$scope', '$rootScope', 'getterOfClaims', function($scope, $rootScope, getterOfClaims) {
+Explorer.controller('ExplorerNavController', ['$scope', '$rootScope', 'getterOfClaims', function($scope, $rootScope, getterOfClaims) {
 
  	/*
  	 * In this controller we need to deal with the changing between different types of lists

@@ -4,7 +4,7 @@
 	{{/unless}}
 
 	{{#if loggedIn}}
-	<div class="editor-nav">
+	<div class="editor-nav" ng-controller="EditorNavController">
 		<div class="nav-sidebar">
 			<h3><a href="/editor">EDITOR</a></h3>
 			<a href="#"><img src="/icons/white/pencil.svg"><p>My Drafts</p></a>
@@ -25,7 +25,7 @@
 	<!-- This alwayse shows, the other two are for logged in people ONLY! :D -->
 	<!-- Important note for a tiny detail, keep the logged out version of this menu small otherwise the scrollbar 
 	will appear and it will dip below the sidebar footer which isn't really my jam -->
-	<div class="explorer-nav" ng-controller="ListController">
+	<div class="explorer-nav" ng-controller="ExplorerNavController">
 		<div class="nav-sidebar">
 			<h3><a href="/">EXPLORER</a></h3>
 			<a href="#" ng-click="setListOrderTo('recent')"><img src="/icons/white/clock.svg"><p>Recent</p></a>
