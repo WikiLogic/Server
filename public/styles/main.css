@@ -8,7 +8,6 @@
 .icon-history {
   background-image: url(/images/icons/history.svg); }
 
-/* expand / close */
 /*! normalize.css v3.0.1 | MIT License | git.io/normalize */
 /**
  * 1. Set default font family to sans-serif.
@@ -779,60 +778,55 @@ button {
     vertical-align: middle;
     text-align: right; }
 
-.draft-claim-editor {
-  /* Ease all the movments */
-  -webkit-transition: 0.5s linear all;
-  transition: 0.5s linear all; }
-  .draft-claim-editor.close {
-    height: 20px; }
-  .draft-claim-editor__claim {
-    width: 100%;
-    text-align: center; }
-  .draft-claim-editor__args-row {
+.draft-claim-editor__claim {
+  width: 100%;
+  text-align: center; }
+
+.draft-claim-editor__args-row {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex; }
+  .draft-claim-editor__args-row__for-column {
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+        -ms-flex-positive: 1;
+            flex-grow: 1; }
+  .draft-claim-editor__args-row__spacer-column {
+    width: 10px; }
+  .draft-claim-editor__args-row__against-column {
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+        -ms-flex-positive: 1;
+            flex-grow: 1; }
+  .draft-claim-editor__args-row__column-title {
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
-    display: flex; }
-    .draft-claim-editor__args-row__for-column {
+    display: flex;
+    border-bottom: 1px solid #393f4f;
+    margin-top: 20px;
+    margin-bottom: 5px;
+    margin-bottom: 15px;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+    padding: 4px; }
+    .draft-claim-editor__args-row__column-title h3 {
       -webkit-box-flex: 1;
       -webkit-flex-grow: 1;
           -ms-flex-positive: 1;
               flex-grow: 1; }
-    .draft-claim-editor__args-row__spacer-column {
-      width: 10px; }
-    .draft-claim-editor__args-row__against-column {
-      -webkit-box-flex: 1;
-      -webkit-flex-grow: 1;
-          -ms-flex-positive: 1;
-              flex-grow: 1; }
-    .draft-claim-editor__args-row__column-title {
-      display: -webkit-box;
-      display: -webkit-flex;
-      display: -ms-flexbox;
-      display: flex;
-      border-bottom: 1px solid #393f4f;
-      margin-top: 20px;
-      margin-bottom: 5px;
-      margin-bottom: 15px;
-      display: flex;
-      -webkit-box-align: center;
-      -webkit-align-items: center;
-          -ms-flex-align: center;
-              align-items: center;
-      padding: 4px; }
-      .draft-claim-editor__args-row__column-title h3 {
-        -webkit-box-flex: 1;
-        -webkit-flex-grow: 1;
-            -ms-flex-positive: 1;
-                flex-grow: 1; }
-      .draft-claim-editor__args-row__column-title .btn {
-        opacity: 0; }
-      .draft-claim-editor__args-row__column-title:hover {
+    .draft-claim-editor__args-row__column-title .btn {
+      opacity: 0; }
+    .draft-claim-editor__args-row__column-title:hover {
+      background: white; }
+      .draft-claim-editor__args-row__column-title:hover .btn {
+        opacity: 1; }
+      .draft-claim-editor__args-row__column-title:hover ~ .ng-scope {
         background: white; }
-        .draft-claim-editor__args-row__column-title:hover .btn {
-          opacity: 1; }
-        .draft-claim-editor__args-row__column-title:hover ~ .ng-scope {
-          background: white; }
 
 .notification-wrap {
   position: absolute;
