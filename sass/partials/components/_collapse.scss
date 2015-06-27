@@ -1,0 +1,20 @@
+.js-collapsable {
+	
+	&-title {
+		position:relative;
+	}
+	&--btn {
+		position:absolute;
+		top:4px;
+		left:5px;
+		width:12px;
+		height:12px;
+		cursor:pointer;
+		background: url('/icons/black/minus.svg') no-repeat center;
+	}
+	&-title.collapsed {
+		.js-collapsable--btn {
+			background: url('/icons/black/plus.svg') no-repeat center;
+		}
+	}
+}
