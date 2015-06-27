@@ -1,4 +1,6 @@
 .draft-claim-editor {
+	@include expander();
+	
 	&__claim {
 		width:100%;
 		text-align:center;
