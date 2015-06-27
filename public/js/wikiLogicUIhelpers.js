@@ -1,3 +1,5 @@
+/* Not actually used anymore, UX changed */
+
 var wikiLogicUI = {
     'init': function()
     {
