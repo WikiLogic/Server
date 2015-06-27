@@ -21,11 +21,17 @@
 			</div>
 
 			<div class="main__body">
+				<!-- Client side Views / routes set up in editor-app.js -->
+				<div ng-view>
+					
+				</div>
 
 				<!-- The creat new claim component. -->
-				<div ng-controller="NewDraftController"> <!-- can't have controller and include on one div :( -->
+				<!--
+				<div ng-controller="NewDraftController">
 					<div ng-include src="'/partials/newClaim-partial.html'"></div>
 				</div>
+				-->
 
 				<!-- Draft claim editor -->
 				<div ng-controller="draftEditorController" class="draft-claim-editor">
@@ -63,14 +69,14 @@
 				</div>
 
 				<!-- List my claims in progress -->
-				<div ng-controller="MyDraftsController">
+				<!--<div ng-controller="MyDraftsController">
 					<div class="draft-list-title js-collapsable-title">
 						<h3>My claims in progress</h3>
 					</div>
-					<div class="js-collapsable-content"><!-- makes content collapsible -->
-						<div ng-repeat="claim in user.meta.unPublished" ng-include src="'/partials/claimDraft-partial.html'"></div>
+					<div class="js-collapsable-content">
+						<div ng-repeat="claim in user.meta.unPublished" ng-include src="'/partials/drafts/singleDraftClaim-partial.html'"></div>
 					</div>
-				</div>
+				</div>-->
 
 				<!-- List my published claims -->
 				<div ng-controller="MyClaimsController">

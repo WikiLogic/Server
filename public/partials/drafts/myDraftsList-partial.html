@@ -1,0 +1,8 @@
+<div> <!-- MyDraftsController set by editor-app.js -->
+	<div class="draft-list-title js-collapsable-title">
+		<h3>My claims in progress</h3>
+	</div>
+	<div class="js-collapsable-content"><!-- makes content collapsible -->
+		<div ng-repeat="claim in user.meta.unPublished" ng-include src="'/partials/drafts/singleDraftClaim-partial.html'"></div>
+	</div>
+</div>
