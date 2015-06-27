@@ -25,7 +25,7 @@ var express = require('express'),
 		var usersDraftIDarray = [];
 			
 		//1. Create new draft claim object
-		console.log('ONE');
+		console.log('CANDIDATE CLAIM ', candidateClaim);
 		var draftClaim = new DraftClaim;
 		draftClaim.description = candidateClaim.description;
 		draftClaim.meta.author = currentUser._id;
