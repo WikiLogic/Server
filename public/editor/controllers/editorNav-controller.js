@@ -1,10 +1,10 @@
 'use strict';
 /**
- * The Explorer list controller,
+ * The Editora list controller,
  * deals with the various types of lists that get laied out
  */
 console.log('hi');
-Explorer.controller('EditorNavController', ['$scope', '$rootScope', '$location', 'getterOfClaims', function($scope, $rootScope, $location, getterOfClaims) {
+Editor.controller('EditorNavController', ['$scope', '$rootScope', '$location', 'getterOfClaims', function($scope, $rootScope, $location, getterOfClaims) {
 
  	/*
  	 * In this controller we need to deal with the changing between different types of lists
