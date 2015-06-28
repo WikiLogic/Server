@@ -1,0 +1,8 @@
+<div> <!-- ng-controller="MyTrashController" -->
+	<div class="deleted-list-title js-collapsable-title">
+		<h3>Deleted drafts</h3>
+	</div>
+	<div class="js-collapsable-content">
+		<div ng-repeat="claim in user.meta.trashed" ng-include src="'/partials/drafts/trashedDraft-partial.html'"></div>
+	</div>
+</div>

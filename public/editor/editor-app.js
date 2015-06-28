@@ -7,11 +7,23 @@ Editor.config(function($routeProvider){
 	$routeProvider
 		.when("/editor", {
 			templateUrl: "/partials/newClaim-partial.html",
-			controller: "NewDraftController"
+			controller: "NewDraftController",
+			controllerAs: "NewDraftController"
 		})
-		.when("/editor/my-drafts",	{
+		.when("/my-drafts",	{
 			templateUrl: "/partials/drafts/myDraftsList-partial.html",
-			controller: "MyDraftsController"
+			controller: "MyDraftsController",
+			controllerAs: "MyDraftsController"
+		})
+		.when("/my-published",	{
+			templateUrl: "/partials/claims/claimsList-partial.html",
+			controller: "MyPublishedController",
+			controllerAs: "MyPublishedController"
+		})
+		.when("/my-trash",	{
+			templateUrl: "/partials/drafts/trashedDraftsList-partial.html",
+			controller: "MyDraftsController",
+			controllerAs: "MyDraftsController"
 		});
 	//End routeProvider
 

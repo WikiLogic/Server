@@ -5,7 +5,7 @@
  * the controller name is a duplicate of the Explorer as the list controlls are common but function differently in each app
  */
 
-Editor.controller('MyClaimsController', ['$scope', '$rootScope', 'getterOfUsers', function($scope, $rootScope, getterOfUsers) {
+Editor.controller('MyPublishedController', ['$scope', '$rootScope', 'getterOfUsers', function($scope, $rootScope, getterOfUsers) {
 
  	 /*
  	  * Once the client side is loaded - this fires off another request to get the list

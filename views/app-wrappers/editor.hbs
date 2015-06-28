@@ -21,52 +21,19 @@
 			</div>
 
 			<div class="main__body">
+
+				<div ng-controller="NewDraftController">
+					<div ng-include src="'/partials/drafts/newDraft-partial.html'"></div>
+				</div>
+
 				<!-- Client side Views / routes set up in editor-app.js -->
 				<div ng-view>
 					
 				</div>
 
-				<!-- The creat new claim component. -->
-				<!--
-				<div ng-controller="NewDraftController">
-					<div ng-include src="'/partials/newClaim-partial.html'"></div>
-				</div>
-				-->
 
 				<!-- Draft claim editor -->
-				<div ng-controller="draftEditorController" class="draft-claim-editor">
-					
-					<div class="draft-claim-editor__claim js-collapsable-title">
-						<!-- if draft then contentEditable -->
-						<h1 contentEditable="true">Main claim here</h1>
-					</div>
-
-					<div class="draft-claim-editor__args-row js-collapsable-content">
-						<div class="draft-claim-editor__args-row__for-column">
-							<div class="draft-claim-editor__args-row__column-title">
-								<h3>For</h3>
-								<div class="btn btn--small">Add argument</div>
-							</div>
-
-							<div ng-include src="'/partials/argument-partial.html'"></div>
-							<div ng-include src="'/partials/argument-partial.html'"></div>							
-
-						</div>
-
-						<div class="draft-claim-editor__args-row__spacer-column"></div>
-						
-						<div class="draft-claim-editor__args-row__against-column">
-							<div class="draft-claim-editor__args-row__column-title">
-								<h3>Against</h3>
-								<div class="btn btn--small">Add argument</div>
-							</div>
-							
-							<div ng-include src="'/partials/argument-partial.html'"></div>
-							<div ng-include src="'/partials/argument-partial.html'"></div>		
-
-						</div>
-					</div>
-				</div>
+				
 
 				<!-- List my claims in progress -->
 				<!--<div ng-controller="MyDraftsController">
@@ -79,6 +46,7 @@
 				</div>-->
 
 				<!-- List my published claims -->
+				<!--
 				<div ng-controller="MyClaimsController">
 					<div class="published-list-title js-collapsable-title">
 						<h3>My published claims</h3>
@@ -86,9 +54,10 @@
 					<div class="js-collapsable-content">
 						<div ng-repeat="claim in user.meta.published" ng-include src="'/partials/claimPreview-partial.html'"></div>
 					</div>
-				</div>
+				</div>-->
 
 				<!-- List my deleted drafts -->
+				<!--
 				<div ng-controller="MyTrashController">
 					<div class="deleted-list-title js-collapsable-title">
 						<h3>Deleted drafts</h3>
@@ -96,7 +65,7 @@
 					<div class="js-collapsable-content">
 						<div ng-repeat="claim in user.meta.trashed" ng-include src="'/partials/claimDraft-partial.html'"></div>
 					</div>
-				</div>
+				</div>-->
 
 			</div>
 
@@ -129,7 +98,7 @@
 <script src="/editor/controllers/draftEditor-controller.js"></script>
 <script src="/editor/controllers/myProfile-controller.js"></script>
 <script src="/editor/controllers/myDrafts-controller.js"></script>
-<script src="/editor/controllers/myClaims-controller.js"></script>
+<script src="/editor/controllers/myPublished-controller.js"></script>
 <script src="/editor/controllers/myTrash-controller.js"></script>
 <script src="/editor/controllers/editorNav-controller.js"></script>
 <!-- <script src="/editor/controllers/editorList-controller.js"></script> -->
