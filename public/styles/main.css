@@ -505,6 +505,8 @@ input, textarea {
       width: 16px; }
     .nav-sidebar a:hover {
       background-color: #393f4f; }
+    .nav-sidebar a.active {
+      background-color: #393f4f; }
 
 /* =====================================================
 =======================================   Mobile and up

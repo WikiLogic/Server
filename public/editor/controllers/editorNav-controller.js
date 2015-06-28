@@ -4,7 +4,7 @@
  * deals with the various types of lists that get laied out
  */
 
-Explorer.controller('EditorNavController', ['$scope', '$rootScope', 'getterOfClaims', function($scope, $rootScope, getterOfClaims) {
+Explorer.controller('EditorNavController', ['$scope', '$rootScope', '$location', 'getterOfClaims', function($scope, $rootScope, $location, getterOfClaims) {
 
  	/*
  	 * In this controller we need to deal with the changing between different types of lists
@@ -38,6 +38,14 @@ Explorer.controller('EditorNavController', ['$scope', '$rootScope', 'getterOfCla
 			console.log('getting the claims failed somehow');
 		});
 		
+ 	 }
+
+ 	 $scope.checkNav = function(btnPath){
+ 	 	console.log('button path: ', btnPath);
+ 	 	console.log('location.path: ', $location.path());
+ 	 	if(btnPath == $location.path()){
+ 	 		return 'active';
+ 	 	}
  	 }
 
 }]);

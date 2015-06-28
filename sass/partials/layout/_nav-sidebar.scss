@@ -26,5 +26,8 @@
 		&:hover {
 			background-color: $sidebarBGlight;
 		}
+		&.active {
+			background-color: $sidebarBGlight;
+		}
 	}
 }
