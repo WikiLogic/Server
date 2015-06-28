@@ -20,52 +20,8 @@
 				
 			</div>
 
-			<div class="main__body">
-
-				<div ng-controller="NewDraftController">
-					<div ng-include src="'/partials/drafts/newDraft-partial.html'"></div>
-				</div>
-
-				<!-- Client side Views / routes set up in editor-app.js -->
-				<div ng-view>
-					
-				</div>
-
-
-				<!-- Draft claim editor -->
-				
-
-				<!-- List my claims in progress -->
-				<!--<div ng-controller="MyDraftsController">
-					<div class="draft-list-title js-collapsable-title">
-						<h3>My claims in progress</h3>
-					</div>
-					<div class="js-collapsable-content">
-						<div ng-repeat="claim in user.meta.unPublished" ng-include src="'/partials/drafts/singleDraftClaim-partial.html'"></div>
-					</div>
-				</div>-->
-
-				<!-- List my published claims -->
-				<!--
-				<div ng-controller="MyClaimsController">
-					<div class="published-list-title js-collapsable-title">
-						<h3>My published claims</h3>
-					</div>
-					<div class="js-collapsable-content">
-						<div ng-repeat="claim in user.meta.published" ng-include src="'/partials/claimPreview-partial.html'"></div>
-					</div>
-				</div>-->
-
-				<!-- List my deleted drafts -->
-				<!--
-				<div ng-controller="MyTrashController">
-					<div class="deleted-list-title js-collapsable-title">
-						<h3>Deleted drafts</h3>
-					</div>
-					<div class="js-collapsable-content">
-						<div ng-repeat="claim in user.meta.trashed" ng-include src="'/partials/claimDraft-partial.html'"></div>
-					</div>
-				</div>-->
+			<!-- Client side Views / routes set up in editor-app.js -->
+			<div class="main__body" ng-view>
 
 			</div>
 

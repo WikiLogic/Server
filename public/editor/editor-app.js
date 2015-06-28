@@ -10,6 +10,11 @@ Editor.config(function($routeProvider){
 			controller: "NewDraftController",
 			controllerAs: "NewDraftController"
 		})
+		.when("/new-draft",	{
+			templateUrl: "/partials/drafts/newDraft-partial.html",
+			controller: "NewDraftController",
+			controllerAs: "NewDraftController"
+		})
 		.when("/my-drafts",	{
 			templateUrl: "/partials/drafts/myDraftsList-partial.html",
 			controller: "MyDraftsController",
