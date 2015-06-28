@@ -24,16 +24,14 @@
 	{{/if}}	
 
 	<!-- This alwayse shows, the other two are for logged in people ONLY! :D -->
-	<!-- Important note for a tiny detail, keep the logged out version of this menu small otherwise the scrollbar 
-	will appear and it will dip below the sidebar footer which isn't really my jam -->
 	<div class="explorer-nav" ng-controller="ExplorerNavController">
 		<div class="nav-sidebar">
 			<h3><a href="/">EXPLORER</a></h3>
-			<a href="#" ng-click="setListOrderTo('recent')"><img src="/icons/white/clock.svg"><p>Recent</p></a>
-			<a href="#" ng-click="setListOrderTo('popular')"><img src="/icons/white/graph.svg"><p>Popular</p></a>
-			<a href="#" ng-click="setListOrderTo('influence')"><img src="/icons/white/globe.svg"><p>Influential</p></a>
-			<a href="#" ng-click="setListOrderTo('capricious')"><img src="/icons/white/fire.svg"><p>Capricious</p></a>
-			<a href="#" ng-click="setListOrderTo('random')"><img src="/icons/white/random.svg"><p>Random</p></a>
+			<a href="#" ng-click="setListOrderTo('recent')" ng-class="checkNav('recent')"><img src="/icons/white/clock.svg"><p>Recent</p></a>
+			<a href="#" ng-click="setListOrderTo('popular')" ng-class="checkNav('popular')"><img src="/icons/white/graph.svg"><p>Popular</p></a>
+			<a href="#" ng-click="setListOrderTo('influence')" ng-class="checkNav('influence')"><img src="/icons/white/globe.svg"><p>Influential</p></a>
+			<a href="#" ng-click="setListOrderTo('capricious')" ng-class="checkNav('capricious')"><img src="/icons/white/fire.svg"><p>Capricious</p></a>
+			<a href="#" ng-click="setListOrderTo('random')" ng-class="checkNav('random')"><img src="/icons/white/random.svg"><p>Random</p></a>
 		</div>	
 	</div>
 </div>

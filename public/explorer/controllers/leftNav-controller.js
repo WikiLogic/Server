@@ -3,8 +3,8 @@
  * The Explorer list controller,
  * deals with the various types of lists that get laied out
  */
-console.log('hi');
-Explorer.controller('EditorNavController', ['$scope', '$rootScope', '$location', 'getterOfClaims', function($scope, $rootScope, $location, getterOfClaims) {
+
+Explorer.controller('ExplorerNavController', ['$scope', '$rootScope', '$location', 'getterOfClaims', function($scope, $rootScope, $location, getterOfClaims) {
 
  	/*
  	 * In this controller we need to deal with the changing between different types of lists
@@ -19,16 +19,20 @@ Explorer.controller('EditorNavController', ['$scope', '$rootScope', '$location',
  	 * May have to define a style guide if we're going to pass in parameters to these options.
  	 */
 
- 	 $rootScope.editorList = {
+ 	 $rootScope.list = {
  	 	listType:'default'
  	 }
 
+ 	/*
+ 	 * Whenever there's a list of claims showing, it's running of $rootScope.list
+ 	 * This allows
+ 	 */
 	$scope.setListOrderTo = function(sortBy){
 
 		getterOfClaims.getListOfClaimsBy(sortBy).success(function(result){
 
 			var listArray = result;
-			
+
 			$rootScope.list = {
 				claims:listArray,
 				listType: 'recent'
@@ -37,7 +41,7 @@ Explorer.controller('EditorNavController', ['$scope', '$rootScope', '$location',
 		}).error(function(){
 			console.log('getting the claims failed somehow');
 		});
-		
+
 	}
 
 	$scope.checkNav = function(btnPath){

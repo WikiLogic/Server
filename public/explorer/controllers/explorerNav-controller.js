@@ -19,25 +19,35 @@ Explorer.controller('ExplorerNavController', ['$scope', '$rootScope', 'getterOfC
  	 * May have to define a style guide if we're going to pass in parameters to these options.
  	 */
 
- 	 $rootScope.list = {
- 	 	listType:'default'
- 	 }
+	$rootScope.list = {
+		order:'default'
+	}
 
- 	 $scope.setListOrderTo = function(sortBy){
+	$scope.setListOrderTo = function(sortBy){
 
 		getterOfClaims.getListOfClaimsBy(sortBy).success(function(result){
 
 			var listArray = result;
-			
+
 			$rootScope.list = {
 				claims:listArray,
-				listType: 'recent'
+				order: sortBy
 			}
 
 		}).error(function(){
 			console.log('getting the claims failed somehow');
 		});
-		
- 	 }
+
+	}
+
+	/*
+	 * Similar to the Editor Nav's check nav, except this runs off the rootScope list type
+	 */
+	$scope.checkNav = function(order){
+		console.log('Explorer check nav');
+		if(order == $rootScope.list.order){
+			return 'active';
+		}
+	}
 
 }]);
