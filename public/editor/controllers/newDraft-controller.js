@@ -9,6 +9,8 @@ Editor.controller('NewDraftController', ['$scope', '$rootScope', 'saviorOfClaims
  	/*
  	 * 
  	 */
+ 	var duplicateCheck = false;
+ 	var submitBtn = document.getElementById("js-saveDraftBtn");
 
  	 $scope.newDraft = {
  	 	description:'',
@@ -21,11 +23,23 @@ Editor.controller('NewDraftController', ['$scope', '$rootScope', 'saviorOfClaims
  	  */
  	 $scope.newDescriptionCheck = function(){
 
- 	 	//On every change - check if there are any identical claims in the user's draftlist. Highlight them.
+ 	 	/*
+ 	 	 * On every change - TODO: look through and arrange the existing draft claims
+		 * Currently, this checks for duplicates in the user's drafts
+		 * If there is, block the submit button
+		 * if not, unblock the submit button (but only if it's blocked - don't want too much painting going on!)
+ 	 	 */
  	 	for(var i = 0; i<$scope.user.meta.unPublished.length; i++){
  	 		if ($scope.user.meta.unPublished[i].description == $scope.newDraft.description){
- 	 			console.log('we have a draft description match!');
- 	 			//add in draft claims list - pop in?
+ 	 			submitBtn.value = "duplicate";
+ 	 			submitBtn.disabled = true;
+ 	 			duplicateCheck = true;
+ 	 		} else {
+ 	 			if (duplicateCheck){
+ 	 				submitBtn.value = "Save draft";
+ 	 				submitBtn.disabled = false;
+ 	 				duplicateCheck = false;
+ 	 			}
  	 		}
  	 	}
 
