@@ -25,6 +25,7 @@ Editor.controller('NewDraftController', ['$scope', '$rootScope', 'saviorOfClaims
  	 	for(var i = 0; i<$scope.user.meta.unPublished.length; i++){
  	 		if ($scope.user.meta.unPublished[i].description == $scope.newDraft.description){
  	 			console.log('we have a draft description match!');
+ 	 			//add in draft claims list - pop in?
  	 		}
  	 	}
 

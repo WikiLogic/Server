@@ -5,14 +5,8 @@
 	</form>
 </div>
 
-<!--
-should only show for existing claims (when save is clicked and arguments provided)
-<p>Write up your claim here.  When saved it will save to your profile and won't be public.  If your claim does not have any arguments you cannot publish (free standing 'nodes' like this will be cleared out once a day anyway so it would be pointless.</p>
-<p>Once published you cannot edit the text of a claim, to change it you will have to create another / clone and edit the old.  Although, the arguments may change?</p>
-<p>It is possible we will need a process to remove 'messy' claims.</p>
-
-<p>list of any existing claims that seem similar to the one being written out (don't get on every letter, we're not google! Maybe on every word from the 5t word.</p>
-
-<p>search shoudl result in claims showing below here that might be linked to current claim.</p>
-<p>You cannot use an unpublished claim as a reason within an argument.</p>
--->
+<div ng-controller="MyDraftsController">
+	<div ng-include src="'/partials/drafts/myDraftsList-partial.html'">
+		
+	</div>
+</div>
