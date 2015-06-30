@@ -22,15 +22,28 @@ Explorer.controller('ExplorerNavController', ['$scope', '$rootScope', 'getterOfC
 	$rootScope.list = {
 		order:'default'
 	}
+	var previousNavBtnId;
 
 	/*
 	 * This gets called by the navigation, we do our thing, then we call the router
 	 */
-	$scope.navigate = function(to){
-		console.log('Explorer navigating to: ', to);
+	$scope.navigate = function(section, verb){
+		console.log('Editor navigating to: ', section, ' | to:', verb);
+		if (section == 'explore'){
+			//Get list results
+			setListOrderTo(verb);
+
+			//highlight button
+			var newButtonID = "#js-nav-" + verb;
+			$(previousNavBtnId).removeClass('active');
+			$(newButtonID).addClass('active');
+			previousNavBtnId = newButtonID;
+			
+			//set url
+		}
 	}
 
-	$scope.setListOrderTo = function(sortBy){
+	var setListOrderTo = function(sortBy){
 
 		getterOfClaims.getListOfClaimsBy(sortBy).success(function(result){
 

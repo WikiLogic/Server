@@ -3,7 +3,7 @@
  * The Editora list controller,
  * deals with the various types of lists that get laied out
  */
-console.log('hi');
+ 
 Editor.controller('EditorNavController', ['$scope', '$rootScope', '$location', 'getterOfClaims', function($scope, $rootScope, $location, getterOfClaims) {
 
  	/*
@@ -26,8 +26,20 @@ Editor.controller('EditorNavController', ['$scope', '$rootScope', '$location', '
 	/*
 	 * This gets called by the navigation, we do our thing, then we call the router
 	 */
-	$scope.navigate = function(to){
-		console.log('Editor navigating to: ', to);
+	$scope.navigate = function(section, verb){
+		console.log('Editor navigating to: ', section, ' | to:', verb);
+		if (section == 'explore'){
+			//Get list results
+			setListOrderTo(verb);
+
+			//highlight button
+			var newButtonID = "#js-nav-" + verb;
+			$(previousNavBtnId).removeClass('active');
+			$(newButtonID).addClass('active');
+			previousNavBtnId = newButtonID;
+			
+			//set url
+		}
 	}
 
 	$scope.setListOrderTo = function(sortBy){
