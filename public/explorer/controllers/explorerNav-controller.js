@@ -23,6 +23,13 @@ Explorer.controller('ExplorerNavController', ['$scope', '$rootScope', 'getterOfC
 		order:'default'
 	}
 
+	/*
+	 * This gets called by the navigation, we do our thing, then we call the router
+	 */
+	$scope.navigate = function(to){
+		console.log('Explorer navigating to: ', to);
+	}
+
 	$scope.setListOrderTo = function(sortBy){
 
 		getterOfClaims.getListOfClaimsBy(sortBy).success(function(result){
@@ -38,16 +45,6 @@ Explorer.controller('ExplorerNavController', ['$scope', '$rootScope', 'getterOfC
 			console.log('getting the claims failed somehow');
 		});
 
-	}
-
-	/*
-	 * Similar to the Editor Nav's check nav, except this runs off the rootScope list type
-	 */
-	$scope.checkNav = function(order){
-		console.log('Explorer check nav');
-		if(order == $rootScope.list.order){
-			return 'active';
-		}
 	}
 
 }]);

@@ -5,8 +5,8 @@ var Editor = angular.module('Editor', ['Explorer', 'ngRoute']);
 Editor.config(function($routeProvider){
 	console.log('setting up the routes');
 	$routeProvider
-		.when("/editor", {
-			templateUrl: "/partials/newClaim-partial.html",
+		.when("/", {
+			templateUrl: "/partials/drafts/newDraft-partial.html",
 			controller: "NewDraftController",
 			controllerAs: "NewDraftController"
 		})

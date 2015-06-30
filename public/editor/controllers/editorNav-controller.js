@@ -19,9 +19,16 @@ Editor.controller('EditorNavController', ['$scope', '$rootScope', '$location', '
  	 * May have to define a style guide if we're going to pass in parameters to these options.
  	 */
 
- 	 $rootScope.editorList = {
- 	 	listType:'default'
- 	 }
+	$rootScope.editorList = {
+		listType:'default'
+	}
+
+	/*
+	 * This gets called by the navigation, we do our thing, then we call the router
+	 */
+	$scope.navigate = function(to){
+		console.log('Editor navigating to: ', to);
+	}
 
 	$scope.setListOrderTo = function(sortBy){
 
@@ -40,12 +47,5 @@ Editor.controller('EditorNavController', ['$scope', '$rootScope', '$location', '
 		
 	}
 
-	$scope.checkNav = function(btnPath){
-		console.log('button path: ', btnPath);
-		console.log('location.path: ', $location.path());
-		if(btnPath == $location.path()){
-			return 'active';
-		}
-	}
 
 }]);

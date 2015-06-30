@@ -1,16 +1,18 @@
-<div class="sidebar-left__body">
-	{{#unless loggedIn}}
-	<p>Quick description</p>
-	{{/unless}}
+<!-- Setting the app-specific controller -->
+{{#if loggedIn}}
+<div class="sidebar-left__body" ng-controller="EditorNavController">
+{{else}}
+<div class="sidebar-left__body" ng-controller="ExplorerNavController">
+{{/if}}	
 
 	{{#if loggedIn}}
-	<div class="editor-nav" ng-controller="EditorNavController">
+	<div class="editor-nav">
 		<div class="nav-sidebar">
 			<h3><a href="/editor">EDITOR</a></h3>
-			<a ng-href="#new-draft" ng-class="checkNav('/new-draft')"><img src="/icons/white/plus.svg"><p>New Draft</p></a>
-			<a ng-href="#my-drafts" ng-class="checkNav('/my-drafts')"><img src="/icons/white/pencil.svg"><p>My Drafts</p></a>
-			<a ng-href="#my-published" ng-class="checkNav('/my-published')"><img src="/icons/white/infinity.svg"><p>My Published</p></a>
-			<a ng-href="#my-trash" ng-class="checkNav('/my-trash')"><img src="/icons/white/trash.svg"><p>Trash</p></a>
+			<a ng-href="#" ng-click="navigate('new-draft')" id="js-nav-new-draft"><img src="/icons/white/plus.svg"><p>New Draft</p></a>
+			<a ng-href="#" ng-click="navigate('my-drafts')" id="js-nav-my-drafts"><img src="/icons/white/pencil.svg"><p>My Drafts</p></a>
+			<a ng-href="#" ng-click="navigate('my-published')" id="js-nav-my-published"><img src="/icons/white/infinity.svg"><p>My Published</p></a>
+			<a ng-href="#" ng-click="navigate('my-trash')" id="js-nav-my-trash"><img src="/icons/white/trash.svg"><p>Trash</p></a>
 		</div>
 	</div>
 	<div class="profile-nav">
@@ -21,17 +23,19 @@
 			<a href="#"><img src="/icons/white/eye.svg"><p>Watching</p></a>
 		</div>
 	</div>
+	{{else}}
+	<p>Quick description</p>
 	{{/if}}	
 
 	<!-- This alwayse shows, the other two are for logged in people ONLY! :D -->
-	<div class="explorer-nav" ng-controller="ExplorerNavController">
+	<div class="explorer-nav">
 		<div class="nav-sidebar">
 			<h3><a href="/">EXPLORER</a></h3>
-			<a href="#" ng-click="setListOrderTo('recent')" ng-class="checkNav('recent')"><img src="/icons/white/clock.svg"><p>Recent</p></a>
-			<a href="#" ng-click="setListOrderTo('popular')" ng-class="checkNav('popular')"><img src="/icons/white/graph.svg"><p>Popular</p></a>
-			<a href="#" ng-click="setListOrderTo('influence')" ng-class="checkNav('influence')"><img src="/icons/white/globe.svg"><p>Influential</p></a>
-			<a href="#" ng-click="setListOrderTo('capricious')" ng-class="checkNav('capricious')"><img src="/icons/white/fire.svg"><p>Capricious</p></a>
-			<a href="#" ng-click="setListOrderTo('random')" ng-class="checkNav('random')"><img src="/icons/white/random.svg"><p>Random</p></a>
+			<a href="#" ng-click="navigate('explore:recent')" id="js-nav-recent"><img src="/icons/white/clock.svg"><p>Recent</p></a>
+			<a href="#" ng-click="navigate('explore:popular')" id="js-nav-popular"><img src="/icons/white/graph.svg"><p>Popular</p></a>
+			<a href="#" ng-click="navigate('explore:influence')" id="js-nav-influence"><img src="/icons/white/globe.svg"><p>Influential</p></a>
+			<a href="#" ng-click="navigate('explore:capricious')" id="js-nav-capricious"><img src="/icons/white/fire.svg"><p>Capricious</p></a>
+			<a href="#" ng-click="navigate('explore:random')" id="js-nav-random"><img src="/icons/white/random.svg"><p>Random</p></a>
 		</div>	
 	</div>
 </div>
