@@ -3,7 +3,7 @@
  * The Editora list controller,
  * deals with the various types of lists that get laied out
  */
- 
+
 Editor.controller('EditorNavController', ['$scope', '$rootScope', '$location', 'getterOfClaims', function($scope, $rootScope, $location, getterOfClaims) {
 
  	/*
@@ -22,6 +22,7 @@ Editor.controller('EditorNavController', ['$scope', '$rootScope', '$location', '
 	$rootScope.editorList = {
 		listType:'default'
 	}
+	var previousNavBtnId;
 
 	/*
 	 * This gets called by the navigation, we do our thing, then we call the router
@@ -42,7 +43,7 @@ Editor.controller('EditorNavController', ['$scope', '$rootScope', '$location', '
 		}
 	}
 
-	$scope.setListOrderTo = function(sortBy){
+	var setListOrderTo = function(sortBy){
 
 		getterOfClaims.getListOfClaimsBy(sortBy).success(function(result){
 
