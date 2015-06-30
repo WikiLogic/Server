@@ -29,17 +29,24 @@ Editor.controller('EditorNavController', ['$scope', '$rootScope', '$location', '
 	 */
 	$scope.navigate = function(section, verb){
 		console.log('Editor navigating to: ', section, ' | to:', verb);
-		if (section == 'explore'){
-			//Get list results
-			setListOrderTo(verb);
-
-			//highlight button
+		
+			//highlight button - this is pretty tight with the template... 
 			var newButtonID = "#js-nav-" + verb;
 			$(previousNavBtnId).removeClass('active');
 			$(newButtonID).addClass('active');
 			previousNavBtnId = newButtonID;
-			
+
+		if (section == 'explore'){
+			//Get list results
+			setListOrderTo(verb);
+
 			//set url
+		} else if (section == 'edit'){
+			var newLocation = '/' + verb;
+			console.log('setting new path to: ', newLocation);
+			$location.path( newLocation );
+			console.log('new path set!');
+
 		}
 	}
 
