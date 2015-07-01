@@ -35,6 +35,10 @@
 		border-radius: 2px;
 		text-transform: none;
 	}
+	&--light {
+		color: $ButtonBkg;
+		background-color: $ButtonClr;
+	}
 }
 
 button {

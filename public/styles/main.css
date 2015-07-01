@@ -685,6 +685,9 @@ html {
     padding: 4px 8px 4px;
     border-radius: 2px;
     text-transform: none; }
+  .btn--light {
+    color: #393f4f;
+    background-color: white; }
 
 button {
   display: inline-block;
