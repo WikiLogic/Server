@@ -10,8 +10,8 @@
 		<div class="btn btn--small">Delete</div>
 	</div>
 
-	<div ng-include src="'/partials/arguments/reason-partial.html'"></div>
-	<div ng-include src="'/partials/arguments/reason-partial.html'"></div>
+	<!-- for each reason in the Arg.reasons -->
+	<div ng-repeat="reason in arg.reasons" ng-include src="'/partials/arguments/reason-partial.html'"></div>
 	<div ng-include src="'/partials/arguments/reason-partial.html'"></div>
 
 

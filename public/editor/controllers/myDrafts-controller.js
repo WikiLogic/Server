@@ -3,7 +3,7 @@
  * 
  */
 
-Editor.controller('MyDraftsController', ['$scope', '$rootScope', 'saviorOfClaims', function($scope, $rootScope, saviorOfClaims) {
+Editor.controller('MyDraftsController', ['$scope', '$rootScope', '$location', 'saviorOfClaims', function($scope, $rootScope, $location, saviorOfClaims) {
 
 	$rootScope.alerts = [];
 	var dummyAlert = {
@@ -16,17 +16,23 @@ Editor.controller('MyDraftsController', ['$scope', '$rootScope', 'saviorOfClaims
 		message: 'message'
 	}
 	$rootScope.alerts.push(dummy2);
+
+	$scope.editDraft = function(draftClaim){
+		console.log('Load this into editor: ', draftClaim);
+		$rootScope.currentDraft = draftClaim;
+		$location.path( '/edit-draft' );
+	}
  	 /*
  	  * 
  	  */
- 	 $scope.publishClaim = function(claim){
- 	 	console.log('going to publish ', claim);
- 	 	saviorOfClaims.publishDraftClaim(claim).success(function(result){
+ 	 $scope.publishDraft = function(draftClaim){
+ 	 	console.log('going to publish ', draftClaim);
+ 	 	saviorOfClaims.publishDraftClaim(draftClaim).success(function(result){
 			//on success, add result to published claims list & remove from drafts (this has already been done server side)
 			console.log('unshifting published array: ', result);
 			$rootScope.user.meta.published.unshift(result);
 			
-			var killDex = $rootScope.user.meta.unPublished.indexOf(claim._id);
+			var killDex = $rootScope.user.meta.unPublished.indexOf(draftClaim._id);
 			$rootScope.user.meta.unPublished.splice(killDex, 1);
 			
 		}).error(function(){
