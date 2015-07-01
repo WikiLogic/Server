@@ -54,8 +54,9 @@ Editor.controller('draftEditorController', ['$scope', '$rootScope', 'saviorOfCla
 	}
 
 	/*
-	 * type = supporting / opposing
+	 * type = supporting / opposing test
 	 */
+
 	$scope.addArgument = function(type){
 		$rootScope.currentDraft[type].length ++;
 	}

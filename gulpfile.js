@@ -43,9 +43,9 @@ gulp.task('startDB', function () {
 gulp.task('startNODE', function () {
     nodemon({
         script: 'server.js',
+        ignore: ['public/'],
         env: { 'NODE_ENV': 'development' }
-    }).on('start', ['watch'])
-    .on('change', ['watch'])
+    })
     .on('restart', function () {
       console.log('restarted!');
     });
@@ -57,7 +57,7 @@ gulp.task('startNODE', function () {
  //watch: ['server.js', 'passport.js', 'routes/']
 gulp.task('watch', function() {
     console.log('GULP: watch');
-  gulp.watch('sass/**/*.scss', ['sass']);
+  //gulp.watch('sass/**/*.scss', ['sass']);
 });
 
 /*
