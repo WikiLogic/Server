@@ -13,13 +13,13 @@ Editor.controller('draftEditorController', ['$scope', '$rootScope', 'saviorOfCla
  	 /*
  	  * 
  	  */
- 	 $scope.saveEdit = function(draftClaim){
+	$scope.saveEdit = function(draftClaim){
 
- 	 }
+	}
 
- 	 $scope.publishClaim = function(claim){
- 	 	console.log('going to publish ', claim);
- 	 	saviorOfClaims.publishDraftClaim(claim).success(function(result){
+	$scope.publishClaim = function(claim){
+		console.log('going to publish ', claim);
+		saviorOfClaims.publishDraftClaim(claim).success(function(result){
 			//on success, add result to published claims list & remove from drafts (this has already been done server side)
 			console.log('unshifting published array: ', result);
 			$rootScope.user.meta.published.unshift(result);
@@ -30,11 +30,11 @@ Editor.controller('draftEditorController', ['$scope', '$rootScope', 'saviorOfCla
 		}).error(function(){
 			//TODO: do something when publish fails
 		});
- 	 }
+	}
 
- 	 $scope.deleteDraft = function(draftClaim){
- 	 	//TODO: double check that the user want's to do this
- 	 	saviorOfClaims.deleteDraft(draftClaim).success(function(result){
+	$scope.deleteDraft = function(draftClaim){
+		//TODO: double check that the user want's to do this
+		saviorOfClaims.deleteDraft(draftClaim).success(function(result){
 			console.log('Kill ID ' + draftClaim._id);
 			console.log('kill list: ' + $rootScope.user.meta.unPublished);
 			var unPupList = $rootScope.user.meta.unPublished;
@@ -51,7 +51,14 @@ Editor.controller('draftEditorController', ['$scope', '$rootScope', 'saviorOfCla
 		}).error(function(){
 			//TODO: Do something when delete fails
 		});
- 	 }
+	}
+
+	/*
+	 * type = supporting / opposing
+	 */
+	$scope.addArgument = function(type){
+		$rootScope.currentDraft[type].length ++;
+	}
 
 
 }]);

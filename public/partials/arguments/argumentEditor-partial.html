@@ -4,7 +4,7 @@
 		<div class="draft-claim-editor__args-row__for-column">
 			<div class="draft-claim-editor__args-row__column-title">
 				<h3>For</h3>
-				<div class="btn btn--small">Add argument</div>
+				<div class="btn btn--small" ng-click="addArgument('supporting')">Add argument</div>
 			</div>
 
 			<!-- for each for argument in currentDraft.supporting -->
@@ -18,7 +18,7 @@
 		<div class="draft-claim-editor__args-row__against-column">
 			<div class="draft-claim-editor__args-row__column-title">
 				<h3>Against</h3>
-				<div class="btn btn--small">Add argument</div>
+				<div class="btn btn--small" ng-click="addArgument('opposing')">Add argument</div>
 			</div>
 			
 			<!-- for each for argument in currentDraft.opposing -->
