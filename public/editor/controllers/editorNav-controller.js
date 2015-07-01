@@ -28,7 +28,6 @@ Editor.controller('EditorNavController', ['$scope', '$rootScope', '$location', '
 	 * This gets called by the navigation, we do our thing, then we call the router
 	 */
 	$scope.navigate = function(section, verb){
-		console.log('Editor navigating to: ', section, ' | to:', verb);
 		
 			//highlight button - this is pretty tight with the template... 
 			var newButtonID = "#js-nav-" + verb;
@@ -43,9 +42,7 @@ Editor.controller('EditorNavController', ['$scope', '$rootScope', '$location', '
 			//set url
 		} else if (section == 'edit'){
 			var newLocation = '/' + verb;
-			console.log('setting new path to: ', newLocation);
 			$location.path( newLocation );
-			console.log('new path set!');
 
 		}
 	}

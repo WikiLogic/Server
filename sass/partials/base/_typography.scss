@@ -18,7 +18,9 @@ a {
 		color:white;
 	}
 }
-
+a[ng-click]{
+    cursor: pointer;
+}
 img {
 	display:block;
 }
