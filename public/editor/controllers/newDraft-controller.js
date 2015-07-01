@@ -4,7 +4,7 @@
  * deals with defining new claims.
  */
 
-Editor.controller('NewDraftController', ['$scope', '$rootScope', 'saviorOfClaims', function($scope, $rootScope, saviorOfClaims) {
+Editor.controller('NewDraftController', ['$scope', '$rootScope', '$location', 'saviorOfClaims', function($scope, $rootScope, $location, saviorOfClaims) {
 
  	/*
  	 * 
@@ -36,7 +36,7 @@ Editor.controller('NewDraftController', ['$scope', '$rootScope', 'saviorOfClaims
  	 			duplicateCheck = true;
  	 		} else {
  	 			if (duplicateCheck){
- 	 				submitBtn.value = "Save draft";
+ 	 				submitBtn.value = "Save draft & build arguments";
  	 				submitBtn.disabled = false;
  	 				duplicateCheck = false;
  	 			}
@@ -63,6 +63,8 @@ Editor.controller('NewDraftController', ['$scope', '$rootScope', 'saviorOfClaims
  	 	saviorOfClaims.saveClaimToProfile($scope.newDraft).success(function(result){
 
 			$scope.user.meta.unPublished.push(result);
+			$rootScope.currentDraft = result;
+			$location.path('/edit-draft');
 
 		}).error(function(){
 			console.log('saving the draft claim to your profile failed somehow');
