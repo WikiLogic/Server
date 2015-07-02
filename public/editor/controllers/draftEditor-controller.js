@@ -61,5 +61,9 @@ Editor.controller('draftEditorController', ['$scope', '$rootScope', 'saviorOfCla
 		$rootScope.currentDraft[type].length ++;
 	}
 
+	$scope.deleteArgument = function(type,argIndex){
+		console.log('deleting ', argIndex, ' from ', type);
+	}
+
 
 }]);

@@ -8,7 +8,7 @@
 			</div>
 
 			<!-- for each for argument in currentDraft.supporting -->
-			<div ng-repeat="arg in currentDraft.supporting" ng-include src="'/partials/arguments/argument-partial.html'"></div>
+			<div ng-repeat="arg in currentDraft.supporting track by $index" ng-include src="'/partials/arguments/argument-partial.html'"></div>
 			<div ng-include src="'/partials/arguments/argument-partial.html'"></div>							
 
 		</div>
@@ -22,7 +22,7 @@
 			</div>
 			
 			<!-- for each for argument in currentDraft.opposing -->
-			<div ng-repeat="arg in currentDraft.opposing" ng-include src="'/partials/arguments/argument-partial.html'"></div>
+			<div ng-repeat="arg in currentDraft.opposing track by $index" ng-include src="'/partials/arguments/argument-partial.html'"></div>
 			<div ng-include src="'/partials/arguments/argument-partial.html'"></div>		
 
 		</div>

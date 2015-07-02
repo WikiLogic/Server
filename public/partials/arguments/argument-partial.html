@@ -4,10 +4,10 @@
 			<img src="/icons/black/check.svg" alt="true">
 		</div>
 		<div class="argument__head__author">
-			Authored by: 
+			Index: {{$index}}
 		</div>
 		<div class="btn btn--small">Add reason</div>
-		<div class="btn btn--small">Delete</div>
+		<div class="btn btn--small" ng-click="deleteArgument('type',$index)">Delete</div>
 	</div>
 
 	<!-- for each reason in the Arg.reasons -->
