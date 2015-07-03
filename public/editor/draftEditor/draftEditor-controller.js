@@ -8,12 +8,11 @@
  *
  */
 
-Editor.controller('draftEditorController', ['$scope', '$rootScope', 'saviorOfClaims', function($scope, $rootScope, saviorOfClaims) {
-
+Editor.controller('draftEditorController', ['$scope', '$rootScope', '$routeParams', 'saviorOfClaims', function($scope, $rootScope, $routeParams, saviorOfClaims) {
 
 	$scope.init = function(){
 		//get and add current draft to root scope 
-
+		console.log('initing!', $routeParams.id);
 	}
 
 	$scope.saveEdit = function(draftClaim){
