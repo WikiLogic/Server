@@ -6,32 +6,32 @@ Editor.config(function($routeProvider){
 	console.log('setting up the routes');
 	$routeProvider
 		.when("/", {
-			templateUrl: "/partials/drafts/newDraft-partial.html",
-			controller: "NewDraftController",
-			controllerAs: "NewDraftController"
+			templateUrl: "/editor/lists/myDraftsList-partial.html",
+			controller: "MyDraftsController",
+			controllerAs: "MyDraftsController"
 		})
 		.when("/new-draft",	{
-			templateUrl: "/partials/drafts/newDraft-partial.html",
+			templateUrl: "/editor/draftEditor/newDraft-partial.html",
 			controller: "NewDraftController",
 			controllerAs: "NewDraftController"
 		})
 		.when("/edit-draft",	{
-			templateUrl: "/partials/drafts/editDraft-partial.html",
+			templateUrl: "/editor/draftEditor/editDraft-partial.html",
 			controller: "draftEditorController",
 			controllerAs: "draftEditorController"
 		})
 		.when("/my-drafts",	{
-			templateUrl: "/partials/drafts/myDraftsList-partial.html",
+			templateUrl: "/editor/lists/myDraftsList-partial.html",
 			controller: "MyDraftsController",
 			controllerAs: "MyDraftsController"
 		})
 		.when("/my-published",	{
-			templateUrl: "/partials/claims/claimsList-partial.html",
+			templateUrl: "/editor/lists/claimsList-partial.html",
 			controller: "MyPublishedController",
 			controllerAs: "MyPublishedController"
 		})
 		.when("/my-trash",	{
-			templateUrl: "/partials/drafts/trashedDraftsList-partial.html",
+			templateUrl: "/editor/lists/trashedDraftsList-partial.html",
 			controller: "MyDraftsController",
 			controllerAs: "MyDraftsController"
 		});

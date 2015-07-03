@@ -3,6 +3,6 @@
 		<h3>My claims in progress</h3>
 	</div>
 	<div class="js-collapsable-content"><!-- makes content collapsible -->
-		<div ng-repeat="claim in user.meta.unPublished" ng-include src="'/partials/drafts/singleDraft-partial.html'"></div>
+		<div ng-repeat="draft in user.meta.unPublished" ng-include src="'/editor/single/draft-partial.html'"></div>
 	</div>
 </div>
