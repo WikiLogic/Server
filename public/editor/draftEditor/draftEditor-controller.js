@@ -11,10 +11,24 @@
 Editor.controller('draftEditorController', ['$scope', '$rootScope', '$routeParams', 'saviorOfClaims', function($scope, $rootScope, $routeParams, saviorOfClaims) {
 
 	$scope.init = function(){
-		//loop through the current users drafts, find the one with an id that matches the url, set it
-		console.log('user: ', $rootScope.user)
+		if ($rootScope.user) {
+			setCurrentDraft($routeParams.id);
+		} else {
+			//user data hasn't been loaded yet, watch until it has then load draft into editor
+			$rootScope.$watch('user', function(newVal,oldVal){
+				if (newVal === oldVal) {
+					//called to init
+				} else {
+					setCurrentDraft($routeParams.id);
+				}
+			});
+		}
+	}
+
+	var setCurrentDraft = function(draftID){
+		console.log('setting current draft for editor');
 		for (var i=0; i< $rootScope.user.meta.unPublished.length; i++){
-			if ($rootScope.user.meta.unPublished[i]._id == $routeParams.id){
+			if ($rootScope.user.meta.unPublished[i]._id == draftID){
 				$rootScope.currentDraft = $rootScope.user.meta.unPublished[i];
 				break;
 			}
