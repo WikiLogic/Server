@@ -11,8 +11,14 @@
 Editor.controller('draftEditorController', ['$scope', '$rootScope', '$routeParams', 'saviorOfClaims', function($scope, $rootScope, $routeParams, saviorOfClaims) {
 
 	$scope.init = function(){
-		//get and add current draft to root scope 
-		console.log('initing!', $routeParams.id);
+		//loop through the current users drafts, find the one with an id that matches the url, set it
+		console.log('user: ', $rootScope.user)
+		for (var i=0; i< $rootScope.user.meta.unPublished.length; i++){
+			if ($rootScope.user.meta.unPublished[i]._id == $routeParams.id){
+				$rootScope.currentDraft = $rootScope.user.meta.unPublished[i];
+				break;
+			}
+		}
 	}
 
 	$scope.saveEdit = function(draftClaim){
