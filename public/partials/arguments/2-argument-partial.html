@@ -13,10 +13,11 @@ that appear inside the for or against columns.
 			<img src="/icons/black/check.svg" alt="true">
 		</div>
 		<div class="argument__head__author">
-			Index: {{$index}}
+			Index: {{$index}} | arg: {{arg}} | parent: {{$scope.type}}
 		</div>
-		<div class="btn btn--small">Add reason</div>
-		<div class="btn btn--small" ng-click="deleteArgument('type',$index)">Delete</div>
+		<!-- am i for or against? -->
+		<div class="btn btn--small" ng-click="addReason($index)">Add reason</div>
+		<div class="btn btn--small" ng-click="deleteArgument($index)">Delete</div>
 	</div>
 
 	<!-- This is the important part, for every 
