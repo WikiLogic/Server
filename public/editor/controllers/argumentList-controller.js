@@ -9,16 +9,19 @@ Editor.controller('argumentListController', ['$scope', '$rootScope', 'saviorOfCl
 
  	
 
-	$scope.init = function(type) {
-		$scope.type = type;
+	$scope.init = function(side) {
+		$scope.side = side;
 	}
 
 	$scope.addReason = function(argIndex){
-		console.log('adding reason to: ', argIndex, ' of ', $scope.type);
+		var emptyReasonObj = {
+			description:'add your description here!'
+		}
+		$rootScope.currentDraft[$scope.side][argIndex].reasons.push(emptyReasonObj);
 	}
 
 	$scope.deleteArgument = function(argIndex){
-		console.log('deleting ', argIndex, ' from ', $scope.type);
+		console.log('deleting ', argIndex, ' from ', $scope.side);
 	}
 
 

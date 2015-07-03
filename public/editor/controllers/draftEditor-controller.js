@@ -10,9 +10,12 @@
 
 Editor.controller('draftEditorController', ['$scope', '$rootScope', 'saviorOfClaims', function($scope, $rootScope, saviorOfClaims) {
 
- 	 /*
- 	  * 
- 	  */
+
+	$scope.init = function(){
+		//get and add current draft to root scope 
+
+	}
+
 	$scope.saveEdit = function(draftClaim){
 
 	}
@@ -57,12 +60,19 @@ Editor.controller('draftEditorController', ['$scope', '$rootScope', 'saviorOfCla
 	 * type = supporting / opposing test
 	 */
 
-	$scope.addArgument = function(type){
-		$rootScope.currentDraft[type].length ++;
+	$scope.addArgument = function(side){
+		var blankArgObj = {
+			status: false,
+			reasons: []
+		}
+
+		$rootScope.currentDraft[side].push(blankArgObj);
+		
+		
 	}
 
-	$scope.deleteArgument = function(type,argIndex){
-		console.log('deleting ', argIndex, ' from ', type);
+	$scope.deleteArgument = function(side,argIndex){
+		console.log('deleting ', argIndex, ' from ', side);
 	}
 
 
