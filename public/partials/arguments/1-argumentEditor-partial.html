@@ -1,3 +1,8 @@
+<!-- THE ARGUMENT EDITOR! FOR AND AGAINST
+This is the guy that creates the two columns,
+
+-->
+
 <div class="draft-claim-editor"> <!-- ng-controller="draftEditorController" -->
 
 	<div class="draft-claim-editor__args-row">
@@ -8,9 +13,7 @@
 			</div>
 
 			<!-- for each for argument in currentDraft.supporting -->
-			<div ng-repeat="arg in currentDraft.supporting track by $index" ng-include src="'/partials/arguments/argument-partial.html'"></div>
-			<div ng-include src="'/partials/arguments/argument-partial.html'"></div>							
-
+			<div ng-repeat="arg in currentDraft.supporting track by $index" ng-include src="'/partials/arguments/2-argument-partial.html'"></div>				
 		</div>
 
 		<div class="draft-claim-editor__args-row__spacer-column"></div>
@@ -22,8 +25,7 @@
 			</div>
 			
 			<!-- for each for argument in currentDraft.opposing -->
-			<div ng-repeat="arg in currentDraft.opposing track by $index" ng-include src="'/partials/arguments/argument-partial.html'"></div>
-			<div ng-include src="'/partials/arguments/argument-partial.html'"></div>		
+			<div ng-repeat="arg in currentDraft.opposing track by $index" ng-include src="'/partials/arguments/2-argument-partial.html'"></div>	
 
 		</div>
 	</div>

@@ -1,0 +1,27 @@
+<!-- THE INDIVIDUAL ARGUMENT PARTIAL!
+This guy is the wrapper that holds the reasons 
+to make up an argument.  He is the many boxes 
+that appear inside the for or against columns.
+ -->
+
+<div class="argument argument--impact-false"> 
+
+	<!-- Any useful metadata to do with this 
+	particualr argument will go here!-->
+	<div class="argument__head">
+		<div class="argument__head__status">
+			<img src="/icons/black/check.svg" alt="true">
+		</div>
+		<div class="argument__head__author">
+			Index: {{$index}}
+		</div>
+		<div class="btn btn--small">Add reason</div>
+		<div class="btn btn--small" ng-click="deleteArgument('type',$index)">Delete</div>
+	</div>
+
+	<!-- This is the important part, for every 
+	reason in the argument, we call in the 
+	individual reason partial-->
+	<div ng-repeat="reason in arg.reasons" ng-include src="'/partials/arguments/3-reason-partial.html'"></div>
+
+</div>
