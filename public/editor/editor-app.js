@@ -34,6 +34,31 @@ Editor.config(function($routeProvider){
 			templateUrl: "/editor/lists/trashedDraftsList-partial.html",
 			controller: "MyDraftsController",
 			controllerAs: "MyDraftsController"
+		})
+		.when("/explore/recent",	{
+			templateUrl: "/editor/lists/claimsList-partial.html",
+			controller: "MyPublishedController",
+			controllerAs: "MyPublishedController"
+		})
+		.when("/explore/popular",	{
+			templateUrl: "/editor/lists/claimsList-partial.html",
+			controller: "MyPublishedController",
+			controllerAs: "MyPublishedController"
+		})
+		.when("/explore/influence",	{
+			templateUrl: "/editor/lists/claimsList-partial.html",
+			controller: "MyPublishedController",
+			controllerAs: "MyPublishedController"
+		})
+		.when("/explore/capricious",	{
+			templateUrl: "/editor/lists/claimsList-partial.html",
+			controller: "MyPublishedController",
+			controllerAs: "MyPublishedController"
+		})
+		.when("/explore/random",	{
+			templateUrl: "/editor/lists/claimsList-partial.html",
+			controller: "MyPublishedController",
+			controllerAs: "MyPublishedController"
 		});
 	//End routeProvider
 

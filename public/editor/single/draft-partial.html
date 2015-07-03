@@ -6,7 +6,7 @@
 	<div class="claim-preview__description">
 		<a href="#">{{draft.description}}</a>
 	</div>
-	<div class="btn btn--small" ng-click="editDraft(claim)">Edit</div>
-	<div class="btn btn--small" ng-click="publishDraft(claim)">Publish</div>
-	<div class="btn btn--small" ng-click="deleteDraft(claim)">Delete</div>
+	<a class="btn btn--small" ng-href="#edit-draft/{{draft._id}}">Edit</a>
+	<div class="btn btn--small" ng-click="publishDraft(draft)">Publish</div>
+	<div class="btn btn--small" ng-click="deleteDraft(draft)">Delete</div>
 </div>

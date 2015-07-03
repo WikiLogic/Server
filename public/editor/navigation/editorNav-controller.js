@@ -28,6 +28,7 @@ Editor.controller('EditorNavController', ['$scope', '$rootScope', '$location', '
 	 * This gets called by the navigation, we do our thing, then we call the router
 	 */
 	$scope.navigate = function(section, verb){
+		console.log('NAV FIRED - OH OH');
 		
 			//highlight button - this is pretty tight with the template... 
 			var newButtonID = "#js-nav-" + verb;
