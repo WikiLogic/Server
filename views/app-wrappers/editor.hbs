@@ -1,39 +1,47 @@
-<div ng-app="Editor" class="app-rap">
+<div ng-app="Editor">
+	<div class="app-rap">
 
-	{{!-- These partials are called from views/common, they're here so that they get caught under the control of ng-app --}}
-	<div class="header">
-		{{> header-content }} 
-	</div>
-
-	<div class="body">
-
-		<div class="sidebar-left">
-			{{> sidebar-left-content }}
+		{{!-- These partials are called from views/common, they're here so that they get caught under the control of ng-app --}}
+		<div class="header">
+			{{> header-content }} 
 		</div>
 
-		<div class="main editor">
+		<div class="body">
 
-			<div ng-controller="MyProfileController" class="main__head">
-				<!-- This might need to eb split out too -->
-				<h1>The Editor.</h1>
-				<img src="{{user.meta.gravatar}}?s=40" alt="">
+			<div class="sidebar-left">
+				{{> sidebar-left-content }}
+			</div>
+
+			<div class="main editor">
+
+				<div ng-controller="MyProfileController" class="main__head">
+					<!-- This might need to eb split out too -->
+					<h1>The Editor.</h1>
+					<img src="{{user.meta.gravatar}}?s=40" alt="">
+					
+				</div>
+
+				<!-- Client side Views / routes set up in editor-app.js -->
+				<div class="main__body" ng-view>
+
+				</div>
+
+			</div>
+
+			<div class="sidebar-right">
 				
 			</div>
 
-			<!-- Client side Views / routes set up in editor-app.js -->
-			<div class="main__body" ng-view>
-
-			</div>
-
 		</div>
 
-		<div class="sidebar-right">
+		<div class="footer">
 			
 		</div>
 
-	</div>
+	</div> <!-- END of app-rap -->
 
-	<div class="footer">
+	<!-- This is outside app-rap so it can do the fancy swing in thing -->
+	<div class="claim-finder" ng-controller="claimFinderController" ng-include src="'/editor/claimFinder/claimFinder-partial.html'">
 		
 	</div>
 
@@ -51,6 +59,8 @@
 <script src="/editor/services/saveClaims-service.js"></script>
 <script src="/editor/services/myData-service.js"></script>
 <script src="/editor/services/notification-service.js"></script>
+
+<script src="/editor/claimFinder/claimFinder-controller.js"></script>
 
 <script src="/editor/draftEditor/newDraft-controller.js"></script>
 <script src="/editor/draftEditor/draftEditor-controller.js"></script>

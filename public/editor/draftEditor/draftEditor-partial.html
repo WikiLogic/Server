@@ -5,7 +5,7 @@
 	<div class="btn btn--light">Delete</div>
 </div>
 
-<h1 contentEditable="true">{{currentDraft.description}}</h1>
+<input class="draft-editor__description" ng-model="currentDraft.description" ng-change="changeDescription()" />
 
 <div ng-include src="'/editor/draftEditor/1-argumentEditor-partial.html'"></div>
 

@@ -1,11 +1,6 @@
 'use strict';
 /**
- * saveEdit(draftClaim)
- *
- * publishClaim(draftClaim)
- *
- * deleteDraft(draftClaim)
- *
+ * 
  */
 
 Editor.controller('draftEditorController', ['$scope', '$rootScope', '$routeParams', 'saviorOfClaims', function($scope, $rootScope, $routeParams, saviorOfClaims) {
@@ -92,6 +87,11 @@ Editor.controller('draftEditorController', ['$scope', '$rootScope', '$routeParam
 
 	$scope.deleteArgument = function(side,argIndex){
 		console.log('deleting ', argIndex, ' from ', side);
+	}
+
+	$scope.changeDescription = function() {
+		console.log('new description: ', $rootScope.currentDraft.description);
+		//open the crazy new screen
 	}
 
 
