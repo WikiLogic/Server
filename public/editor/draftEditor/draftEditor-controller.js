@@ -90,8 +90,8 @@ Editor.controller('draftEditorController', ['$scope', '$rootScope', '$routeParam
 	}
 
 	$scope.changeDescription = function() {
-		console.log('new description: ', $rootScope.currentDraft.description);
-		//open the crazy new screen
+		//maybe wait a bit?
+		$rootScope.claimSearch = $rootScope.currentDraft.description;
 	}
 
 

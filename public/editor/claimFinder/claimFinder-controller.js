@@ -15,8 +15,9 @@ Editor.controller('claimFinderController', ['$scope', '$rootScope', '$routeParam
 			//called to init
 		} else {
 			if (!$scope.open){
-				//open the 3d swing!
-				console.log('opening the claim finder!!!');
+				//add class to body
+				$('#editor-app').addClass('finderActive');
+				$scope.open = true;
 			}
 			console.log('searching: ', newVal);
 		}
@@ -38,9 +39,8 @@ Editor.controller('claimFinderController', ['$scope', '$rootScope', '$routeParam
 	}
 
 	$scope.close = function(){
-		//close the crazy 3d swing
-		//remove class from body
-		console.log('closing the claim finder :(');
+		$('#editor-app').removeClass('finderActive');
+		$scope.open = false;
 	}
 
 }]);
