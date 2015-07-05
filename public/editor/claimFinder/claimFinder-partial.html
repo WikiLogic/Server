@@ -1,8 +1,14 @@
-<div class="btn" ng-click="close()">X</div>
-<input type="text" class="claim-finder__search" value="{{claimSearch}}">
-<div class="claim-finder__draft-results">
-	hi I'm a draft claim | select | inspect
+<div class="claim-finder__header">
+	<h2 class="claim-finder__header__title">Search Results</h2>
+	<div class="btn claim-finder__header__close" ng-click="close()">X</div>
 </div>
-<div class="claim-finder__published-results">
-	hi I'm a published claim | select | inspect
-</div>
+
+<h3>Your Drafts</h3>
+<div ng-include src="'/editor/claimFinder/claimSearchResult-partial.html'"></div>
+<div ng-include src="'/editor/claimFinder/claimSearchResult-partial.html'"></div>
+
+<h3>Published Claims</h3>
+<div ng-include src="'/editor/claimFinder/claimSearchResult-partial.html'"></div>
+<div ng-include src="'/editor/claimFinder/claimSearchResult-partial.html'"></div>
+<div ng-include src="'/editor/claimFinder/claimSearchResult-partial.html'"></div>
+<div ng-include src="'/editor/claimFinder/claimSearchResult-partial.html'"></div>

@@ -752,6 +752,60 @@ button {
     background-color: #515a70;
     color: white; }
 
+.claim-finder__header {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex; }
+  .claim-finder__header__title {
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+        -ms-flex-positive: 1;
+            flex-grow: 1; }
+
+.claim-search-result {
+  padding: 4px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex; }
+  .claim-search-result p {
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+        -ms-flex-positive: 1;
+            flex-grow: 1; }
+  .claim-search-result__btns {
+    /*
+		 * These are vertically stacked small icon buttons that expand over the text 
+		 * to show their 'word' when hovered
+		 */
+    width: 30px;
+    height: 50px;
+    position: relative; }
+    .claim-search-result__btns .btn {
+      position: absolute;
+      overflow: hidden;
+      right: 0px;
+      width: 20px;
+      height: 20px; }
+      .claim-search-result__btns .btn span {
+        position: absolute;
+        top: 2px;
+        right: 25px; }
+      .claim-search-result__btns .btn img {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        width: 10px; }
+      .claim-search-result__btns .btn:hover {
+        width: 80px; }
+    .claim-search-result__btns .b1 {
+      top: 0px; }
+    .claim-search-result__btns .b2 {
+      top: 25px; }
+  .claim-search-result:hover {
+    background-color: #393f4f; }
+
 .claim-preview {
   display: -webkit-box;
   display: -webkit-flex;
