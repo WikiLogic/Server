@@ -555,8 +555,8 @@ html {
           transform: rotateY(3.5deg) scalex(0.78) scaleY(0.85); }
 
 #editor-app.finderActive .claim-finder {
-  -webkit-transform: rotateY(-12deg) scaleX(0.85);
-          transform: rotateY(-12deg) scaleX(0.85); }
+  -webkit-transform: rotateY(0deg) scaleX(1);
+          transform: rotateY(0deg) scaleX(1); }
 
 .app-rap {
   display: -webkit-box;
