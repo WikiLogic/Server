@@ -84,7 +84,7 @@ html {
       display: flex;
       flex-direction: column;
       @include lightSection();
-      overflow-y: scroll;
+      overflow-y: auto;
       &__head {
         padding:20px;  
             

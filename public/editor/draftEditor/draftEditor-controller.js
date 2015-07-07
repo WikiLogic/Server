@@ -102,5 +102,11 @@ Editor.controller('draftEditorController', ['$scope', '$rootScope', '$routeParam
 		$rootScope.claimSearch = $rootScope.currentDraft.description;
 	}
 
+	$scope.changeReason = function() {
+		//maybe wait a bit?
+		$rootScope.claimSearch = $rootScope.currentDraft.description;
+		//set which reason is in focus
+	}
+
 
 }]);

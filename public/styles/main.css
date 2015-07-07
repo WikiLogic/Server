@@ -413,8 +413,7 @@ hr {
  * and is used to expand the parent.  The input fills the height!
  */
 .autosizing-input {
-  position: relative;
-  min-height: 30px; }
+  position: relative; }
   .autosizing-input__input {
     position: absolute;
     top: 0;
@@ -655,7 +654,7 @@ html {
               flex-direction: column;
       background: #eeeeee;
       color: #393f4f;
-      overflow-y: scroll; }
+      overflow-y: auto; }
       .app-rap .body .main__head {
         padding: 20px; }
       .app-rap .body .main__body {
