@@ -10,8 +10,11 @@ You could say this is the soul of WL!
 	<div class="reason__status">
 		<img src="/icons/black/cross.svg" alt="true"><!-- or <img src="/icons/black/check.svg" alt="true"> -->
 	</div>
-	<div class="reason__description">
-		<p contenteditable="true">claim1</p>
+
+	<div class="autosizing-input reason__description">
+		<textarea name="" id="" class="autosizing-input__input" ng-change="changeDescription()" cols="30" rows="10" ng-model="currentDraft.description"></textarea>
+		<div class="autosizing-input__sizer">{{currentDraft.description}}</div>
 	</div>
+
 	<div class="btn btn--small">delete</div>
 </div>
