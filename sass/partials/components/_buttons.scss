@@ -9,6 +9,7 @@
 	line-height: 15px;
 	color: $ButtonClr;
 	background-color: $ButtonBkg;
+	transition: none;
 	&:hover {
 		background-color: $ButtonBkg-Hover; 
 		color: $ButtonClr-Hover;
@@ -30,6 +31,7 @@
 
 .btn {
 	@include button();
+
 	&--small {
 		padding: 4px 8px 4px;
 		border-radius: 2px;

@@ -408,6 +408,33 @@ hr {
 ::-webkit-scrollbar-thumb:window-inactive {
   background: #393f4f; }
 
+/* -------------------------------------- Autosizing Inputs
+ * Funky little trick here, the sizer containes a copy of the text
+ * and is used to expand the parent.  The input fills the height!
+ */
+.autosizing-input {
+  position: relative;
+  min-height: 30px; }
+  .autosizing-input__input {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100% !important;
+    border: 0;
+    padding: 3px 4px 4px 4px;
+    height: auto !important;
+    white-space: normal;
+    resize: none;
+    overflow: hidden;
+    background-color: transparent !important; }
+    .autosizing-input__input:focus {
+      box-shadow: none;
+      border: none;
+      background-color: white !important; }
+  .autosizing-input__sizer {
+    padding: 3px 4px 4px 4px;
+    color: transparent; }
+
 /* ---------------------------------------- Forms */
 input, textarea {
   -webkit-transition: all 0.3s ease-in-out;
@@ -647,6 +674,56 @@ html {
 /* =====================================================
 =======================================   Tablet and up
 ======================================================*/
+.argument-editor__claim {
+  width: 100%;
+  text-align: center; }
+
+.argument-editor__args-row {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex; }
+  .argument-editor__args-row__for-column {
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+        -ms-flex-positive: 1;
+            flex-grow: 1; }
+  .argument-editor__args-row__spacer-column {
+    width: 10px; }
+  .argument-editor__args-row__against-column {
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+        -ms-flex-positive: 1;
+            flex-grow: 1; }
+  .argument-editor__args-row__column-title {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    border-bottom: 1px solid #393f4f;
+    margin-top: 20px;
+    margin-bottom: 5px;
+    margin-bottom: 15px;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+    padding: 4px; }
+    .argument-editor__args-row__column-title h3 {
+      -webkit-box-flex: 1;
+      -webkit-flex-grow: 1;
+          -ms-flex-positive: 1;
+              flex-grow: 1; }
+    .argument-editor__args-row__column-title .btn {
+      opacity: 0; }
+    .argument-editor__args-row__column-title:hover {
+      background: white; }
+      .argument-editor__args-row__column-title:hover .btn {
+        opacity: 1; }
+      .argument-editor__args-row__column-title:hover ~ .ng-scope {
+        background: white; }
+
 .argument {
   border: 1px dashed #dddddd;
   border-radius: 5px;
@@ -703,6 +780,8 @@ html {
   line-height: 15px;
   color: white;
   background-color: #393f4f;
+  -webkit-transition: none;
+          transition: none;
   /*
 	&--red {
 		color: $ButtonClr;
@@ -736,6 +815,8 @@ button {
   line-height: 15px;
   color: white;
   background-color: #393f4f;
+  -webkit-transition: none;
+          transition: none;
   /*
 	&--red {
 		color: $ButtonClr;
@@ -905,55 +986,11 @@ button {
 .js-collapsable-title.collapsed .js-collapsable--btn {
   background: url("/icons/black/plus.svg") no-repeat center; }
 
-.draft-claim-editor__claim {
-  width: 100%;
-  text-align: center; }
-
-.draft-claim-editor__args-row {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex; }
-  .draft-claim-editor__args-row__for-column {
-    -webkit-box-flex: 1;
-    -webkit-flex-grow: 1;
-        -ms-flex-positive: 1;
-            flex-grow: 1; }
-  .draft-claim-editor__args-row__spacer-column {
-    width: 10px; }
-  .draft-claim-editor__args-row__against-column {
-    -webkit-box-flex: 1;
-    -webkit-flex-grow: 1;
-        -ms-flex-positive: 1;
-            flex-grow: 1; }
-  .draft-claim-editor__args-row__column-title {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    border-bottom: 1px solid #393f4f;
-    margin-top: 20px;
-    margin-bottom: 5px;
-    margin-bottom: 15px;
-    display: flex;
-    -webkit-box-align: center;
-    -webkit-align-items: center;
-        -ms-flex-align: center;
-            align-items: center;
-    padding: 4px; }
-    .draft-claim-editor__args-row__column-title h3 {
-      -webkit-box-flex: 1;
-      -webkit-flex-grow: 1;
-          -ms-flex-positive: 1;
-              flex-grow: 1; }
-    .draft-claim-editor__args-row__column-title .btn {
-      opacity: 0; }
-    .draft-claim-editor__args-row__column-title:hover {
-      background: white; }
-      .draft-claim-editor__args-row__column-title:hover .btn {
-        opacity: 1; }
-      .draft-claim-editor__args-row__column-title:hover ~ .ng-scope {
-        background: white; }
+.draft-editor__description {
+  margin-top: 15px; }
+  .draft-editor__description .autosizing-input__input,
+  .draft-editor__description .autosizing-input__sizer {
+    font-size: 26px; }
 
 .notification-wrap {
   position: absolute;

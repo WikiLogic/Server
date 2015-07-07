@@ -1,0 +1,10 @@
+.draft-editor {
+	&__description {
+		margin-top: 15px;
+
+		.autosizing-input__input,
+		.autosizing-input__sizer {
+			font-size: 26px;
+		}
+	}
+}

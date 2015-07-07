@@ -5,7 +5,9 @@
 	<div class="btn btn--light">Delete</div>
 </div>
 
-<input class="draft-editor__description" ng-model="currentDraft.description" ng-change="changeDescription()" />
-
+<div class="autosizing-input draft-editor__description">
+	<textarea name="" id="" class="autosizing-input__input" cols="30" rows="10" ng-model="currentDraft.description"></textarea>
+	<div class="autosizing-input__sizer">{{currentDraft.description}}</div>
+</div>
 <div ng-include src="'/editor/draftEditor/1-argumentEditor-partial.html'"></div>
 
