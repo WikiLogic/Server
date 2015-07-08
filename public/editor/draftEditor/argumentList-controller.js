@@ -8,7 +8,10 @@
 Editor.controller('argumentListController', ['$scope', '$rootScope', 'saviorOfClaims', function($scope, $rootScope, saviorOfClaims) {
 
  	
-
+	/*
+	 * this controller gets called twice - once for each side: supporting / opposing
+	 * The init sets the side so we know which side we're on!
+	 */
 	$scope.init = function(side) {
 		$scope.side = side;
 	}
@@ -18,6 +21,7 @@ Editor.controller('argumentListController', ['$scope', '$rootScope', 'saviorOfCl
 			description:'add your description here!'
 		}
 		$rootScope.currentDraft[$scope.side][argIndex].reasons.push(emptyReasonObj);
+		
 	}
 
 	$scope.deleteArgument = function(argIndex){
