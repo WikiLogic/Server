@@ -3,9 +3,25 @@ WikiLogic 0.3
 
 The third prototype, making everything more modular
 
+---
+
+##Why is this a thing:
+
+How do you know that something, anything, is true? Lets leave out the deeper questions about the actual meaning of the word 'true' or 'truth' and focus on the day to day, practical laymens apreciation of the word 'true'.  You probably read something or herd someone say something.  That's generally how it goes, we have to trust people.  But how do they know what they said / wrote is true?  They probably read something or heard something said from another person who they deemed trustworthy.  But then, how did that person know what they said is true... See the pattern? 
+
+Let's take it from a different angle.  
+
+---
+
+##What are we doing about it:
+
 Wikilogic lets you check the truth of a statement based on a [Dynamic Logic Web](http://www.wikilogicfoundation.org/dynamic-logic-web).  It also allows users to build and explore this Logic Web in order to gain a greater understanding of whatever subject, question, or statement they may have in mind.
 For a more detailed description visit our [website](http://www.wikilogicfoundation.org/)
 This is an open source project so please feel free to get involved!
+
+---
+
+##How are we doing it:
 
 ---
 
