@@ -24,6 +24,13 @@ Editor.controller('argumentListController', ['$scope', '$rootScope', 'saviorOfCl
 		
 	}
 
+	$scope.changeReason = function(reasonIndex, reasonDecription) {
+		//maybe wait a bit?
+		console.log('changing reason', reasonDecription, ' from arg ', reasonIndex ,' on ', $scope.side);
+		//$rootScope.claimSearch = $rootScope.currentDraft.description;
+		//set which reason is in focus
+	}
+
 	$scope.deleteArgument = function(argIndex){
 		console.log('deleting ', argIndex, ' from ', $scope.side);
 	}

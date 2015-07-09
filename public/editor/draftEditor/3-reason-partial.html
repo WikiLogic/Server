@@ -12,7 +12,7 @@ You could say this is the soul of WL!
 	</div>
 <!--ng-change="changeReason()"-->
 	<div class="autosizing-input reason__description">
-		<textarea name="" id="" class="autosizing-input__input" ng-change="changeReason(reason.description)" cols="30" rows="10" ng-model="reason.description"></textarea>
+		<textarea name="" id="" class="autosizing-input__input" ng-change="changeReason($index, reason.description)" cols="30" rows="10" ng-model="reason.description"></textarea>
 		<div class="autosizing-input__sizer">{{reason.description}}</div>
 	</div>
 
