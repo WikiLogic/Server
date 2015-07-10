@@ -14,7 +14,7 @@ This is the guy that creates the two columns,
 
 			<!-- for each for argument in currentDraft.supporting -->
 			<div ng-repeat="arg in currentDraft.supporting track by $index">
-				<div ng-controller="argumentListController" ng-init="init('supporting')" ng-include src="'/editor/single/argument-partial.html'">
+				<div ng-controller="argumentListController" ng-init="init('supporting', $index)" ng-include src="'/editor/single/argument-partial.html'">
 					
 				</div>
 			</div>				
@@ -30,7 +30,7 @@ This is the guy that creates the two columns,
 			
 			<!-- for each for argument in currentDraft.opposing -->
 			<div ng-repeat="arg in currentDraft.opposing track by $index">
-				<div ng-controller="argumentListController" ng-init="init('opposing')" ng-include src="'/editor/single/argument-partial.html'">
+				<div ng-controller="argumentListController" ng-init="init('opposing', $index)" ng-include src="'/editor/single/argument-partial.html'">
 					
 				</div>
 			</div>	
