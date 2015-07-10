@@ -30,7 +30,7 @@ angular.module('Explorer')
 				 * idea for the future
 				 */
 				 console.log('searching servive');
-				return $http.get('/list-claims?searchTerm=' + searchTerm).success(function(data, status, headers, config) {
+				return $http.get('/search-claims?searchTerm=' + searchTerm).success(function(data, status, headers, config) {
 					console.log('search service results: ', data);
 					service.claims = data;
 				}).error(function(data, status, headers, config) {
