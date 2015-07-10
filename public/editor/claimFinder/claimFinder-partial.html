@@ -6,11 +6,7 @@
 </div>
 
 <h3 class="claim-finder__section-title">Your Drafts</h3>
-<div ng-include src="'/editor/claimFinder/claimSearchResult-partial.html'"></div>
-<div ng-include src="'/editor/claimFinder/claimSearchResult-partial.html'"></div>
+<div ng-repeat="claim in claimResults.myDrafts" ng-include src="'/editor/claimFinder/claimSearchResult-partial.html'"></div>
 
 <h3 class="claim-finder__section-title">Published Claims</h3>
-<div ng-include src="'/editor/claimFinder/claimSearchResult-partial.html'"></div>
-<div ng-include src="'/editor/claimFinder/claimSearchResult-partial.html'"></div>
-<div ng-include src="'/editor/claimFinder/claimSearchResult-partial.html'"></div>
-<div ng-include src="'/editor/claimFinder/claimSearchResult-partial.html'"></div>
+<div ng-repeat="claim in claimResults.claims" ng-include src="'/editor/claimFinder/claimSearchResult-partial.html'"></div>

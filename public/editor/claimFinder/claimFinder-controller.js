@@ -12,6 +12,7 @@ Editor.controller('claimFinderController', ['$scope', '$rootScope', '$routeParam
 		$scope.open = false;
 		$scope.claimResults = {};
 		$scope.claimResults.claims = [];
+		$scope.claimResults.myDrafts = [];
 		$scope.claimResults.meta = {};
 
 		$rootScope.$watch('claimSearch', function(newVal,oldVal){
@@ -30,7 +31,7 @@ Editor.controller('claimFinderController', ['$scope', '$rootScope', '$routeParam
 
 		//search drafts - client side
 
-		//search users published claims - client side
+		//search users published claims - client side, or just highlight them when they appear
 
 		//search published claims - server
 		var searchPublished = function(searchTerm){
