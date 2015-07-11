@@ -1,7 +1,7 @@
 'use strict';
 
 
-Editor.controller('argumentListController', ['$scope', '$rootScope', 'saviorOfClaims', function($scope, $rootScope, saviorOfClaims) {
+Editor.controller('argumentController', ['$scope', '$rootScope', 'saviorOfClaims', function($scope, $rootScope, saviorOfClaims) {
 
  	
 	/*
@@ -16,7 +16,8 @@ Editor.controller('argumentListController', ['$scope', '$rootScope', 'saviorOfCl
 
 	$scope.addReason = function(argIndex){
 		var emptyReasonObj = {
-			description:'add your description here!'
+			description:'add your description here!',
+			state: 'unsaved'
 		}
 		$rootScope.currentDraft[$scope.side][argIndex].reasons.push(emptyReasonObj);
 		
@@ -27,6 +28,9 @@ Editor.controller('argumentListController', ['$scope', '$rootScope', 'saviorOfCl
 		$rootScope.claimSearch = reasonDecription;
 
 		//set this reason to active, change state.  -- need to figure out how to turn off active state
+
+		//set this reason to unsaved (until save as new draft is clicked or it's replaced with a search result)
+		$rootScope.currentDraft[$scope.side][$scope.argIndex].reasons[reasonIndex].state = 'unsaved';
 
 		//now watch for a selection from the search (which is global)
 		//Maybe create a search service - which returns when selected
@@ -43,6 +47,14 @@ Editor.controller('argumentListController', ['$scope', '$rootScope', 'saviorOfCl
 		});
 		//$rootScope.claimSearch = $rootScope.currentDraft.description;
 		//set which reason is in focus
+	}
+
+	/*
+	 * When a user writes up a new reason wihtin an argument of the currentDraft, it may not already exist
+	 * This allows them to save it as a new, blank draftClaim
+	 */
+	$scope.saveNewReason = function(reasonIndex){
+		console.log('saving new reason as draft: ', reasonIndex);
 	}
 
 	$scope.deleteArgument = function(argIndex){

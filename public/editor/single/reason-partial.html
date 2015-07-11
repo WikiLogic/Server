@@ -15,6 +15,8 @@ You could say this is the soul of WL!
 		<textarea name="" id="" class="autosizing-input__input" ng-change="changeReason($index, reason.description)" cols="30" rows="10" ng-model="reason.description"></textarea>
 		<div class="autosizing-input__sizer">{{reason.description}}</div>
 	</div>
+	<p>state: {{reason.state}}</p>
 
 	<div class="btn btn--small">delete</div>
+	<div class="btn btn--small" ng-click="saveNewReason($index)">save</div>
 </div>
