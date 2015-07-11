@@ -1,5 +1,12 @@
 'use strict';
-
+/*
+ * init()
+ * addReason()
+ * changeReason()
+ * saveNewReason()
+ * deleteArgument()
+ *
+ */
 
 Editor.controller('argumentController', ['$scope', '$rootScope', 'saviorOfClaims', function($scope, $rootScope, saviorOfClaims) {
 
@@ -55,6 +62,16 @@ Editor.controller('argumentController', ['$scope', '$rootScope', 'saviorOfClaims
 	 */
 	$scope.saveNewReason = function(reasonIndex){
 		console.log('saving new reason as draft: ', reasonIndex);
+		var reasonToSave = $rootScope.currentDraft[$scope.side][$scope.argIndex].reasons[reasonIndex];
+		saviorOfClaims.saveClaimToProfile(reasonToSave).success(function(result){
+
+			$scope.user.meta.unPublished.push(result);
+			//TODO: update status!
+			$rootScope.currentDraft[$scope.side][$scope.argIndex].reasons[reasonIndex].state = 'saved!';
+
+		}).error(function(){
+			console.log('saving the new reason as a draft to your profile failed somehow');
+		});
 	}
 
 	$scope.deleteArgument = function(argIndex){
