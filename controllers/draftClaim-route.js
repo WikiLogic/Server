@@ -68,6 +68,27 @@ var express = require('express'),
 
 	//route to update an existing draft claim
 	router.post('/update', function(req, res) {
+		console.log('UPDATING DRAFT!');
+		var draftCandidate = req.body.draftClaim;
+
+		//TODO: clean input
+		/*
+		var draftToUpdate.description = draftCandidate.description;
+		draftToUpdate.supporting = draftCandidate.supporting;
+		draftToUpdate.opposing = draftCandidate.opposing;
+		draftToUpdate.meta = draftCandidate.meta;
+		console.log("THIS DRAFT: ", draftToUpdate);
+		*/
+
+		DraftClaim.update({_id:draftCandidate._id}, draftCandidate, { multi: true }, function(err, savedDraft){
+			if(err) {
+				console.log('ERROR: ', err);
+				res.status(500).send('Error in saving new draft Claim to database.');
+			} else {
+				console.log("DRAFT SAVED: ", savedDraft);
+				res.status(200).send(savedDraft);
+			}
+		});
 
 	});
 

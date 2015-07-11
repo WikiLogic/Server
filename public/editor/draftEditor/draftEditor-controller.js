@@ -40,7 +40,7 @@ Editor.controller('draftEditorController', ['$scope', '$rootScope', '$routeParam
 
 	$scope.saveEdit = function(draftClaim){
 		console.log('saving edits ', draftClaim);
-		saviorOfClaims.saveClaimToProfile(draftClaim).success(function(result){
+		saviorOfClaims.updateDraft(draftClaim).success(function(result){
 
 			console.log('saved edits!');
 
