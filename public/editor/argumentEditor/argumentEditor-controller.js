@@ -36,6 +36,7 @@ Editor.controller('argumentListController', ['$scope', '$rootScope', 'saviorOfCl
 			} else {
 				//set the selected search item and assign it to our reason
 				$rootScope.currentDraft[$scope.side][$scope.argIndex].reasons[reasonIndex] = newVal;
+				$rootScope.finderOpen = false;
 				listener(); //clear the watch?
 
 			}

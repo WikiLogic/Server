@@ -9,24 +9,31 @@ Editor.controller('claimFinderController', ['$scope', '$rootScope', '$routeParam
 		//who called me!  Need to change the way I act - they're looking to use one of my results for something
 		//Maybe I should just add the result to a rootScope variable? Yeah - that sounds pretty good, super simple!
 
-		$scope.open = false;
+		$rootScope.finderOpen = false;
 		$scope.claimResults = {};
 		$scope.claimResults.claims = [];
 		$scope.claimResults.myDrafts = [];
 		$scope.claimResults.meta = {};
 
+		//initiates search when $rootScope.claimSearch changes
 		$rootScope.$watch('claimSearch', function(newVal,oldVal){
 			if (newVal === oldVal) {
 				//called to init
 			} else {
-				if (!$scope.open){
-					//add class to body
-					$('#editor-app').addClass('finderActive');
-					$scope.open = true;
-				}
-				console.log('searching: ', newVal);
+				$rootScope.finderOpen = true;
 				searchPublished(newVal);
 			}
+		});
+
+		//handles the open / close state of the search
+		$rootScope.$watch('finderOpen', function(newVal,oldVal){
+			
+			if ($rootScope.finderOpen){
+				$('#editor-app').addClass('finderActive');
+			} else {
+				$('#editor-app').removeClass('finderActive');
+			}
+
 		});
 
 		//search drafts - client side
@@ -57,8 +64,7 @@ Editor.controller('claimFinderController', ['$scope', '$rootScope', '$routeParam
 		}
 
 		$scope.close = function(){
-			$('#editor-app').removeClass('finderActive');
-			$scope.open = false;
+			$rootScope.finderOpen = false;
 		}
 
 	}
