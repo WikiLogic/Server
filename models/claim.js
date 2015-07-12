@@ -27,16 +27,37 @@ var claimSchema = mongoose.Schema({
         type: String,
     },
     supporting: [{
-            type: Schema.ObjectId,
-            ref: 'Argument'
+            status: {
+                type: Boolean,
+                defaut: false
+            },
+            reasons: [{
+                    type: Schema.ObjectId,
+                    ref: 'Claim',
+                    default: []
+            }]
     }],
     opposing: [{
-            type: Schema.ObjectId,
-            ref: 'Argument'
+            status: {
+                type: Boolean,
+                defaut: false
+            },
+            reasons: [{
+                    type: Schema.ObjectId,
+                    ref: 'Claim',
+                    default: []
+            }]
     }],
     usedIn: [{
-            type: Schema.ObjectId,
-            ref: 'Argument'
+            status: {
+                type: Boolean,
+                defaut: false
+            },
+            reasons: [{
+                    type: Schema.ObjectId,
+                    ref: 'Claim',
+                    default: []
+            }]
     }],
     meta: {
         author: {

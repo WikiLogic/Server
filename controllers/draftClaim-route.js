@@ -68,9 +68,9 @@ var express = require('express'),
 
 	//route to update an existing draft claim
 	router.post('/update', function(req, res) {
-		console.log('UPDATING DRAFT!');
+		
 		var draftCandidate = req.body.draftClaim;
-
+		console.log('UPDATING DRAFT: ', draftCandidate);
 		//TODO: clean input
 		/*
 		var draftToUpdate.description = draftCandidate.description;
@@ -79,6 +79,24 @@ var express = require('express'),
 		draftToUpdate.meta = draftCandidate.meta;
 		console.log("THIS DRAFT: ", draftToUpdate);
 		*/
+
+		//TODO deal with supporting / opposing - they need to be refs not objects (args as objects? should this change?)
+		
+		//iterate through supporting arguments
+		for (var i = 0; i < draftCandidate.supporting.length; i++) {
+			//iterate through arg reasons
+			for (var j = 0; j < draftCandidate.supporting[i].reasons.length; j++) {
+				console.log('reason: ', draftCandidate.supporting[i].reasons[j]);
+			}
+		}
+		//iterate through opposing arguments
+		for (var i = 0; i < draftClaim.opposing.length; i++){
+			//iterate through arg reasons
+			for (var j = 0; j < draftCandidate.supporting[i].reasons.length; j++) {
+				console.log('reason: ', draftCandidate.supporting[i].reasons[j]);
+			}
+		}
+
 
 		DraftClaim.update({_id:draftCandidate._id}, draftCandidate, { multi: true }, function(err, savedDraft){
 			if(err) {
