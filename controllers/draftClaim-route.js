@@ -80,17 +80,20 @@ var express = require('express'),
 		console.log("THIS DRAFT: ", draftToUpdate);
 		*/
 
-		//TODO deal with supporting / opposing - they need to be refs not objects (args as objects? should this change?)
+		//TODO deal with supporting / opposing - they need to be _id refs not full objects (args as objects? should this change?)
 		
 		//iterate through supporting arguments
 		for (var i = 0; i < draftCandidate.supporting.length; i++) {
+			console.log('checking supporting args');
 			//iterate through arg reasons
 			for (var j = 0; j < draftCandidate.supporting[i].reasons.length; j++) {
 				console.log('reason: ', draftCandidate.supporting[i].reasons[j]);
+
 			}
 		}
 		//iterate through opposing arguments
-		for (var i = 0; i < draftClaim.opposing.length; i++){
+		for (var i = 0; i < draftCandidate.opposing.length; i++){
+			console.log('checking opposing args');
 			//iterate through arg reasons
 			for (var j = 0; j < draftCandidate.supporting[i].reasons.length; j++) {
 				console.log('reason: ', draftCandidate.supporting[i].reasons[j]);

@@ -62,15 +62,25 @@ Editor.controller('argumentController', ['$scope', '$rootScope', 'saviorOfClaims
 	 */
 	$scope.saveNewReason = function(reasonIndex){
 		console.log('saving new reason as draft: ', reasonIndex);
+		//Get the reason from within the global current draft object
 		var reasonToSave = $rootScope.currentDraft[$scope.side][$scope.argIndex].reasons[reasonIndex];
-		saviorOfClaims.saveClaimToProfile(reasonToSave).success(function(result){
 
+		saviorOfClaims.saveClaimToProfile(reasonToSave).success(function(result){
+			//The server has now confirmed the new claim to have been saved and sent us the full claim object
+
+			//add it to the user object 
 			$scope.user.meta.unPublished.push(result);
-			//TODO: update status!
+
+			//replace the reason object with the full returned object (with date, _id, ...)
+			$rootScope.currentDraft[$scope.side][$scope.argIndex].reasons[reasonIndex] = result;
+			
+			//Update status
 			$rootScope.currentDraft[$scope.side][$scope.argIndex].reasons[reasonIndex].state = 'saved!';
 
 		}).error(function(){
-			console.log('saving the new reason as a draft to your profile failed somehow');
+			//In the event that the new claim has not been saved - save it locally
+			//TODO: save claims locally when server fails
+			console.error('TODO: save claims locally when server fails');
 		});
 	}
 
