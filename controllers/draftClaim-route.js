@@ -119,7 +119,34 @@ var express = require('express'),
 	router.post('/get-draft', function(req, res) {
 		console.log('getting: ', req.body.draftClaim);
 		var draftClaim = req.body.draftClaim;
+		console.log('POPULATING: ', draftClaim.supporting[0].reasons);
 		var currentUser = req.user;
+
+		//got the full draft object, now to populate it :D (but do we get the reason IDs?)
+		//iterate through supporting args
+		for (var i = 0; i < draftClaim.supporting.length; i++) {
+			console.log('supporting original: ', draftClaim.supporting[i].reasons);
+			console.log('supporting replaced: ', reasonArrayToObjectIds(draftClaim.supporting[i].reasons));
+		}
+		//iterate through opposing
+		for (var i = 0; i < draftClaim.supporting.length; i++) {
+
+		}
+
+		function reasonArrayToObjectIds(reasonArray){
+			var newObjIDarray = [];
+			for (var i = 0; i < reasonArray.length; i++) {
+				var objID = new mongoose.Types.ObjectID(reasonArray[i]);  //TODO - this function not defined
+				newObjIDarray.push(objID);
+			}
+			return newObjIDarray;
+		}
+
+
+		//mongoose poopulate
+		DraftClaim.populate(draftClaim.supporting[0], { path:reasonID }, function(err, populatedDraft){
+			console.log('POPULATED: ', populatedDraft);
+		});
 		
 /*
 		async.waterfall([
