@@ -81,6 +81,7 @@ var express = require('express'),
 		*/
 
 		//TODO deal with supporting / opposing - they need to be _id refs not full objects (args as objects? should this change?)
+		//This changed - now supporting reasons have alreayd been saved, we're receiving their full objects, mongose casts to _id
 		
 		//iterate through supporting arguments
 		for (var i = 0; i < draftCandidate.supporting.length; i++) {
@@ -100,18 +101,50 @@ var express = require('express'),
 			}
 		}
 
-
-		DraftClaim.update({_id:draftCandidate._id}, draftCandidate, { multi: true }, function(err, savedDraft){
+		//for some reason, this is giving our supporting array IDs for each object
+		DraftClaim.update({_id:draftCandidate._id}, draftCandidate, { multi: true }, function(err, responseMeta){
 			if(err) {
 				console.log('ERROR: ', err);
 				res.status(500).send('Error in saving new draft Claim to database.');
 			} else {
-				console.log("DRAFT SAVED: ", savedDraft);
-				res.status(200).send(savedDraft);
+				console.log("DRAFT SAVED: ", responseMeta);
+				res.status(200).send(responseMeta);
 			}
 		});
 
 	});
+
+
+	//GET a draft claim AND all it's supporting / opposing claims / draftClaims
+	router.post('/get-draft', function(req, res) {
+		console.log('getting: ', req.body.draftClaim);
+		var draftClaim = req.body.draftClaim;
+		var currentUser = req.user;
+		
+/*
+		async.waterfall([
+			function(callback){
+				//1. Delete draft claim
+				DraftClaim.find({'_id':req.body.draftClaimID}).exec(function(err,result){
+					if(err) res.status(500).send('DB error in getting draftClaim');
+					callback(null); //keep async
+				});
+			},
+			function(callback){
+				//2.1 remove from user's list of drafts
+				var killDex = currentUser.meta.unPublished.indexOf(req.body.draftClaimID);
+				currentUser.meta.unPublished.splice(killDex, 1);
+
+				//2.2 Save modification of user to db
+				currentUser.save(function(err, result){
+					if(err) console.log('error in adding publishd claim to user profile', err);
+					console.log('Saved user :D ', result);
+					res.status(200).send();
+				});
+			}
+		]);*/
+	});
+
 
 	//DELETE a draft claim, double check on the client side
 	router.post('/delete', function(req, res) {

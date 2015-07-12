@@ -30,8 +30,7 @@ var draftClaimSchema = mongoose.Schema({
             },
             reasons: [{
                     type: Schema.ObjectId,
-                    ref: 'Claim',
-                    default: []
+                    ref: 'Claim'
             }]
     }],
     opposing: [{
@@ -41,8 +40,7 @@ var draftClaimSchema = mongoose.Schema({
             },
             reasons: [{
                     type: Schema.ObjectId,
-                    ref: 'Claim',
-                    default: []
+                    ref: 'Claim'
             }]
     }],
     meta: {

@@ -1,10 +1,12 @@
-var mongoose = require('mongoose');
+
+//var mongoose = require('mongoose');
 
 /**
  * The Argument Schema
  * status: true means this is a supporting argument
  */
 
+/*
 var argumentSchema = mongoose.Schema({
 
     status: {
@@ -19,15 +21,16 @@ var argumentSchema = mongoose.Schema({
 
 });
 
+*/
 /* Argument methods 
 =========================================================================*/
 
 // generating a hash, storing it as the password
-argumentSchema.methods.evaluate = function() {
+/*argumentSchema.methods.evaluate = function() {
     //check claims
     return true;
 };
-
+*/
 
 /* creates a model and exports it for the app to use */
-module.exports = mongoose.model('Argument', argumentSchema);
+//module.exports = mongoose.model('Argument', argumentSchema);

@@ -3,7 +3,8 @@
  * 
  */
 
-Editor.controller('draftEditorController', ['$scope', '$rootScope', '$routeParams', 'saviorOfClaims', function($scope, $rootScope, $routeParams, saviorOfClaims) {
+Editor.controller('draftEditorController', ['$scope', '$rootScope', '$routeParams', 'myDataService', 'saviorOfClaims', 
+function($scope, $rootScope, $routeParams, myDataService, saviorOfClaims) {
 
 	$scope.init = function(){
 		if ($rootScope.user) {
@@ -29,20 +30,30 @@ Editor.controller('draftEditorController', ['$scope', '$rootScope', '$routeParam
 	}
 
 	var setCurrentDraft = function(draftID){
-		console.log('setting current draft for editor');
+		
+		console.log('setting current draft for editor (from user object list)');
 		for (var i=0; i< $rootScope.user.meta.unPublished.length; i++){
 			if ($rootScope.user.meta.unPublished[i]._id == draftID){
 				$rootScope.currentDraft = $rootScope.user.meta.unPublished[i];
 				break;
 			}
 		}
+
+		console.log('now getting all the reasons to populate the supporting / opposing args of current draft');
+		myDataService.getDraftClaim($rootScope.currentDraft).success(function(result){
+			//on success, set the current draft's args to be the populated version returned from the server
+			console.log('POPULATION: ', result);
+			
+		}).error(function(){
+			//TODO: do something when publish fails
+		});
 	}
 
 	$scope.saveEdit = function(draftClaim){
 		console.log('saving edits ', draftClaim);
 		saviorOfClaims.updateDraft(draftClaim).success(function(result){
 
-			console.log('saved edits!');
+			console.log('finished saving, current draft: ', $rootScope.currentDraft);
 
 		}).error(function(){
 			console.log('saving edits failed somehow');
