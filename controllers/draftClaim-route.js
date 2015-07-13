@@ -136,7 +136,7 @@ var express = require('express'),
 		function reasonArrayToObjectIds(reasonArray){
 			var newObjIDarray = [];
 			for (var i = 0; i < reasonArray.length; i++) {
-				var objID = new mongoose.Types.ObjectID(reasonArray[i]);  //TODO - this function not defined
+				var objID = new mongoose.Types.ObjectId(reasonArray[i]);
 				newObjIDarray.push(objID);
 			}
 			return newObjIDarray;
@@ -144,7 +144,7 @@ var express = require('express'),
 
 
 		//mongoose poopulate
-		DraftClaim.populate(draftClaim.supporting[0], { path:reasonID }, function(err, populatedDraft){
+		DraftClaim.populate(draftClaim.supporting[0], { path:reasonID }, function(err, populatedDraft){ //TODO reasonID not defined
 			console.log('POPULATED: ', populatedDraft);
 		});
 		
