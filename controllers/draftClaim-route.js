@@ -144,32 +144,22 @@ var express = require('express'),
 
 
 		//mongoose poopulate
-		DraftClaim.populate(draftClaim.supporting[0], { path:reasonID }, function(err, populatedDraft){ //TODO reasonID not defined
-			console.log('POPULATED: ', populatedDraft);
-		});
-		
-/*
-		async.waterfall([
-			function(callback){
-				//1. Delete draft claim
-				DraftClaim.find({'_id':req.body.draftClaimID}).exec(function(err,result){
-					if(err) res.status(500).send('DB error in getting draftClaim');
-					callback(null); //keep async
-				});
-			},
-			function(callback){
-				//2.1 remove from user's list of drafts
-				var killDex = currentUser.meta.unPublished.indexOf(req.body.draftClaimID);
-				currentUser.meta.unPublished.splice(killDex, 1);
+		//DraftClaim.populate(draftClaim.supporting[0], { path:'reasonID' }, function(err, populatedDraft){
+		//	console.log('POPULATED: ', populatedDraft); //TODO this should return a full object
+			//this guy: https://github.com/Automattic/mongoose/blob/master/bin/mongoose.js#L2415
+		//});
 
-				//2.2 Save modification of user to db
-				currentUser.save(function(err, result){
-					if(err) console.log('error in adding publishd claim to user profile', err);
-					console.log('Saved user :D ', result);
-					res.status(200).send();
-				});
-			}
-		]);*/
+		var draftQuery = DraftClaim.find({_id:draftClaim._id});
+
+		for (var i = 0; i < draftClaim.supporting.length; i++) {
+			draftQuery.populate(supporting[i].reasons);
+		}
+		draftQuery.exec(function(err, draftClaim){
+			console.log('FOUND: ', draftClaim);
+		});
+
+
+		
 	});
 
 
