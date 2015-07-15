@@ -117,6 +117,9 @@ var express = require('express'),
 
 	//GET a draft claim AND all it's supporting / opposing claims / draftClaims
 	router.post('/get-draft', function(req, res) {
+
+
+		//----------------------------------------------------------------------
 		console.log('getting: ', req.body.draftClaim);
 		var draftClaim = req.body.draftClaim;
 		console.log('POPULATING: ', draftClaim.supporting[0].reasons);
@@ -142,6 +145,7 @@ var express = require('express'),
 			return newObjIDarray;
 		}
 		//------------------------------------------------------------------------
+		
 
 		//async each will perform the find in parallel for each reason ID object
 		//give the object the ID, Side, and ArgIndex
@@ -154,21 +158,21 @@ var express = require('express'),
 			}
 		*/
 
+		//iterate through the supporting reasons and add them to the object array
 		for (var i = 0; i < draftClaim.supporting.length; i++) {
 			for (var j = 0; j < draftClaim.supporting[i].reasons.length; j++) {
-
-				//build into reasonIDs array
-				var thisReason = {
-					ID:draftClaim.supporting[i].reasons[j],
-					side:'supporting',
-					argIndex:i,
-					reasonIndex:j
-				}
-				reasonIDs.push(thisReason);
-
+				buildReasonsObject('supporting', i, j);
 			}
 		}
 
+		//iterate through the opposing reasons and add them to the object array
+		for (var i = 0; i < draftClaim.opposing.length; i++) {
+			for (var j = 0; j < draftClaim.opposing[i].reasons.length; j++) {
+				buildReasonsObject('opposing', i, j);
+			}
+		}
+
+		//this is the function that adds the specific details to the object array
 		function buildReasonsObject(side, argIndex, reasonIndex){
 			var thisReason = {};
 
@@ -187,30 +191,29 @@ var express = require('express'),
 			reasonIDs.push(thisReason);
 		}
 		
-
+		//for each object in the object array, go find a claim in the DB
 		async.each(reasonIDs, function(singleReason, callback) {
 
 			console.log('finding this reason: ', singleReason);
-			
 			DraftClaim.find({_id:draftClaim.supporting[i].reasons[j]}).exec(function(err, result){
 				if(err){callback(err);}
 				console.log('found one!', result);
 				//TODO add result to responce object
+
+				callback();
 			});
 			
-			callback();//only add an arg if something failes
-
 		}, function(err){
+
 			if( err ) {
 				// If one of the iterations adds an arg to the callback, everything stops and that arg is this err
 				console.log('A reason failed to be found');
 			} else {
 				console.log('SUCCESS!');
+				//TODO return responce to client
 			}
+
 		});
-
-
-		
 	});
 
 
