@@ -152,11 +152,15 @@ var express = require('express'),
 		var draftQuery = DraftClaim.find({_id:draftClaim._id});
 
 		for (var i = 0; i < draftClaim.supporting.length; i++) {
-			draftQuery.populate(supporting[i].reasons);
+			
+			for (var j = 0; j < draftClaim.supporting[i].reasons.length; j++) {
+				console.log('finding this reason: ', draftClaim.supporting[i].reasons[j]);
+				DraftClaim.find({_id:draftClaim.supporting[i].reasons[j]}).exec(function(err, result){
+					if(err){console.log(err);}
+					console.log('found!', result);
+				});
+			}
 		}
-		draftQuery.exec(function(err, draftClaim){
-			console.log('FOUND: ', draftClaim);
-		});
 
 
 		
