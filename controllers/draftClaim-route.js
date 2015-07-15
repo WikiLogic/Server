@@ -141,26 +141,73 @@ var express = require('express'),
 			}
 			return newObjIDarray;
 		}
+		//------------------------------------------------------------------------
 
-
-		//mongoose poopulate
-		//DraftClaim.populate(draftClaim.supporting[0], { path:'reasonID' }, function(err, populatedDraft){
-		//	console.log('POPULATED: ', populatedDraft); //TODO this should return a full object
-			//this guy: https://github.com/Automattic/mongoose/blob/master/bin/mongoose.js#L2415
-		//});
-
-		var draftQuery = DraftClaim.find({_id:draftClaim._id});
+		//async each will perform the find in parallel for each reason ID object
+		//give the object the ID, Side, and ArgIndex
+		var reasonIDs = [];
+		/* going to build an array of objects like this:
+			{
+				ID : 
+				side : 
+				argIndex :
+			}
+		*/
 
 		for (var i = 0; i < draftClaim.supporting.length; i++) {
-			
 			for (var j = 0; j < draftClaim.supporting[i].reasons.length; j++) {
-				console.log('finding this reason: ', draftClaim.supporting[i].reasons[j]);
-				DraftClaim.find({_id:draftClaim.supporting[i].reasons[j]}).exec(function(err, result){
-					if(err){console.log(err);}
-					console.log('found!', result);
-				});
+
+				//build into reasonIDs array
+				var thisReason = {
+					ID:draftClaim.supporting[i].reasons[j],
+					side:'supporting',
+					argIndex:i,
+					reasonIndex:j
+				}
+				reasonIDs.push(thisReason);
+
 			}
 		}
+
+		function buildReasonsObject(side, argIndex, reasonIndex){
+			var thisReason = {};
+
+			//Set the easy stuff
+			thisReason.side = side;
+			thisReason.argIndex = argIndex;
+			thisReason.reasonIndex = reasonIndex;
+
+			//set the ID
+			if (side == 'supporting'){
+				thisReason.ID = draftClaim.supporting[argIndex].reasons[reasonIndex];
+			} else {
+				thisReason.ID = draftClaim.opposing[argIndex].reasons[reasonIndex];
+			}
+				
+			reasonIDs.push(thisReason);
+		}
+		
+
+		async.each(reasonIDs, function(singleReason, callback) {
+
+			console.log('finding this reason: ', singleReason);
+			
+			DraftClaim.find({_id:draftClaim.supporting[i].reasons[j]}).exec(function(err, result){
+				if(err){callback(err);}
+				console.log('found one!', result);
+				//TODO add result to responce object
+			});
+			
+			callback();//only add an arg if something failes
+
+		}, function(err){
+			if( err ) {
+				// If one of the iterations adds an arg to the callback, everything stops and that arg is this err
+				console.log('A reason failed to be found');
+			} else {
+				console.log('SUCCESS!');
+			}
+		});
 
 
 		
