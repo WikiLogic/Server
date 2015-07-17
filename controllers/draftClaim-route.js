@@ -184,9 +184,12 @@ var express = require('express'),
 
 				//Iterte through the array of argument objects on the relevant side
 				for (var i = 0; i < draftClaim[singleReason.side].length; i++) {
+					console.log('In Arg ', i);
 					//iterate through the reasons within the argument object
 					for (var j = 0; j < draftClaim[singleReason.side][i].reasons.length; j++){
-						if (draftClaim[singleReason.side][i].reasons[j]._id == result._id) {
+
+						console.log('Checking: ', draftClaim[singleReason.side][i].reasons[j], 'aginst', result._id);
+						if (draftClaim[singleReason.side][i].reasons[j] == result._id) {
 							console.log('OLD: ', draftClaim[singleReason.side][i].reasons[j]);
 							console.log('NEW: ', result);
 							draftClaim[singleReason.side][i].reasons[j] = result;
