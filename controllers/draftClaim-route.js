@@ -118,38 +118,13 @@ var express = require('express'),
 	//GET a draft claim AND all it's supporting / opposing claims / draftClaims
 	router.post('/get-draft', function(req, res) {
 
-
-		//----------------------------------------------------------------------
-		console.log('getting: ', req.body.draftClaim);
 		var draftClaim = req.body.draftClaim;
-		console.log('POPULATING: ', draftClaim.supporting[0].reasons);
-		var currentUser = req.user;
+		console.log('DRAFT CLAIM: ', draftClaim);
 
-		//got the full draft object, now to populate it :D (but do we get the reason IDs?)
-		//iterate through supporting args
-		for (var i = 0; i < draftClaim.supporting.length; i++) {
-			console.log('supporting original: ', draftClaim.supporting[i].reasons);
-			console.log('supporting replaced: ', reasonArrayToObjectIds(draftClaim.supporting[i].reasons));
-		}
-		//iterate through opposing
-		for (var i = 0; i < draftClaim.supporting.length; i++) {
-
-		}
-
-		function reasonArrayToObjectIds(reasonArray){
-			var newObjIDarray = [];
-			for (var i = 0; i < reasonArray.length; i++) {
-				var objID = new mongoose.Types.ObjectId(reasonArray[i]);
-				newObjIDarray.push(objID);
-			}
-			return newObjIDarray;
-		}
-		//------------------------------------------------------------------------
-		
 
 		//async each will perform the find in parallel for each reason ID object
 		//give the object the ID, Side, and ArgIndex
-		var reasonIDs = [];
+		var reasonDataArray = [];
 		/* going to build an array of objects like this:
 			{
 				ID : 
@@ -180,6 +155,7 @@ var express = require('express'),
 			thisReason.side = side;
 			thisReason.argIndex = argIndex;
 			thisReason.reasonIndex = reasonIndex;
+			thisReason.reasonObj = {};
 
 			//set the ID
 			if (side == 'supporting'){
@@ -188,17 +164,26 @@ var express = require('express'),
 				thisReason.ID = draftClaim.opposing[argIndex].reasons[reasonIndex];
 			}
 				
-			reasonIDs.push(thisReason);
+			reasonDataArray.push(thisReason);
 		}
 		
 		//for each object in the object array, go find a claim in the DB
-		async.each(reasonIDs, function(singleReason, callback) {
+		async.each(reasonDataArray, function(singleReason, callback) {
 
-			console.log('finding this reason: ', singleReason);
-			DraftClaim.find({_id:draftClaim.supporting[i].reasons[j]}).exec(function(err, result){
+			console.log('finding this reason: ', singleReason.ID);
+			DraftClaim.findOne({_id:singleReason.ID}).exec(function(err, result){
 				if(err){callback(err);}
 				console.log('found one!', result);
 				//TODO add result to responce object
+
+				for (var i = 0; i < reasonDataArray.length; i++) {
+					console.log('finding the array bit to add the reason data into.');
+					if (reasonDataArray[i].ID == result._id) {
+						console.log("THIS SIDE: ", draftClaim[reasonDataArray[i].side]);
+						reasonDataArray[i].reasonObj = result;
+						break;
+					}
+				}
 
 				callback();
 			});
@@ -209,7 +194,8 @@ var express = require('express'),
 				// If one of the iterations adds an arg to the callback, everything stops and that arg is this err
 				console.log('A reason failed to be found');
 			} else {
-				console.log('SUCCESS!');
+				console.log('SUCCESS!', reasonDataArray);
+				res.status(200).send(reasonDataArray);
 				//TODO return responce to client
 			}
 
