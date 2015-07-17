@@ -43,6 +43,7 @@ function($scope, $rootScope, $routeParams, myDataService, saviorOfClaims) {
 		myDataService.getDraftClaim($rootScope.currentDraft).success(function(result){
 			//on success, set the current draft's args to be the populated version returned from the server
 			console.log('POPULATION: ', result);
+			$rootScope.currentDraft = result; //TODO - maybe don't replace things that are being edited.
 			
 		}).error(function(){
 			//TODO: do something when publish fails
