@@ -171,18 +171,30 @@ var express = require('express'),
 		async.each(reasonDataArray, function(singleReason, callback) {
 
 			console.log('finding this reason: ', singleReason.ID);
+
+			//Don't think single reason is getting passed into the findOne function
 			DraftClaim.findOne({_id:singleReason.ID}).exec(function(err, result){
 				if(err){callback(err);}
-				console.log('found one!', result);
+				//console.log('found one!', result);
 				//TODO add result to responce object
 
-				for (var i = 0; i < reasonDataArray.length; i++) {
-					console.log('finding the array bit to add the reason data into.');
-					if (reasonDataArray[i].ID == result._id) {
-						console.log("THIS SIDE: ", draftClaim[reasonDataArray[i].side]);
-						reasonDataArray[i].reasonObj = result;
-						break;
+				//this is the side (supporting / opposing)
+				//draftClaim[singleReason.side]
+				console.log('THIS SIDE: ', singleReason.side);
+
+				//Iterte through the array of argument objects on the relevant side
+				for (var i = 0; i < draftClaim[singleReason.side].length; i++) {
+					//iterate through the reasons within the argument object
+					for (var j = 0; j < draftClaim[singleReason.side][i].reasons.length; j++){
+						if (draftClaim[singleReason.side][i].reasons[j]._id == result._id) {
+							console.log('OLD: ', draftClaim[singleReason.side][i].reasons[j]);
+							console.log('NEW: ', result);
+							draftClaim[singleReason.side][i].reasons[j] = result;
+							break;
+						}
 					}
+					console.log('finding the  bit to add the reason data into.');
+					
 				}
 
 				callback();
@@ -194,8 +206,8 @@ var express = require('express'),
 				// If one of the iterations adds an arg to the callback, everything stops and that arg is this err
 				console.log('A reason failed to be found');
 			} else {
-				console.log('SUCCESS!', reasonDataArray);
-				res.status(200).send(reasonDataArray);
+				console.log('SUCCESS!', draftClaim);
+				res.status(200).send(draftClaim);
 				//TODO return responce to client
 			}
 
