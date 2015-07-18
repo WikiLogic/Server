@@ -14,7 +14,7 @@ angular.module('Explorer')
 				var mainEvaluation = {
 					result: true,
 					set: false,
-					allSupportingFalse: false
+					allSupportingFalse: true
 				};
 
 				//run through the opposing args
@@ -34,13 +34,20 @@ angular.module('Explorer')
 					var result = this.evaluateArgument(claim.supporting[i]);
 					claim.supporting[i].status = result;
 
-					//if all the supporting args are false, the main result will be false
+					//if even one of the supporting args comes out true, set this to false
 					if (result) {
-						mainEvaluation.allSupportingFalse = true;
+						mainEvaluation.allSupportingFalse = false;
 					}
+				}
+
+				//if all the supporting args are false, main eval cannot be true
+				if (mainEvaluation.allSupportingFalse) {
+					mainEvaluation.result = false;
 				}
 				
 				claim.status = mainEvaluation.result;
+				console.log('Claim evaluation: ', mainEvaluation.result);
+
 
 				return claim;
 			},
@@ -48,9 +55,16 @@ angular.module('Explorer')
 				/*
 				 * This returns the value of an argument based on the status of each reason within
 				 */
-				 console.log('ARG!');
+				var argResult = true;
 
-				 return true;
+				//iterate through the reasons, if any are false, the arg is false
+				for (var i = 0; i < argument.reasons.length; i++){
+					if (!argument.reasons[i].status) {
+						argResult = false;
+						break;
+					}
+				}
+				return argResult;
 			}
 		};
 		return service;
