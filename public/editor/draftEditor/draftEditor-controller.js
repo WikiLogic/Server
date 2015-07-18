@@ -3,8 +3,8 @@
  * 
  */
 
-Editor.controller('draftEditorController', ['$scope', '$rootScope', '$routeParams', 'myDataService', 'saviorOfClaims', 
-function($scope, $rootScope, $routeParams, myDataService, saviorOfClaims) {
+Editor.controller('draftEditorController', ['$scope', '$rootScope', '$routeParams', 'myDataService', 'saviorOfClaims', 'theEvaluator',
+function($scope, $rootScope, $routeParams, myDataService, saviorOfClaims, theEvaluator) {
 
 	$scope.init = function(){
 		if ($rootScope.user) {
@@ -44,6 +44,8 @@ function($scope, $rootScope, $routeParams, myDataService, saviorOfClaims) {
 			//on success, set the current draft's args to be the populated version returned from the server
 			console.log('POPULATION: ', result);
 			$rootScope.currentDraft = result; //TODO - maybe don't replace things that are being edited.
+
+			$rootScope.currentDraft = theEvaluator.evaluateClaim(result);
 			
 		}).error(function(){
 			//TODO: do something when publish fails
