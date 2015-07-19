@@ -987,9 +987,18 @@ button {
 
 .draft-editor__description {
   margin-top: 15px; }
-  .draft-editor__description .autosizing-input__input,
-  .draft-editor__description .autosizing-input__sizer {
-    font-size: 26px; }
+  .draft-editor__description img {
+    display: inline-block;
+    vertical-align: middle;
+    width: 20px;
+    position: relative;
+    top: 2px; }
+  .draft-editor__description .autosizing-input {
+    display: inline-block;
+    vertical-align: middle; }
+    .draft-editor__description .autosizing-input__input,
+    .draft-editor__description .autosizing-input__sizer {
+      font-size: 26px; }
 
 .notification-wrap {
   position: absolute;

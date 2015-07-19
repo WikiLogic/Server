@@ -1,10 +1,24 @@
 .draft-editor {
 	&__description {
 		margin-top: 15px;
+		
+		//The status indicator icon (check / cross)
+		img {
+			display: inline-block;
+			vertical-align: middle;
+			width: 20px;
+			position: relative;
+			top: 2px;
+		}
 
-		.autosizing-input__input,
-		.autosizing-input__sizer {
-			font-size: 26px;
+		//autosizing input trick: makes the text input increase vertical size dynamically with content
+		.autosizing-input {
+			display: inline-block;
+			vertical-align: middle;
+			&__input,
+			&__sizer {
+				font-size: 26px;
+			}
 		}
 	}
 }

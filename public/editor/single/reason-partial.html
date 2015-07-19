@@ -8,7 +8,8 @@ You could say this is the soul of WL!
 		<img src="/icons/black/bolt.svg"><!-- if false show this -->
 	</div>
 	<div class="reason__status">
-		<img src="/icons/black/cross.svg" alt="true"><!-- or <img src="/icons/black/check.svg" alt="true"> -->
+		<img ng-if="!reason.status" src="/icons/black/cross.svg" alt="false">
+		<img ng-if="reason.status" src="/icons/black/check.svg" alt="true">
 	</div>
 <!--ng-change="changeReason()"-->
 	<div class="autosizing-input reason__description">

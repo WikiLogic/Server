@@ -10,7 +10,8 @@ that appear inside the for or against columns.
 	particualr argument will go here!-->
 	<div class="argument__head">
 		<div class="argument__head__status">
-			<img src="/icons/black/check.svg" alt="true">
+			<img ng-if="arg.status" src="/icons/black/check.svg" alt="true">
+			<img ng-if="!arg.status" src="/icons/black/cross.svg" alt="false">
 		</div>
 		<div class="argument__head__author">
 			Index: {{$index}}
