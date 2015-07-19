@@ -1,0 +1,15 @@
+{
+  "metadata": {
+    "title": "WikiLogic 0.3 Docs",
+    "description": "The docs."
+  },
+  "plugins": {
+    "metalsmith-markdown": {},
+    "metalsmith-permalinks": {
+      "pattern": ":title"
+    },
+    "metalsmith-templates": {
+      "engine": "handlebars"
+    }
+  }
+}
