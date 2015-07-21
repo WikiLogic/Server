@@ -8,7 +8,8 @@
  *
  */
 
-Editor.controller('argumentController', ['$scope', '$rootScope', 'saviorOfClaims', function($scope, $rootScope, saviorOfClaims) {
+Editor.controller('argumentController', ['$scope', '$rootScope', 'saviorOfClaims', 'theEvaluator', 
+function($scope, $rootScope, saviorOfClaims, theEvaluator) {
 
  	
 	/*
@@ -49,6 +50,9 @@ Editor.controller('argumentController', ['$scope', '$rootScope', 'saviorOfClaims
 				$rootScope.currentDraft[$scope.side][$scope.argIndex].reasons[reasonIndex] = newVal;
 				$rootScope.finderOpen = false;
 				listener(); //clear the watch?
+
+				//now evaluate!
+				$rootScope.currentDraft = theEvaluator.evaluateClaim($rootScope.currentDraft);
 
 			}
 		});

@@ -2,6 +2,7 @@ WikiLogic 0.3
 =========
 
 The third prototype, making everything more modular
+[http://wikilogic.github.io/WikiLogic-0.3](http://wikilogic.github.io/WikiLogic-0.3)
 
 ---
 
