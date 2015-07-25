@@ -4,7 +4,7 @@
 		<img src="/icons/black/check.svg" alt="true">
 	</div>
 	<div class="claim-preview__description">
-		<a href="#">{{draft.description}}</a>
+		<a ng-href="#edit-draft/{{draft._id}}">{{draft.description}}</a>
 	</div>
 	<a class="btn btn--small" ng-href="#edit-draft/{{draft._id}}">Edit</a>
 	<div class="btn btn--small" ng-click="publishDraft(draft)">Publish</div>
