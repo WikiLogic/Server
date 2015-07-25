@@ -20,6 +20,11 @@ Editor.config(function($routeProvider){
 			controller: "draftEditorController",
 			controllerAs: "draftEditorController"
 		})
+		.when("/edit-claim/:id",	{
+			templateUrl: "/editor/claimEditor/claimEditor-partial.html",
+			controller: "claimEditorController",
+			controllerAs: "claimEditorController"
+		})
 		.when("/my-drafts",	{
 			templateUrl: "/editor/lists/myDraftsList-partial.html",
 			controller: "MyDraftsController",

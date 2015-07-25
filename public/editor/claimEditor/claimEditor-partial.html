@@ -1,12 +1,11 @@
 
 <div class="horizontal-menu" ng-init="init()">
-	<div class="btn btn--light" ng-click="saveEdit(currentDraft)">Save</div>
-	<div class="btn btn--light">Publish</div>
-	<div class="btn btn--light">Delete</div>
+	<div class="btn btn--light" ng-click="saveEdit(currentDraft)">Submit changes</div>
+	<div class="btn btn--light">Flag ?</div>
+	<div class="btn btn--light">Copy ?</div>
 </div>
 
 <div class="draft-editor__description">
-	<img src="/icons/white/pencil.svg" alt="draft">
 	<img ng-if="currentDraft.status" src="/icons/black/check.svg" alt="true">
 	<img ng-if="!currentDraft.status" src="/icons/black/cross.svg" alt="false">
 	<div class="autosizing-input">
