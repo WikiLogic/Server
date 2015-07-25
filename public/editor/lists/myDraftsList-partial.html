@@ -1,6 +1,7 @@
 <div> <!-- MyDraftsController set by editor-app.js -->
 	<div class="draft-list-title js-collapsable-title">
-		<h3>My claims in progress</h3>
+		<img src="/icons/black/pencil.svg" alt="pencil">
+		<h3>My Drafts</h3>
 	</div>
 	<div class="js-collapsable-content"><!-- makes content collapsible -->
 		<div ng-repeat="draft in user.meta.unPublished" ng-include src="'/editor/single/draft-partial.html'"></div>

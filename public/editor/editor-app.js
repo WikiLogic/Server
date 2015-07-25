@@ -31,14 +31,14 @@ Editor.config(function($routeProvider){
 			controllerAs: "MyDraftsController"
 		})
 		.when("/my-published",	{
-			templateUrl: "/editor/lists/claimsList-partial.html",
+			templateUrl: "/editor/lists/myPublishedList-partial.html",
 			controller: "MyPublishedController",
 			controllerAs: "MyPublishedController"
 		})
 		.when("/my-trash",	{
-			templateUrl: "/editor/lists/trashedDraftsList-partial.html",
-			controller: "MyDraftsController",
-			controllerAs: "MyDraftsController"
+			templateUrl: "/editor/lists/myTrashedList-partial.html",
+			controller: "MyTrashController",
+			controllerAs: "MyTrashController"
 		})
 		.when("/explore/recent",	{
 			templateUrl: "/editor/lists/claimsList-partial.html",
