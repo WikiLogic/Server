@@ -23,32 +23,6 @@ function($scope, $rootScope, $routeParams, getterOfClaims, myDataService, savior
 	}
 
 
-
-
-/*
-	$scope.init = function(){
-		if ($rootScope.user) {
-			setCurrentDraft($routeParams.id);
-		} else {
-			//user data hasn't been loaded yet, watch until it has then load draft into editor
-			$rootScope.$watch('user', function(newVal,oldVal){
-				if (newVal === oldVal) {
-					//called to init
-				} else {
-					setCurrentDraft($routeParams.id);
-				}
-			});
-		}
-
-		$('textarea').keypress(function(event) {
-			// Check the keyCode and if the user pressed Enter (code = 13) 
-			// disable it
-			if (event.keyCode == 13) {
-				event.preventDefault();
-			}
-		});
-	}
-*/
 	var setCurrentDraft = function(draftID){
 		
 		console.log('setting current draft for editor (from user object list)');
@@ -130,7 +104,7 @@ function($scope, $rootScope, $routeParams, getterOfClaims, myDataService, savior
 			reasons: []
 		}
 
-		$rootScope.currentDraft[side].push(blankArgObj);
+		$scope.claim[side].push(blankArgObj);
 		
 		
 	}
