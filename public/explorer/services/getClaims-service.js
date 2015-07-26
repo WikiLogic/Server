@@ -17,25 +17,36 @@ angular.module('Explorer')
 				 * more will come in the future!  Will have to build up our own query system :)
 				 */
 				return $http.get('/list-claims?sortBy=' + sortBy).success(function(data, status, headers, config) {
-					//console.log('Get Claims Service recieving data: ', data);
 					service.claims = data;
 				}).error(function(data, status, headers, config) {
-					console.log('Get Claims Service error');
+					console.error('getterOfClaims.getListOfClaimsBy:' + sortBy);
 				});
 
 			},
 			searchClaims: function(searchTerm){
+
 				/*
 				 * Splitting out text search of claims - feels like this'll be a good
 				 * idea for the future
 				 */
-				 console.log('searching servive');
 				return $http.get('/search-claims?searchTerm=' + searchTerm).success(function(data, status, headers, config) {
-					console.log('search service results: ', data);
 					service.claims = data;
 				}).error(function(data, status, headers, config) {
-					console.log('Get Claims Service error');
+					console.error('getterOfClaims.searchClaims:' + searchTerm);
 				});
+
+			},
+			getClaim: function(claimID){
+
+				/*
+				 * This asks the server for a single claim, by ID 
+				 */
+				return $http.get('/get-claim?id=' + claimID).success(function(data, status, headers, config) {
+					service.claims = data;
+				}).error(function(data, status, headers, config) {
+					console.error('getterOfClaims.getClaim:' + claimID);
+				});
+
 			}
 		};
 		return service;

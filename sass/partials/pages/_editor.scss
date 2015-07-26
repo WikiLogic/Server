@@ -1,19 +1,28 @@
 /* The editor home page */
 .draft-list-title {
 	@include titleBar();
+	img {
+		width: 16px;
+	}
 	h3 {
-		margin-left: 25px;
+		margin: 5px 0 5px 10px;
 	}
 }
 .published-list-title {
 	@include titleBar();
+	img {
+		width: 16px;
+	}
 	h3 {
-		margin-left: 25px;
+		margin: 5px 0 5px 10px;
 	}
 }
 .deleted-list-title {
 	@include titleBar();
+	img {
+		width: 16px;
+	}
 	h3 {
-		margin-left: 25px;
+		margin: 5px 0 5px 10px;
 	}
 }

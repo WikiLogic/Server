@@ -1089,8 +1089,10 @@ button {
   border-bottom: 1px solid #393f4f;
   margin-top: 20px;
   margin-bottom: 5px; }
+  .draft-list-title img {
+    width: 16px; }
   .draft-list-title h3 {
-    margin-left: 25px; }
+    margin: 5px 0 5px 10px; }
 
 .published-list-title {
   display: -webkit-box;
@@ -1100,8 +1102,10 @@ button {
   border-bottom: 1px solid #393f4f;
   margin-top: 20px;
   margin-bottom: 5px; }
+  .published-list-title img {
+    width: 16px; }
   .published-list-title h3 {
-    margin-left: 25px; }
+    margin: 5px 0 5px 10px; }
 
 .deleted-list-title {
   display: -webkit-box;
@@ -1111,8 +1115,10 @@ button {
   border-bottom: 1px solid #393f4f;
   margin-top: 20px;
   margin-bottom: 5px; }
+  .deleted-list-title img {
+    width: 16px; }
   .deleted-list-title h3 {
-    margin-left: 25px; }
+    margin: 5px 0 5px 10px; }
 
 .single-form-page {
   text-align: center; }

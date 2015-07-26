@@ -3,9 +3,28 @@
  * 
  */
 
-Editor.controller('claimEditorController', ['$scope', '$rootScope', '$routeParams', 'myDataService', 'saviorOfClaims', 'theEvaluator',
-function($scope, $rootScope, $routeParams, myDataService, saviorOfClaims, theEvaluator) {
+Editor.controller('claimEditorController', ['$scope', '$rootScope', '$routeParams', 'getterOfClaims', 'myDataService', 'saviorOfClaims', 'theEvaluator',
+function($scope, $rootScope, $routeParams, getterOfClaims, myDataService, saviorOfClaims, theEvaluator) {
 
+	$scope.claim
+	
+	//Init - load the claim
+	$scope.init = function(){
+		//get the claim from the url id
+		getterOfClaims.getClaim($routeParams.id).success(function(result){
+
+			//$scope.claim = result[0];
+			console.log('got claim: ', result);
+
+		}).error(function(){
+			//handle the lack of getting a claim :(
+		});
+	}
+
+
+
+
+/*
 	$scope.init = function(){
 		if ($rootScope.user) {
 			setCurrentDraft($routeParams.id);
@@ -28,13 +47,14 @@ function($scope, $rootScope, $routeParams, myDataService, saviorOfClaims, theEva
 			}
 		});
 	}
-
+*/
 	var setCurrentDraft = function(draftID){
 		
 		console.log('setting current draft for editor (from user object list)');
 		for (var i=0; i< $rootScope.user.meta.unPublished.length; i++){
 			if ($rootScope.user.meta.unPublished[i]._id == draftID){
 				$rootScope.currentDraft = $rootScope.user.meta.unPublished[i];
+
 				break;
 			}
 		}
