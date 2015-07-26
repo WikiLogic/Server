@@ -29,7 +29,7 @@ angular.module('Explorer')
 				 * Splitting out text search of claims - feels like this'll be a good
 				 * idea for the future
 				 */
-				return $http.get('/search-claims?searchTerm=' + searchTerm).success(function(data, status, headers, config) {
+				return $http.get('/search/claims?searchTerm=' + searchTerm).success(function(data, status, headers, config) {
 					service.claims = data;
 				}).error(function(data, status, headers, config) {
 					console.error('getterOfClaims.searchClaims:' + searchTerm);
@@ -41,7 +41,7 @@ angular.module('Explorer')
 				/*
 				 * This asks the server for a single claim, by ID 
 				 */
-				return $http.get('/get-claim?id=' + claimID).success(function(data, status, headers, config) {
+				return $http.get('/search/claim?id=' + claimID).success(function(data, status, headers, config) {
 					service.claims = data;
 				}).error(function(data, status, headers, config) {
 					console.error('getterOfClaims.getClaim:' + claimID);

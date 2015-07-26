@@ -21,7 +21,7 @@ module.exports = function(router, passport) {
 
 
 	router.use('/list-claims', require('./listClaims-route') ); //Read 
-	router.use('/search-claims', require('./searchClaims-route') );
+	router.use('/search', require('./searchClaims-route') );
 	router.use('/users', require('./users-route') ); //careful here - provides public data about users
 
 	router.use('/user', hasAccess, require('./user-route') ); //provides data about the user to the user
