@@ -15,7 +15,7 @@ function($scope, $rootScope, $routeParams, getterOfClaims, myDataService, savior
 
 			//$scope.claim = result[0];
 			console.log('got claim: ', result[0]);
-			$scope.claim = result[0];
+			$rootScope.currentDraft = result[0];
 
 		}).error(function(){
 			//handle the lack of getting a claim :(
@@ -104,7 +104,7 @@ function($scope, $rootScope, $routeParams, getterOfClaims, myDataService, savior
 			reasons: []
 		}
 
-		$scope.claim[side].push(blankArgObj);
+		$scope.currentDraft[side].push(blankArgObj);
 		
 		
 	}
