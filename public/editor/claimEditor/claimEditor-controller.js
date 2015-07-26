@@ -6,7 +6,7 @@
 Editor.controller('claimEditorController', ['$scope', '$rootScope', '$routeParams', 'getterOfClaims', 'myDataService', 'saviorOfClaims', 'theEvaluator',
 function($scope, $rootScope, $routeParams, getterOfClaims, myDataService, saviorOfClaims, theEvaluator) {
 
-	$scope.claim
+	$scope.claim = {};
 	
 	//Init - load the claim
 	$scope.init = function(){
@@ -14,7 +14,8 @@ function($scope, $rootScope, $routeParams, getterOfClaims, myDataService, savior
 		getterOfClaims.getClaim($routeParams.id).success(function(result){
 
 			//$scope.claim = result[0];
-			console.log('got claim: ', result);
+			console.log('got claim: ', result[0]);
+			$scope.claim = result[0];
 
 		}).error(function(){
 			//handle the lack of getting a claim :(
