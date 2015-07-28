@@ -993,6 +993,10 @@ button {
     width: 20px;
     position: relative;
     top: 2px; }
+  .draft-editor__description h2 {
+    display: inline-block;
+    vertical-align: middle;
+    font-weight: 400; }
   .draft-editor__description .autosizing-input {
     display: inline-block;
     vertical-align: middle; }
