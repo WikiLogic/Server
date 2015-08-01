@@ -35,7 +35,7 @@ This is an open source project so please feel free to get involved!
 
 This repo, as you might expect, is for the software development.  Have a look around - it's a pretty simple directory structure!
 
-[The Docs](http://wikilogic.github.io/WikiLogic/) run through all the WL specific code, the rest of it comes from the MEAN.js Yeoman generator so it's all standard stuff (for now).
+[The Docs](https://github.com/WikiLogic/WikiLogic-0.3/wiki) run through all the WL specific code, the rest of it comes from the MEAN.js Yeoman generator so it's all standard stuff (for now).
 
 [The Manual](http://wikilogic.github.io/WikiLogic/manual.html) sits beside the Docs at the moment but this will probably change.  It's a run through of how to actually use WikiLogic.
 
