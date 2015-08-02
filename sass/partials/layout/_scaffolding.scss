@@ -51,6 +51,8 @@ html {
   .header {
     @include darkSection();
     min-height:50px;
+    display: flex;
+    align-items: center;
     &__logo {
       display:inline-block;
       vertical-align: middle;
@@ -58,6 +60,7 @@ html {
     &__search {
       display:inline-block;
       vertical-align: middle;
+      height: 30px;
     }
   }
   

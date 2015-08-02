@@ -600,13 +600,22 @@ html {
   .app-rap .header {
     background: #191e28;
     color: #eeeeee;
-    min-height: 50px; }
+    min-height: 50px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center; }
     .app-rap .header__logo {
       display: inline-block;
       vertical-align: middle; }
     .app-rap .header__search {
       display: inline-block;
-      vertical-align: middle; }
+      vertical-align: middle;
+      height: 30px; }
   .app-rap .body {
     display: -webkit-box;
     display: -webkit-flex;
