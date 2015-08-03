@@ -584,6 +584,9 @@ html {
   -webkit-transform: rotateY(0deg) scaleX(1);
           transform: rotateY(0deg) scaleX(1); }
 
+.form .main__head {
+  padding: 20px; }
+
 .app-rap {
   display: -webkit-box;
   display: -webkit-flex;
@@ -597,87 +600,91 @@ html {
   height: 100vh;
   overflow-y: hidden;
   /* scroll bar appearing - shouldn't, why scrollbar! why! */ }
-  .app-rap .header {
+
+.header {
+  background: #191e28;
+  color: #eeeeee;
+  min-height: 50px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center; }
+  .header__logo {
+    display: inline-block;
+    vertical-align: middle; }
+  .header__search {
+    display: inline-block;
+    vertical-align: middle;
+    height: 30px; }
+
+.body {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1; }
+  .body .sidebar-left {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
     background: #191e28;
-    color: #eeeeee;
-    min-height: 50px;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-align: center;
-    -webkit-align-items: center;
-        -ms-flex-align: center;
-            align-items: center; }
-    .app-rap .header__logo {
-      display: inline-block;
-      vertical-align: middle; }
-    .app-rap .header__search {
-      display: inline-block;
-      vertical-align: middle;
-      height: 30px; }
-  .app-rap .body {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-flex: 1;
-    -webkit-flex-grow: 1;
-        -ms-flex-positive: 1;
-            flex-grow: 1; }
-    .app-rap .body .sidebar-left {
-      display: -webkit-box;
-      display: -webkit-flex;
-      display: -ms-flexbox;
-      display: flex;
-      -webkit-box-orient: vertical;
-      -webkit-box-direction: normal;
-      -webkit-flex-direction: column;
-          -ms-flex-direction: column;
-              flex-direction: column;
-      background: #191e28;
-      color: #eeeeee; }
-      .app-rap .body .sidebar-left__body {
-        -webkit-box-flex: 1;
-        -webkit-flex-grow: 1;
-            -ms-flex-positive: 1;
-                flex-grow: 1;
-        overflow-y: scroll;
-        padding: 10px; }
-      .app-rap .body .sidebar-left__footer {
-        text-align: center;
-        padding: 10px; }
-    .app-rap .body .main {
+    color: #eeeeee; }
+    .body .sidebar-left__body {
       -webkit-box-flex: 1;
       -webkit-flex-grow: 1;
           -ms-flex-positive: 1;
               flex-grow: 1;
-      display: -webkit-box;
-      display: -webkit-flex;
-      display: -ms-flexbox;
-      display: flex;
-      -webkit-box-orient: vertical;
-      -webkit-box-direction: normal;
-      -webkit-flex-direction: column;
-          -ms-flex-direction: column;
-              flex-direction: column;
-      background: #eeeeee;
-      color: #393f4f;
-      overflow-y: auto; }
-      .app-rap .body .main__head {
-        padding: 20px; }
-      .app-rap .body .main__body {
-        padding: 20px; }
-    .app-rap .body .sidebar-right {
-      display: -webkit-box;
-      display: -webkit-flex;
-      display: -ms-flexbox;
-      display: flex;
-      -webkit-box-orient: vertical;
-      -webkit-box-direction: normal;
-      -webkit-flex-direction: column;
-          -ms-flex-direction: column;
-              flex-direction: column; }
+      overflow-y: scroll;
+      padding: 10px; }
+    .body .sidebar-left__footer {
+      text-align: center;
+      padding: 10px; }
+      .body .sidebar-left__footer .btn {
+        margin-bottom: 10px; }
+  .body .main {
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+        -ms-flex-positive: 1;
+            flex-grow: 1;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    background: #eeeeee;
+    color: #393f4f;
+    overflow-y: auto; }
+    .body .main__head {
+      padding: 20px; }
+    .body .main__body {
+      padding: 20px; }
+  .body .sidebar-right {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column; }
 
 /* =====================================================
 =======================================   Tablet and up
@@ -1142,7 +1149,8 @@ button {
     border-radius: 5px;
     display: inline-block;
     width: 250px;
-    margin-bottom: 20px; }
+    margin-bottom: 20px;
+    margin-top: 25px; }
     .single-form-page__form input {
       display: block;
       width: 100%;
