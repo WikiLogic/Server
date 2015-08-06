@@ -74,9 +74,21 @@ Editor.config(function($routeProvider){
 
 });
 
-Editor.run(function($rootScope){
+Editor.run(function($rootScope, userService){
 
-	console.log('setting up the rootscope; ', $rootScope.user);
+	/** The user object
+	 * This holds a full user object with all the details we could possibly want!
+	 * define then fill.
+	 */
+	$rootScope.user = {
+		meta : {
+			unPublished : [],
+			published : [],
+			trashed : []
+		}
+	};
+	userService.getCurrentUserLists();
+
 	/** The Search
 	 * term: the search term
 	 * results: an array of the results
@@ -96,11 +108,6 @@ Editor.run(function($rootScope){
 		object : {},
 		highlight : {}
 	};
-
-	/** The user object - is it already set up maybe?
-	 * This holds a full user object with all the details we could possibly want!
-	 */
-	//$rootScope.user = {}; ?
 
 	/** The notification system
 	 * enabled turns it on or off

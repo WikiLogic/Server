@@ -7,40 +7,14 @@
 
 Editor.controller('MyProfileController', ['$scope', '$rootScope', 'userService', function($scope, $rootScope, userService) {
  	 /*
- 	  * This fills the various parts of the user's profile with data,
- 	  * normal interaction with these things are handeled by thier own controllers
- 	  * but this initial load is more efficent in one place, which is why this is here.
+ 	  * Handles any requests fro the UI to reset the user data
+ 	  * Generally only when the app loads (I think)
  	  */
  	 $scope.setUserData = function(){
- 	 	//0. Don't need the user's id - it's set in the session!
-
- 	 	//1. ask getterOfUsers service for this users data
- 	 	userService.getMyWork().success(function(result){
-			console.log('got user data!', result);
-			$rootScope.user = {
-				meta : {
-					unPublished : result.drafts,
-					published : result.published,
-					trashed : result.trashed
-				}
-			}
-			console.log($rootScope);
-		}).error(function(){
-			console.log('getting the user data failed somehow');
-		});
-
-		//3. Inject this users data into the DOM
-		/*
- 	 	var draftClaimsArray = [];
- 	 	publishedClaimsArry = [];
- 	 	$rootScope.list = {
- 	 		draftClaims : draftClaimsArray,
- 	 		publishedClaims : publishedClaimsArry
- 	 	}
- 	 	*/
+ 	 	userService.getCurrentUserLists();
  	 }
 
- 	 $scope.setUserData();
+ 	 //$scope.setUserData();
 
  	 /*
  	  * Going to have to refactor this
