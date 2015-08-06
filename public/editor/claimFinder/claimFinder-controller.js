@@ -27,12 +27,13 @@ Editor.controller('claimFinderController', ['$scope', '$rootScope', '$routeParam
 
 		//handles the open / close state of the search
 		$rootScope.$watch('finderOpen', function(newVal,oldVal){
-			
+			/*
 			if ($rootScope.finderOpen){
 				$('#editor-app').addClass('finderActive');
 			} else {
 				$('#editor-app').removeClass('finderActive');
 			}
+			*/
 
 		});
 

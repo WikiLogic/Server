@@ -66,8 +66,6 @@ Editor.controller('NewDraftController', ['$scope', '$rootScope', '$location', 's
 			$rootScope.currentDraft = result;
 			$location.path('/edit-draft');
 
-		}).error(function(){
-			console.log('saving the draft claim to your profile failed somehow');
 		});
  	 }
 

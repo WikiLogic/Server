@@ -472,11 +472,12 @@ input, textarea {
 .claim-finder {
   background: #191e28;
   color: #eeeeee;
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 25%;
-  padding: 10px; }
+  /*
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 25%;
+	padding: 10px;*/ }
 
 /* */
 .main__head {
@@ -576,14 +577,18 @@ html {
     -webkit-transform: rotateY(-90deg) scaleX(0);
             transform: rotateY(-90deg) scaleX(0); }
 
-#editor-app.finderActive .app-rap {
-  -webkit-transform: rotateY(3.5deg) scalex(0.78) scaleY(0.85);
-          transform: rotateY(3.5deg) scalex(0.78) scaleY(0.85); }
+/*
+#editor-app.finderActive {
+  .app-rap {
+    transform: rotateY(3.5deg) scalex(0.78) scaleY(0.85);
+    //height:115vh;
+  }
+  .claim-finder {
+    transform: rotateY(0deg)scaleX(1);
+  }
+}
 
-#editor-app.finderActive .claim-finder {
-  -webkit-transform: rotateY(0deg) scaleX(1);
-          transform: rotateY(0deg) scaleX(1); }
-
+*/
 .form .main__head {
   padding: 20px; }
 
