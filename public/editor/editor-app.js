@@ -2,8 +2,50 @@
 //The editor requires the explorer as it builds onto it.
 var Editor = angular.module('Editor', ['Explorer', 'ngRoute']);
 	
-Editor.config(function($routeProvider){
-	console.log('setting up the routes');
+Editor.config(function($routeProvider, $rootScope){
+
+	/** The Search
+	 * term: the search term
+	 * results: an array of the results
+	 * order: the order by which the server has given us the results
+	 */
+	$rootScope.search = {
+		term: 'search term',
+		results: [],
+		order: 'the order'
+	};
+
+	/** The Focus object
+	 * object: holds a full draft or claim object
+	 * highlight: identifies a selected part of the focus object: argument / reason / claim title.
+	 */
+	$rootScope.focus = {
+		object : {},
+		highlight : {}
+	};
+
+	/** The user object
+	 * This holds a full user object with all the details we could possibly want!
+	 */
+	//$rootScope.user = {}; ?
+
+	/** The notification system
+	 * enabled turns it on or off
+	 * level: High shows all notifications, Low only important alerts like errors
+	 * duration: the length of time in seconds for a notification to stay on screen
+	 */
+	$rootScope.alerts = {
+		settings : {
+			enabled: true,
+			level: 'high',
+			duration: 5
+		},
+		list: []
+	};
+
+	/** The client side router
+	 * 
+	 */
 	$routeProvider
 		.when("/", {
 			templateUrl: "/editor/lists/myDraftsList-partial.html",
