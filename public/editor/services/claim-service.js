@@ -5,7 +5,7 @@
  */
 
 angular.module('Editor')
-.factory('saviorOfClaims',['$http',
+.factory('claimService',['$http',
 	function($http){
 		var service = {
 			saveClaimToProfile: function(draftClaim){

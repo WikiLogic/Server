@@ -76,7 +76,7 @@ Editor.config(function($routeProvider){
 
 Editor.run(function($rootScope){
 
-	console.log('setting up the rootscope');
+	console.log('setting up the rootscope; ', $rootScope.user);
 	/** The Search
 	 * term: the search term
 	 * results: an array of the results

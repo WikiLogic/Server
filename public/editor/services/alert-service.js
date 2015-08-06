@@ -5,7 +5,7 @@
  */
 
 angular.module('Editor')
-.factory('notifyUser',['$http',
+.factory('alertService',['$http',
 	function($http){
 		var service = {
 			goodThing: function(message){

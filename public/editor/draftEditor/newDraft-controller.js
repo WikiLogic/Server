@@ -4,7 +4,7 @@
  * deals with defining new claims.
  */
 
-Editor.controller('NewDraftController', ['$scope', '$rootScope', '$location', 'saviorOfClaims', function($scope, $rootScope, $location, saviorOfClaims) {
+Editor.controller('NewDraftController', ['$scope', '$rootScope', '$location', 'claimService', function($scope, $rootScope, $location, claimService) {
 
  	/*
  	 * 
@@ -60,7 +60,7 @@ Editor.controller('NewDraftController', ['$scope', '$rootScope', '$location', 's
  	  * Once saved the server returns the new draftClaim object with all it's fancyness
  	  */
  	 $scope.saveToProfile = function(){
- 	 	saviorOfClaims.saveClaimToProfile($scope.newDraft).success(function(result){
+ 	 	claimService.saveClaimToProfile($scope.newDraft).success(function(result){
 
 			$scope.user.meta.unPublished.push(result);
 			$rootScope.currentDraft = result;

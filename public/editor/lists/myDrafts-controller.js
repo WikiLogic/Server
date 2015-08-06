@@ -3,7 +3,7 @@
  * 
  */
 
-Editor.controller('MyDraftsController', ['$scope', '$rootScope', '$location', 'saviorOfClaims', function($scope, $rootScope, $location, saviorOfClaims) {
+Editor.controller('MyDraftsController', ['$scope', '$rootScope', '$location', 'claimService', function($scope, $rootScope, $location, claimService) {
 	console.log('my drafts controller');
 	
 	$rootScope.alerts = [];
@@ -25,11 +25,12 @@ Editor.controller('MyDraftsController', ['$scope', '$rootScope', '$location', 's
 		$location.path( '/edit-draft' );
 	}
  	 /*
- 	  * 
+ 	  * Moves the Draft claim into the public domain
  	  */
  	 $scope.publishDraft = function(draftClaim){
  	 	console.log('going to publish ', draftClaim);
- 	 	saviorOfClaims.publishDraftClaim(draftClaim).success(function(result){
+ 	 	claimService.publishDraftClaim(draftClaim).success(function(result){
+ 	 		//TODO, move this functionality inot the sevice
 			//on success, add result to published claims list & remove from drafts (this has already been done server side)
 			console.log('unshifting published array: ', result);
 			$rootScope.user.meta.published.unshift(result);
@@ -37,14 +38,13 @@ Editor.controller('MyDraftsController', ['$scope', '$rootScope', '$location', 's
 			var killDex = $rootScope.user.meta.unPublished.indexOf(draftClaim._id);
 			$rootScope.user.meta.unPublished.splice(killDex, 1);
 			
-		}).error(function(){
-			//TODO: do something when publish fails
 		});
  	 }
 
  	 $scope.deleteDraft = function(draftClaim){
  	 	//TODO: double check that the user want's to do this
- 	 	saviorOfClaims.deleteDraft(draftClaim).success(function(result){
+ 	 	claimService.deleteDraft(draftClaim).success(function(result){
+ 	 		//TODO move this functionality inot the service
 			console.log('Kill ID ' + draftClaim._id);
 			console.log('kill list: ' + $rootScope.user.meta.unPublished);
 			var unPupList = $rootScope.user.meta.unPublished;
@@ -58,8 +58,6 @@ Editor.controller('MyDraftsController', ['$scope', '$rootScope', '$location', 's
 			console.log('Killdex: ' + killDex);
 			$rootScope.user.meta.unPublished.splice(killDex, 1);
 			
-		}).error(function(){
-			//TODO: Do something when delete fails
 		});
  	 }
 

@@ -3,8 +3,8 @@
  * 
  */
 
-Editor.controller('draftEditorController', ['$scope', '$rootScope', '$routeParams', 'myDataService', 'saviorOfClaims', 'theEvaluator',
-function($scope, $rootScope, $routeParams, myDataService, saviorOfClaims, theEvaluator) {
+Editor.controller('draftEditorController', ['$scope', '$rootScope', '$routeParams', 'userService', 'claimService', 'theEvaluator',
+function($scope, $rootScope, $routeParams, userService, claimService, theEvaluator) {
 
 	$scope.init = function(){
 		if ($rootScope.user) {
@@ -40,7 +40,7 @@ function($scope, $rootScope, $routeParams, myDataService, saviorOfClaims, theEva
 		}
 
 		console.log('now getting all the reasons to populate the supporting / opposing args of current draft');
-		myDataService.getDraftClaim($rootScope.currentDraft).success(function(result){
+		userService.getDraftClaim($rootScope.currentDraft).success(function(result){
 			//on success, set the current draft's args to be the populated version returned from the server
 			console.log('POPULATION: ', result);
 			$rootScope.currentDraft = result; //TODO - maybe don't replace things that are being edited.
@@ -54,7 +54,7 @@ function($scope, $rootScope, $routeParams, myDataService, saviorOfClaims, theEva
 
 	$scope.saveEdit = function(draftClaim){
 		console.log('saving edits ', draftClaim);
-		saviorOfClaims.updateDraft(draftClaim).success(function(result){
+		claimService.updateDraft(draftClaim).success(function(result){
 
 			console.log('finished saving, current draft: ', $rootScope.currentDraft);
 
@@ -65,7 +65,7 @@ function($scope, $rootScope, $routeParams, myDataService, saviorOfClaims, theEva
 
 	$scope.publishClaim = function(claim){
 		console.log('going to publish ', claim);
-		saviorOfClaims.publishDraftClaim(claim).success(function(result){
+		claimService.publishDraftClaim(claim).success(function(result){
 			//on success, add result to published claims list & remove from drafts (this has already been done server side)
 			console.log('unshifting published array: ', result);
 			$rootScope.user.meta.published.unshift(result);
@@ -80,7 +80,7 @@ function($scope, $rootScope, $routeParams, myDataService, saviorOfClaims, theEva
 
 	$scope.deleteDraft = function(draftClaim){
 		//TODO: double check that the user want's to do this
-		saviorOfClaims.deleteDraft(draftClaim).success(function(result){
+		claimService.deleteDraft(draftClaim).success(function(result){
 			console.log('Kill ID ' + draftClaim._id);
 			console.log('kill list: ' + $rootScope.user.meta.unPublished);
 			var unPupList = $rootScope.user.meta.unPublished;

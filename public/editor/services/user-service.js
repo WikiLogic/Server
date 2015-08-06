@@ -6,7 +6,7 @@
  */
 
 angular.module('Editor')
-.factory('myDataService',['$http',
+.factory('userService',['$http',
 	function($http){
 		var service = {
 			getMyWork: function(){

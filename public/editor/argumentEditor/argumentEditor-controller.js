@@ -8,8 +8,8 @@
  *
  */
 
-Editor.controller('argumentController', ['$scope', '$rootScope', 'saviorOfClaims', 'theEvaluator', 
-function($scope, $rootScope, saviorOfClaims, theEvaluator) {
+Editor.controller('argumentController', ['$scope', '$rootScope', 'claimService', 'theEvaluator', 
+function($scope, $rootScope, claimService, theEvaluator) {
 
  	
 	/*
@@ -69,7 +69,7 @@ function($scope, $rootScope, saviorOfClaims, theEvaluator) {
 		//Get the reason from within the global current draft object
 		var reasonToSave = $rootScope.currentDraft[$scope.side][$scope.argIndex].reasons[reasonIndex];
 
-		saviorOfClaims.saveClaimToProfile(reasonToSave).success(function(result){
+		claimService.saveClaimToProfile(reasonToSave).success(function(result){
 			//The server has now confirmed the new claim to have been saved and sent us the full claim object
 
 			//add it to the user object 
