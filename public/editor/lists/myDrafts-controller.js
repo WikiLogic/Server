@@ -4,7 +4,8 @@
  */
 
 Editor.controller('MyDraftsController', ['$scope', '$rootScope', '$location', 'saviorOfClaims', function($scope, $rootScope, $location, saviorOfClaims) {
-
+	console.log('my drafts controller');
+	
 	$rootScope.alerts = [];
 	var dummyAlert = {
 		type:'bad',
@@ -16,6 +17,7 @@ Editor.controller('MyDraftsController', ['$scope', '$rootScope', '$location', 's
 		message: 'message'
 	}
 	$rootScope.alerts.push(dummy2);
+
 
 	$scope.editDraft = function(draftClaim){
 		console.log('Load this into editor: ', draftClaim);
