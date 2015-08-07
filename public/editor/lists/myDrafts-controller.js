@@ -4,26 +4,8 @@
  */
 
 Editor.controller('MyDraftsController', ['$scope', '$rootScope', '$location', 'claimService', function($scope, $rootScope, $location, claimService) {
-	console.log('my drafts controller');
-	
-	$rootScope.alerts = [];
-	var dummyAlert = {
-		type:'bad',
-		message:'dummy alert!'
-	}
-	$rootScope.alerts.push(dummyAlert);
-	var dummy2 = {
-		type:'bad',
-		message: 'message'
-	}
-	$rootScope.alerts.push(dummy2);
 
 
-	$scope.editDraft = function(draftClaim){
-		console.log('Load this into editor: ', draftClaim);
-		$rootScope.currentDraft = draftClaim;
-		$location.path( '/edit-draft' );
-	}
  	 /*
  	  * Moves the Draft claim into the public domain
  	  */

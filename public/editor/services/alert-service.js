@@ -5,9 +5,21 @@
  */
 
 angular.module('Editor')
-.factory('alertService',['$http',
-	function($http){
+.factory('alertService',['$http', '$rootScope',
+	function($http, $rootScope){
 		var service = {
+			setDummyAlerts: function(){
+				var dummyAlert = {
+					type:'bad',
+					message:'dummy alert!'
+				}
+				$rootScope.alerts.list.push(dummyAlert);
+				var dummy2 = {
+					type:'bad',
+					message: 'message'
+				}
+				$rootScope.alerts.list.push(dummy2);
+			},
 			goodThing: function(message){
 				console.log('good thing: ', message);
 			},

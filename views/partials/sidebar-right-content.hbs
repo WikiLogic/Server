@@ -1,8 +1,14 @@
+
+<!-- <div class="notification-wrap"> -->
+<div ng-repeat="alert in alerts.list" ng-include src="'/editor/notifications/notification-partial.html'"></div>
+
+
+
 <!-- SEARCH RESULTS
 	TODO: These need to show if they're a draft claim, all are mixed together and organised by relevance
 	-->
 
-<div ng-repeat="claim in claimResults.myDrafts">
+<div ng-repeat="claim in search.results">
 	<div class="claim-search-result">
 		<p>{{claim.description}}</p> 
 		<div class="claim-search-result__btns">

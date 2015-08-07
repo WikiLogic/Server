@@ -74,7 +74,7 @@ Editor.config(function($routeProvider){
 
 });
 
-Editor.run(function($rootScope, userService){
+Editor.run(function($rootScope, userService, alertService){
 
 	/** The user object
 	 * This holds a full user object with all the details we could possibly want!
@@ -122,4 +122,5 @@ Editor.run(function($rootScope, userService){
 		},
 		list: []
 	};
+	alertService.setDummyAlerts();
 });
