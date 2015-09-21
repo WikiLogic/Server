@@ -51,7 +51,24 @@ angular.module('Editor')
 				/*
 				 * Takes a full draft claim object to delete.  One from the user's draft claim list & 2, from any other drafts that use it.
 				 */
+
 				var draftList = $rootScope.user.meta.unPublished;
+				var draftUses = "";
+
+				var checkForDraftUse = function(side, i) {
+					//iterate through this side's arguments
+					for (var j = 0; j < draftList[i][side].length; j++) {
+						//iterate through this side's reasons
+						for (var m = 0; m < draftList[i][side][j].reasons.length; m++) {
+							//check if this reason matches the draft we're deleting
+							if (draftList[i][side][j].reasons[m] == draftClaim._id) {
+								//add it to the list of places it's been used
+								draftUses += '"' + draftList[i].description + '"  ';
+							}
+						}
+					}
+				}
+				
 				for(var i = 0; i < draftList.length; i++){
 
 					//If we find the actual draft to be deleted, note it's index
@@ -62,30 +79,26 @@ angular.module('Editor')
 					console.log('dl: ', draftList[i]);
 
 					//If we find any 
-					checkForDraftUse('supporting');
-					checkForDraftUse('opposing');
+					checkForDraftUse('supporting', i);
+					checkForDraftUse('opposing', i);
 					
 				}
-				var checkForDraftUse = function(side) {
-					//iterate through this side's arguments
-					for (var j = 0; j < draftList[i].supporting[side].length; j++) {
-						//iterate through this side's reasons
-						for (var m = 0; m < draftList[i].supporting[side][j].reasons.length; m++) {
-							//check if this reason matches the draft we're deleting
-							console.log('checking: ', draftList[i].supporting[side][j].reasons[m]);
-							if (draftList[i].supporting[side][j].reasons[m]._id == draftClaim._id) {
-								alert('this draft is used in ...', draftList[i]);
-							}
-						}
+
+				if (draftUses.length > 1) {
+					if (confirm('"' + draftClaim.description + '" is used in: \n' + draftUses + '\nAre you sure you want to delete it?')) {
+						//TODO Delete it!
+						return $http.post('/draft-claim/delete', {'draftClaimID':draftClaim._id}).success(function(data, status, headers, config) {
+							console.log('Claim deleted! ', data);
+						}).error(function(data, status, headers, config) {
+							console.log('save claims service: Could not delete draft - womp womp :(');
+						});
+
+						//AND Delete it from the drafts that use it && save them  ---  Do it in the SERVER ^^^
+
+					} else {
+						
 					}
 				}
-				/*
-				return $http.post('/draft-claim/delete', {'draftClaimID':draftClaim._id}).success(function(data, status, headers, config) {
-					console.log('Claim deleted! ', data);
-				}).error(function(data, status, headers, config) {
-					console.log('save claims service: Could not delete draft - womp womp :(');
-				});
-*/
 			},
 			publishDraftClaim: function(draftClaim){
 				/*
