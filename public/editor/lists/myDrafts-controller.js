@@ -26,20 +26,9 @@ Editor.controller('MyDraftsController', ['$scope', '$rootScope', '$location', 'c
  	 $scope.deleteDraft = function(draftClaim){
  	 	//TODO: double check that the user want's to do this
  	 	claimService.deleteDraft(draftClaim).success(function(result){
- 	 		//TODO move this functionality inot the service
-			console.log('Kill ID ' + draftClaim._id);
-			console.log('kill list: ' + $rootScope.user.meta.unPublished);
-			var unPupList = $rootScope.user.meta.unPublished;
-			//TODO: remove it from interface
-			for(var i = 0; i < unPupList.length; i++){
-				if (unPupList[i]._id == draftClaim._id){
-					var killDex = i;
-					break;
-				}
-			}
-			console.log('Killdex: ' + killDex);
-			$rootScope.user.meta.unPublished.splice(killDex, 1);
-			
+ 	 		//yeay! deleted!
+		}).error(function(){
+			//TODO: Do something when delete fails
 		});
  	 }
 

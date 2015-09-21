@@ -108,7 +108,7 @@ var express = require('express'),
 				res.status(500).send('Error in saving new draft Claim to database.');
 			} else {
 				console.log("DRAFT SAVED: ", responseMeta);
-				res.status(200).send(responseMeta);
+				res.status(200).send(draftCandidate);
 			}
 		});
 

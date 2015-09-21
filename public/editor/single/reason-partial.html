@@ -11,9 +11,9 @@ You could say this is the soul of WL!
 		<img ng-if="!reason.status" src="/icons/black/cross.svg" alt="false">
 		<img ng-if="reason.status" src="/icons/black/check.svg" alt="true">
 	</div>
-<!--ng-change="changeReason()"-->
+
 	<div class="autosizing-input reason__description">
-		<textarea name="" id="" class="autosizing-input__input" ng-change="changeReason($index, reason.description)" cols="30" rows="10" ng-model="reason.description"></textarea>
+		<textarea name="" id="" class="autosizing-input__input" cols="30" rows="10" ng-change="changeReason($index, reason.description)" ng-model="reason.description"></textarea>
 		<div class="autosizing-input__sizer">{{reason.description}}</div>
 	</div>
 	<p>state: {{reason.state}}</p>

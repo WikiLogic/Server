@@ -8,7 +8,6 @@ Editor.config(function($routeProvider){
 	 * 
 	 */
 	 
-	 console.log('routing in the config running');
 	$routeProvider
 		.when("/", {
 			templateUrl: "/editor/lists/myDraftsList-partial.html",
@@ -75,6 +74,19 @@ Editor.config(function($routeProvider){
 });
 
 Editor.run(function($rootScope, userService, alertService){
+	
+	/** Focus location Obj & The Focus Location
+	 * These are used to pass around refrences to pieces of arguments,
+	 * Groups, Reasons, and possibly individual words within reasons (or phrases).
+	 */
+	$rootScope.theFocusLocation = {
+		type : "side|group|reason|word",
+		side: "supporting|opposing",
+		group: "Index",
+		reason: "Index",
+		wordIndex: "Index",
+		word: "string"
+	}
 
 	/** The user object
 	 * This holds a full user object with all the details we could possibly want!
@@ -101,8 +113,14 @@ Editor.run(function($rootScope, userService, alertService){
 	};
 
 	/** The Focus object
-	 * object: holds a full draft or claim object
+	 * object: holds a full draft or claim object.  When editing a draft or full claim, this is where the local instance is stored.
 	 * highlight: identifies a selected part of the focus object: argument / reason / claim title.
+	 * each reason has a status: 
+	 *		Default = the default text is still in - fail!
+	 * 		New = newly created but not yet saved anywhere. When the user saves the parent claim, this will be added as a draft
+	 *		Claim = it has been defined as an existing, published claim.
+	 *		Draft = it has been defined as an existing draft from the users list.
+	 * 		Saved = it has been saved.  All good!
 	 */
 	$rootScope.focus = {
 		object : {},

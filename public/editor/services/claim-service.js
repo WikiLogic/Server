@@ -5,38 +5,87 @@
  */
 
 angular.module('Editor')
-.factory('claimService',['$http',
-	function($http){
+.factory('claimService',['$http','$rootScope',
+	function($http,$rootScope){
 		var service = {
-			saveClaimToProfile: function(draftClaim){
+			saveDraftToProfile: function(draftClaim){
 				/*
 				 * Asking the server to save the draftClaim to the current users profile
+				 * draftClaim is an object with a description
 				 */
 				return $http.post('/draft-claim/new', {'draftClaim':draftClaim}).success(function(data, status, headers, config) {
-					console.log('Claim saved! ', data);
+					//console.log('Claim saved! ', data);
 				}).error(function(data, status, headers, config) {
 					console.log('save claims service: Could not save claim - womp womp :(');
 				});
 			},
 			updateDraft: function(draftClaim){
 				/*
-				 * Asking the server to update an existing draftClaim on the current users profile
+				 * Asking the server to update an existing draftClaim on the current users profile.
+				 * This should update everything in the draft
 				 */
 				return $http.post('/draft-claim/update', {'draftClaim':draftClaim}).success(function(data, status, headers, config) {
-					console.log('Claim updated! ', data);
+					
+					//The server has informed us the save was successfull, and returned a copy of the object it saved.
+					//Now we add that object to the user object (TODO future, check these two objects against each other?)
+					//run through the drafts on the user scope looking for a match
+					for (var i=0; i< $rootScope.user.meta.unPublished.length; i++){
+						if ($rootScope.user.meta.unPublished[i]._id == data._id){
+							//Found a match, set it's details as the curret draft on the global object
+							$rootScope.user.meta.unPublished[i] = data;
+							break;
+						}
+					}
+
+					//if current draft has the same ID as the saved claim - update that too.
+					if ($rootScope.currentDraft._id == data._id) {
+						$rootScope.currentDraft = data;
+						//TODO (future) lock out editing while save is happening? Unlock when server returns
+					}
+
 				}).error(function(data, status, headers, config) {
 					console.log('save claims service: Could not update claim - womp womp :(');
 				});
 			},
 			deleteDraft: function(draftClaim){
 				/*
-				 *
+				 * Takes a full draft claim object to delete.  One from the user's draft claim list & 2, from any other drafts that use it.
 				 */
+				var draftList = $rootScope.user.meta.unPublished;
+				for(var i = 0; i < draftList.length; i++){
+
+					//If we find the actual draft to be deleted, note it's index
+					if (draftList[i]._id == draftClaim._id){
+						var killDex = i;
+					}
+
+					console.log('dl: ', draftList[i]);
+
+					//If we find any 
+					checkForDraftUse('supporting');
+					checkForDraftUse('opposing');
+					
+				}
+				var checkForDraftUse = function(side) {
+					//iterate through this side's arguments
+					for (var j = 0; j < draftList[i].supporting[side].length; j++) {
+						//iterate through this side's reasons
+						for (var m = 0; m < draftList[i].supporting[side][j].reasons.length; m++) {
+							//check if this reason matches the draft we're deleting
+							console.log('checking: ', draftList[i].supporting[side][j].reasons[m]);
+							if (draftList[i].supporting[side][j].reasons[m]._id == draftClaim._id) {
+								alert('this draft is used in ...', draftList[i]);
+							}
+						}
+					}
+				}
+				/*
 				return $http.post('/draft-claim/delete', {'draftClaimID':draftClaim._id}).success(function(data, status, headers, config) {
 					console.log('Claim deleted! ', data);
 				}).error(function(data, status, headers, config) {
 					console.log('save claims service: Could not delete draft - womp womp :(');
 				});
+*/
 			},
 			publishDraftClaim: function(draftClaim){
 				/*
