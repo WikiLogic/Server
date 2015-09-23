@@ -55,6 +55,8 @@ angular.module('Editor')
 				var draftList = $rootScope.user.meta.unPublished;
 				var draftUses = "";
 
+				
+
 				var checkForDraftUse = function(side, i) {
 					//iterate through this side's arguments
 					for (var j = 0; j < draftList[i][side].length; j++) {
@@ -68,6 +70,8 @@ angular.module('Editor')
 						}
 					}
 				}
+
+				//Now we begin running!
 				
 				for(var i = 0; i < draftList.length; i++){
 
@@ -87,18 +91,27 @@ angular.module('Editor')
 				if (draftUses.length > 1) {
 					if (confirm('"' + draftClaim.description + '" is used in: \n' + draftUses + '\nAre you sure you want to delete it?')) {
 						//TODO Delete it!
-						return $http.post('/draft-claim/delete', {'draftClaimID':draftClaim._id}).success(function(data, status, headers, config) {
-							console.log('Claim deleted! ', data);
-						}).error(function(data, status, headers, config) {
-							console.log('save claims service: Could not delete draft - womp womp :(');
-						});
-
+						doTheDelete();
 						//AND Delete it from the drafts that use it && save them  ---  Do it in the SERVER ^^^
 
 					} else {
 						
 					}
+				} else {
+					//it's not used anywhere
+					doTheDelete();
 				}
+
+				function doTheDelete(){
+					console.log('doing the delete');
+					return $http.post('/draft-claim/delete', {'draftClaimID':draftClaim._id}).success(function(data, status, headers, config) {
+						console.log('Claim deleted! ', data);
+					}).error(function(data, status, headers, config) {
+						console.log('save claims service: Could not delete draft - womp womp :(');
+					});
+				}
+
+				
 			},
 			publishDraftClaim: function(draftClaim){
 				/*

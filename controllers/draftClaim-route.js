@@ -222,6 +222,7 @@ var express = require('express'),
 	router.post('/delete', function(req, res) {
 		console.log('deleting: ', req.body.draftClaimID);
 		var currentUser = req.user;
+
 		
 
 		async.waterfall([
@@ -241,10 +242,43 @@ var express = require('express'),
 				currentUser.save(function(err, result){
 					if(err) console.log('error in adding publishd claim to user profile', err);
 					console.log('Saved user :D ', result);
-					res.status(200).send();
+					callback(null);
 				});
+			},
+			function(callback){
+				//3. Remove the draft from any other drafts in which it has been used
+				//run through the users draft list
+				for (var draftItr = 0; draftItr < currentUser.meta.unPublished.length; draftItr++) {
+					console.log('===========currentUser.meta.unPublished[itr]: ', currentUser.meta.unPublished[draftItr]);
+					
+					//currentUser.meta.unPublished[draftItr] is just the ID of the draft - more async fun! Yeay!
+
+					//argumentIterator(currentUser.meta.unPublished[draftItr].opposing);
+					//argumentIterator(currentUser.meta.unPublished[draftItr].supporting);
+				}
+				res.status(200).send();
+
 			}
 		]);
+
+		function argumentIterator(argumentArray){
+			console.log('==================argumentArray: ', argumentArray);
+			
+			//iterate through the groups in the argument list
+			for (var groupItr = 0; groupItr < argumentArray.length; groupItr ++) {
+
+				//iterate through the reasons in the group
+				for (var reasonItr = 0; reasonItr < argumentArray[groupItr].reasons.length; reasonItr++ ) {
+					if (argumentArray[groupItr].reasons[reasonItr]._id == req.body.draftClaimID) {
+						//got a match, remove from this argument in this draft and save the draft
+						console.log('=============================================================');
+						console.log('This: ', argumentArray[groupItr].reasons[reasonItr]._id);
+						console.log('Matches: ', req.body.draftClaimID);
+						console.log('=============================================================');
+					}
+				}
+			}
+		}
 	});
 
 	//route to publish an individual claim to the public network
