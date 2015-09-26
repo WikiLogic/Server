@@ -247,20 +247,48 @@ var express = require('express'),
 			},
 			function(callback){
 				//3. Remove the draft from any other drafts in which it has been used
+				//async array for each item
+				var usersDraftIDArray = [];
+
+
 				//run through the users draft list
 				for (var draftItr = 0; draftItr < currentUser.meta.unPublished.length; draftItr++) {
 					console.log('===========currentUser.meta.unPublished[itr]: ', currentUser.meta.unPublished[draftItr]);
-					
+					usersDraftIDArray.push(currentUser.meta.unPublished[draftItr]);
 					//currentUser.meta.unPublished[draftItr] is just the ID of the draft - more async fun! Yeay!
 
+					//Return ID to build an array for async
 					//argumentIterator(currentUser.meta.unPublished[draftItr].opposing);
 					//argumentIterator(currentUser.meta.unPublished[draftItr].supporting);
 				}
-				res.status(200).send();
+				
+				//Removes draft from any other drafts in which it might be used.  Resolves when all are complete.
+				async.map(usersDraftIDArray, removeReasonFromDraft(), function(err, result){
+
+					res.status(200).send();
+				});
+
+				/**
+				 * If the given ID is found inside the given Draft
+				 * that reason is removed and the draft is saved
+				 */
+				function removeReasonFromDraft(removalID, draftID){
+					//Get draftID
+					//set flag falst
+					//Run through supporting & opposing arg groups
+						//if draft exists, remove and set flag true
+
+					//if flag true, save draft.
+						//on success callback(null)
+
+				}
 
 			}
 		]);
+		
 
+		
+		/*
 		function argumentIterator(argumentArray){
 			console.log('==================argumentArray: ', argumentArray);
 			
@@ -278,7 +306,7 @@ var express = require('express'),
 					}
 				}
 			}
-		}
+		}*/
 	});
 
 	//route to publish an individual claim to the public network
