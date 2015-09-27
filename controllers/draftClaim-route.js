@@ -111,15 +111,53 @@ var express = require('express'),
 				res.status(200).send(draftCandidate);
 			}
 		});
-
 	});
 
 
-	//GET a draft claim AND all it's supporting / opposing claims / draftClaims
+	/*  ______ _______ _______
+ 	 * |  ____ |______    |   
+	 * |_____| |______    |   
+	 * http://patorjk.com/software/taag/#p=display&f=Cyberlarge&t=GET
+	 */
+
+	/** GET a draft claim AND all it's supporting / opposing claims / draftClaims
+	 * This fails because it trusts the client side for the reasons array.  
+	 * Need to get from the DB by ID first.
+	 */
 	router.post('/get-draft', function(req, res) {
 
-		var draftClaim = req.body.draftClaim;
+		var draftClaim = req.body.draftClaim; //nope - get it from the DB you mad man!
 		console.log('DRAFT CLAIM: ', draftClaim);
+
+		async.waterfall([
+			function(callback) {
+				//1. get the draft from the DB
+				DraftClaim.findOne({_id:req.body.draftClaim._id}).exec(function(err, result){
+					if (err) {
+						//poop
+						callback(null, 'fail');
+					} else {
+						callback(null, result);
+					}
+				});
+			},
+			function(draftClaimObject, callback) {
+				if (draftClaimObject == 'fail') {
+					callback(null);
+				} else {
+					//2. run a map async to get all the reasons for each argument on each side
+					callback(null, 'three');
+				}
+			}
+		], function (err, result) {
+			// result now equals 'done'
+		});
+
+
+
+
+
+		
 
 
 		//async each will perform the find in parallel for each reason ID object
@@ -188,7 +226,8 @@ var express = require('express'),
 					//iterate through the reasons within the argument object
 					for (var j = 0; j < draftClaim[singleReason.side][i].reasons.length; j++){
 
-						console.log('Checking: ', draftClaim[singleReason.side][i].reasons[j], 'aginst', result._id);
+						//result comes out null :(
+						console.log('Checking: ', draftClaim[singleReason.side][i].reasons[j], 'aginst', result._id); //TODO error here when opening claim with deleted draft
 						if (draftClaim[singleReason.side][i].reasons[j] == result._id) {
 							console.log('OLD: ', draftClaim[singleReason.side][i].reasons[j]);
 							console.log('NEW: ', result);
@@ -217,6 +256,12 @@ var express = require('express'),
 		});
 	});
 
+
+	/* ______  _______        _______ _______ _______
+	 * |     \ |______ |      |______    |    |______
+	 * |_____/ |______ |_____ |______    |    |______
+	 * http://patorjk.com/software/taag/#p=display&f=Cyberlarge&t=DELETE
+	 */
 
 	/** DELETE a draft claim, 
 	 * This also removes refrences to the deleted draft from any other drafts
