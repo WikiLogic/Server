@@ -129,131 +129,129 @@ var express = require('express'),
 		var draftClaim = req.body.draftClaim; //nope - get it from the DB you mad man!
 		console.log('DRAFT CLAIM: ', draftClaim);
 
+		//This object is used to fill in all the details for each reason in each argument
+		//It looks like this: { ID:id, side:string, argIndex:int}
+		var reasonDataArray = [],
+			draftClaimFromDB = {};
+
 		async.waterfall([
 			function(callback) {
 				//1. get the draft from the DB
 				DraftClaim.findOne({_id:req.body.draftClaim._id}).exec(function(err, result){
 					if (err) {
 						//poop
-						callback(null, 'fail');
+						callback(err);
 					} else {
-						callback(null, result);
+						draftClaimFromDB = result;
+						callback(null);
 					}
 				});
 			},
-			function(draftClaimObject, callback) {
-				if (draftClaimObject == 'fail') {
-					callback(null);
-				} else {
-					//2. run a map async to get all the reasons for each argument on each side
-					callback(null, 'three');
+			function(callback) {
+				//2. run through each side, each arg, each reason - build the reasonDataArray
+				reasonArrayIterator(draftClaimFromDB, 'supporting');
+				reasonArrayIterator(draftClaimFromDB, 'opposing');
+				callback(null);
+			},
+			function(callback) {
+				//3. Now the reasonDataArray has been built, run a map async to get all the reasons
+
+				async.map(reasonDataArray, getAndAddReason, function(err, result){
+					if (err) {
+						callback(err);
+					} else {
+						callback(null);
+					}
+				});
+
+				function getAndAddReason(reasonData, mapCallback){
+					// thisReason.reasonObj = {};
+					// thisReason.side = side;
+					// thisReason.argIndex = argIndex;
+					// thisReason.reasonIndex = reasonIndex;
+					// thisReason.ID = draftObject[side][argIndex].reasons[reasonIndex];
+					console.log("1: " + reasonData.ID);
+					DraftClaim.findOne({_id:reasonData.ID}).exec(function(err, result){
+						if(err){
+							mapCallback(err);
+						} else {
+							//we now hve the reason from the database and it's location in the main draft, 
+							//we should add it to the draft
+							console.log('2: ' + result); 
+							if (result !== null) {
+								//sometimes result comes out as null?
+								replaceRefWithReason(reasonData, result);
+							}
+							
+						}
+						mapCallback(null);
+					});
+				}
+
+				/**
+				 * this uses the data from the reasonDataObject to replace the refrence in the draftClaimFromDB with the reasonFromDb
+				 */
+				function replaceRefWithReason(reasonDataObject, reasonFromDb){
+					//1. check the location provided by the reasonDataObject, if it matches - awesome, if not, we'll have to iterate through everything
+					var refID = draftClaimFromDB[reasonDataObject.side][reasonDataObject.argIndex].reasons[reasonDataObject.reasonIndex];
+					if (refID == reasonFromDb._id) {
+						draftClaimFromDB[reasonDataObject.side][reasonDataObject.argIndex].reasons[reasonDataObject.reasonIndex] = reasonFromDb;
+					} else {
+						//If this is called it means the array order has been mixed up somehow - we'll have to spend a bit more on computation
+
+						//Iterate through the arguments in the relevent side
+						for (var i = 0; i < draftClaimFromDB[reasonDataObject.side].length; i++) {
+							//iterate through the reasons in each argument
+							for (var j = 0; j < draftClaimFromDB[reasonDataObject.side][i].reasons.length; j++){
+								//check to see if the id of the reason in this bit of the main draft matched the reason ID
+								if (draftClaimFromDB[reasonDataObject.side][i].reasons[j] == reasonFromDb._id) {
+									//we have a match, replace the refrence with the full reason object
+									draftClaimFromDB[reasonDataObject.side][i].reasons[j] = reasonFromDb;
+								}
+							}
+						}
+					}
 				}
 			}
 		], function (err, result) {
 			// result now equals 'done'
+			res.status(200).send(draftClaimFromDB);
 		});
 
-
-
-
-
-		
-
-
-		//async each will perform the find in parallel for each reason ID object
-		//give the object the ID, Side, and ArgIndex
-		var reasonDataArray = [];
-		/* going to build an array of objects like this:
-			{
-				ID : 
-				side : 
-				argIndex :
-			}
-		*/
-
-		//iterate through the supporting reasons and add them to the object array
-		for (var i = 0; i < draftClaim.supporting.length; i++) {
-			for (var j = 0; j < draftClaim.supporting[i].reasons.length; j++) {
-				buildReasonsObject('supporting', i, j);
+		/**
+		 * This takes the draft claim that has just been returned from the DB, and a side (opposing | supporting)
+		 * It then iterates through the args (i) and the reasons (j) and passes the data to the reasonArrayBuilder
+		 */
+		function reasonArrayIterator(draftObject, side){
+			for (var i = 0; i < draftObject[side].length; i++) {
+				for (var j = 0; j < draftObject[side][i].reasons.length; j++) {
+					reasonArrayBuilder(draftObject, side, i, j);
+				}
 			}
 		}
 
-		//iterate through the opposing reasons and add them to the object array
-		for (var i = 0; i < draftClaim.opposing.length; i++) {
-			for (var j = 0; j < draftClaim.opposing[i].reasons.length; j++) {
-				buildReasonsObject('opposing', i, j);
-			}
-		}
-
-		//this is the function that adds the specific details to the object array
-		function buildReasonsObject(side, argIndex, reasonIndex){
+		/** 
+		 * This takes the draft claim from the DB and the iteration details
+		 * It then creates an object from all the data and pushes it onto the reasonDataArray
+		 */
+		function reasonArrayBuilder(draftObject, side, argIndex, reasonIndex){
 			var thisReason = {};
 
 			//Set the easy stuff
+			thisReason.reasonObj = {};
 			thisReason.side = side;
 			thisReason.argIndex = argIndex;
 			thisReason.reasonIndex = reasonIndex;
-			thisReason.reasonObj = {};
+			thisReason.ID = draftObject[side][argIndex].reasons[reasonIndex];
 
-			//set the ID
-			if (side == 'supporting'){
-				thisReason.ID = draftClaim.supporting[argIndex].reasons[reasonIndex];
+			/*if (side == 'supporting'){
+				thisReason.ID = draftObject.supporting[argIndex].reasons[reasonIndex];
 			} else {
-				thisReason.ID = draftClaim.opposing[argIndex].reasons[reasonIndex];
-			}
+				thisReason.ID = draftObject.opposing[argIndex].reasons[reasonIndex];
+			}*/
 				
 			reasonDataArray.push(thisReason);
 		}
-		
-		//for each object in the object array, go find a claim in the DB
-		async.each(reasonDataArray, function(singleReason, callback) {
-
-			console.log('finding this reason: ', singleReason.ID);
-
-			//Don't think single reason is getting passed into the findOne function
-			DraftClaim.findOne({_id:singleReason.ID}).exec(function(err, result){
-				if(err){callback(err);}
-				//console.log('found one!', result);
-				//TODO add result to responce object
-
-				//this is the side (supporting / opposing)
-				//draftClaim[singleReason.side]
-				console.log('THIS SIDE: ', singleReason.side);
-
-				//Iterte through the array of argument objects on the relevant side
-				for (var i = 0; i < draftClaim[singleReason.side].length; i++) {
-					console.log('In Arg ', i);
-					//iterate through the reasons within the argument object
-					for (var j = 0; j < draftClaim[singleReason.side][i].reasons.length; j++){
-
-						//result comes out null :(
-						console.log('Checking: ', draftClaim[singleReason.side][i].reasons[j], 'aginst', result._id); //TODO error here when opening claim with deleted draft
-						if (draftClaim[singleReason.side][i].reasons[j] == result._id) {
-							console.log('OLD: ', draftClaim[singleReason.side][i].reasons[j]);
-							console.log('NEW: ', result);
-							draftClaim[singleReason.side][i].reasons[j] = result;
-							break;
-						}
-					}
-					console.log('finding the  bit to add the reason data into.');
-					
-				}
-
-				callback();
-			});
-			
-		}, function(err){
-
-			if( err ) {
-				// If one of the iterations adds an arg to the callback, everything stops and that arg is this err
-				console.log('A reason failed to be found');
-			} else {
-				console.log('SUCCESS!', draftClaim);
-				res.status(200).send(draftClaim);
-				//TODO return responce to client
-			}
-
-		});
 	});
 
 
