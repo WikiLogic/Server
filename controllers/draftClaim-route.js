@@ -249,28 +249,11 @@ var express = require('express'),
 			},
 			function(callback){
 				//3. Remove the draft from any other drafts in which it has been used
-
-				//run through the users draft list
-				/*
-				for (var draftItr = 0; draftItr < currentUser.meta.unPublished.length; draftItr++) {
-					console.log('===========currentUser.meta.unPublished[itr]: ', currentUser.meta.unPublished[draftItr]);
-					usersDraftIDArray.push(currentUser.meta.unPublished[draftItr]);
-					//currentUser.meta.unPublished[draftItr] is just the ID of the draft - more async fun! Yeay!
-
-					//Return ID to build an array for async
-					//argumentIterator(currentUser.meta.unPublished[draftItr].opposing);
-					//argumentIterator(currentUser.meta.unPublished[draftItr].supporting);
-				}
-				*/
-				//Removes draft from any other drafts in which it might be used.  Resolves when all are complete.
 				console.log('1');
-				async.map(currentUser.meta.unPublished, removeReasonFromDraft(), function(err, result){
+				async.map(currentUser.meta.unPublished, removeReasonFromDraft, function(err, result){
 					console.log('8');
 					res.status(200).send();
 				});
-
-				
-
 			}
 		]);
 
@@ -279,22 +262,28 @@ var express = require('express'),
 		 * that reason is removed and the draft is saved.
 		 */
 		function removeReasonFromDraft(draftID, mapCallback){
-			console.log('2');
+			console.log('2: ' + draftID);
 			//req.body.draftClaimID is the reason we're removing
 			//draftID is the ID of the draft we're checking - one of the ones from the users list
+			var DraftClaim = require('../models/draftClaim');
+
 			async.waterfall([
 				function(callback){
-					console.log('2.1');	
-					//1. Get the draft from the DB
-					DraftClaim.find({'_id':draftID}).exec(function(err,result){
+					console.log('2.1: ' + draftID);	
+
+					//DraftClaim.find({'_id': { $in: unPublishedIDarray } }, function(err,drafts){
+					//	callback(null, drafts);
+					//})
+
+					DraftClaim.find({ '_id' : draftID }, function (err, draftObject) {
 						console.log('2.2');
 						if(err) {
 							console.log('2.3');
 							//couldn't find this draft frokm the user's collection?  Probably remove it from the users array?
 							callback(null, 'fail'); //what happens to this waterfall? Can I cancel it?
 						} else {
-							console.log('3');
-							callback(null, result);
+							console.log('3: ' + draftObject);
+							callback(null, draftObject);
 						}
 					});
 				},
@@ -304,20 +293,21 @@ var express = require('express'),
 					if (draftToCheck == 'fail'){
 						callback(null);
 					} else {
-						console.log('4');
-						//var opposingRemoval = reasonRemoval(draftToCheck.opposing);
-						//var supportingRemoval = reasonRemoval(draftToCheck.supporting);
-						var opposingRemoval = false;
-						var supportingRemoval = false;
+						console.log('4: ' + draftToCheck);
+						var opposingRemoval = false,
+							supportingRemoval = false;
+						if (draftToCheck.opposing) { opposingRemoval = reasonRemoval(draftToCheck.opposing); }
+						if (draftToCheck.supporting) { supportingRemoval = reasonRemoval(draftToCheck.supporting); }
 
 						
 						if ( opposingRemoval || supportingRemoval ) {
+							console.log('5.1');
 							//if either return true, we'll have to save this draftToCheck
 							draftToCheck.save(function(err, result){
 								if(err) {
-									console.log('error in saving draft after removing refrence to deleted draft from argument group', err);
+									console.log('5.2 error in saving draft after removing refrence to deleted draft from argument group', err);
 								} else {
-									console.log('5');
+									console.log('5.3');
 									callback(null);
 								}
 							});
@@ -342,7 +332,7 @@ var express = require('express'),
 		
 		
 		function reasonRemoval(argumentArray){
-			console.log('==================argumentArray: ', argumentArray);
+			console.log('4.1 ==================argumentArray: ', argumentArray);
 			var reasonFound = false;
 			
 			//iterate through the groups in the argument list
@@ -352,14 +342,14 @@ var express = require('express'),
 				for (var reasonItr = 0; reasonItr < argumentArray[groupItr].reasons.length; reasonItr++ ) {
 					if (argumentArray[groupItr].reasons[reasonItr]._id == req.body.draftClaimID) {
 						//got a match, remove from this argument in this draft and save the draft
-						console.log('=============================================================');
+						console.log('4.2 =============================================================');
 						console.log('This: ', argumentArray[groupItr].reasons[reasonItr]._id);
 						console.log('Matches: ', req.body.draftClaimID);
-						console.log('=============================================================');
+						console.log('4.3 =============================================================');
 						console.log('BEFORE: ' + argumentArray[groupItr].reasons);
 						argumentArray[groupItr].reasons.splice(reasonItr, 1);
 						console.log('AFTER: ' + argumentArray[groupItr].reasons);
-						console.log('=============================================================');
+						console.log('4.4 =============================================================');
 						reasonFound = true; //if there's a match
 					}
 				}
