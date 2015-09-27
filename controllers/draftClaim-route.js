@@ -218,13 +218,15 @@ var express = require('express'),
 	});
 
 
-	//DELETE a draft claim, double check on the client side
+	/** DELETE a draft claim, 
+	 * This also removes refrences to the deleted draft from any other drafts
+	 * in this user's profile.
+	 */
 	router.post('/delete', function(req, res) {
 		console.log('deleting: ', req.body.draftClaimID);
 		var currentUser = req.user;
 
 		
-
 		async.waterfall([
 			function(callback){
 				//1. Delete draft claim
@@ -241,17 +243,15 @@ var express = require('express'),
 				//2.2 Save modification of user to db
 				currentUser.save(function(err, result){
 					if(err) console.log('error in adding publishd claim to user profile', err);
-					console.log('Saved user :D ', result);
+					//console.log('Saved user :D ', result);
 					callback(null);
 				});
 			},
 			function(callback){
 				//3. Remove the draft from any other drafts in which it has been used
-				//async array for each item
-				var usersDraftIDArray = [];
-
 
 				//run through the users draft list
+				/*
 				for (var draftItr = 0; draftItr < currentUser.meta.unPublished.length; draftItr++) {
 					console.log('===========currentUser.meta.unPublished[itr]: ', currentUser.meta.unPublished[draftItr]);
 					usersDraftIDArray.push(currentUser.meta.unPublished[draftItr]);
@@ -261,36 +261,89 @@ var express = require('express'),
 					//argumentIterator(currentUser.meta.unPublished[draftItr].opposing);
 					//argumentIterator(currentUser.meta.unPublished[draftItr].supporting);
 				}
-				
+				*/
 				//Removes draft from any other drafts in which it might be used.  Resolves when all are complete.
-				async.map(usersDraftIDArray, removeReasonFromDraft(), function(err, result){
-
+				console.log('1');
+				async.map(currentUser.meta.unPublished, removeReasonFromDraft(), function(err, result){
+					console.log('8');
 					res.status(200).send();
 				});
 
-				/**
-				 * If the given ID is found inside the given Draft
-				 * that reason is removed and the draft is saved
-				 */
-				function removeReasonFromDraft(removalID, draftID){
-					//Get draftID
-					//set flag falst
-					//Run through supporting & opposing arg groups
-						//if draft exists, remove and set flag true
-
-					//if flag true, save draft.
-						//on success callback(null)
-
-				}
+				
 
 			}
 		]);
-		
+
+		/**
+		 * If the ID of the draft that's being deleted is found inside the given Draft
+		 * that reason is removed and the draft is saved.
+		 */
+		function removeReasonFromDraft(draftID, mapCallback){
+			console.log('2');
+			//req.body.draftClaimID is the reason we're removing
+			//draftID is the ID of the draft we're checking - one of the ones from the users list
+			async.waterfall([
+				function(callback){
+					console.log('2.1');	
+					//1. Get the draft from the DB
+					DraftClaim.find({'_id':draftID}).exec(function(err,result){
+						console.log('2.2');
+						if(err) {
+							console.log('2.3');
+							//couldn't find this draft frokm the user's collection?  Probably remove it from the users array?
+							callback(null, 'fail'); //what happens to this waterfall? Can I cancel it?
+						} else {
+							console.log('3');
+							callback(null, result);
+						}
+					});
+				},
+				function(draftToCheck, callback){
+					//2. the draft has been returned from the DB, check through it to see if the draft we're deleteing is used in it
+					//draftToCheck is a full draft object
+					if (draftToCheck == 'fail'){
+						callback(null);
+					} else {
+						console.log('4');
+						//var opposingRemoval = reasonRemoval(draftToCheck.opposing);
+						//var supportingRemoval = reasonRemoval(draftToCheck.supporting);
+						var opposingRemoval = false;
+						var supportingRemoval = false;
+
+						
+						if ( opposingRemoval || supportingRemoval ) {
+							//if either return true, we'll have to save this draftToCheck
+							draftToCheck.save(function(err, result){
+								if(err) {
+									console.log('error in saving draft after removing refrence to deleted draft from argument group', err);
+								} else {
+									console.log('5');
+									callback(null);
+								}
+							});
+						} else {
+							console.log('6');
+							//neighr returned true, so hopefully this means the deleted draft was not found to be refrenced in any of the users claims.
+							callback(null);
+						}
+					}
+					
+					
+				},
+				function(callback){
+					console.log('7');
+					//3. If the deleted draft was found - save it.
+					mapCallback(null);
+				}
+			]);
+
+		}
 
 		
-		/*
-		function argumentIterator(argumentArray){
+		
+		function reasonRemoval(argumentArray){
 			console.log('==================argumentArray: ', argumentArray);
+			var reasonFound = false;
 			
 			//iterate through the groups in the argument list
 			for (var groupItr = 0; groupItr < argumentArray.length; groupItr ++) {
@@ -303,10 +356,16 @@ var express = require('express'),
 						console.log('This: ', argumentArray[groupItr].reasons[reasonItr]._id);
 						console.log('Matches: ', req.body.draftClaimID);
 						console.log('=============================================================');
+						console.log('BEFORE: ' + argumentArray[groupItr].reasons);
+						argumentArray[groupItr].reasons.splice(reasonItr, 1);
+						console.log('AFTER: ' + argumentArray[groupItr].reasons);
+						console.log('=============================================================');
+						reasonFound = true; //if there's a match
 					}
 				}
 			}
-		}*/
+			return reasonFound;
+		}
 	});
 
 	//route to publish an individual claim to the public network
