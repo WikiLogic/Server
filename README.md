@@ -2,13 +2,17 @@ WikiLogic 0.3
 =========
 
 The third prototype, making everything more modular
-[http://wikilogic.github.io/WikiLogic-0.3](http://wikilogic.github.io/WikiLogic-0.3)
 
 ---
 
+Our [main site](http://www.wikilogicfoundation.org/) serves as the intro to the idea behind WL but we will also give you a quick overview here.
+
+We also have a [meta wiki](http://wikilogicfoundation.org/wiki/index.php?title=Main_Page) set up for more in depth theory, a good place to go if you are something of a Philosopher.
+
+
 ##Why is this a thing:
 
-How do you know that something, anything, is true? Lets leave out the deeper questions about the actual meaning of the word 'true' or 'truth' and focus on the day to day, practical laymens apreciation of the word 'true'.  You probably read something or herd someone say something.  That's generally how it goes, we have to trust people.  But how do they know what they said / wrote is true?  They probably read something or heard something said from another person who they deemed trustworthy.  But then, how did that person know what they said is true... See the pattern? 
+How do you know that something, anything, is true? Let us leave out the deeper questions about the actual meaning of the word 'true' or 'truth' and focus on the day to day, practical laymen’s appreciation of the word 'true'.  You probably read something or heard someone say something.  That's generally how it goes, we have to trust people.  But how do they know what they said / wrote is true?  They probably read something or heard something said from another person who they deemed trustworthy.  But then, how did that person know what they said is true... See the pattern? 
 
 Let's take it from a different angle.  
 
@@ -35,15 +39,7 @@ This is an open source project so please feel free to get involved!
 
 This repo, as you might expect, is for the software development.  Have a look around - it's a pretty simple directory structure!
 
-[The Docs](https://github.com/WikiLogic/WikiLogic-0.3/wiki) run through all the WL specific code, the rest of it comes from the MEAN.js Yeoman generator so it's all standard stuff (for now).
-
-[The Manual](http://wikilogic.github.io/WikiLogic/manual.html) sits beside the Docs at the moment but this will probably change.  It's a run through of how to actually use WikiLogic.
-
-For any larger media files (videos, posters, design work, books!) we have set up a folder with BitTorrent Sync.  Use the key in AssetsKey.txt and the [tutorial](http://wikilogicfoundation.org/wiki/index.php?title=BitTorrentSync) we've put together to get set up with that.
-
-Our [main site](http://www.wikilogicfoundation.org/) is the hub for news and any crossover discussion between the theory and the development.
-
-We also have a [meta wiki](http://wikilogicfoundation.org/wiki/index.php?title=Main_Page) set up for more in depth theory, a good place to go if you something of a Philosopher.
+For any larger media files (videos, posters, design work, books!) we have set up a folder with BitTorrent Sync.  Use the key in AssetsKey.txt and the [tutorial](http://wikilogicfoundation.org/wiki/index.php?title=BitTorrentSync) we've put together to get set up with that. TODO@Douglas Investigate synching and update to use that.
 
 ---
 
@@ -77,7 +73,7 @@ Ok! Now lets get it running
 1. Navigate to the project folder and run `gulp`.  Hopefully it'll just go!
 3. Now open your browser and go to [http://localhost:3000/](http://localhost:3000/)
 
-You should now have Wikilogic running locally!  Bravo sir, bravo!  You'll have to fill in some statements yourself to play around with it.  We'll be adding an online test database soon-ish which the (future) demo will run on and which you should be able to connect to as well using a different grunt, like `grunt demo` or something.  Will update this when that arrives!  Until then, happy stating!
+You should now have Wikilogic running locally!  Bravo sir/madam, bravo!  You'll have to fill in some statements yourself to play around with it.  We'll be adding an online test database soon-ish which the (future) demo will run on and which you should be able to connect to as well using a different grunt, like `grunt demo` or something.  Will update this when that arrives!  Until then, happy stating!
 
 *Note, if you get `js-bson: failed to load c++ bson extension` errors on step 5 (in the node console) search that in the node modules, the first result that comes up, comment out those three lines.  They're just noise at the moment.*
 
