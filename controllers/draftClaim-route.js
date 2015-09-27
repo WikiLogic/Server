@@ -127,7 +127,6 @@ var express = require('express'),
 	router.post('/get-draft', function(req, res) {
 
 		var draftClaim = req.body.draftClaim; //nope - get it from the DB you mad man!
-		console.log('DRAFT CLAIM: ', draftClaim);
 
 		//This object is used to fill in all the details for each reason in each argument
 		//It looks like this: { ID:id, side:string, argIndex:int}
@@ -155,7 +154,6 @@ var express = require('express'),
 			},
 			function(callback) {
 				//3. Now the reasonDataArray has been built, run a map async to get all the reasons
-
 				async.map(reasonDataArray, getAndAddReason, function(err, result){
 					if (err) {
 						callback(err);
@@ -170,14 +168,12 @@ var express = require('express'),
 					// thisReason.argIndex = argIndex;
 					// thisReason.reasonIndex = reasonIndex;
 					// thisReason.ID = draftObject[side][argIndex].reasons[reasonIndex];
-					console.log("1: " + reasonData.ID);
 					DraftClaim.findOne({_id:reasonData.ID}).exec(function(err, result){
 						if(err){
 							mapCallback(err);
 						} else {
 							//we now hve the reason from the database and it's location in the main draft, 
-							//we should add it to the draft
-							console.log('2: ' + result); 
+							//we should add it to the draft 
 							if (result !== null) {
 								//sometimes result comes out as null?
 								replaceRefWithReason(reasonData, result);
@@ -190,21 +186,26 @@ var express = require('express'),
 
 				/**
 				 * this uses the data from the reasonDataObject to replace the refrence in the draftClaimFromDB with the reasonFromDb
+				 * NEEDS FIXING ==========================================================================================================================
 				 */
 				function replaceRefWithReason(reasonDataObject, reasonFromDb){
+					
 					//1. check the location provided by the reasonDataObject, if it matches - awesome, if not, we'll have to iterate through everything
-					var refID = draftClaimFromDB[reasonDataObject.side][reasonDataObject.argIndex].reasons[reasonDataObject.reasonIndex];
-					if (refID == reasonFromDb._id) {
+					var refID = JSON.stringify(draftClaimFromDB[reasonDataObject.side][reasonDataObject.argIndex].reasons[reasonDataObject.reasonIndex]);
+					var reasonID = JSON.stringify(reasonFromDb._id);
+
+					if (refID == reasonID) {
 						draftClaimFromDB[reasonDataObject.side][reasonDataObject.argIndex].reasons[reasonDataObject.reasonIndex] = reasonFromDb;
 					} else {
 						//If this is called it means the array order has been mixed up somehow - we'll have to spend a bit more on computation
-
 						//Iterate through the arguments in the relevent side
 						for (var i = 0; i < draftClaimFromDB[reasonDataObject.side].length; i++) {
 							//iterate through the reasons in each argument
 							for (var j = 0; j < draftClaimFromDB[reasonDataObject.side][i].reasons.length; j++){
 								//check to see if the id of the reason in this bit of the main draft matched the reason ID
-								if (draftClaimFromDB[reasonDataObject.side][i].reasons[j] == reasonFromDb._id) {
+								refID = JSON.stringify(draftClaimFromDB[reasonDataObject.side][i].reasons[j]);
+
+								if (refID == reasonID) {
 									//we have a match, replace the refrence with the full reason object
 									draftClaimFromDB[reasonDataObject.side][i].reasons[j] = reasonFromDb;
 								}
@@ -235,6 +236,7 @@ var express = require('express'),
 		 * It then creates an object from all the data and pushes it onto the reasonDataArray
 		 */
 		function reasonArrayBuilder(draftObject, side, argIndex, reasonIndex){
+
 			var thisReason = {};
 
 			//Set the easy stuff
@@ -244,12 +246,6 @@ var express = require('express'),
 			thisReason.reasonIndex = reasonIndex;
 			thisReason.ID = draftObject[side][argIndex].reasons[reasonIndex];
 
-			/*if (side == 'supporting'){
-				thisReason.ID = draftObject.supporting[argIndex].reasons[reasonIndex];
-			} else {
-				thisReason.ID = draftObject.opposing[argIndex].reasons[reasonIndex];
-			}*/
-				
 			reasonDataArray.push(thisReason);
 		}
 	});
@@ -266,7 +262,6 @@ var express = require('express'),
 	 * in this user's profile.
 	 */
 	router.post('/delete', function(req, res) {
-		console.log('deleting: ', req.body.draftClaimID);
 		var currentUser = req.user;
 
 		
@@ -286,15 +281,12 @@ var express = require('express'),
 				//2.2 Save modification of user to db
 				currentUser.save(function(err, result){
 					if(err) console.log('error in adding publishd claim to user profile', err);
-					//console.log('Saved user :D ', result);
 					callback(null);
 				});
 			},
 			function(callback){
 				//3. Remove the draft from any other drafts in which it has been used
-				console.log('1');
 				async.map(currentUser.meta.unPublished, removeReasonFromDraft, function(err, result){
-					console.log('8');
 					res.status(200).send();
 				});
 			}
@@ -305,27 +297,18 @@ var express = require('express'),
 		 * that reason is removed and the draft is saved.
 		 */
 		function removeReasonFromDraft(draftID, mapCallback){
-			console.log('2: ' + draftID);
 			//req.body.draftClaimID is the reason we're removing
 			//draftID is the ID of the draft we're checking - one of the ones from the users list
 			var DraftClaim = require('../models/draftClaim');
 
 			async.waterfall([
 				function(callback){
-					console.log('2.1: ' + draftID);	
-
-					//DraftClaim.find({'_id': { $in: unPublishedIDarray } }, function(err,drafts){
-					//	callback(null, drafts);
-					//})
 
 					DraftClaim.find({ '_id' : draftID }, function (err, draftObject) {
-						console.log('2.2');
 						if(err) {
-							console.log('2.3');
 							//couldn't find this draft frokm the user's collection?  Probably remove it from the users array?
 							callback(null, 'fail'); //what happens to this waterfall? Can I cancel it?
 						} else {
-							console.log('3: ' + draftObject);
 							callback(null, draftObject);
 						}
 					});
@@ -336,7 +319,6 @@ var express = require('express'),
 					if (draftToCheck == 'fail'){
 						callback(null);
 					} else {
-						console.log('4: ' + draftToCheck);
 						var opposingRemoval = false,
 							supportingRemoval = false;
 						if (draftToCheck.opposing) { opposingRemoval = reasonRemoval(draftToCheck.opposing); }
@@ -344,18 +326,15 @@ var express = require('express'),
 
 						
 						if ( opposingRemoval || supportingRemoval ) {
-							console.log('5.1');
 							//if either return true, we'll have to save this draftToCheck
 							draftToCheck.save(function(err, result){
 								if(err) {
-									console.log('5.2 error in saving draft after removing refrence to deleted draft from argument group', err);
+									console.log('error in saving draft after removing refrence to deleted draft from argument group', err);
 								} else {
-									console.log('5.3');
 									callback(null);
 								}
 							});
 						} else {
-							console.log('6');
 							//neighr returned true, so hopefully this means the deleted draft was not found to be refrenced in any of the users claims.
 							callback(null);
 						}
@@ -364,7 +343,6 @@ var express = require('express'),
 					
 				},
 				function(callback){
-					console.log('7');
 					//3. If the deleted draft was found - save it.
 					mapCallback(null);
 				}
@@ -375,7 +353,6 @@ var express = require('express'),
 		
 		
 		function reasonRemoval(argumentArray){
-			console.log('4.1 ==================argumentArray: ', argumentArray);
 			var reasonFound = false;
 			
 			//iterate through the groups in the argument list
@@ -385,14 +362,7 @@ var express = require('express'),
 				for (var reasonItr = 0; reasonItr < argumentArray[groupItr].reasons.length; reasonItr++ ) {
 					if (argumentArray[groupItr].reasons[reasonItr]._id == req.body.draftClaimID) {
 						//got a match, remove from this argument in this draft and save the draft
-						console.log('4.2 =============================================================');
-						console.log('This: ', argumentArray[groupItr].reasons[reasonItr]._id);
-						console.log('Matches: ', req.body.draftClaimID);
-						console.log('4.3 =============================================================');
-						console.log('BEFORE: ' + argumentArray[groupItr].reasons);
 						argumentArray[groupItr].reasons.splice(reasonItr, 1);
-						console.log('AFTER: ' + argumentArray[groupItr].reasons);
-						console.log('4.4 =============================================================');
 						reasonFound = true; //if there's a match
 					}
 				}
@@ -449,7 +419,6 @@ var express = require('express'),
 				//3.3: save updated user profile to db
 					currentUser.save(function(err, result){
 						if(err) console.log('error in adding publishd claim to user profile', err);
-						console.log('Saved user :D ', result);
 						callback(null, newPublishedClaim);
 					});
 				}
