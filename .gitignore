@@ -25,3 +25,8 @@ build/Release
 # Dependency directory
 # https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git
 node_modules
+
+# =============================================================================== #
+#My convention folder for saving files via bit torrent sync, not meant for GitHub #
+# =============================================================================== #
+/Assets*/
