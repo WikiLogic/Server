@@ -5,40 +5,14 @@ The third prototype, making everything more modular
 
 ---
 
-Our [main site](http://www.wikilogicfoundation.org/) serves as the intro to the idea behind WL but we will also give you a quick overview here.
+Our [main site](http://www.wikilogicfoundation.org/) serves as the intro to the idea behind WL.
 
 We also have a [meta wiki](http://wikilogicfoundation.org/wiki/index.php?title=Main_Page) set up for more in depth theory, a good place to go if you are something of a Philosopher.
 
 
-##Why is this a thing:
+###File structure
 
-How do you know that something, anything, is true? Let us leave out the deeper questions about the actual meaning of the word 'true' or 'truth' and focus on the day to day, practical laymen’s appreciation of the word 'true'.  You probably read something or heard someone say something.  That's generally how it goes, we have to trust people.  But how do they know what they said / wrote is true?  They probably read something or heard something said from another person who they deemed trustworthy.  But then, how did that person know what they said is true... See the pattern? 
-
-Let's take it from a different angle.  
-
----
-
-##What are we doing about it:
-
-Wikilogic lets you check the truth of a statement based on a [Dynamic Logic Web](http://www.wikilogicfoundation.org/dynamic-logic-web).  It also allows users to build and explore this Logic Web in order to gain a greater understanding of whatever subject, question, or statement they may have in mind.
-For a more detailed description visit our [website](http://www.wikilogicfoundation.org/)
-This is an open source project so please feel free to get involved!
-
----
-
-##How are we doing it:
-
----
-
-[Feynman on magnets](https://www.youtube.com/watch?v=wMFPe-DwULM), watch it and think of what he's saying.
-
----
-
-
-###Road map to our online presence
-
-This repo, as you might expect, is for the software development.  Have a look around - it's a pretty simple directory structure!
-
+This repo, as you might expect, is for the software development.
 For any larger media files (videos, posters, design work, books!) we have set up a folder with BitTorrent Sync.  Use the key in AssetsKey.txt and the [tutorial](http://wikilogicfoundation.org/wiki/index.php?title=BitTorrentSync) we've put together to get set up with that. TODO@Douglas Investigate synching and update to use that.
 
 ---
