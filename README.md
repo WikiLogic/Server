@@ -112,4 +112,5 @@ Shout out to [useiconic](https://useiconic.com/open/) for the icons!
 
 ---
 
-this looks good for the graph: http://cytoscapeweb.cytoscape.org/tutorial
+this looks good for the graph: http://cytoscapeweb.cytoscape.org/tutorial  
+and this: http://sigmajs.org/
