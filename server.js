@@ -79,4 +79,6 @@ var server = app.listen(3000, function () {
 	console.log('     \\____/ \\____/(_)   ');
 	console.log(' ');
 
+	console.log('Connect to localhost:3000');
+
 });
