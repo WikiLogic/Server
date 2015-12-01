@@ -30,7 +30,7 @@ app.set('view engine', 'hbs');
 app.use(bodyParser.json()); // Lets us get data from form submittion
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser()); //Getting data from cookies
-app.use(morgan('combined')); //Setting up the logging
+app.use(morgan('dev')); //Setting up the logging
 console.timeEnd('         5: Configuring packages');
 
 /* DEFINING the static files

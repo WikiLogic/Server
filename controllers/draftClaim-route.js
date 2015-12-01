@@ -258,34 +258,34 @@ var express = require('express'),
 	 */
 
 	/** DELETE a draft claim, 
-	 * This also removes refrences to the deleted draft from any other drafts
-	 * in this user's profile.
+	 * 1. We must delete the draftclaim from the DB.
+	 * 2. We must delete the refrence to the draftclaim from the user's object.
+	 * 3. We must also check any other draftclaims that belong to this user as they may also hold refrences to this draftclaim.
 	 */
 	router.post('/delete', function(req, res) {
 		var currentUser = req.user;
-
 		
 		async.waterfall([
 			function(callback){
-				//1. Delete draft claim
-				DraftClaim.find({'_id':req.bo                                       dy.draftClaimID}).remove().exec(function(err,result){
+				//1. Delete the draftclaim from the database
+				DraftClaim.find({'_id':req.body.draftClaimID}).remove().exec(function(err,result){
 					if(err) res.status(500).send('DB error in deleting draftClaim');
 					callback(null);
 				});
 			},
 			function(callback){
-				//2.1 remove from user's list of drafts
+				//2.1 find and remove the refrence to the draftclaim from user's object
 				var killDex = currentUser.meta.unPublished.indexOf(req.body.draftClaimID);
 				currentUser.meta.unPublished.splice(killDex, 1);
 
-				//2.2 Save modification of user to db
+				//2.2 Save the modification of the user's object to the db
 				currentUser.save(function(err, result){
 					if(err) console.log('error in adding publishd claim to user profile', err);
 					callback(null);
 				});
 			},
 			function(callback){
-				//3. Remove the draft from any other drafts in which it has been used
+				//3. Check through all the other draftclaim objects belonging to this user for refrences to the deleted draftclaim
 				async.map(currentUser.meta.unPublished, removeReasonFromDraft, function(err, result){
 					res.status(200).send();
 				});
@@ -293,20 +293,29 @@ var express = require('express'),
 		]);
 
 		/**
-		 * If the ID of the draft that's being deleted is found inside the given Draft
-		 * that reason is removed and the draft is saved.
+		 * 3. removing refrences to the deleted draftclaim from the user's other draftclaims
+		 * This function is called from the async.map above for every draftclaim by this user.
+		 * It takes the ID of each draftclaim (we already know the ID of the deleted draftclaim)
 		 */
 		function removeReasonFromDraft(draftID, mapCallback){
 			//req.body.draftClaimID is the reason we're removing
 			//draftID is the ID of the draft we're checking - one of the ones from the users list
 			var DraftClaim = require('../models/draftClaim');
 
+			/**
+			 * There's a bit of a process, so we're waterfalling it
+			 * 1. get this draftclaim from the DB
+			 * 2. check through all it's arguments and their reasons
+			 * 3. If changed, save.
+			 */
+
 			async.waterfall([
 				function(callback){
-
+					//1. get this draftclaim from the DB
 					DraftClaim.find({ '_id' : draftID }, function (err, draftObject) {
 						if(err) {
-							//couldn't find this draft frokm the user's collection?  Probably remove it from the users array?
+							console.log('could not find draft in user collection');
+							//couldn't find this draft from the user's collection?  Probably remove it from the users array?
 							callback(null, 'fail'); //what happens to this waterfall? Can I cancel it?
 						} else {
 							callback(null, draftObject);
@@ -314,28 +323,63 @@ var express = require('express'),
 					});
 				},
 				function(draftToCheck, callback){
-					//2. the draft has been returned from the DB, check through it to see if the draft we're deleteing is used in it
-					//draftToCheck is a full draft object
+					//2. check through all it's arguments and their reasons
+					//draftToCheck is an array with one object
 					if (draftToCheck == 'fail'){
 						callback(null);
 					} else {
+						//These let us know if we need to save this draft
 						var opposingRemoval = false,
 							supportingRemoval = false;
-						if (draftToCheck.opposing) { opposingRemoval = reasonRemoval(draftToCheck.opposing); }
-						if (draftToCheck.supporting) { supportingRemoval = reasonRemoval(draftToCheck.supporting); }
 
-						
+						//only try the removal if there are arguments
+						if (draftToCheck[0].opposing.length > 0) { 
+							opposingRemoval = reasonRemoval(draftToCheck[0].opposing);
+						}
+
+						if (draftToCheck[0].supporting.length > 0) { 
+							supportingRemoval = reasonRemoval(draftToCheck[0].supporting);
+						}
+
+						//this is where we check if the above functions have removed a refrence to the deleted draftclaim from any of the user's other draftclaims
 						if ( opposingRemoval || supportingRemoval ) {
 							//if either return true, we'll have to save this draftToCheck
-							draftToCheck.save(function(err, result){
-								if(err) {
-									console.log('error in saving draft after removing refrence to deleted draft from argument group', err);
+							console.log('we killed the refrence to the deleted draftclaim from another draftclaim! Now to save it: ' + draftToCheck[0]);
+							//draftToCheck is an object
+							var updatedDraftObject = new DraftClaim(draftToCheck[0]);
+							// updatedDraftObject._id = draftToCheck._id;
+							// updatedDraftObject.meta = draftToCheck.meta;
+							// updatedDraftObject.opposing = draftToCheck.opposing;
+							// updatedDraftObject.supporting = draftToCheck.supporting;
+							// updatedDraftObject.status = draftToCheck.status;
+							// updatedDraftObject.axiom = draftToCheck.axiom;
+							// updatedDraftObject.description = draftToCheck.description;
+
+							console.log('draftclaim mongoose object: ' + updatedDraftObject);
+
+							DraftClaim.findById(draftToCheck[0]._id, function (err, dbDraftClaim) {
+								if (err) {
+									console.log('error in getting draft again: ', err);
 								} else {
-									callback(null);
+									dbDraftClaim._id = draftToCheck[0]._id;
+									dbDraftClaim.meta = draftToCheck[0].meta;
+									dbDraftClaim.opposing = draftToCheck[0].opposing;
+									dbDraftClaim.supporting = draftToCheck[0].supporting;
+									dbDraftClaim.status = draftToCheck[0].status;
+									dbDraftClaim.axiom = draftToCheck[0].axiom;
+									dbDraftClaim.description = draftToCheck[0].description;
+									dbDraftClaim.save(function (err) {
+										if (err) {
+											console.log('error in saving draft again: ', err);
+										} else {
+											callback(null);
+										}
+									});
 								}
 							});
+
 						} else {
-							//neighr returned true, so hopefully this means the deleted draft was not found to be refrenced in any of the users claims.
+							//neithr returned true, so hopefully this means the deleted draft was not found to be refrenced in any of the users claims.
 							callback(null);
 						}
 					}
@@ -351,7 +395,11 @@ var express = require('express'),
 		}
 
 		
-		
+		/**
+		 * This takes an array of arguments (either supporting or opposing)
+		 * It will iterate through the arguments and their reasons
+		 * for each reason, we check wither it is a refrence to the deleted draftclaim
+		 */
 		function reasonRemoval(argumentArray){
 			var reasonFound = false;
 			
@@ -360,7 +408,7 @@ var express = require('express'),
 
 				//iterate through the reasons in the group
 				for (var reasonItr = 0; reasonItr < argumentArray[groupItr].reasons.length; reasonItr++ ) {
-					if (argumentArray[groupItr].reasons[reasonItr]._id == req.body.draftClaimID) {
+					if (argumentArray[groupItr].reasons[reasonItr] == req.body.draftClaimID) {
 						//got a match, remove from this argument in this draft and save the draft
 						argumentArray[groupItr].reasons.splice(reasonItr, 1);
 						reasonFound = true; //if there's a match

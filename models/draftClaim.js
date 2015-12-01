@@ -12,7 +12,7 @@ var draftClaimSchema = mongoose.Schema({
     description: {
         type: String,
         default: '',
-        required: 'Please fill Statement name',
+        required: 'Please provide a description for this DraftClaim',
         trim: true
     },
     axiom: {
