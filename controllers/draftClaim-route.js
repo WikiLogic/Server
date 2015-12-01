@@ -268,7 +268,7 @@ var express = require('express'),
 		async.waterfall([
 			function(callback){
 				//1. Delete draft claim
-				DraftClaim.find({'_id':req.body.draftClaimID}).remove().exec(function(err,result){
+				DraftClaim.find({'_id':req.bo                                       dy.draftClaimID}).remove().exec(function(err,result){
 					if(err) res.status(500).send('DB error in deleting draftClaim');
 					callback(null);
 				});
