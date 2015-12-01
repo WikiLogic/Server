@@ -1,0 +1,12 @@
+<div class="claim-finder__header">
+	<h2 class="claim-finder__header__title">Search Results</h2>
+	<div class="claim-finder__header__close">
+		<div ng-click="close()" class="btn">X</div>
+	</div>
+</div>
+
+<h3 class="claim-finder__section-title">Your Drafts</h3>
+<div ng-repeat="claim in claimResults.myDrafts" ng-include src="'/editor/claimFinder/claimSearchResult-partial.html'"></div>
+
+<h3 class="claim-finder__section-title">Published Claims</h3>
+<div ng-repeat="claim in claimResults.claims" ng-include src="'/editor/claimFinder/claimSearchResult-partial.html'"></div>

@@ -1,0 +1,30 @@
+{
+  "name": "Wikilogic",
+  "version": "0.3.0",
+  "private": true,
+  "dependencies": {
+    "angular-ui-router": "^0.2.15",
+    "async": "^1.2.1",
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "~1.12.0",
+    "cookie-parser": "^1.3.4",
+    "debug": "~2.1.1",
+    "express": "~4.12.2",
+    "express-handlebars": "^2.0.1",
+    "express-session": "^1.11.2",
+    "gravatar": "^1.1.1",
+    "gulp": "^3.8.11",
+    "gulp-autoprefixer": "^2.3.1",
+    "gulp-css-globbing": "^0.1.8",
+    "gulp-nodemon": "^2.0.3",
+    "gulp-sass": "^2.0.1",
+    "gulp-watch": "^4.2.4",
+    "mongoose": "^4.0.3",
+    "morgan": "^1.5.3",
+    "passport": "^0.2.1",
+    "passport-facebook": "^2.0.0",
+    "passport-google-oauth": "^0.2.0",
+    "passport-local": "^1.0.0",
+    "passport-twitter": "^1.0.3"
+  }
+}

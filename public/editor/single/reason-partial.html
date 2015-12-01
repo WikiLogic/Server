@@ -1,0 +1,23 @@
+<!-- THE INDIVIDUAL REASON PARTIAL
+These guys are the reasons that make up an argument
+You could say this is the soul of WL!
+-->
+
+<div class="reason">
+	<div class="reason__breaking-claim">
+		<img src="/icons/black/bolt.svg"><!-- if false show this -->
+	</div>
+	<div class="reason__status">
+		<img ng-if="!reason.status" src="/icons/black/cross.svg" alt="false">
+		<img ng-if="reason.status" src="/icons/black/check.svg" alt="true">
+	</div>
+
+	<div class="autosizing-input reason__description">
+		<textarea name="" id="" class="autosizing-input__input" cols="30" rows="10" ng-change="changeReason($index, reason.description)" ng-model="reason.description"></textarea>
+		<div class="autosizing-input__sizer">{{reason.description}}</div>
+	</div>
+	<p>state: {{reason.state}}</p>
+
+	<div class="btn btn--small">delete</div>
+	<div class="btn btn--small" ng-click="saveNewReason($index)">save</div>
+</div>

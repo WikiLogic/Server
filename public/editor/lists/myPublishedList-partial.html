@@ -1,0 +1,9 @@
+<div> <!-- controller set by editor-app.js -->
+	<div class="published-list-title js-collapsable-title">
+		<img src="/icons/black/infinity.svg" alt="pencil">
+		<h3>My published claims</h3>
+	</div>
+	<div class="js-collapsable-content">
+		<div ng-repeat="claim in user.meta.published" ng-include src="'/editor/single/claim-partial.html'"></div>
+	</div>
+</div>

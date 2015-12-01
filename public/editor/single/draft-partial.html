@@ -1,0 +1,12 @@
+<!-- A claim item to be used in a list of claims -->
+<div class="claim-preview">
+	<div class="claim-preview__status">
+		<img src="/icons/black/check.svg" alt="true">
+	</div>
+	<div class="claim-preview__description">
+		<a ng-href="#edit-draft/{{draft._id}}">{{draft.description}}</a>
+	</div>
+	<a class="btn btn--small" ng-href="#edit-draft/{{draft._id}}">Edit</a>
+	<div class="btn btn--small" ng-click="publishDraft(draft)">Publish</div>
+	<div class="btn btn--small" ng-click="deleteDraft(draft)">Delete</div>
+</div>

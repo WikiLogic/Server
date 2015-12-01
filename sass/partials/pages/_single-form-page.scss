@@ -1,0 +1,16 @@
+.single-form-page {
+	text-align:center;
+
+	&__form {
+		@include whiteBox();
+		display: inline-block;
+		width:250px;
+		margin-bottom:20px;
+		margin-top:25px;
+		input {
+			display: block;
+			width:100%;
+			margin-bottom:10px;
+		}
+	}
+}

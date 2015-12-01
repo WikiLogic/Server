@@ -1,0 +1,20 @@
+
+<div class="horizontal-menu" ng-init="init()">
+	<div class="btn btn--light" ng-click="saveEdit(currentDraft)">Save</div>
+	<div class="btn btn--light">Publish</div>
+	<div class="btn btn--light">Delete</div>
+</div>
+
+<div class="draft-editor__description">
+	<img src="/icons/white/pencil.svg" alt="draft">
+	<img ng-if="currentDraft.status" src="/icons/black/check.svg" alt="true">
+	<img ng-if="!currentDraft.status" src="/icons/black/cross.svg" alt="false">
+	<div class="autosizing-input">
+		<textarea name="" id="" class="autosizing-input__input" ng-change="changeDescription()" cols="30" rows="10" ng-model="currentDraft.description"></textarea>
+		<div class="autosizing-input__sizer">{{currentDraft.description}}</div>
+	</div>
+</div>
+
+
+<div ng-include src="'/editor/argumentEditor/argumentEditor-partial.html'"></div>
+

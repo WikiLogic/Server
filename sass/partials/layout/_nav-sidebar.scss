@@ -1,0 +1,33 @@
+.nav-sidebar {
+	padding-bottom: 20px;
+
+	a {
+		transition:none;
+		display: block;
+		color: white;
+		padding: 6px 10px;
+		margin: 1px 0px;
+		border-radius: 4px;
+		text-decoration: none;
+
+		span, p, img {
+			display: inline-block;
+			vertical-align: middle;
+		}
+		p {
+			margin:0 0 0 8px;
+		}
+		img {
+			height:16px;
+			width:16px;
+		}
+
+
+		&:hover {
+			background-color: $sidebarBGlight;
+		}
+		&.active {
+			background-color: $sidebarBGlight;
+		}
+	}
+}

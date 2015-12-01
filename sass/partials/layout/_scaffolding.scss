@@ -1,0 +1,129 @@
+/* =====================================================
+=======================================   Mobile and up
+======================================================*/
+
+html {
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  min-height:100%;
+  background: $mainBGclr;
+}
+*, *:before, *:after {
+  -webkit-box-sizing: inherit;
+     -moz-box-sizing: inherit;
+          box-sizing: inherit;
+}
+
+
+//Setting up the 3d swinging fun
+#editor-app {
+  perspective: 500px;
+  background: black;
+  .app-rap {
+    transition: transform .3s;
+    transform-origin: top left;
+  }
+  .claim-finder {
+    transition: all .3s;
+    transform-origin: right;
+    transform: rotateY(-90deg)scaleX(0);
+  }
+}
+/*
+#editor-app.finderActive {
+  .app-rap {
+    transform: rotateY(3.5deg) scalex(0.78) scaleY(0.85);
+    //height:115vh;
+  }
+  .claim-finder {
+    transform: rotateY(0deg)scaleX(1);
+  }
+}
+
+*/
+.form {
+  .main {
+    &__head {
+      padding: 20px;
+    }
+  }
+}
+
+
+.app-rap {
+  display: flex;
+  flex-direction: column;
+  height:100vh;
+  overflow-y: hidden; /* scroll bar appearing - shouldn't, why scrollbar! why! */
+}
+.header {
+  @include darkSection();
+  min-height:50px;
+  display: flex;
+  align-items: center;
+  &__logo {
+    display:inline-block;
+    vertical-align: middle;
+  }
+  &__search {
+    display:inline-block;
+    vertical-align: middle;
+    height: 30px;
+  }
+}
+
+.body {
+  display: flex;
+  flex-grow: 1;
+
+  .sidebar-left {
+    display: flex;
+    flex-direction: column;
+    @include darkSection();
+    &__body {
+      flex-grow: 1;
+      overflow-y: scroll;
+      padding:10px;
+    }
+    &__footer {
+      text-align: center;
+      padding:10px;
+      .btn { margin-bottom: 10px; }
+    }
+  }
+  .main {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    @include lightSection();
+    overflow-y: auto;
+    &__head {
+      padding:20px;  
+          
+    }
+    &__body {
+      padding:20px;
+    } 
+  }
+  .sidebar-right {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.footer {
+
+}
+
+
+/* =====================================================
+=======================================   Tablet and up
+======================================================*/
+
+@include breakpoint(medium) { 
+
+  .main {
+
+  }
+}

@@ -1,0 +1,40 @@
+<!-- THE ARGUMENT EDITOR! FOR AND AGAINST
+This is the guy that creates the two columns,
+
+-->
+
+<div class="argument-editor"> <!-- ng-controller="draftEditorController" -->
+
+	<div class="argument-editor__args-row">
+		<div class="argument-editor__args-row__for-column">
+			<div class="argument-editor__args-row__column-title">
+				<h3>For</h3>
+				<div class="btn btn--small" ng-click="addArgument('supporting')">Add argument</div>
+			</div>
+
+			<!-- for each for argument in currentDraft.supporting -->
+			<div ng-repeat="arg in currentDraft.supporting track by $index">
+				<div ng-controller="argumentController" ng-init="init('supporting', $index)" ng-include src="'/editor/single/argument-partial.html'">
+					
+				</div>
+			</div>				
+		</div>
+
+		<div class="argument-editor__args-row__spacer-column"></div>
+		
+		<div class="argument-editor__args-row__against-column">
+			<div class="argument-editor__args-row__column-title">
+				<h3>Against</h3>
+				<div class="btn btn--small" ng-click="addArgument('opposing')">Add argument</div>
+			</div>
+			
+			<!-- for each for argument in currentDraft.opposing -->
+			<div ng-repeat="arg in currentDraft.opposing track by $index">
+				<div ng-controller="argumentController" ng-init="init('opposing', $index)" ng-include src="'/editor/single/argument-partial.html'">
+					
+				</div>
+			</div>	
+
+		</div>
+	</div>
+</div>

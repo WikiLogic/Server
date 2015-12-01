@@ -1,0 +1,89 @@
+body {
+	font-family: 'Roboto', sans-serif; /* 100 / 300 / 700 */
+	font-weight: 300;
+	font-size: 14px;
+}
+
+h3 {
+	margin:0 0 5px 0;
+	font-weight:300;
+}
+p {
+	margin:0;
+}
+a {
+	@include transition(0.1s);
+	color:#5f9aec;
+	&:hover {
+		color:white;
+	}
+}
+a[ng-click]{
+    cursor: pointer;
+}
+img {
+	display:block;
+}
+
+hr {
+	background:transparent;
+	border:0;
+	border-top:1px solid $sidebarBGlight;
+}
+
+
+
+
+/* -------------------------------------- Scrollbar */
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+ 
+/* Track */
+::-webkit-scrollbar-track {
+    -webkit-border-radius: 12px;
+    border-radius: 12px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: $middleGrey; 
+}
+::-webkit-scrollbar-thumb:window-inactive {
+	background: $middleGrey; 
+}
+
+
+/* -------------------------------------- Autosizing Inputs
+ * Funky little trick here, the sizer containes a copy of the text
+ * and is used to expand the parent.  The input fills the height!
+ */
+.autosizing-input {
+	position:relative;
+	&__input {
+		position:absolute;
+		top:0;
+		bottom:0;
+		width:100% !important;
+		border:0;
+
+		padding:3px 4px 4px 4px;
+		height: auto !important;
+
+		white-space: normal;
+		resize: none;
+		overflow: hidden;
+		background-color: transparent !important;
+
+		&:focus {
+			box-shadow: none;
+			border:none;
+			background-color: white !important;
+		}
+	}
+	&__sizer {
+		padding:3px 4px 4px 4px;
+		color: transparent;
+	}
+}

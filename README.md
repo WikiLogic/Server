@@ -1,35 +1,25 @@
-Hey Douglas!  Here's a shiney new Repo for the project.  This one is for the Main software.  In the future I'll set up another one for a browser extension.  Would probably be a good idea to create another for Admin stuff unless that can sit in google docs?  Anyway, splitting out the software into it's own repo - definitly a good idea! 
+WikiLogic 0.3
+=========
+
+The third prototype, making everything more modular
 
 ---
 
-# WikiLogic-0.3
-The third prototype, making everything more modular  
+Our [main site](http://www.wikilogicfoundation.org/) serves as the intro to the idea behind WL.
 
-Wikilogic lets you check the truth of a statement based on a [Dynamic Logic Web](http://www.wikilogicfoundation.org/dynamic-logic-web).  It also allows users to build and explore this Logic Web in order to gain a greater understanding of whatever subject, question, or statement they may have in mind.
-For a more detailed description visit our [website](http://www.wikilogicfoundation.org/)
-This is an open source project so please feel free to get involved!
+We also have a [meta wiki](http://wikilogicfoundation.org/wiki/index.php?title=Main_Page) set up for more in depth theory, a good place to go if you are something of a Philosopher.
 
----
 
-###Road map to our online presence
+###File structure
 
-This repo, as you might expect, is for the software development.  Have a look around - it's a pretty simple directory structure!
-
-[The Docs](http://wikilogic.github.io/WikiLogic/) run through all the WL specific code, the rest of it comes from the MEAN.js Yeoman generator so it's all standard stuff (for now).
-
-[The Manual](http://wikilogic.github.io/WikiLogic/manual.html) sits beside the Docs at the moment but this will probably change.  It's a run through of how to actually use WikiLogic.
-
-For any larger media files (videos, posters, design work, books!) we have set up a folder with BitTorrent Sync.  Use the key in AssetsKey.txt and the [tutorial](http://wikilogicfoundation.org/wiki/index.php?title=BitTorrentSync) we've put together to get set up with that.
-
-Our [main site](http://www.wikilogicfoundation.org/) is the hub for news and any crossover discussion between the theory and the development.
-
-We also have a [meta wiki](http://wikilogicfoundation.org/wiki/index.php?title=Main_Page) set up for more in depth theory, a good place to go if you something of a Philosopher.
+This repo, as you might expect, is for the software development.
+For any larger media files (videos, posters, design work, books!) we have set up a folder with BitTorrent Sync.  Use the key in AssetsKey.txt and the [tutorial](http://wikilogicfoundation.org/wiki/index.php?title=BitTorrentSync) we've put together to get set up with that. TODO@Douglas Investigate synching and update to use that.
 
 ---
 
 ###Getting WikiLogic set up locally (for the more technical people)
 
-We're running Express.js for the server and Angular.js for the client side.  So there are a few requirments before setting up WL:
+To run WikiLogic locally you'll need a few things installed:
 
 1. [Node.js](http://nodejs.org/) - the web server, download and install from their website.
 2. [MongoDB](http://www.mongodb.org/) - the database, download and install from their website 
@@ -39,11 +29,9 @@ We're running Express.js for the server and Angular.js for the client side.  So 
 		* click `advanced system settings`, then `environment variables`, 
 		* in the `system variables` find `path`, select it and click edit, 
 		* at the end of that string add `;` then the path to the mongo exe files.  It'll be something like `;C:\Program Files\MongoDB 2.6 Standard\bin\`.  
-		* Now you should be able to open up the console and run `mongod` and it'll go! 
-3. [Bower](http://bower.io/) - client package manager,  `npm install -g bower` from anywhere, it'll install it globally (`-g`)
-4. [Grunt](http://gruntjs.com/) - making life easier, `npm install -g grunt-cli`, also global
-5. [Compass](http://compass-style.org/) to build the Sass
-6. [sass-globbing](https://github.com/chriseppstein/sass-globbing) `ggem install --version 1.1.0 sass-globbing` - this also requires Ruby. *Note, the most recent version of Sass-globbing doesn't work with grunt, so we have to install this specific version.*
+		* Now you should be able to open up the console and run `mongod` and it'll go!
+4. [Gulp](http://gulpjs.com/) - A task runner to make life easier, `npm install -g gulp`, also global
+5. [Compass](http://compass-style.org/) to build the Sass *Note, after changing to gulp I'm not sure if we need this anymore?*
 
 With all that set up we can now get the Wikilogic specific stuff onto your machine.
 
@@ -51,61 +39,78 @@ With all that set up we can now get the Wikilogic specific stuff onto your machi
 2. If you haven't got a normal copy of git installed (eg you only use sourcetree):
  * Set the Git path first with `set PATH=%PATH%;C:\Users\MyName\AppData\Local\Atlassian\SourceTree\git_local\bin;`
  * or go to http://git-scm.com/downloads and install git from there  
-3. In the "client/" folder: `npm install` (this may take a while, have patience)
-4. In the "server/" folder: `npm install`
+3. In the command line / terminal navigate to the projcet folder and `npm install` (it needs git installed to run, hence step 2)
+
 
 Ok! Now lets get it running
 
-1. run `mongod`
-2. in client: `grunt serve`
-3. in server: `npm test or nodemon ./bin/www`
+1. Navigate to the project folder and run `gulp`.  Hopefully it'll just go!
+3. Now open your browser and go to [http://localhost:3000/](http://localhost:3000/)
 
-*I would love to set something up that would run these three commands from one place, any suggestions welcome!*
+You should now have Wikilogic running locally!  Bravo sir/madam, bravo!  You'll have to fill in some statements yourself to play around with it.  We'll be adding an online test database soon-ish which the (future) demo will run on and which you should be able to connect to as well using a different grunt, like `grunt demo` or something.  Will update this when that arrives!  Until then, happy stating!
 
----
-
-##Development
-
-
-Initial set up: http://start.jcolemorrison.com/building-an-angular-and-express-app-part-1/  
-
-
-To do: 
-
-* watch all sass files
-* set up authentication (using passport: http://passportjs.org/)  
-* set everything to run from a single grunt  
-* Get terms together    
-* concat all the docs - loads loading in at the moment
-
-Less important to do:
-
-* Set up bash or something to create example DB  
-* Rename Repos   
+*Note, if you get `js-bson: failed to load c++ bson extension` errors on step 5 (in the node console) search that in the node modules, the first result that comes up, comment out those three lines.  They're just noise at the moment.*
 
 ---
 
-##Server: all the statement logic
+###Project structure
 
+-Currently this part is me thinking out loud.
+
+Main layout provides the main structure with angular. 
+One SPA for viewing.
+Another SPA for editing.
+
+Can angular Ajax the html partials? / use express to bind som ethings and define public partials?
+
+views/
+	common/
+		navigation.hbs
+	viewer/  *i dub these applets*
+		index.hbs *The viewer SPA*
+		recent.hbs
+		popular.hbs
+		influential.hbs
+		changing.hbs
+	editor/
+		index.hbs *The editor SPA *
 
 ---
 
-##Client: all the prettyness :D
+###DB command ref
+
+see user profile:
+`db.users.find({"local.email":"email here"}).pretty()`
+
+remove drafts from user profile:
+`db.users.update({"local.email":"email here"},{$set:{"meta.unPublished":[ ]}})`
+`db.users.update({"local.email":"email here"},{$set:{"meta.published":[ ]}})`
+
+clear out claims:
+`db.claims.remove({"status":false})` / true
+
+clear out drafts
 
 ---
 
-##Connecting the two:
+Root statement:
 
-A high/mid level run through of what happens when someone opens WikiLogic in their browser.
-The user opens our site -> express sends them the angular app
+* Hypothesis (prediction)
+* Observation
+* Undisputed fact
+* Absolute truth
 
 ---
 
-##Possible Future Additions *Need a WP page for this section*
+Example claims
+>There are no absolute truths
+(it would be an argument against itself)
 
-####Browser extension
+---
 
-####Website Plugin
+Shout out to [useiconic](https://useiconic.com/open/) for the icons!
 
-####Presentations 
-Setting up a series of statements to be used in justification of a point / as an aid to a talk?  
+---
+
+this looks good for the graph: http://cytoscapeweb.cytoscape.org/tutorial  
+and this: http://sigmajs.org/
