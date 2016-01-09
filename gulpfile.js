@@ -26,7 +26,7 @@ gulp.task('sass', function() {
  * It should only start the server if there isn't one running already
  * (this sometimes happens if there was an error in the last start up)
  */
-gulp.task('startDB', function () {
+gulp.task('startDB', function (cb) {
 	exec('mongod', function (err, stdout, stderr) {
 		console.log('Gulp startDB: ', stdout);
 		console.log('Gulp startDB err: ', stderr);
