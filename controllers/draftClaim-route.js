@@ -257,35 +257,42 @@ var express = require('express'),
 	 * http://patorjk.com/software/taag/#p=display&f=Cyberlarge&t=DELETE
 	 */
 
-	/** DELETE a draft claim, 
-	 * 1. We must delete the draftclaim from the DB.
-	 * 2. We must delete the refrence to the draftclaim from the user's object.
-	 * 3. We must also check any other draftclaims that belong to this user as they may also hold refrences to this draftclaim.
+	/** DELETE a draft claim, hence forth known as "Del Boy"
+	 * 1. We must delete Del Boy from the DB.
+	 * 2. We must delete the refrence to Del Boy from the user's object.
+	 * 3. We must also check any other draftclaims that belong to this user as they may also hold refrences to Del Boy.
+	 * 4. We must inform the client as to our success.
 	 */
 	router.post('/delete', function(req, res) {
 		var currentUser = req.user;
 		
 		async.waterfall([
 			function(callback){
-				//1. Delete the draftclaim from the database
+				//1. Delete Del Boy from the database
 				DraftClaim.find({'_id':req.body.draftClaimID}).remove().exec(function(err,result){
-					if(err) res.status(500).send('DB error in deleting draftClaim');
+					if(err){
+						res.status(500).send('DB error in deleting draftClaim', err);
+					} 
+					//success, move onto the next step
 					callback(null);
 				});
 			},
 			function(callback){
-				//2.1 find and remove the refrence to the draftclaim from user's object
+				//2.1 find and remove the refrence to Del Boy from user's object
 				var killDex = currentUser.meta.unPublished.indexOf(req.body.draftClaimID);
 				currentUser.meta.unPublished.splice(killDex, 1);
 
 				//2.2 Save the modification of the user's object to the db
 				currentUser.save(function(err, result){
-					if(err) console.log('error in adding publishd claim to user profile', err);
+					if(err){
+						console.log('error in removing Del Boy from the user\'s profile', err);
+					} 
+					//success, move onto the next step
 					callback(null);
 				});
 			},
 			function(callback){
-				//3. Check through all the other draftclaim objects belonging to this user for refrences to the deleted draftclaim
+				//3. Check through all the other draftclaim objects belonging to this user for refrences to Del Boy
 				async.map(currentUser.meta.unPublished, removeReasonFromDraft, function(err, result){
 					res.status(200).send();
 				});
@@ -293,25 +300,24 @@ var express = require('express'),
 		]);
 
 		/**
-		 * 3. removing refrences to the deleted draftclaim from the user's other draftclaims
+		 * 3(cont). removing refrences to Del Boy from the user's other draftclaims
 		 * This function is called from the async.map above for every draftclaim by this user.
-		 * It takes the ID of each draftclaim (we already know the ID of the deleted draftclaim)
+		 * It takes the ID of each draftclaim (we already know the ID of Del Boy: req.body.draftClaimID)
 		 */
 		function removeReasonFromDraft(draftID, mapCallback){
-			//req.body.draftClaimID is the reason we're removing
 			//draftID is the ID of the draft we're checking - one of the ones from the users list
 			var DraftClaim = require('../models/draftClaim');
 
 			/**
 			 * There's a bit of a process, so we're waterfalling it
-			 * 1. get this draftclaim from the DB
-			 * 2. check through all it's arguments and their reasons
-			 * 3. If changed, save.
+			 * 3.1 get this draftclaim from the DB
+			 * 3.2 check through all it's arguments and their reasons
+			 * 3.3 If changed, save.
 			 */
 
 			async.waterfall([
 				function(callback){
-					//1. get this draftclaim from the DB
+					//3.1 get this draftclaim from the DB
 					DraftClaim.find({ '_id' : draftID }, function (err, draftObject) {
 						if(err) {
 							console.log('could not find draft in user collection');
@@ -323,7 +329,7 @@ var express = require('express'),
 					});
 				},
 				function(draftToCheck, callback){
-					//2. check through all it's arguments and their reasons
+					//3.2 check through all it's arguments and their reasons
 					//draftToCheck is an array with one object
 					if (draftToCheck == 'fail'){
 						callback(null);
@@ -344,7 +350,7 @@ var express = require('express'),
 						//this is where we check if the above functions have removed a refrence to the deleted draftclaim from any of the user's other draftclaims
 						if ( opposingRemoval || supportingRemoval ) {
 							//if either return true, we'll have to save this draftToCheck
-							console.log('we killed the refrence to the deleted draftclaim from another draftclaim! Now to save it: ' + draftToCheck[0]);
+							console.log('we killed the refrence to Del Boy from another draftclaim! Now to save it: ' + draftToCheck[0]);
 							//draftToCheck is an object
 							var updatedDraftObject = new DraftClaim(draftToCheck[0]);
 							// updatedDraftObject._id = draftToCheck._id;
@@ -387,7 +393,7 @@ var express = require('express'),
 					
 				},
 				function(callback){
-					//3. If the deleted draft was found - save it.
+					//3.3 If the deleted draft was found - save it.
 					mapCallback(null);
 				}
 			]);

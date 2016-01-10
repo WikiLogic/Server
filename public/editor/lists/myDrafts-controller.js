@@ -24,13 +24,7 @@ Editor.controller('MyDraftsController', ['$scope', '$rootScope', '$location', 'c
  	 }
 
  	 $scope.deleteDraft = function(draftClaim){
- 	 	//TODO: double check that the user want's to do this
- 	 	claimService.deleteDraft(draftClaim).success(function(result){
- 	 		//yeay! deleted!
-		}).error(function(){
-			//TODO: Do something when delete fails
-		});
+		claimService.deleteDraft(draftClaim);
  	 }
-
 
 }]);
