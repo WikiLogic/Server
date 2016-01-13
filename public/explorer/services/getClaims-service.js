@@ -31,6 +31,8 @@ angular.module('Explorer')
 				 */
 				return $http.get('/search/claims?searchTerm=' + searchTerm).success(function(data, status, headers, config) {
 					service.claims = data;
+					console.log('search results: ', data);
+					//set the results to the global
 				}).error(function(data, status, headers, config) {
 					console.error('getterOfClaims.searchClaims:' + searchTerm);
 				});

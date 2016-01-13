@@ -106,11 +106,12 @@ Editor.run(function($rootScope, userService, alertService){
 	 * results: an array of the results
 	 * order: the order by which the server has given us the results
 	 */
+	 /* MOVED TO THE EXPLORER... hope it still works there
 	$rootScope.search = {
 		term: 'search term',
 		results: [],
 		order: 'the order'
-	};
+	};*/
 
 	/** The Focus object
 	 * object: holds a full draft or claim object.  When editing a draft or full claim, this is where the local instance is stored.

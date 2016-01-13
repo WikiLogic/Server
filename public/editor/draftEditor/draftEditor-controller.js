@@ -148,6 +148,7 @@ function($scope, $rootScope, $routeParams, userService, claimService, theEvaluat
 	}
 
 	/*
+	 * This guy adds a new argument group which we can then fill with lots of lovely reasons!
 	 * type = supporting / opposing test
 	 */
 

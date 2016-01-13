@@ -6,8 +6,8 @@
  * we're already there!
  */
 
-Editor.controller('argumentController', ['$scope', '$rootScope', 'claimService', 'theEvaluator', 
-function($scope, $rootScope, claimService, theEvaluator) {
+Editor.controller('argumentController', ['$scope', '$rootScope', 'claimService', 'getterOfClaims', 'theEvaluator', 
+function($scope, $rootScope, claimService, getterOfClaims, theEvaluator) {
 
  	
 	/**
@@ -23,7 +23,7 @@ function($scope, $rootScope, claimService, theEvaluator) {
 
 	/**
 	 * Sets up an empty reason within this argument group.
-	 * The status is set to unsaved (hopefully to remind users to save before they move away)
+	 * The status is set to unsaved (hopefully to remind users to save before they move away).
 	 */
 	$scope.addReason = function(argIndex){
 		var emptyReasonObj = {
@@ -37,12 +37,13 @@ function($scope, $rootScope, claimService, theEvaluator) {
 	 * When a new reason is added - we don't yet know if it already exists, either as a published claim or in this users drafts
 	 * So when they start typing, this function is called.
 	 * reasonIndex lets us know which reason is in question (of out the list that makes up this argument)
-	 * reasonDecription is the string in question.
+	 * reasonDecription is the string in question - the stuff the user is typing.
 	 */
-	 
 	$scope.changeReason = function(reasonIndex, reasonDecription) {
 		//To start off, we get a search going so that the author may see any reasons pop up that might cover what they're writing.
 		$rootScope.claimSearch = reasonDecription;
+		console.log('$rootScope.search.term: ', $rootScope.search.term);
+		getterOfClaims.searchClaims(reasonDecription);
 
 		//set this reason to active, change state.  -- need to figure out how to turn off active state
 
@@ -107,14 +108,15 @@ function($scope, $rootScope, claimService, theEvaluator) {
 	 * We don't care about the details of the reason, if it's new, or an existing published claim, or whatever.
 	 */
 	$scope.deleteReason = function(reasonIndex){
-		console.log('reasons before: ', JSON.stringify($rootScope.currentDraft[$scope.side][$scope.argIndex].reasons));
 		$rootScope.currentDraft[$scope.side][$scope.argIndex].reasons.splice(reasonIndex, 1);
-		console.log('reasons after: ', JSON.stringify($rootScope.currentDraft[$scope.side][$scope.argIndex].reasons));
 	}
 
-
+	/*
+	 * This deletes an entire argument group. 
+	 * Should probably be a two step thing.
+	 */
 	$scope.deleteArgument = function(argIndex){
-		console.log('deleting ', argIndex, ' from ', $scope.side);
+		$rootScope.currentDraft[$scope.side].splice(argIndex, 1);
 	}
 
 
