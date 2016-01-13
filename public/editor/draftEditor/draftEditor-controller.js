@@ -86,7 +86,9 @@ function($scope, $rootScope, $routeParams, userService, claimService, theEvaluat
 	 * If any are needing saved, halt the main saving process.
 	 */
 	var checkReasonStatus = function(side){
+		//run through the argument groups on this side
 		for (var groupItr = 0; groupItr < $rootScope.currentDraft[side].length; groupItr++) {
+			//run through the reasons in this argument
 			for (var reasonItr = 0; reasonItr < $rootScope.currentDraft[side][groupItr].reasons.length; reasonItr ++) {
 
 				var thisState = $rootScope.currentDraft[side][groupItr].reasons[reasonItr].state;
@@ -111,6 +113,9 @@ function($scope, $rootScope, $routeParams, userService, claimService, theEvaluat
 						console.info('Yeay!! This one is ok :D');
 						return true;
 						break;
+					default:
+						console.log('hit default... maybe a deleted reason?');
+						return true;
 				}
 				return false;//if we have a reason but the status is not 'Saved'
 			};

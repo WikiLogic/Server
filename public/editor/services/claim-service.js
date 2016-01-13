@@ -15,6 +15,8 @@ angular.module('Editor')
 				 */
 				return $http.post('/draft-claim/new', {'draftClaim':draftClaim}).success(function(data, status, headers, config) {
 					//console.log('Claim saved! ', data);
+					//$scope.user.meta.unPublished.push(data);
+
 				}).error(function(data, status, headers, config) {
 					console.log('save claims service: Could not save claim - womp womp :(');
 				});

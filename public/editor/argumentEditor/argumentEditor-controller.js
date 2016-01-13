@@ -98,6 +98,7 @@ function($scope, $rootScope, claimService, theEvaluator) {
 			//In the event that the new claim has not been saved - save it locally
 			//TODO: save claims locally when server fails
 			console.error('TODO: save claims locally when server fails');
+			$rootScope.currentDraft[$scope.side][$scope.argIndex].reasons[reasonIndex].state = 'Error';
 		});
 	}
 
@@ -106,7 +107,9 @@ function($scope, $rootScope, claimService, theEvaluator) {
 	 * We don't care about the details of the reason, if it's new, or an existing published claim, or whatever.
 	 */
 	$scope.deleteReason = function(reasonIndex){
+		console.log('reasons before: ', JSON.stringify($rootScope.currentDraft[$scope.side][$scope.argIndex].reasons));
 		$rootScope.currentDraft[$scope.side][$scope.argIndex].reasons.splice(reasonIndex, 1);
+		console.log('reasons after: ', JSON.stringify($rootScope.currentDraft[$scope.side][$scope.argIndex].reasons));
 	}
 
 
