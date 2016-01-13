@@ -1,5 +1,11 @@
 'use strict';
 
+/*
+ * Welcome to The Argument Controller
+ * a new instance is created per argument so we don't need to worry abotu which side we're on or which arg we're in
+ * we're already there!
+ */
+
 Editor.controller('argumentController', ['$scope', '$rootScope', 'claimService', 'theEvaluator', 
 function($scope, $rootScope, claimService, theEvaluator) {
 
@@ -93,6 +99,14 @@ function($scope, $rootScope, claimService, theEvaluator) {
 			//TODO: save claims locally when server fails
 			console.error('TODO: save claims locally when server fails');
 		});
+	}
+
+	/*
+	 * This simply removes the reason from the argument group in the $rootScope.currentDraft
+	 * We don't care about the details of the reason, if it's new, or an existing published claim, or whatever.
+	 */
+	$scope.deleteReason = function(reasonIndex){
+		$rootScope.currentDraft[$scope.side][$scope.argIndex].reasons.splice(reasonIndex, 1);
 	}
 
 
