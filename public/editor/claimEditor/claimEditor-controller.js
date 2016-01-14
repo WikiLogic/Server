@@ -3,15 +3,15 @@
  * 
  */
 
-Editor.controller('claimEditorController', ['$scope', '$rootScope', '$routeParams', 'getterOfClaims', 'userService', 'claimService', 'theEvaluator',
-function($scope, $rootScope, $routeParams, getterOfClaims, userService, claimService, theEvaluator) {
+Editor.controller('claimEditorController', ['$scope', '$rootScope', '$routeParams', 'searchClaims', 'userService', 'claimService', 'theEvaluator',
+function($scope, $rootScope, $routeParams, searchClaims, userService, claimService, theEvaluator) {
 
 	$scope.claim = {};
 	
 	//Init - load the claim
 	$scope.init = function(){
 		//get the claim from the url id
-		getterOfClaims.getClaim($routeParams.id).success(function(result){
+		searchClaims.byID($routeParams.id).success(function(result){
 
 			//$scope.claim = result[0];
 			console.log('got claim: ', result[0]);

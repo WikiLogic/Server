@@ -5,7 +5,7 @@
  * the controller name is a duplicate of the Explorer as the list controlls are common but function differently in each app
  */
 
-Editor.controller('MyProfileController', ['$scope', '$rootScope', 'userService', function($scope, $rootScope, userService) {
+Editor.controller('MyProfileController', ['$scope', '$rootScope', 'userService', 'searchClaims', function($scope, $rootScope, userService, searchClaims) {
  	 /*
  	  * Handles any requests fro the UI to reset the user data
  	  * Generally only when the app loads (I think)
@@ -21,7 +21,7 @@ Editor.controller('MyProfileController', ['$scope', '$rootScope', 'userService',
  	  */
  	 $scope.setListOrderTo = function(sortBy){
 
-		getterOfClaims.getListOfClaimsBy(sortBy).success(function(result){
+		searchClaims.byOrder(sortBy).success(function(result){
 
 			var listArray = result;
 			

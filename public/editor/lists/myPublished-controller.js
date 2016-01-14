@@ -5,7 +5,7 @@
  * the controller name is a duplicate of the Explorer as the list controlls are common but function differently in each app
  */
 
-Editor.controller('MyPublishedController', ['$scope', '$rootScope', 'getterOfUsers', function($scope, $rootScope, getterOfUsers) {
+Editor.controller('MyPublishedController', ['$scope', '$rootScope', 'getterOfUsers', 'searchClaims0,' function($scope, $rootScope, getterOfUsers, searchClaims) {
 
  	 /*
  	  * Once the client side is loaded - this fires off another request to get the list
@@ -33,7 +33,7 @@ Editor.controller('MyPublishedController', ['$scope', '$rootScope', 'getterOfUse
  	  */
  	 $scope.setListOrderTo = function(sortBy){
 
-		getterOfClaims.getListOfClaimsBy(sortBy).success(function(result){
+		searchClaims.byOrder(sortBy).success(function(result){
 
 			var listArray = result;
 			

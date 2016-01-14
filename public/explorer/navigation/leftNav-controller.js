@@ -4,7 +4,7 @@
  * deals with the various types of lists that get laied out
  */
 
-Explorer.controller('ExplorerNavController', ['$scope', '$rootScope', '$location', 'getterOfClaims', function($scope, $rootScope, $location, getterOfClaims) {
+Explorer.controller('ExplorerNavController', ['$scope', '$rootScope', '$location', 'searchClaims', function($scope, $rootScope, $location, searchClaims) {
 
  	/*
  	 * In this controller we need to deal with the changing between different types of lists
@@ -29,7 +29,7 @@ Explorer.controller('ExplorerNavController', ['$scope', '$rootScope', '$location
  	 */
 	$scope.setListOrderTo = function(sortBy){
 
-		getterOfClaims.getListOfClaimsBy(sortBy).success(function(result){
+		searchClaims.byOrder(sortBy).success(function(result){
 
 			var listArray = result;
 

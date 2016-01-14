@@ -6,8 +6,8 @@
  * we're already there!
  */
 
-Editor.controller('argumentController', ['$scope', '$rootScope', 'claimService', 'getterOfClaims', 'theEvaluator', 
-function($scope, $rootScope, claimService, getterOfClaims, theEvaluator) {
+Editor.controller('argumentController', ['$scope', '$rootScope', 'claimService', 'searchClaims', 'theEvaluator', 
+function($scope, $rootScope, claimService, searchClaims, theEvaluator) {
 
  	
 	/**
@@ -43,7 +43,7 @@ function($scope, $rootScope, claimService, getterOfClaims, theEvaluator) {
 		//To start off, we get a search going so that the author may see any reasons pop up that might cover what they're writing.
 		$rootScope.claimSearch = reasonDecription;
 		console.log('$rootScope.search.term: ', $rootScope.search.term);
-		getterOfClaims.searchClaims(reasonDecription);
+		searchClaims.byString(reasonDecription);
 
 		//set this reason to active, change state.  -- need to figure out how to turn off active state
 

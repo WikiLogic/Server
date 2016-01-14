@@ -6,10 +6,10 @@
  */
 
 angular.module('Explorer')
-.factory('getterOfClaims',['$http',
+.factory('searchClaims',['$http',
 	function($http){
 		var service = {
-			getListOfClaimsBy: function(sortBy){
+			byOrder: function(sortBy){
 				
 				/* 
 				 * Server side, this will be the equivolent of WP_Query();
@@ -23,7 +23,7 @@ angular.module('Explorer')
 				});
 
 			},
-			searchClaims: function(searchTerm){
+			byString: function(searchTerm){
 
 				/*
 				 * Splitting out text search of claims - feels like this'll be a good
@@ -38,7 +38,7 @@ angular.module('Explorer')
 				});
 
 			},
-			getClaim: function(claimID){
+			byID: function(claimID){
 
 				/*
 				 * This asks the server for a single claim, by ID 
@@ -46,7 +46,7 @@ angular.module('Explorer')
 				return $http.get('/search/claim?id=' + claimID).success(function(data, status, headers, config) {
 					service.claims = data;
 				}).error(function(data, status, headers, config) {
-					console.error('getterOfClaims.getClaim:' + claimID);
+					console.error('getterOfClaims.byID:' + claimID);
 				});
 
 			}
