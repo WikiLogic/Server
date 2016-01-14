@@ -3,7 +3,8 @@ var gulp = require('gulp'),
     globbing = require('gulp-css-globbing'),
     autoprefixer = require('gulp-autoprefixer'),
     nodemon = require('gulp-nodemon'),
-    exec = require('child_process').exec;
+    exec = require('child_process').exec,
+    karmaServer = require('karma').Server;
 
 /*
  * This task compiles Sass into CSS
@@ -58,6 +59,16 @@ gulp.task('startNODE', function () {
 gulp.task('watch', function() {
     console.log('GULP: watch');
   //gulp.watch('sass/**/*.scss', ['sass']);
+});
+
+/*
+ * The Karma test
+ */
+gulp.task('test', function (done) {
+    new karmaServer({
+        configFile: __dirname + '/karma.conf.js',
+        singleRun: true
+    }, done).start();
 });
 
 /*
