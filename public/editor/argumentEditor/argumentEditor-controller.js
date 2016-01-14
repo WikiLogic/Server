@@ -6,8 +6,8 @@
  * we're already there!
  */
 
-Editor.controller('argumentController', ['$scope', '$rootScope', 'claimService', 'searchClaims', 'theEvaluator', 
-function($scope, $rootScope, claimService, searchClaims, theEvaluator) {
+Editor.controller('argumentController', ['$scope', '$rootScope', 'claimService', 'searchClaims', 'searchDrafts', 'theEvaluator', 
+function($scope, $rootScope, claimService, searchClaims, searchDrafts, theEvaluator) {
 
  	
 	/**
@@ -40,10 +40,12 @@ function($scope, $rootScope, claimService, searchClaims, theEvaluator) {
 	 * reasonDecription is the string in question - the stuff the user is typing.
 	 */
 	$scope.changeReason = function(reasonIndex, reasonDecription) {
-		//To start off, we get a search going so that the author may see any reasons pop up that might cover what they're writing.
-		$rootScope.claimSearch = reasonDecription;
-		console.log('$rootScope.search.term: ', $rootScope.search.term);
+
+		//search published claims from the public relm
 		searchClaims.byString(reasonDecription);
+
+		//search draft claims from our user's private relm
+		searchDrafts.byString(reasonDecription);
 
 		//set this reason to active, change state.  -- need to figure out how to turn off active state
 

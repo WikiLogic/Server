@@ -13,13 +13,12 @@ var express = require('express'),
  	//get a list of claims
 	router.get('/claims', function(req, res) {
 		var searchTerm = req.query.searchTerm;
+		console.log('got search: ' + searchTerm);
 		
-		//Finds ALL the claims - might need pagination / infinite scrolling / limit
-		Claim.find(function (err, claims) {
+		//Finds ALL the (published) claims - might need pagination / infinite scrolling / limit
+		Claim.find({'description':searchTerm}, function (err, claims) {
 			if (err) return console.error(err);
-			//console.log(claims);
-		}).then(function(result){
-			res.send(result);
+			res.send(claims);
 		});
 
 		

@@ -1,5 +1,6 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
+    mongoose.set('debug', true);
 
 /*
  * The bread and butter of WikiLogic!
