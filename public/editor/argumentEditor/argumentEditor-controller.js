@@ -41,11 +41,19 @@ function($scope, $rootScope, claimService, searchClaims, searchDrafts, theEvalua
 	 */
 	$scope.changeReason = function(reasonIndex, reasonDecription) {
 
-		//search published claims from the public relm
-		searchClaims.byString(reasonDecription);
+		
+		if (reasonDecription.length > 0) {
+			//search draft claims from our user's private relm
+			searchDrafts.byString(reasonDecription);
+			
+			if (reasonDecription.length > 3) {
+				//search published claims from the public relm
+				searchClaims.byString(reasonDecription);
+			}
+		}
+		
 
-		//search draft claims from our user's private relm
-		searchDrafts.byString(reasonDecription);
+		
 
 		//set this reason to active, change state.  -- need to figure out how to turn off active state
 

@@ -102,16 +102,14 @@ Editor.run(function($rootScope, userService, alertService){
 	userService.getCurrentUserLists();
 
 	/** The Search
-	 * term: the search term
-	 * results: an array of the results
-	 * order: the order by which the server has given us the results
+	 * Already exists from the Explorer
+	 * 		term: the search term
+	 * 		results: an array of the results
+	 * 		order: the order by which the server has given us the results
+	 * Adding in draftResults for the Editor
+	 * 		draftResults: an array of results
 	 */
-	 /* MOVED TO THE EXPLORER... hope it still works there
-	$rootScope.search = {
-		term: 'search term',
-		results: [],
-		order: 'the order'
-	};*/
+	$rootScope.search.draftResults = [];
 
 	/** The Focus object
 	 * object: holds a full draft or claim object.  When editing a draft or full claim, this is where the local instance is stored.
