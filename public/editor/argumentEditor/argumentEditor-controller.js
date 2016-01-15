@@ -41,6 +41,8 @@ function($scope, $rootScope, claimService, searchClaims, searchDrafts, theEvalua
 	 */
 	$scope.changeReason = function(reasonIndex, reasonDecription) {
 
+		//grab the search results box and put it here.
+		
 		
 		if (reasonDecription.length > 0) {
 			//search draft claims from our user's private relm

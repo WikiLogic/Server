@@ -40,7 +40,15 @@
 
 	</div> <!-- END of app-rap -->
 
-	<!-- This is outside app-rap so it can do the fancy swing in thing -->
+	<!-- This will hook in and display any search results. It is free to be moved around by any controller for it's needs. It acts kind of like intellisense, but for claims -->
+	<div class="searchResults" ng-controller="SearchBoxController">
+		 <div class="searchResults__result" ng-repeat="draft in rootScope.search.draftResults">
+		 	<p>{{draft.description}}</p>
+		 </div>
+		 <div class="searchResults__result" ng-repeat="claim in search.results">
+		 	<p>{{claim.description}}</p>
+		 </div>
+	</div>
 	
 
 </div> <!-- END of ng-app="Editor" -->
@@ -67,6 +75,7 @@
 <script src="/editor/draftEditor/draftEditor-controller.js"></script>
 <script src="/editor/claimEditor/claimEditor-controller.js"></script>
 <script src="/editor/argumentEditor/argumentEditor-controller.js"></script>
+<script src="/editor/searchBox/searchBox-controller.js"></script>
 
 <script src="/editor/userProfile/myProfile-controller.js"></script>
 
