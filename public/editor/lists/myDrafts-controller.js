@@ -9,6 +9,7 @@ Editor.controller('MyDraftsController', ['$scope', '$rootScope', '$location', 'c
  	 /*
  	  * Moves the Draft claim into the public domain
  	  */
+ 	  console.log('unpublished: ', $rootScope.user.meta.published);
  	 $scope.publishDraft = function(draftClaim){
  	 	console.log('going to publish ', draftClaim);
  	 	claimService.publishDraftClaim(draftClaim).success(function(result){
