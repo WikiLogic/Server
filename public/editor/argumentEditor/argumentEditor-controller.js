@@ -41,18 +41,35 @@ function($scope, $rootScope, claimService, searchClaims, searchDrafts, theEvalua
 	 */
 	$scope.changeReason = function(reasonIndex, reasonDecription) {
 
-		//grab the search results box and put it here.
+		//grab the search results box and put it here (wherever here is).
+		
+
+		//Get the active element that the user is typing into
+		var columClass = '.argument-editor__args-row__' + $scope.side + '-column',
+			argumentClass = '.argument--index-' + $scope.argIndex,
+			reasonClass = '.reason--index-' + reasonIndex,
+			reasonElement = $(columClass).find(argumentClass).find(reasonClass).find('.js-attach-searchBox'),
+			reasonCoords = reasonElement.offset();
+		
+		//Get the search results tip element and it's new location
+		var searchResultsElement = $('.searchResultsTip'),
+			searchResultsTop = reasonCoords.top + reasonElement.height(),
+			searchResultsLeft = reasonCoords.left;
+
+		//Move the search results to the desired location
+		searchResultsElement.offset({ top: searchResultsTop, left: searchResultsLeft });
+
 		
 		
-		if (reasonDecription.length > 0) {
+		//if (reasonDecription.length > 0) {
 			//search draft claims from our user's private relm
 			searchDrafts.byString(reasonDecription);
 			
-			if (reasonDecription.length > 3) {
+			//if (reasonDecription.length > 3) {
 				//search published claims from the public relm
 				searchClaims.byString(reasonDecription);
-			}
-		}
+			//}
+		//}
 		
 
 		

@@ -3,7 +3,7 @@ These guys are the reasons that make up an argument
 You could say this is the soul of WL!
 -->
 
-<div class="reason">
+<div class="reason reason--index-{{$index}}">
 	<div class="reason__breaking-claim">
 		<img src="/icons/black/bolt.svg"><!-- if false show this -->
 	</div>
@@ -12,7 +12,7 @@ You could say this is the soul of WL!
 		<img ng-if="reason.status" src="/icons/black/check.svg" alt="true">
 	</div>
 
-	<div class="autosizing-input reason__description">
+	<div class="autosizing-input reason__description js-attach-searchBox"><!-- add side, arg index and reason index  -->
 		<textarea name="" id="" class="autosizing-input__input" cols="30" rows="10" ng-change="changeReason($index, reason.description)" ng-model="reason.description"></textarea>
 		<div class="autosizing-input__sizer">{{reason.description}}</div>
 	</div>
