@@ -31,29 +31,20 @@ angular.module('Editor')
 			},
 			byString: function(searchTerm){
 				$rootScope.search.term = searchTerm;
-				$rootScope.search.order = 'relevance';
-				console.log('searching the user draft list here', $rootScope.user.meta.unPublished);
+				$rootScope.search.order = 'relevance'; //this has no impact... yet
+				$rootScope.search.draftResults = []; //clearing any old results out
 
 				//loop through every object in the user's draft list
 				Object.keys($rootScope.user.meta.unPublished).forEach(function(key,index) {
+
+					//if the search string is within a draft description string
 					var thisDraftDescription = $rootScope.user.meta.unPublished[index].description;
 					if ( thisDraftDescription.indexOf(searchTerm) != -1 ) {
-						console.log('semi match: ', thisDraftDescription);
+
+						//add the draft to the draftResults array
+						$rootScope.search.draftResults.push($rootScope.user.meta.unPublished[index]);
 					}
 				});
-				
-				/*
-				 * Splitting out text search of claims - feels like this'll be a good
-				 * idea for the future.
-				 */
-				 /*
-				return $http.get('/search/claims?searchTerm=' + searchTerm).success(function(data, status, headers, config) {
-					$rootScope.search.results = data;
-					console.log('The published results are in! ', JSON.stringify(data));
-				}).error(function(data, status, headers, config) {
-					$rootScope.search.results = {}; //put the error in as a result and send report home?
-					console.error('Error in service: searchClaims.byString(' + searchTerm + ')');
-				});*/
 
 			},
 			byID: function(claimID){

@@ -77,6 +77,21 @@ views/
 
 ---
 
+###The Global ($rootScope)
+
+```
+$rootscope = {
+	search: {
+		term: 'search term',
+		results: [an array of claim objects],
+		order: 'the order',
+		selectedResult: {a claim object}
+	}
+}
+```
+
+---
+
 ###DB command ref
 
 see user profile:

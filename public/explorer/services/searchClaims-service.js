@@ -36,12 +36,14 @@ angular.module('Explorer')
 				return $http.get('/search/claims?searchTerm=' + searchTerm).success(function(data, status, headers, config) {
 					$rootScope.search.results = data;
 					console.log('The published results are in! ', JSON.stringify(data));
+					/*
 					$rootScope.search.results = [
-		{description:"1"},
-		{description:"2"},
-		{description:"3"},
-		{description:"4"}
-	];
+						{description:"1"},
+						{description:"2"},
+						{description:"3"},
+						{description:"4"}
+					];
+					*/
 				}).error(function(data, status, headers, config) {
 					$rootScope.search.results = {}; //put the error in as a result and send report home?
 					console.error('Error in service: searchClaims.byString(' + searchTerm + ')');

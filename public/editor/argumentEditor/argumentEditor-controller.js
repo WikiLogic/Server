@@ -79,13 +79,12 @@ function($scope, $rootScope, claimService, searchClaims, searchDrafts, theEvalua
 		//now watch for a selection from the search (which is global)
 		var listener = $rootScope.$watch('search.selectedResult', function(newVal,oldVal){
 			if (newVal === oldVal) {
-				//called to init
-				console.log('I can not remember why this is here');
+				//called to init -but this always happens, why is this here again? Can anyone tell me?
 			} else {
-				console.log('pucker up your butthole, here we go!');
 				//set the selected search item and assign it to our reason
 				$rootScope.currentDraft[$scope.side][$scope.argIndex].reasons[reasonIndex] = newVal;
-				$rootScope.finderOpen = false;
+				//set the status as 'imported'
+				$rootScope.currentDraft[$scope.side][$scope.argIndex].reasons[reasonIndex].state = 'Imported';
 				listener(); //clear the watch?
 
 				//hide the search results
@@ -107,28 +106,34 @@ function($scope, $rootScope, claimService, searchClaims, searchDrafts, theEvalua
 	 * individually, through this function.
 	 */
 	$scope.saveNewReason = function(reasonIndex){
-		console.log('saving new reason as draft: ', reasonIndex);
+
 		//Get the reason from within the global current draft object
 		var reasonToSave = $rootScope.currentDraft[$scope.side][$scope.argIndex].reasons[reasonIndex];
 
-		claimService.saveDraftToProfile(reasonToSave).success(function(result){
-			//The server has now confirmed the new claim to have been saved and sent us the full claim object
+		//check if it actually needs to be saved
+		if (reasonToSave.status == 'New') {
 
-			//add it to the user object 
-			$scope.user.meta.unPublished.push(result);
+			claimService.saveDraftToProfile(reasonToSave).success(function(result){
+				//The server has now confirmed the new claim to have been saved and sent us the full claim object
 
-			//replace the reason object with the full returned object (with date, _id, ...)
-			$rootScope.currentDraft[$scope.side][$scope.argIndex].reasons[reasonIndex] = result;
-			
-			//Update status
-			$rootScope.currentDraft[$scope.side][$scope.argIndex].reasons[reasonIndex].state = 'Saved';
+				//add it to the user object 
+				$scope.user.meta.unPublished.push(result);
 
-		}).error(function(){
-			//In the event that the new claim has not been saved - save it locally
-			//TODO: save claims locally when server fails
-			console.error('TODO: save claims locally when server fails');
-			$rootScope.currentDraft[$scope.side][$scope.argIndex].reasons[reasonIndex].state = 'Error';
-		});
+				//replace the reason object with the full returned object (with date, _id, ...)
+				$rootScope.currentDraft[$scope.side][$scope.argIndex].reasons[reasonIndex] = result;
+				
+				//Update status
+				$rootScope.currentDraft[$scope.side][$scope.argIndex].reasons[reasonIndex].state = 'Saved';
+
+			}).error(function(){
+				//In the event that the new claim has not been saved - save it locally
+				//TODO: save claims locally when server fails
+				console.error('TODO: save claims locally when server fails');
+				$rootScope.currentDraft[$scope.side][$scope.argIndex].reasons[reasonIndex].state = 'Error';
+			});
+		} else {
+			//no need to save - it already exists somewhere. The button should not actually work, but somehow it did and this was called.
+		}
 	}
 
 	/*
