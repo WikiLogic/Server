@@ -15,12 +15,36 @@ var express = require('express'),
 		var searchTerm = req.query.searchTerm;
 		console.log('got search: ' + searchTerm);
 		
-		//Finds ALL the (published) claims - might need pagination / infinite scrolling / limit
-		Claim.find({'description':searchTerm}, function (err, claims) {
-			if (err) return console.error(err);
-			res.send(claims);
-		});
+		//Finds ALL the (published) claims - might need pagination / infinite scrolling / limit. Jesus that won't be fun.
+		//this is only finding exact matches - lets try to get it looking for text within text.
+		//Claim.find({'description':searchTerm}, function (err, claims) {
+		//	if (err) return console.error(err);
+		//	res.send(claims);
+		//});
 
+		//the new search - does a text search! Have to set an index on description
+		/*
+		Claim.find(	
+				{ $text : { $search : searchTerm } }, 
+	        	{ score : { $meta: "textScore" } }
+	        ).sort(
+	        	{ score : { $meta : 'textScore' } }
+	        ).exec(function (err, claims) {
+				if (err) return console.error(err);
+				console.log('text search has run: ', claims);
+				res.send(claims);
+		});*/
+
+	        //simplified
+	    Claim.find({ 
+	    		$text : { 
+	    			$search : searchTerm 
+	    		} 
+	    	}).exec(function (err, claims) {
+				if (err) return console.error(err);
+				console.log('text search has run: ', claims);
+				res.send(claims);
+		});
 		
 	});
 

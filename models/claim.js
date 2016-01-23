@@ -12,6 +12,7 @@ var mongoose = require('mongoose'),
 var claimSchema = mongoose.Schema({
     description: {
         type: String,
+        index: true,
         default: '',
         required: 'Please fill Statement name',
         trim: true

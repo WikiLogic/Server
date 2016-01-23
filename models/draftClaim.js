@@ -11,6 +11,7 @@ var mongoose = require('mongoose'),
 var draftClaimSchema = mongoose.Schema({
     description: {
         type: String,
+        index: true,
         default: '',
         required: 'Please provide a description for this DraftClaim',
         trim: true
