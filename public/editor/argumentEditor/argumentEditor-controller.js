@@ -41,9 +41,6 @@ function($scope, $rootScope, claimService, searchClaims, searchDrafts, theEvalua
 	 */
 	$scope.changeReason = function(reasonIndex, reasonDecription) {
 
-		//grab the search results box and put it here (wherever here is).
-		
-
 		//Get the active element that the user is typing into
 		var columClass = '.argument-editor__args-row__' + $scope.side + '-column',
 			argumentClass = '.argument--index-' + $scope.argIndex,
@@ -51,7 +48,7 @@ function($scope, $rootScope, claimService, searchClaims, searchDrafts, theEvalua
 			reasonElement = $(columClass).find(argumentClass).find(reasonClass).find('.js-attach-searchBox'),
 			reasonCoords = reasonElement.offset();
 		
-		//Get the search results tip element and it's new location
+		//Get the search results tip element and the place we awant to put it
 		var searchResultsElement = $('.searchResultsTip'),
 			searchResultsTop = reasonCoords.top + reasonElement.height(),
 			searchResultsLeft = reasonCoords.left;
@@ -60,7 +57,7 @@ function($scope, $rootScope, claimService, searchClaims, searchDrafts, theEvalua
 		searchResultsElement.offset({ top: searchResultsTop, left: searchResultsLeft });
 
 		
-		
+		//uncomment this bit to reduce the load on the server
 		//if (reasonDecription.length > 0) {
 			//search draft claims from our user's private relm
 			searchDrafts.byString(reasonDecription);
@@ -80,23 +77,25 @@ function($scope, $rootScope, claimService, searchClaims, searchDrafts, theEvalua
 		$rootScope.currentDraft[$scope.side][$scope.argIndex].reasons[reasonIndex].state = 'New'; //State defenitions in editor-app.js
 
 		//now watch for a selection from the search (which is global)
-		//Maybe create a search service - which returns when selected
-		/*
-		var listener = $rootScope.$watch('searchSelection', function(newVal,oldVal){
+		var listener = $rootScope.$watch('search.selectedResult', function(newVal,oldVal){
 			if (newVal === oldVal) {
 				//called to init
+				console.log('I can not remember why this is here');
 			} else {
+				console.log('pucker up your butthole, here we go!');
 				//set the selected search item and assign it to our reason
 				$rootScope.currentDraft[$scope.side][$scope.argIndex].reasons[reasonIndex] = newVal;
 				$rootScope.finderOpen = false;
 				listener(); //clear the watch?
 
+				//hide the search results
+				$rootScope.search.results = [];
 				//now evaluate!
 				$rootScope.currentDraft = theEvaluator.evaluateClaim($rootScope.currentDraft);
 
 			}
 		});
-*/
+
 		//$rootScope.claimSearch = $rootScope.currentDraft.description;
 		//set which reason is in focus
 	}

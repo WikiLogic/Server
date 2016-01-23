@@ -12,6 +12,7 @@ Explorer.run(function($rootScope){
 	$rootScope.search = {
 		term: 'search term',
 		results: [],
-		order: 'the order'
+		order: 'the order',
+		selectedResult: {}
 	};
 });
