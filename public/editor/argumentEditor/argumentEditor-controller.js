@@ -19,6 +19,7 @@ function($scope, $rootScope, claimService, searchClaims, searchDrafts, theEvalua
 		console.log('arg index set: ', argIndex);
 		$scope.side = side;
 		$scope.argIndex = argIndex;
+		console.log('this is the argument group: ', $rootScope.currentDraft[$scope.side][argIndex]);
 	}
 
 	/**
@@ -27,8 +28,14 @@ function($scope, $rootScope, claimService, searchClaims, searchDrafts, theEvalua
 	 */
 	$scope.addReason = function(argIndex){
 		var emptyReasonObj = {
-			description:'add your description here!',
-			state: 'unsaved'
+			reasonMeta: {
+				draft: true,
+
+			},
+			claimObjectRefrence: {
+				description:'add your description here!'
+			}
+			
 		}
 		$rootScope.currentDraft[$scope.side][argIndex].reasons.push(emptyReasonObj);
 	}
@@ -110,17 +117,19 @@ function($scope, $rootScope, claimService, searchClaims, searchDrafts, theEvalua
 		//Get the reason from within the global current draft object
 		var reasonToSave = $rootScope.currentDraft[$scope.side][$scope.argIndex].reasons[reasonIndex];
 
-		//check if it actually needs to be saved
-		if (reasonToSave.status == 'New') {
+		console.log('reasonToSave: ', reasonToSave); //how does this already have an _id ???
 
-			claimService.saveDraftToProfile(reasonToSave).success(function(result){
+		//check if it actually needs to be saved
+		if (reasonToSave.state == 'New') {
+
+			claimService.saveDraftToProfile(reasonToSave.claimObjectRefrence).success(function(result){
 				//The server has now confirmed the new claim to have been saved and sent us the full claim object
 
 				//add it to the user object 
 				$scope.user.meta.unPublished.push(result);
 
 				//replace the reason object with the full returned object (with date, _id, ...)
-				$rootScope.currentDraft[$scope.side][$scope.argIndex].reasons[reasonIndex] = result;
+				$rootScope.currentDraft[$scope.side][$scope.argIndex].reasons[reasonIndex].claimObjectRefrence = result;
 				
 				//Update status
 				$rootScope.currentDraft[$scope.side][$scope.argIndex].reasons[reasonIndex].state = 'Saved';

@@ -66,7 +66,7 @@ function($scope, $rootScope, $routeParams, userService, claimService, theEvaluat
 	 */
 	$scope.saveEdit = function(draftClaim){
 		//First check all the reasons, they all need to be up to date before we can save.
-		if ( checkReasonStatus('supporting') && checkReasonStatus('opposing') ) {
+		if ( checkReasonState('supporting') && checkReasonState('opposing') ) {
 
 			claimService.updateDraft(draftClaim).success(function(result){
 			//console.log('finished saving, current draft: ', $rootScope.currentDraft);
@@ -85,7 +85,7 @@ function($scope, $rootScope, $routeParams, userService, claimService, theEvaluat
 	 * Alert the user / show them as needing saved 
 	 * If any are needing saved, halt the main saving process.
 	 */
-	var checkReasonStatus = function(side){
+	var checkReasonState = function(side){
 		//run through the argument groups on this side
 		for (var groupItr = 0; groupItr < $rootScope.currentDraft[side].length; groupItr++) {
 			//run through the reasons in this argument

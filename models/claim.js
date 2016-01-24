@@ -34,9 +34,16 @@ var claimSchema = mongoose.Schema({
                 defaut: false
             },
             reasons: [{
-                    type: Schema.ObjectId,
-                    ref: 'Claim',
-                    default: []
+                    reasonMeta: {
+                        draft: {
+                            type: Boolean,
+                            defaut: true
+                        }
+                    },
+                    claimObjectRefrence: {
+                        type: Schema.ObjectId,
+                        ref: 'Claim'
+                    }
             }]
     }],
     opposing: [{
@@ -45,9 +52,16 @@ var claimSchema = mongoose.Schema({
                 defaut: false
             },
             reasons: [{
-                    type: Schema.ObjectId,
-                    ref: 'Claim',
-                    default: []
+                    reasonMeta: {
+                        draft: {
+                            type: Boolean,
+                            defaut: true
+                        }
+                    },
+                    claimObjectRefrence: {
+                        type: Schema.ObjectId,
+                        ref: 'Claim'
+                    }
             }]
     }],
     usedIn: [{

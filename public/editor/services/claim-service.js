@@ -13,6 +13,7 @@ angular.module('Editor')
 				 * Asking the server to save the draftClaim to the current users profile
 				 * draftClaim is an object with a description
 				 */
+				 console.log('2. draftClaim to save: ', draftClaim);
 				return $http.post('/draft-claim/new', {'draftClaim':draftClaim}).success(function(data, status, headers, config) {
 					//console.log('Claim saved! ', data);
 					//$scope.user.meta.unPublished.push(data);
@@ -66,7 +67,7 @@ angular.module('Editor')
 						//iterate through the current argument's reasons
 						for (var m = 0; m < draftList[i][side][j].reasons.length; m++) {
 							//check if this reason is Del Boy
-							if (draftList[i][side][j].reasons[m] == draftClaim._id) {
+							if (draftList[i][side][j].reasons[m].claimObjectRefrence == draftClaim._id) {
 								//add to the list of places it's been used
 								draftUses += '"' + draftList[i].description + '"  ';
 							}
