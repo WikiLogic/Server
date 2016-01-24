@@ -24,7 +24,6 @@ var express = require('express'),
 		var currentUser = req.user;
 		var usersDraftIDarray = [];
 
-		console.log('3. recieved draft claim: ', candidateClaim);
 			
 		//1. Create new draft claim object
 		var draftClaim = new DraftClaim;
@@ -37,10 +36,8 @@ var express = require('express'),
 				DraftClaim.find({'meta.author': currentUser._id, 'description':draftClaim.description}).exec(function(err,result){
 					if(err) console.log(err);
 					if (result.length > 0) {
-						console.log('4. fail: draft already exists: ', result);
 						res.status(500).send('Error: you aready have an identicle draft saved.');
 					} else {
-						console.log('4. all good! draft is new');
 						callback(null);
 					}
 				});
@@ -49,24 +46,19 @@ var express = require('express'),
 				//3. save draft claim object to database
 				draftClaim.save(function(err){
 					if(err) {
-						cosole.log('5. fail: no savvy draft to databasy: ', err);
 						res.status(500).send('Error in saving new draft Claim to database.');
 					} else {
-						console.log('5. yeay, draftywafty saved to databasy!');
 						callback(null); //keeps async going
 					}
 				});
 			},
 			function(callback){ 
 				//4. add draft claim refrence to user's profile and return it to the client
-				console.log('6. adding new draft to users profile object');
 				currentUser.meta.unPublished.push(draftClaim);
 				currentUser.save(function(err){
 					if(err) {
-						console.log('7. fail - no save onto user obj :( ', err);
 						res.status(500).send('Error in saving draftClaim to user profile.');
 					} else {
-						console.log('7. win - draft refrence added to user obj.');
 						res.status(200).send(draftClaim);
 					}
 				});
@@ -78,7 +70,7 @@ var express = require('express'),
 	router.post('/update', function(req, res) {
 		
 		var draftCandidate = req.body.draftClaim;
-		console.log('UPDATING DRAFT: ', draftCandidate);
+		console.log('TODO: clean input');
 		//TODO: clean input
 		/*
 		var draftToUpdate.description = draftCandidate.description;
@@ -88,12 +80,11 @@ var express = require('express'),
 		console.log("THIS DRAFT: ", draftToUpdate);
 		*/
 
-		//TODO deal with supporting / opposing - they need to be _id refs not full objects (args as objects? should this change?)
+		console.log('//TODO deal with supporting / opposing - they need to be _id refs not full objects (args as objects? should this change?)');
 		//This changed - now supporting reasons have alreayd been saved, we're receiving their full objects, mongose casts to _id
 		
 		//iterate through supporting arguments
 		for (var i = 0; i < draftCandidate.supporting.length; i++) {
-			console.log('checking supporting args');
 			//iterate through arg reasons
 			for (var j = 0; j < draftCandidate.supporting[i].reasons.length; j++) {
 				console.log('reason: ', draftCandidate.supporting[i].reasons[j].claimObjectRefrence);
@@ -115,7 +106,6 @@ var express = require('express'),
 				console.log('ERROR: ', err);
 				res.status(500).send('Error in saving new draft Claim to database.');
 			} else {
-				console.log("DRAFT SAVED: ", responseMeta);
 				res.status(200).send(draftCandidate);
 			}
 		});
@@ -135,12 +125,12 @@ var express = require('express'),
 	router.post('/get-draft', function(req, res) {
 
 		var draftClaim = req.body.draftClaim; //nope - get it from the DB you mad man!
-		console.log('DRAFT CLAIM TO GET: ', draftClaim);
 
 		//This object is used to fill in all the details for each reason in each argument
 		//It looks like this: { ID:id, side:string, argIndex:int}
 		var reasonDataArray = [],
-			draftClaimFromDB = {};
+			draftClaimFromDB = {},
+			draftClaimToReturn = {};
 
 		async.waterfall([
 			function(callback) {
@@ -151,7 +141,8 @@ var express = require('express'),
 						callback(err);
 					} else {
 						draftClaimFromDB = result;
-						console.log('-- draftClaimFromDB: ', draftClaimFromDB);
+						draftClaimToReturn = JSON.stringify(result);
+						draftClaimToReturn = JSON.parse(draftClaimToReturn);
 						callback(null);
 					}
 				});
@@ -173,7 +164,7 @@ var express = require('express'),
 				});
 
 				function getAndAddReason(reasonData, mapCallback){
-					console.log('get and add reason: ', reasonData);
+
 					// thisReason.reasonObj = {};
 					// thisReason.side = side;
 					// thisReason.argIndex = argIndex;
@@ -202,21 +193,25 @@ var express = require('express'),
 				 * NEEDS FIXING ==========================================================================================================================
 				 */
 				function replaceRefWithReason(reasonDataObject, reasonFromDb){
-					console.log('replaceRefWithReason: ', reasonDataObject);
-					console.log('reasonFromDb: ', reasonFromDb);
 					
 					//1. check the location provided by the reasonDataObject, if it matches - awesome, if not, we'll have to iterate through everything
 					//get the id stored in the current working draft for this reason
-					var refID = JSON.stringify(draftClaimFromDB[reasonDataObject.side][reasonDataObject.argIndex].reasons[reasonDataObject.reasonIndex].claimObjectRefrence);
+					//var refID = JSON.stringify(draftClaimFromDB[reasonDataObject.side][reasonDataObject.argIndex].reasons[reasonDataObject.reasonIndex].claimObjectRefrence);
+					var refID = draftClaimFromDB[reasonDataObject.side][reasonDataObject.argIndex].reasons[reasonDataObject.reasonIndex].claimObjectRefrence;
+					refID = JSON.stringify(refID);
 					var reasonID = JSON.stringify(reasonFromDb._id);
 					var reasonString = JSON.stringify(reasonFromDb);
 
 					if (refID == reasonID) {
 						//awesome, lets populate the current working draft
-						console.log('old ref: ', draftClaimFromDB[reasonDataObject.side][reasonDataObject.argIndex].reasons[reasonDataObject.reasonIndex].claimObjectRefrence);
-						console.log('reasonString: ', reasonString);
-						draftClaimFromDB[reasonDataObject.side][reasonDataObject.argIndex].reasons[reasonDataObject.reasonIndex].claimObjectData = reasonFromDb;
-						console.log('new obj: ', draftClaimFromDB[reasonDataObject.side][reasonDataObject.argIndex].reasons[reasonDataObject.reasonIndex].claimObjectData);
+						
+						console.log('old ref: ', draftClaimToReturn[reasonDataObject.side][reasonDataObject.argIndex].reasons[reasonDataObject.reasonIndex].claimObjectRefrence);
+						console.log('reasonFromDb: ', reasonFromDb);
+
+						draftClaimToReturn[reasonDataObject.side][reasonDataObject.argIndex].reasons[reasonDataObject.reasonIndex].claimObjectRefrence = reasonFromDb;//reasonFromDb;
+						
+						console.log('new obj: ', draftClaimToReturn[reasonDataObject.side][reasonDataObject.argIndex].reasons[reasonDataObject.reasonIndex].claimObjectRefrence);
+					
 					} else {
 						//If this is called it means the array order has been mixed up somehow - we'll have to spend a bit more on computation
 						//Iterate through the arguments in the relevent side
@@ -228,7 +223,7 @@ var express = require('express'),
 
 								if (refID == reasonID) {
 									//we have a match, replace the refrence with the full reason object
-									draftClaimFromDB[reasonDataObject.side][i].reasons[j].claimObjectRefrence = reasonFromDb;
+									draftClaimToReturn[reasonDataObject.side][i].reasons[j].claimObjectRefrence = reasonFromDb;
 								}
 							}
 						}
@@ -238,8 +233,7 @@ var express = require('express'),
 			}
 		], function (err, result) {
 			// result now equals 'done'
-			console.log('--draftClaimFromDB: ', JSON.stringify(draftClaimFromDB));
-			res.status(200).send(draftClaimFromDB);
+			res.status(200).send(draftClaimToReturn);
 		});
 
 		/**
@@ -373,7 +367,7 @@ var express = require('express'),
 						//this is where we check if the above functions have removed a refrence to the deleted draftclaim from any of the user's other draftclaims
 						if ( opposingRemoval || supportingRemoval ) {
 							//if either return true, we'll have to save this draftToCheck
-							console.log('we killed the refrence to Del Boy from another draftclaim! Now to save it: ' + draftToCheck[0]);
+
 							//draftToCheck is an object
 							var updatedDraftObject = new DraftClaim(draftToCheck[0]);
 							// updatedDraftObject._id = draftToCheck._id;
@@ -384,7 +378,6 @@ var express = require('express'),
 							// updatedDraftObject.axiom = draftToCheck.axiom;
 							// updatedDraftObject.description = draftToCheck.description;
 
-							console.log('draftclaim mongoose object: ' + updatedDraftObject);
 
 							DraftClaim.findById(draftToCheck[0]._id, function (err, dbDraftClaim) {
 								if (err) {
