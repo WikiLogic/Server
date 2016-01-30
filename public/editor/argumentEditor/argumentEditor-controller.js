@@ -9,7 +9,7 @@
 Editor.controller('argumentController', ['$scope', '$rootScope', 'claimService', 'searchClaims', 'searchDrafts', 'theEvaluator', 
 function($scope, $rootScope, claimService, searchClaims, searchDrafts, theEvaluator) {
 
- 	
+ 	var searchListener = 'off';
 	/**
 	 * Each argument has it's own instance of this controller, 
 	 * the init stores a refrece to the argument index and which side it's on.
@@ -81,26 +81,43 @@ function($scope, $rootScope, claimService, searchClaims, searchDrafts, theEvalua
 		//set this reason to active, change state.  -- need to figure out how to turn off active state
 
 		//set this reason to unsaved (until save as new draft is clicked or it's replaced with a search result)
-		$rootScope.currentDraft[$scope.side][$scope.argIndex].reasons[reasonIndex].state = 'New'; //State defenitions in editor-app.js
+		$rootScope.currentDraft[$scope.side][$scope.argIndex].reasons[reasonIndex].reasonMeta.state = 'New'; //State defenitions in editor-app.js
 
 		//now watch for a selection from the search (which is global)
-		var listener = $rootScope.$watch('search.selectedResult', function(newVal,oldVal){
-			if (newVal === oldVal) {
-				//called to init -but this always happens, why is this here again? Can anyone tell me?
-			} else {
-				//set the selected search item and assign it to our reason
-				$rootScope.currentDraft[$scope.side][$scope.argIndex].reasons[reasonIndex] = newVal;
-				//set the status as 'imported'
-				$rootScope.currentDraft[$scope.side][$scope.argIndex].reasons[reasonIndex].state = 'Imported';
-				listener(); //clear the watch?
+		//but first check if there is already a listener on search.selectedResult
+		
+		console.log('searchListener: ', searchListener);
+		if (searchListener == 'off') {
+			console.log('listener is off, lets turn it on :)');
+			$rootScope.search.selectedResult.claimObject
+			searchListener = $rootScope.$watch('search.selectedResult.claimObject', function(newVal,oldVal){
+				if (newVal === oldVal) {
+					//called to init -but this always happens, why is this here again? Can anyone tell me?
+				} else {
+					//set the selected search item and assign it to our reason
+					var isThisADraft = false;
+					if ($rootScope.search.selectedResult.claimType = 'Draft'){
+						isThisADraft = true;
+					}
 
-				//hide the search results
-				$rootScope.search.results = [];
-				//now evaluate!
-				$rootScope.currentDraft = theEvaluator.evaluateClaim($rootScope.currentDraft);
+					$rootScope.currentDraft[$scope.side][$scope.argIndex].reasons[reasonIndex].claimObjectRefrence = $rootScope.search.selectedResult.claimObject;
+					$rootScope.currentDraft[$scope.side][$scope.argIndex].reasons[reasonIndex].reasonMeta.draft = isThisADraft;
+					//set the status as 'Claim' - to show that this is a link to an existing published claim, but it's not been saved yet... waht Just save it now!?
+					$rootScope.currentDraft[$scope.side][$scope.argIndex].reasons[reasonIndex].reasonMeta.state = $rootScope.search.selectedResult.claimType;
+					searchListener(); //clear the watch?
 
-			}
-		});
+					//hide the search results
+					searchDrafts.clearResults();
+					searchClaims.clearResults();
+
+					//now evaluate!
+					$rootScope.currentDraft = theEvaluator.evaluateClaim($rootScope.currentDraft);
+
+				}
+			});
+		} else {
+			console.log('listener is on!');
+		}
 
 		//$rootScope.claimSearch = $rootScope.currentDraft.description;
 		//set which reason is in focus
@@ -120,7 +137,7 @@ function($scope, $rootScope, claimService, searchClaims, searchDrafts, theEvalua
 		console.log('reasonToSave: ', reasonToSave); //how does this already have an _id ???
 
 		//check if it actually needs to be saved
-		if (reasonToSave.state == 'New') {
+		if (reasonToSave.reasonMeta.state == 'New') {
 
 			claimService.saveDraftToProfile(reasonToSave.claimObjectRefrence).success(function(result){
 				//The server has now confirmed the new claim to have been saved and sent us the full claim object
@@ -132,15 +149,16 @@ function($scope, $rootScope, claimService, searchClaims, searchDrafts, theEvalua
 				$rootScope.currentDraft[$scope.side][$scope.argIndex].reasons[reasonIndex].claimObjectRefrence = result;
 				
 				//Update status
-				$rootScope.currentDraft[$scope.side][$scope.argIndex].reasons[reasonIndex].state = 'Saved';
+				$rootScope.currentDraft[$scope.side][$scope.argIndex].reasons[reasonIndex].reasonMeta.state = 'Saved';
 
 			}).error(function(){
 				//In the event that the new claim has not been saved - save it locally
 				//TODO: save claims locally when server fails
 				console.error('TODO: save claims locally when server fails');
-				$rootScope.currentDraft[$scope.side][$scope.argIndex].reasons[reasonIndex].state = 'Error';
+				$rootScope.currentDraft[$scope.side][$scope.argIndex].reasons[reasonIndex].reasonMeta.state = 'Error';
 			});
 		} else {
+			console.log('state does not = new, so no need to save this reason');
 			//no need to save - it already exists somewhere. The button should not actually work, but somehow it did and this was called.
 		}
 	}

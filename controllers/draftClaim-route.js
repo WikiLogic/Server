@@ -66,7 +66,15 @@ var express = require('express'),
 		]);
 	});
 
-	//route to update an existing draft claim
+	/* _     _  _____  ______  _______ _______ _______
+	 * |     | |_____] |     \ |_____|    |    |______
+	 * |_____| |       |_____/ |     |    |    |______
+	 * http://patorjk.com/software/taag/#p=display&f=Cyberlarge&t=UPDATE
+	 */        
+
+	 /**
+	  * route to update an existing draft claim.
+	  */                                       
 	router.post('/update', function(req, res) {
 		
 		var draftCandidate = req.body.draftClaim;
@@ -442,6 +450,7 @@ var express = require('express'),
 	});
 
 	//route to publish an individual claim to the public network
+	//todo, add false to 'draft' in the meta object
 	router.post('/publish', function(req, res){
 		//clean the input?
 		var candidateClaim = req.body.draftClaim;

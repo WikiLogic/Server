@@ -59,6 +59,10 @@ angular.module('Editor')
 					console.error('getterOfClaims.byID:' + claimID);
 				});*/
 
+			},
+			clearResults: function(){
+				$rootScope.search.term = '';
+				$rootScope.search.draftResults = [];
 			}
 		};
 		return service;

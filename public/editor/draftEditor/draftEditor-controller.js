@@ -76,7 +76,9 @@ function($scope, $rootScope, $routeParams, userService, claimService, theEvaluat
 
 		} else {
 
-			alert('At least 1 reason in one of the arguments has not been saved.  Please make sure all are saved otherwise you may loose data.  This will change in the future but you are using a prototype! Be gentle');
+			alert('At least 1 reason in one of the arguments has not been saved.  
+				Please make sure all are saved otherwise you may loose data.  
+				This will change in the future but you are using a prototype! Be gentle');
 		}
 	}
 
@@ -91,7 +93,7 @@ function($scope, $rootScope, $routeParams, userService, claimService, theEvaluat
 			//run through the reasons in this argument
 			for (var reasonItr = 0; reasonItr < $rootScope.currentDraft[side][groupItr].reasons.length; reasonItr ++) {
 
-				var thisState = $rootScope.currentDraft[side][groupItr].reasons[reasonItr].state;
+				var thisState = $rootScope.currentDraft[side][groupItr].reasons[reasonItr].reasonMeta.state;
 				switch(thisState) {
 					case "New":
 						console.error('Theres a New guy in town, thats a fail');
@@ -111,6 +113,10 @@ function($scope, $rootScope, $routeParams, userService, claimService, theEvaluat
 						break;
 					case "Saved":
 						console.info('Yeay!! This one is ok :D');
+						return true;
+						break;
+					case "Deleted":
+						console.info('There have been deletions... oh oh!');
 						return true;
 						break;
 					default:

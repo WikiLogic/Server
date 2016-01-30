@@ -63,6 +63,10 @@ angular.module('Explorer')
 					console.error('getterOfClaims.byID:' + claimID);
 				});
 
+			},
+			clearResults: function(){
+				$rootScope.search.term = '';
+				$rootScope.search.results = [];
 			}
 		};
 		return service;
