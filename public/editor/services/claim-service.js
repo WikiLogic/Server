@@ -126,8 +126,10 @@ angular.module('Editor')
 			},
 			publishDraftClaim: function(draftClaim){
 				/*
-				 * Taking an existing draft claim and publishing it!
-				 * The claim mush have at least 1 argument - might cause problems, maybe not
+				 * This is passed a claim from the user's draft list.
+				 * 1 - ask the server to publish it 
+				 * 1.5: TODO disable any actions on the draft claim that's getting published. show a spinner?
+				 * 2 - get an updated user object from the server?
 				 */
 				return $http.post('/draft-claim/publish', {'draftClaim':draftClaim}).success(function(data, status, headers, config) {
 					console.log('Claim published! ', data);

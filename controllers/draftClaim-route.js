@@ -449,12 +449,29 @@ var express = require('express'),
 		}
 	});
 
-	//route to publish an individual claim to the public network
-	//todo, add false to 'draft' in the meta object
+	/*  _____  _     _ ______         _____ _______ _     _
+	 * |_____] |     | |_____] |        |   |______ |_____|
+	 * |       |_____| |_____] |_____ __|__ ______| |     |
+	 * http://patorjk.com/software/taag/#p=display&f=Cyberlarge&t=PUBLISH
+	 */
+
+	 /**
+	  * This moves a draft claim out into the published network.
+	  * TODO: do we assume the user has been asked if they want to publish all associated drafts from the args/reasons?
+	  * TODO: change the meta details to reflect this is now a publishedClaim!
+	  * TODO: remove the draft claim from the user object
+	  * TODO: return the entire user object
+	  * TODO: Clean the input
+	  */
 	router.post('/publish', function(req, res){
-		//clean the input?
+		
+		//This is the draftClaim that is being published
 		var candidateClaim = req.body.draftClaim;
+
+		//This is the user that's doing the publishing
 		var currentUser = req.user;
+
+		// Clean them? ============================================================ <- this should be like a blood-brain barrier
 
 		async.waterfall([
 				function(callback) {
@@ -464,7 +481,7 @@ var express = require('express'),
 
 						if (result.length){
 							//Can't publish - there is an identical claim
-							callback(err);
+							callback(new Error("Can't publish - there is an identical claim already out there"));
 						} else {
 							//didn't find any conflicts, on to the publishing!
 							callback(null);
