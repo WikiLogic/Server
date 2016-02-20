@@ -1,15 +1,18 @@
 'use strict';
 /*
- * These services handle getting the various lists of claims from the server.
+ * This service sends requests for (published) claims to the server.
+ * The results are then applied to the search results global
  * Might be an idea to combine them all and simply pass the type of list we're asking for.
  * The server will probably be the one dealing with figuring out the actual list content.
  */
 
 angular.module('Explorer')
-.factory('getterOfClaims',['$http',
-	function($http){
+.factory('searchClaims',['$http','$rootScope',
+	function($http, $rootScope){
 		var service = {
-			getListOfClaimsBy: function(sortBy){
+			byOrder: function(sortBy){
+				$rootScope.search.order = sortBy;
+				$rootScope.search.term = ' ';
 				
 				/* 
 				 * Server side, this will be the equivolent of WP_Query();
@@ -23,20 +26,33 @@ angular.module('Explorer')
 				});
 
 			},
-			searchClaims: function(searchTerm){
-
+			byString: function(searchTerm){
+				$rootScope.search.term = searchTerm;
+				$rootScope.search.order = 'relevance';
 				/*
 				 * Splitting out text search of claims - feels like this'll be a good
-				 * idea for the future
+				 * idea for the future.
 				 */
 				return $http.get('/search/claims?searchTerm=' + searchTerm).success(function(data, status, headers, config) {
-					service.claims = data;
+					$rootScope.search.results = data;
+					console.log('The published results are in! ', JSON.stringify(data));
+					/*
+					$rootScope.search.results = [
+						{description:"1"},
+						{description:"2"},
+						{description:"3"},
+						{description:"4"}
+					];
+					*/
 				}).error(function(data, status, headers, config) {
-					console.error('getterOfClaims.searchClaims:' + searchTerm);
+					$rootScope.search.results = {}; //put the error in as a result and send report home?
+					console.error('Error in service: searchClaims.byString(' + searchTerm + ')');
 				});
 
+
+
 			},
-			getClaim: function(claimID){
+			byID: function(claimID){
 
 				/*
 				 * This asks the server for a single claim, by ID 
@@ -44,9 +60,13 @@ angular.module('Explorer')
 				return $http.get('/search/claim?id=' + claimID).success(function(data, status, headers, config) {
 					service.claims = data;
 				}).error(function(data, status, headers, config) {
-					console.error('getterOfClaims.getClaim:' + claimID);
+					console.error('getterOfClaims.byID:' + claimID);
 				});
 
+			},
+			clearResults: function(){
+				$rootScope.search.term = '';
+				$rootScope.search.results = [];
 			}
 		};
 		return service;

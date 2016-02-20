@@ -40,7 +40,10 @@
 
 	</div> <!-- END of app-rap -->
 
-	<!-- This is outside app-rap so it can do the fancy swing in thing -->
+	<!-- This will hook in and display any search results. It is free to be moved around by any controller for it's needs. It acts kind of like intellisense, but for claims -->
+	<div class="searchResultsTip" ng-controller="SearchBoxController" ng-include src="'/editor/searchBox/searchBox-partial.html'">
+		 
+	</div>
 	
 
 </div> <!-- END of ng-app="Editor" -->
@@ -49,15 +52,16 @@
 
 <script src="/explorer/explorer-app.js"></script>
 <script src="/explorer/navigation/explorerNav-controller.js"></script>
-<script src="/explorer/services/getClaims-service.js"></script>
+<script src="/explorer/services/searchClaims-service.js"></script>
 <script src="/explorer/services/getUsers-service.js"></script>
 <script src="/explorer/services/evaluation-service.js"></script>
 
 <!-- Editor imports -->
 <script src="/editor/editor-app.js"></script>
 
-<script src="/editor/services/claim-service.js"></script>
 <script src="/editor/services/user-service.js"></script>
+<script src="/editor/services/claim-service.js"></script>
+<script src="/editor/services/searchDrafts-service.js"></script>
 <script src="/editor/services/alert-service.js"></script>
 
 <script src="/editor/claimFinder/claimFinder-controller.js"></script>
@@ -66,6 +70,7 @@
 <script src="/editor/draftEditor/draftEditor-controller.js"></script>
 <script src="/editor/claimEditor/claimEditor-controller.js"></script>
 <script src="/editor/argumentEditor/argumentEditor-controller.js"></script>
+<script src="/editor/searchBox/searchBox-controller.js"></script>
 
 <script src="/editor/userProfile/myProfile-controller.js"></script>
 

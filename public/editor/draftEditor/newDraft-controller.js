@@ -60,6 +60,7 @@ Editor.controller('NewDraftController', ['$scope', '$rootScope', '$location', 'c
  	  * Once saved the server returns the new draftClaim object with all it's fancyness
  	  */
  	 $scope.saveToProfile = function(){
+ 	 	console.log('1. saving new draft: ', $scope.newDraft);
  	 	claimService.saveDraftToProfile($scope.newDraft).success(function(result){
 
 			$scope.user.meta.unPublished.push(result);

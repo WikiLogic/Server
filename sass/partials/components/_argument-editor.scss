@@ -6,13 +6,13 @@
 	}
 	&__args-row {
 		display: flex;
-		&__for-column {
+		&__supporting-column {
 			flex-grow: 1;
 		}
 		&__spacer-column {
 			width:10px;
 		}
-		&__against-column {
+		&__opposing-column {
 			flex-grow: 1;
 		}
 		&__column-title {

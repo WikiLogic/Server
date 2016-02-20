@@ -9,6 +9,7 @@ Editor.controller('MyDraftsController', ['$scope', '$rootScope', '$location', 'c
  	 /*
  	  * Moves the Draft claim into the public domain
  	  */
+ 	  console.log('unpublished: ', $rootScope.user.meta.published);
  	 $scope.publishDraft = function(draftClaim){
  	 	console.log('going to publish ', draftClaim);
  	 	claimService.publishDraftClaim(draftClaim).success(function(result){
@@ -24,13 +25,7 @@ Editor.controller('MyDraftsController', ['$scope', '$rootScope', '$location', 'c
  	 }
 
  	 $scope.deleteDraft = function(draftClaim){
- 	 	//TODO: double check that the user want's to do this
- 	 	claimService.deleteDraft(draftClaim).success(function(result){
- 	 		//yeay! deleted!
-		}).error(function(){
-			//TODO: Do something when delete fails
-		});
+		claimService.deleteDraft(draftClaim);
  	 }
-
 
 }]);

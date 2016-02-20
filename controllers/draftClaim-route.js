@@ -23,9 +23,9 @@ var express = require('express'),
 		var candidateClaim = req.body.draftClaim;
 		var currentUser = req.user;
 		var usersDraftIDarray = [];
+
 			
 		//1. Create new draft claim object
-		console.log('CANDIDATE CLAIM ', candidateClaim);
 		var draftClaim = new DraftClaim;
 		draftClaim.description = candidateClaim.description;
 		draftClaim.meta.author = currentUser._id;
@@ -66,11 +66,19 @@ var express = require('express'),
 		]);
 	});
 
-	//route to update an existing draft claim
+	/* _     _  _____  ______  _______ _______ _______
+	 * |     | |_____] |     \ |_____|    |    |______
+	 * |_____| |       |_____/ |     |    |    |______
+	 * http://patorjk.com/software/taag/#p=display&f=Cyberlarge&t=UPDATE
+	 */        
+
+	 /**
+	  * route to update an existing draft claim.
+	  */                                       
 	router.post('/update', function(req, res) {
 		
 		var draftCandidate = req.body.draftClaim;
-		console.log('UPDATING DRAFT: ', draftCandidate);
+		console.log('TODO: clean input');
 		//TODO: clean input
 		/*
 		var draftToUpdate.description = draftCandidate.description;
@@ -80,15 +88,14 @@ var express = require('express'),
 		console.log("THIS DRAFT: ", draftToUpdate);
 		*/
 
-		//TODO deal with supporting / opposing - they need to be _id refs not full objects (args as objects? should this change?)
+		console.log('//TODO deal with supporting / opposing - they need to be _id refs not full objects (args as objects? should this change?)');
 		//This changed - now supporting reasons have alreayd been saved, we're receiving their full objects, mongose casts to _id
 		
 		//iterate through supporting arguments
 		for (var i = 0; i < draftCandidate.supporting.length; i++) {
-			console.log('checking supporting args');
 			//iterate through arg reasons
 			for (var j = 0; j < draftCandidate.supporting[i].reasons.length; j++) {
-				console.log('reason: ', draftCandidate.supporting[i].reasons[j]);
+				console.log('reason: ', draftCandidate.supporting[i].reasons[j].claimObjectRefrence);
 
 			}
 		}
@@ -97,17 +104,16 @@ var express = require('express'),
 			console.log('checking opposing args');
 			//iterate through arg reasons
 			for (var j = 0; j < draftCandidate.supporting[i].reasons.length; j++) {
-				console.log('reason: ', draftCandidate.supporting[i].reasons[j]);
+				console.log('reason: ', draftCandidate.supporting[i].reasons[j].claimObjectRefrence);
 			}
 		}
 
-		//for some reason, this is giving our supporting array IDs for each object
+		//for some reason, this is giving our supporting array IDs for each object, and it's
 		DraftClaim.update({_id:draftCandidate._id}, draftCandidate, { multi: true }, function(err, responseMeta){
 			if(err) {
 				console.log('ERROR: ', err);
 				res.status(500).send('Error in saving new draft Claim to database.');
 			} else {
-				console.log("DRAFT SAVED: ", responseMeta);
 				res.status(200).send(draftCandidate);
 			}
 		});
@@ -131,7 +137,8 @@ var express = require('express'),
 		//This object is used to fill in all the details for each reason in each argument
 		//It looks like this: { ID:id, side:string, argIndex:int}
 		var reasonDataArray = [],
-			draftClaimFromDB = {};
+			draftClaimFromDB = {},
+			draftClaimToReturn = {};
 
 		async.waterfall([
 			function(callback) {
@@ -142,6 +149,8 @@ var express = require('express'),
 						callback(err);
 					} else {
 						draftClaimFromDB = result;
+						draftClaimToReturn = JSON.stringify(result);
+						draftClaimToReturn = JSON.parse(draftClaimToReturn);
 						callback(null);
 					}
 				});
@@ -163,11 +172,12 @@ var express = require('express'),
 				});
 
 				function getAndAddReason(reasonData, mapCallback){
+
 					// thisReason.reasonObj = {};
 					// thisReason.side = side;
 					// thisReason.argIndex = argIndex;
 					// thisReason.reasonIndex = reasonIndex;
-					// thisReason.ID = draftObject[side][argIndex].reasons[reasonIndex];
+					// thisReason.ID = draftObject[side][argIndex].reasons[reasonIndex].claimObjectRefrence;
 					DraftClaim.findOne({_id:reasonData.ID}).exec(function(err, result){
 						if(err){
 							mapCallback(err);
@@ -185,17 +195,31 @@ var express = require('express'),
 				}
 
 				/**
-				 * this uses the data from the reasonDataObject to replace the refrence in the draftClaimFromDB with the reasonFromDb
+				 * this uses the data from the reasonDataObject (which holds info about where the reason is) to replace the refrence in the 
+				 * draftClaimFromDB (which is the working draft that does not yet have any of the reasons populated) with the reasonFromDb (which
+				 * has the data that we will populate the reason with).
 				 * NEEDS FIXING ==========================================================================================================================
 				 */
 				function replaceRefWithReason(reasonDataObject, reasonFromDb){
 					
 					//1. check the location provided by the reasonDataObject, if it matches - awesome, if not, we'll have to iterate through everything
-					var refID = JSON.stringify(draftClaimFromDB[reasonDataObject.side][reasonDataObject.argIndex].reasons[reasonDataObject.reasonIndex]);
+					//get the id stored in the current working draft for this reason
+					//var refID = JSON.stringify(draftClaimFromDB[reasonDataObject.side][reasonDataObject.argIndex].reasons[reasonDataObject.reasonIndex].claimObjectRefrence);
+					var refID = draftClaimFromDB[reasonDataObject.side][reasonDataObject.argIndex].reasons[reasonDataObject.reasonIndex].claimObjectRefrence;
+					refID = JSON.stringify(refID);
 					var reasonID = JSON.stringify(reasonFromDb._id);
+					var reasonString = JSON.stringify(reasonFromDb);
 
 					if (refID == reasonID) {
-						draftClaimFromDB[reasonDataObject.side][reasonDataObject.argIndex].reasons[reasonDataObject.reasonIndex] = reasonFromDb;
+						//awesome, lets populate the current working draft
+						
+						console.log('old ref: ', draftClaimToReturn[reasonDataObject.side][reasonDataObject.argIndex].reasons[reasonDataObject.reasonIndex].claimObjectRefrence);
+						console.log('reasonFromDb: ', reasonFromDb);
+
+						draftClaimToReturn[reasonDataObject.side][reasonDataObject.argIndex].reasons[reasonDataObject.reasonIndex].claimObjectRefrence = reasonFromDb;//reasonFromDb;
+						
+						console.log('new obj: ', draftClaimToReturn[reasonDataObject.side][reasonDataObject.argIndex].reasons[reasonDataObject.reasonIndex].claimObjectRefrence);
+					
 					} else {
 						//If this is called it means the array order has been mixed up somehow - we'll have to spend a bit more on computation
 						//Iterate through the arguments in the relevent side
@@ -203,20 +227,21 @@ var express = require('express'),
 							//iterate through the reasons in each argument
 							for (var j = 0; j < draftClaimFromDB[reasonDataObject.side][i].reasons.length; j++){
 								//check to see if the id of the reason in this bit of the main draft matched the reason ID
-								refID = JSON.stringify(draftClaimFromDB[reasonDataObject.side][i].reasons[j]);
+								refID = JSON.stringify(draftClaimFromDB[reasonDataObject.side][i].reasons[j].claimObjectRefrence);
 
 								if (refID == reasonID) {
 									//we have a match, replace the refrence with the full reason object
-									draftClaimFromDB[reasonDataObject.side][i].reasons[j] = reasonFromDb;
+									draftClaimToReturn[reasonDataObject.side][i].reasons[j].claimObjectRefrence = reasonFromDb;
 								}
 							}
 						}
 					}
 				}
+
 			}
 		], function (err, result) {
 			// result now equals 'done'
-			res.status(200).send(draftClaimFromDB);
+			res.status(200).send(draftClaimToReturn);
 		});
 
 		/**
@@ -244,7 +269,7 @@ var express = require('express'),
 			thisReason.side = side;
 			thisReason.argIndex = argIndex;
 			thisReason.reasonIndex = reasonIndex;
-			thisReason.ID = draftObject[side][argIndex].reasons[reasonIndex];
+			thisReason.ID = draftObject[side][argIndex].reasons[reasonIndex].claimObjectRefrence;
 
 			reasonDataArray.push(thisReason);
 		}
@@ -257,35 +282,42 @@ var express = require('express'),
 	 * http://patorjk.com/software/taag/#p=display&f=Cyberlarge&t=DELETE
 	 */
 
-	/** DELETE a draft claim, 
-	 * 1. We must delete the draftclaim from the DB.
-	 * 2. We must delete the refrence to the draftclaim from the user's object.
-	 * 3. We must also check any other draftclaims that belong to this user as they may also hold refrences to this draftclaim.
+	/** DELETE a draft claim, hence forth known as "Del Boy"
+	 * 1. We must delete Del Boy from the DB.
+	 * 2. We must delete the refrence to Del Boy from the user's object.
+	 * 3. We must also check any other draftclaims that belong to this user as they may also hold refrences to Del Boy.
+	 * 4. We must inform the client as to our success.
 	 */
 	router.post('/delete', function(req, res) {
 		var currentUser = req.user;
 		
 		async.waterfall([
 			function(callback){
-				//1. Delete the draftclaim from the database
+				//1. Delete Del Boy from the database
 				DraftClaim.find({'_id':req.body.draftClaimID}).remove().exec(function(err,result){
-					if(err) res.status(500).send('DB error in deleting draftClaim');
+					if(err){
+						res.status(500).send('DB error in deleting draftClaim', err);
+					} 
+					//success, move onto the next step
 					callback(null);
 				});
 			},
 			function(callback){
-				//2.1 find and remove the refrence to the draftclaim from user's object
+				//2.1 find and remove the refrence to Del Boy from user's object
 				var killDex = currentUser.meta.unPublished.indexOf(req.body.draftClaimID);
 				currentUser.meta.unPublished.splice(killDex, 1);
 
 				//2.2 Save the modification of the user's object to the db
 				currentUser.save(function(err, result){
-					if(err) console.log('error in adding publishd claim to user profile', err);
+					if(err){
+						console.log('error in removing Del Boy from the user\'s profile', err);
+					} 
+					//success, move onto the next step
 					callback(null);
 				});
 			},
 			function(callback){
-				//3. Check through all the other draftclaim objects belonging to this user for refrences to the deleted draftclaim
+				//3. Check through all the other draftclaim objects belonging to this user for refrences to Del Boy
 				async.map(currentUser.meta.unPublished, removeReasonFromDraft, function(err, result){
 					res.status(200).send();
 				});
@@ -293,25 +325,24 @@ var express = require('express'),
 		]);
 
 		/**
-		 * 3. removing refrences to the deleted draftclaim from the user's other draftclaims
+		 * 3(cont). removing refrences to Del Boy from the user's other draftclaims
 		 * This function is called from the async.map above for every draftclaim by this user.
-		 * It takes the ID of each draftclaim (we already know the ID of the deleted draftclaim)
+		 * It takes the ID of each draftclaim (we already know the ID of Del Boy: req.body.draftClaimID)
 		 */
 		function removeReasonFromDraft(draftID, mapCallback){
-			//req.body.draftClaimID is the reason we're removing
 			//draftID is the ID of the draft we're checking - one of the ones from the users list
 			var DraftClaim = require('../models/draftClaim');
 
 			/**
 			 * There's a bit of a process, so we're waterfalling it
-			 * 1. get this draftclaim from the DB
-			 * 2. check through all it's arguments and their reasons
-			 * 3. If changed, save.
+			 * 3.1 get this draftclaim from the DB
+			 * 3.2 check through all it's arguments and their reasons
+			 * 3.3 If changed, save.
 			 */
 
 			async.waterfall([
 				function(callback){
-					//1. get this draftclaim from the DB
+					//3.1 get this draftclaim from the DB
 					DraftClaim.find({ '_id' : draftID }, function (err, draftObject) {
 						if(err) {
 							console.log('could not find draft in user collection');
@@ -323,7 +354,7 @@ var express = require('express'),
 					});
 				},
 				function(draftToCheck, callback){
-					//2. check through all it's arguments and their reasons
+					//3.2 check through all it's arguments and their reasons
 					//draftToCheck is an array with one object
 					if (draftToCheck == 'fail'){
 						callback(null);
@@ -344,7 +375,7 @@ var express = require('express'),
 						//this is where we check if the above functions have removed a refrence to the deleted draftclaim from any of the user's other draftclaims
 						if ( opposingRemoval || supportingRemoval ) {
 							//if either return true, we'll have to save this draftToCheck
-							console.log('we killed the refrence to the deleted draftclaim from another draftclaim! Now to save it: ' + draftToCheck[0]);
+
 							//draftToCheck is an object
 							var updatedDraftObject = new DraftClaim(draftToCheck[0]);
 							// updatedDraftObject._id = draftToCheck._id;
@@ -355,7 +386,6 @@ var express = require('express'),
 							// updatedDraftObject.axiom = draftToCheck.axiom;
 							// updatedDraftObject.description = draftToCheck.description;
 
-							console.log('draftclaim mongoose object: ' + updatedDraftObject);
 
 							DraftClaim.findById(draftToCheck[0]._id, function (err, dbDraftClaim) {
 								if (err) {
@@ -387,7 +417,7 @@ var express = require('express'),
 					
 				},
 				function(callback){
-					//3. If the deleted draft was found - save it.
+					//3.3 If the deleted draft was found - save it.
 					mapCallback(null);
 				}
 			]);
@@ -420,6 +450,7 @@ var express = require('express'),
 	});
 
 	//route to publish an individual claim to the public network
+	//todo, add false to 'draft' in the meta object
 	router.post('/publish', function(req, res){
 		//clean the input?
 		var candidateClaim = req.body.draftClaim;

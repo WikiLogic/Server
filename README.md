@@ -77,6 +77,21 @@ views/
 
 ---
 
+###The Global ($rootScope)
+
+```
+$rootscope = {
+	search: {
+		term: 'search term',
+		results: [an array of claim objects],
+		order: 'the order',
+		selectedResult: {a claim object}
+	}
+}
+```
+
+---
+
 ###DB command ref
 
 see user profile:
@@ -114,3 +129,5 @@ Shout out to [useiconic](https://useiconic.com/open/) for the icons!
 
 this looks good for the graph: http://cytoscapeweb.cytoscape.org/tutorial  
 and this: http://sigmajs.org/
+
+Sounds for fun? http://loudlinks.rocks/#examples

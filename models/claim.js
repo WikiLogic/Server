@@ -1,5 +1,6 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
+    mongoose.set('debug', true);
 
 /*
  * The bread and butter of WikiLogic!
@@ -11,6 +12,7 @@ var mongoose = require('mongoose'),
 var claimSchema = mongoose.Schema({
     description: {
         type: String,
+        index: true,
         default: '',
         required: 'Please fill Statement name',
         trim: true
@@ -32,9 +34,16 @@ var claimSchema = mongoose.Schema({
                 defaut: false
             },
             reasons: [{
-                    type: Schema.ObjectId,
-                    ref: 'Claim',
-                    default: []
+                    reasonMeta: {
+                        draft: {
+                            type: Boolean,
+                            defaut: true
+                        }
+                    },
+                    claimObjectRefrence: {
+                        type: Schema.ObjectId,
+                        ref: 'Claim'
+                    }
             }]
     }],
     opposing: [{
@@ -43,9 +52,16 @@ var claimSchema = mongoose.Schema({
                 defaut: false
             },
             reasons: [{
-                    type: Schema.ObjectId,
-                    ref: 'Claim',
-                    default: []
+                    reasonMeta: {
+                        draft: {
+                            type: Boolean,
+                            defaut: true
+                        }
+                    },
+                    claimObjectRefrence: {
+                        type: Schema.ObjectId,
+                        ref: 'Claim'
+                    }
             }]
     }],
     usedIn: [{

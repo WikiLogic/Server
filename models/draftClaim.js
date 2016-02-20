@@ -11,6 +11,7 @@ var mongoose = require('mongoose'),
 var draftClaimSchema = mongoose.Schema({
     description: {
         type: String,
+        index: true,
         default: '',
         required: 'Please provide a description for this DraftClaim',
         trim: true
@@ -29,8 +30,16 @@ var draftClaimSchema = mongoose.Schema({
                 defaut: false
             },
             reasons: [{
-                    type: Schema.ObjectId,
-                    ref: 'Claim'
+                    reasonMeta: {
+                        draft: {
+                            type: Boolean,
+                            defaut: true
+                        }
+                    },
+                    claimObjectRefrence: {
+                        type: Schema.ObjectId,
+                        ref: 'Claim'
+                    }
             }]
     }],
     opposing: [{
@@ -39,8 +48,16 @@ var draftClaimSchema = mongoose.Schema({
                 defaut: false
             },
             reasons: [{
-                    type: Schema.ObjectId,
-                    ref: 'Claim'
+                    reasonMeta: {
+                        draft: {
+                            type: Boolean,
+                            defaut: true
+                        }
+                    },
+                    claimObjectRefrence: {
+                        type: Schema.ObjectId,
+                        ref: 'Claim'
+                    }
             }]
     }],
     meta: {

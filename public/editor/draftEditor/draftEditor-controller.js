@@ -66,7 +66,7 @@ function($scope, $rootScope, $routeParams, userService, claimService, theEvaluat
 	 */
 	$scope.saveEdit = function(draftClaim){
 		//First check all the reasons, they all need to be up to date before we can save.
-		if ( checkReasonStatus('supporting') && checkReasonStatus('opposing') ) {
+		if ( checkReasonState('supporting') && checkReasonState('opposing') ) {
 
 			claimService.updateDraft(draftClaim).success(function(result){
 			//console.log('finished saving, current draft: ', $rootScope.currentDraft);
@@ -76,7 +76,9 @@ function($scope, $rootScope, $routeParams, userService, claimService, theEvaluat
 
 		} else {
 
-			alert('At least 1 reason in one of the arguments has not been saved.  Please make sure all are saved otherwise you may loose data.  This will change in the future but you are using a prototype! Be gentle');
+			alert('At least 1 reason in one of the arguments has not been saved.  
+				Please make sure all are saved otherwise you may loose data.  
+				This will change in the future but you are using a prototype! Be gentle');
 		}
 	}
 
@@ -85,11 +87,13 @@ function($scope, $rootScope, $routeParams, userService, claimService, theEvaluat
 	 * Alert the user / show them as needing saved 
 	 * If any are needing saved, halt the main saving process.
 	 */
-	var checkReasonStatus = function(side){
+	var checkReasonState = function(side){
+		//run through the argument groups on this side
 		for (var groupItr = 0; groupItr < $rootScope.currentDraft[side].length; groupItr++) {
+			//run through the reasons in this argument
 			for (var reasonItr = 0; reasonItr < $rootScope.currentDraft[side][groupItr].reasons.length; reasonItr ++) {
 
-				var thisState = $rootScope.currentDraft[side][groupItr].reasons[reasonItr].state;
+				var thisState = $rootScope.currentDraft[side][groupItr].reasons[reasonItr].reasonMeta.state;
 				switch(thisState) {
 					case "New":
 						console.error('Theres a New guy in town, thats a fail');
@@ -111,6 +115,13 @@ function($scope, $rootScope, $routeParams, userService, claimService, theEvaluat
 						console.info('Yeay!! This one is ok :D');
 						return true;
 						break;
+					case "Deleted":
+						console.info('There have been deletions... oh oh!');
+						return true;
+						break;
+					default:
+						console.log('hit default... maybe a deleted reason?');
+						return true;
 				}
 				return false;//if we have a reason but the status is not 'Saved'
 			};
@@ -143,6 +154,7 @@ function($scope, $rootScope, $routeParams, userService, claimService, theEvaluat
 	}
 
 	/*
+	 * This guy adds a new argument group which we can then fill with lots of lovely reasons!
 	 * type = supporting / opposing test
 	 */
 
