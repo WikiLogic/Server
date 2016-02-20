@@ -86,10 +86,8 @@ function($scope, $rootScope, claimService, searchClaims, searchDrafts, theEvalua
 		//now watch for a selection from the search (which is global)
 		//but first check if there is already a listener on search.selectedResult
 		
-		console.log('searchListener: ', searchListener);
 		if (searchListener == 'off') {
-			console.log('listener is off, lets turn it on :)');
-			$rootScope.search.selectedResult.claimObject
+			
 			searchListener = $rootScope.$watch('search.selectedResult.claimObject', function(newVal,oldVal){
 				if (newVal === oldVal) {
 					//called to init -but this always happens, why is this here again? Can anyone tell me?
@@ -104,6 +102,7 @@ function($scope, $rootScope, claimService, searchClaims, searchDrafts, theEvalua
 					$rootScope.currentDraft[$scope.side][$scope.argIndex].reasons[reasonIndex].reasonMeta.draft = isThisADraft;
 					//set the status as 'Claim' - to show that this is a link to an existing published claim, but it's not been saved yet... waht Just save it now!?
 					$rootScope.currentDraft[$scope.side][$scope.argIndex].reasons[reasonIndex].reasonMeta.state = $rootScope.search.selectedResult.claimType;
+					console.log('State applied: ', $rootScope.search.selectedResult.claimType);
 					searchListener(); //clear the watch?
 
 					//hide the search results
@@ -158,7 +157,7 @@ function($scope, $rootScope, claimService, searchClaims, searchDrafts, theEvalua
 				$rootScope.currentDraft[$scope.side][$scope.argIndex].reasons[reasonIndex].reasonMeta.state = 'Error';
 			});
 		} else {
-			console.log('state does not = new, so no need to save this reason');
+			console.log('state: ', reasonToSave.reasonMeta.state);
 			//no need to save - it already exists somewhere. The button should not actually work, but somehow it did and this was called.
 		}
 	}

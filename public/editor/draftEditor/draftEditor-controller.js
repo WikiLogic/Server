@@ -76,9 +76,7 @@ function($scope, $rootScope, $routeParams, userService, claimService, theEvaluat
 
 		} else {
 
-			alert('At least 1 reason in one of the arguments has not been saved.  
-				Please make sure all are saved otherwise you may loose data.  
-				This will change in the future but you are using a prototype! Be gentle');
+			alert('At least 1 reason in one of the arguments has not been saved. Please make sure all are saved otherwise you may loose data. This will change in the future but you are using a prototype! Be gentle');
 		}
 	}
 
@@ -105,11 +103,11 @@ function($scope, $rootScope, $routeParams, userService, claimService, theEvaluat
 						break;
 					case "Claim":
 						console.error('got an unsaved link to a claim');
-						return false;
+						return true;
 						break;
 					case "Draft":
 						console.error('got an unsaved link to a Draft');
-						return false;
+						return true;
 						break;
 					case "Saved":
 						console.info('Yeay!! This one is ok :D');
