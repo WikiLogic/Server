@@ -457,10 +457,13 @@ var express = require('express'),
 
 	 /**
 	  * This moves a draft claim out into the published network.
-	  * TODO: do we assume the user has been asked if they want to publish all associated drafts from the args/reasons?
-	  * TODO: change the meta details to reflect this is now a publishedClaim!
-	  * TODO: remove the draft claim from the user object
-	  * TODO: return the entire user object
+	  * For Alpha, this will only publish a single claim. Refrences to any drafts will be lost.
+	  * In a future update, the option to publish all / a selectiong of the refrenced drafts will be written.
+	  * Done: remove refrences to any draft claims in the argument groups.
+	  * Done: remove the draft claim from the user object
+	  * TODO: if removal of draft claims leaves an empty argument group, kill that too.
+	  * Done: return the entire user object
+	  * TODO: Update the status at some point?
 	  * TODO: Clean the input
 	  */
 	router.post('/publish', function(req, res){
@@ -490,7 +493,42 @@ var express = require('express'),
 					});
 				},
 				function(callback) {
-				//2: Save draft claim as published claim
+				//2: Remove any refrences to draft claims.
+					//console.log('this draft: ', candidateClaim);
+					removeDraftRefrences('supporting');
+					removeDraftRefrences('opposing');
+					//console.log('this claim: ', candidateClaim);
+					callback(null);
+
+
+					function removeDraftRefrences(side) {
+						for (var i = 0; i < candidateClaim[side].length; i++) {
+							//console.log('this argument group: ', candidateClaim[side][i]);
+							//iterate through reasons
+							for (var j = 0; j < candidateClaim[side][i].reasons.length; j++) {
+								//console.log('this reason: ', candidateClaim[side][i].reasons[j].reasonMeta.draft);
+								if (candidateClaim[side][i].reasons[j].reasonMeta.draft) {
+									// it's a draft, kill it
+									candidateClaim[side][i].reasons.splice(j, 1);
+									j--; //so the iterator doesn't skip
+
+								}
+							}
+
+							//is there any reasons left in the group? No? Kill it.
+							console.log('hows the group: ', candidateClaim[side][i].reasons.length);
+							if (candidateClaim[side][i].reasons.length == 0) {
+								console.log('reasons are gone, kill the group');
+
+								candidateClaim[side].splice(i, 1);
+								i--; //again, stop the iterator from getting confuzled.
+							}
+						}
+					}
+
+				},
+				function(callback) {
+				//3: Save draft claim as published claim
 					var newClaim = new Claim;
 					newClaim.description = candidateClaim.description;
 					newClaim.supporting = candidateClaim.supporting;
@@ -506,14 +544,14 @@ var express = require('express'),
 					});
 				},
 				function(newPublishedClaim,callback) {
-				//3.1: add newClaim to user's published list
+				//4.1: add newClaim to user's published list
 					currentUser.meta.published.push(newPublishedClaim._id);
 					
-				//3.2: remove draftClaim from user's unPublished list
+				//4.2: remove draftClaim from user's unPublished list
 					var killDex = currentUser.meta.unPublished.indexOf(candidateClaim._id);
 					currentUser.meta.unPublished.splice(killDex, 1);
 
-				//3.3: save updated user profile to db
+				//4.3: save updated user profile to db
 					currentUser.save(function(err, result){
 						if(err) console.log('error in adding publishd claim to user profile', err);
 						callback(null, currentUser);
