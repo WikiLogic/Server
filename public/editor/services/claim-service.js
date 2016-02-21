@@ -132,7 +132,10 @@ angular.module('Editor')
 				 * 2 - get an updated user object from the server?
 				 */
 				return $http.post('/draft-claim/publish', {'draftClaim':draftClaim}).success(function(data, status, headers, config) {
-					console.log('Claim published! ', data);
+					console.log('Claim published! new user: ', data);
+					//$rootScope.user = data; //fail - kills the object population.
+					//get & set the new user
+					userService.getCurrentUserLists();
 				}).error(function(data, status, headers, config) {
 					console.log('save claims service: Could not publish claim - womp womp :(');
 				});

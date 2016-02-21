@@ -481,6 +481,7 @@ var express = require('express'),
 
 						if (result.length){
 							//Can't publish - there is an identical claim
+							console.log('PUBLISHING FAIL: IDENTICAL');
 							callback(new Error("Can't publish - there is an identical claim already out there"));
 						} else {
 							//didn't find any conflicts, on to the publishing!
@@ -515,14 +516,16 @@ var express = require('express'),
 				//3.3: save updated user profile to db
 					currentUser.save(function(err, result){
 						if(err) console.log('error in adding publishd claim to user profile', err);
-						callback(null, newPublishedClaim);
+						callback(null, currentUser);
 					});
 				}
 			],
-			function (err, newPublishedClaim) {//finished!
+			function (err, currentUser) {//finished!
 				if(err) console.error('Error finding claim from newClaim-route.js');
-				//return the new claim to be put into the published list client side
-				res.status(200).send(newPublishedClaim);
+				//return the updated user object
+				var userObjToSend = {};
+					userObjToSend.meta = currentUser.meta; //stops us from sending the password and db id with the user object. Bit messy. but hey.
+				res.status(200).send(userObjToSend);
 			}
 		);
 	});
