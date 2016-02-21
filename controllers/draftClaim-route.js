@@ -449,12 +449,32 @@ var express = require('express'),
 		}
 	});
 
-	//route to publish an individual claim to the public network
-	//todo, add false to 'draft' in the meta object
+	/*  _____  _     _ ______         _____ _______ _     _
+	 * |_____] |     | |_____] |        |   |______ |_____|
+	 * |       |_____| |_____] |_____ __|__ ______| |     |
+	 * http://patorjk.com/software/taag/#p=display&f=Cyberlarge&t=PUBLISH
+	 */
+
+	 /**
+	  * This moves a draft claim out into the published network.
+	  * For Alpha, this will only publish a single claim. Refrences to any drafts will be lost.
+	  * In a future update, the option to publish all / a selectiong of the refrenced drafts will be written.
+	  * Done: remove refrences to any draft claims in the argument groups.
+	  * Done: remove the draft claim from the user object
+	  * TODO: if removal of draft claims leaves an empty argument group, kill that too.
+	  * Done: return the entire user object
+	  * TODO: Update the status at some point?
+	  * TODO: Clean the input
+	  */
 	router.post('/publish', function(req, res){
-		//clean the input?
+		
+		//This is the draftClaim that is being published
 		var candidateClaim = req.body.draftClaim;
+
+		//This is the user that's doing the publishing
 		var currentUser = req.user;
+
+		// Clean them? ============================================================ <- this should be like a blood-brain barrier
 
 		async.waterfall([
 				function(callback) {
@@ -464,7 +484,8 @@ var express = require('express'),
 
 						if (result.length){
 							//Can't publish - there is an identical claim
-							callback(err);
+							console.log('PUBLISHING FAIL: IDENTICAL');
+							callback(new Error("Can't publish - there is an identical claim already out there"));
 						} else {
 							//didn't find any conflicts, on to the publishing!
 							callback(null);
@@ -472,7 +493,42 @@ var express = require('express'),
 					});
 				},
 				function(callback) {
-				//2: Save draft claim as published claim
+				//2: Remove any refrences to draft claims.
+					//console.log('this draft: ', candidateClaim);
+					removeDraftRefrences('supporting');
+					removeDraftRefrences('opposing');
+					//console.log('this claim: ', candidateClaim);
+					callback(null);
+
+
+					function removeDraftRefrences(side) {
+						for (var i = 0; i < candidateClaim[side].length; i++) {
+							//console.log('this argument group: ', candidateClaim[side][i]);
+							//iterate through reasons
+							for (var j = 0; j < candidateClaim[side][i].reasons.length; j++) {
+								//console.log('this reason: ', candidateClaim[side][i].reasons[j].reasonMeta.draft);
+								if (candidateClaim[side][i].reasons[j].reasonMeta.draft) {
+									// it's a draft, kill it
+									candidateClaim[side][i].reasons.splice(j, 1);
+									j--; //so the iterator doesn't skip
+
+								}
+							}
+
+							//is there any reasons left in the group? No? Kill it.
+							console.log('hows the group: ', candidateClaim[side][i].reasons.length);
+							if (candidateClaim[side][i].reasons.length == 0) {
+								console.log('reasons are gone, kill the group');
+
+								candidateClaim[side].splice(i, 1);
+								i--; //again, stop the iterator from getting confuzled.
+							}
+						}
+					}
+
+				},
+				function(callback) {
+				//3: Save draft claim as published claim
 					var newClaim = new Claim;
 					newClaim.description = candidateClaim.description;
 					newClaim.supporting = candidateClaim.supporting;
@@ -488,24 +544,26 @@ var express = require('express'),
 					});
 				},
 				function(newPublishedClaim,callback) {
-				//3.1: add newClaim to user's published list
+				//4.1: add newClaim to user's published list
 					currentUser.meta.published.push(newPublishedClaim._id);
 					
-				//3.2: remove draftClaim from user's unPublished list
+				//4.2: remove draftClaim from user's unPublished list
 					var killDex = currentUser.meta.unPublished.indexOf(candidateClaim._id);
 					currentUser.meta.unPublished.splice(killDex, 1);
 
-				//3.3: save updated user profile to db
+				//4.3: save updated user profile to db
 					currentUser.save(function(err, result){
 						if(err) console.log('error in adding publishd claim to user profile', err);
-						callback(null, newPublishedClaim);
+						callback(null, currentUser);
 					});
 				}
 			],
-			function (err, newPublishedClaim) {//finished!
+			function (err, currentUser) {//finished!
 				if(err) console.error('Error finding claim from newClaim-route.js');
-				//return the new claim to be put into the published list client side
-				res.status(200).send(newPublishedClaim);
+				//return the updated user object
+				var userObjToSend = {};
+					userObjToSend.meta = currentUser.meta; //stops us from sending the password and db id with the user object. Bit messy. but hey.
+				res.status(200).send(userObjToSend);
 			}
 		);
 	});
