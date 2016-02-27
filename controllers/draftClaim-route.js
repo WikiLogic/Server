@@ -3,9 +3,10 @@ var express = require('express'),
     mongoose = require('mongoose'),
     async = require('async');
 
-    var User = require('../models/user'),
-    	DraftClaim = require('../models/draftClaim'),
-    	Claim = require('../models/claim');
+/* get the modals */
+var User = require('../models/user'),
+	DraftClaim = require('../models/draftClaim'),
+	Claim = require('../models/claim');
 
 /*          /draft-claim
  * =================================
@@ -143,7 +144,8 @@ var express = require('express'),
 		async.waterfall([
 			function(callback) {
 				//1. get the draft from the DB
-				DraftClaim.findOne({_id:req.body.draftClaim._id}).exec(function(err, result){
+				//console.log('draftClaim._id: ', draftClaim._id);
+				DraftClaim.findOne({_id:draftClaim._id}).exec(function(err, result){
 					if (err) {
 						//poop
 						callback(err);
@@ -182,7 +184,7 @@ var express = require('express'),
 						if(err){
 							mapCallback(err);
 						} else {
-							//we now hve the reason from the database and it's location in the main draft, 
+							//we now have the reason from the database and it's location in the main draft, 
 							//we should add it to the draft 
 							if (result !== null) {
 								//sometimes result comes out as null?
@@ -463,7 +465,7 @@ var express = require('express'),
 	  * Done: remove the draft claim from the user object
 	  * TODO: if removal of draft claims leaves an empty argument group, kill that too.
 	  * Done: return the entire user object
-	  * TODO: Update the status at some point?
+	  * TODO: Update the status of any draft claims that refrence this guy to 'published!' <-- oh oh, spagetti code :(
 	  * TODO: Clean the input
 	  */
 	router.post('/publish', function(req, res){
@@ -551,15 +553,15 @@ var express = require('express'),
 					var killDex = currentUser.meta.unPublished.indexOf(candidateClaim._id);
 					currentUser.meta.unPublished.splice(killDex, 1);
 
-				//4.3: save updated user profile to db
-					currentUser.save(function(err, result){
-						if(err) console.log('error in adding publishd claim to user profile', err);
-						callback(null, currentUser);
-					});
+					callback(null, currentUser);
+
 				}
 			],
 			function (err, currentUser) {//finished!
-				if(err) console.error('Error finding claim from newClaim-route.js');
+				if(err) {
+					console.error('Error finding claim from newClaim-route.js');
+					res.status(200).send(err);
+				} 
 				//return the updated user object
 				var userObjToSend = {};
 					userObjToSend.meta = currentUser.meta; //stops us from sending the password and db id with the user object. Bit messy. but hey.

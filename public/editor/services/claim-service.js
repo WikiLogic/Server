@@ -134,8 +134,10 @@ angular.module('Editor')
 				return $http.post('/draft-claim/publish', {'draftClaim':draftClaim}).success(function(data, status, headers, config) {
 					console.log('Claim published! new user: ', data);
 					//$rootScope.user = data; //fail - kills the object population.
-					//get & set the new user
+					//get & set the new user - also update?
 					userService.getCurrentUserLists();
+
+					//watch the user object for an update, when that happens, update the refrences
 				}).error(function(data, status, headers, config) {
 					console.log('save claims service: Could not publish claim - womp womp :(');
 				});

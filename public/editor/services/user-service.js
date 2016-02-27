@@ -31,8 +31,10 @@ angular.module('Editor')
 				 * this service deals with getting all the supporting / opposing reasons (claims)
 				 * specific to that draft
 				 */
+				 //console.log('draftClaim: ', draftClaim);
 				return $http.post('/draft-claim/get-draft', {'draftClaim':draftClaim}).success(function(data, status, headers, config) {
 					service.myData = data;
+					//post to rootScope
 				}).error(function(data, status, headers, config) {
 					console.log('Getting draft claim data failed - http request error in the service');
 				});
