@@ -2,7 +2,7 @@
 
 /*
  * Welcome to The Argument Controller
- * a new instance is created per argument so we don't need to worry abotu which side we're on or which arg we're in
+ * a new instance is created per argument so we don't need to worry about which side we're on or which arg we're in
  * we're already there!
  */
 
@@ -10,27 +10,26 @@ Editor.controller('argumentController', ['$scope', '$rootScope', 'claimService',
 function($scope, $rootScope, claimService, searchClaims, searchDrafts, theEvaluator) {
 
  	var searchListener = 'off';
+
 	/**
 	 * Each argument has it's own instance of this controller, 
 	 * the init stores a refrece to the argument index and which side it's on.
 	 * Its called for every argument in the claim's array & for every new argument added by the user
 	 */
 	$scope.init = function(side, argIndex) {
-		console.log('arg index set: ', argIndex);
 		$scope.side = side;
 		$scope.argIndex = argIndex;
-		console.log('this is the argument group: ', $rootScope.currentDraft[$scope.side][argIndex]);
 	}
 
 	/**
 	 * Sets up an empty reason within this argument group.
-	 * The status is set to unsaved (hopefully to remind users to save before they move away).
+	 * The status is set to Default (hopefully to remind users to save before they move away - now forces them).
 	 */
 	$scope.addReason = function(argIndex){
 		var emptyReasonObj = {
 			reasonMeta: {
 				draft: true,
-
+				state: 'Default'
 			},
 			claimObjectRefrence: {
 				description:'add your description here!'
@@ -41,7 +40,7 @@ function($scope, $rootScope, claimService, searchClaims, searchDrafts, theEvalua
 	}
 
 	/**
-	 * When a new reason is added - we don't yet know if it already exists, either as a published claim or in this users drafts
+	 * When a new reason is added - we don't yet know if that reason already exists, either as a published claim or in this user's drafts
 	 * So when they start typing, this function is called.
 	 * reasonIndex lets us know which reason is in question (of out the list that makes up this argument)
 	 * reasonDecription is the string in question - the stuff the user is typing.
@@ -55,7 +54,7 @@ function($scope, $rootScope, claimService, searchClaims, searchDrafts, theEvalua
 			reasonElement = $(columClass).find(argumentClass).find(reasonClass).find('.js-attach-searchBox'),
 			reasonCoords = reasonElement.offset();
 		
-		//Get the search results tip element and the place we awant to put it
+		//Get the search results tip element and the place we a-want to put it
 		var searchResultsElement = $('.searchResultsTip'),
 			searchResultsTop = reasonCoords.top + reasonElement.height(),
 			searchResultsLeft = reasonCoords.left;
@@ -64,21 +63,20 @@ function($scope, $rootScope, claimService, searchClaims, searchDrafts, theEvalua
 		searchResultsElement.offset({ top: searchResultsTop, left: searchResultsLeft });
 
 		
-		//uncomment this bit to reduce the load on the server
-		//if (reasonDecription.length > 0) {
-			//search draft claims from our user's private relm
-			searchDrafts.byString(reasonDecription);
-			
-			//if (reasonDecription.length > 3) {
-				//search published claims from the public relm
-				searchClaims.byString(reasonDecription);
-			//}
+		
+		//search draft claims from our user's private relm
+		searchDrafts.byString(reasonDecription);
+
+		//TODO: uncomment this bit to reduce the load on the server
+		//if (reasonDecription.length > 3) {
+			//search published claims from the public relm
+			searchClaims.byString(reasonDecription);
 		//}
 		
 
 		
 
-		//set this reason to active, change state.  -- need to figure out how to turn off active state
+		//set this reason to active, change state.  -- TODO: figure out how to turn off active state
 
 		//set this reason to unsaved (until save as new draft is clicked or it's replaced with a search result)
 		$rootScope.currentDraft[$scope.side][$scope.argIndex].reasons[reasonIndex].reasonMeta.state = 'New'; //State defenitions in editor-app.js
@@ -88,23 +86,21 @@ function($scope, $rootScope, claimService, searchClaims, searchDrafts, theEvalua
 		
 		if (searchListener == 'off') {
 			
-			searchListener = $rootScope.$watch('search.selectedResult.claimObject', function(newVal,oldVal){
+			searchListener = $rootScope.$watch('search.selectedResult', function(newVal,oldVal){
 				if (newVal === oldVal) {
 					//called to init -but this always happens, why is this here again? Can anyone tell me?
 				} else {
+					console.log('newVal: ', newVal);
 					//set the selected search item and assign it to our reason
 					var isThisADraft = false;
-					if ($rootScope.search.selectedResult.claimType = 'Draft'){
+					if ($rootScope.search.selectedResult.claimType == 'Draft'){
 						isThisADraft = true;
 					}
-
 					$rootScope.currentDraft[$scope.side][$scope.argIndex].reasons[reasonIndex].claimObjectRefrence = $rootScope.search.selectedResult.claimObject;
 					$rootScope.currentDraft[$scope.side][$scope.argIndex].reasons[reasonIndex].reasonMeta.draft = isThisADraft;
 					//set the status as 'Claim' - to show that this is a link to an existing published claim, but it's not been saved yet... waht Just save it now!?
-					$rootScope.currentDraft[$scope.side][$scope.argIndex].reasons[reasonIndex].reasonMeta.state = $rootScope.search.selectedResult.claimType;
-					console.log('State applied: ', $rootScope.search.selectedResult.claimType);
+					$rootScope.currentDraft[$scope.side][$scope.argIndex].reasons[reasonIndex].reasonMeta.state = newVal.claimType;
 					searchListener(); //clear the watch?
-
 					//hide the search results
 					searchDrafts.clearResults();
 					searchClaims.clearResults();
