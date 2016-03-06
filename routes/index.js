@@ -1,3 +1,9 @@
+var express = require('express'),
+    router = express.Router(),
+    mongoose = require('mongoose'),
+    async = require('async');
+
+
 module.exports = function(router, passport) {
 
 	router.use(function (req, res, next){
@@ -25,13 +31,16 @@ module.exports = function(router, passport) {
 	router.use('/users', require('./users-route') ); //careful here - provides public data about users
 
 	router.use('/user', hasAccess, require('./user-route') ); //provides data about the user to the user
-	router.use('/draft-claim', hasAccess, function(){
-		router.post('/new', require('./draft_claim/draftClaim-create') );
-		router.post('/update', require('./draft_claim/draftClaim-update') );
-		router.post('/get-draft', require('./draft_claim/draftClaim-get') );
-		router.post('/delete', require('./draft_claim/draftClaim-delete') );
-		router.post('/publish', require('./draft_claim/draftClaim-publish') );
-	}); //Create & Update
+
+	var draftClaimRouter = express.Router({mergeParams: true});
+	router.use('/draft-claim', hasAccess, draftClaimRouter);
+		draftClaimRouter.post('/new', require('./draft_claim/draftClaim-create') );
+		draftClaimRouter.post('/update', require('./draft_claim/draftClaim-update') );
+		draftClaimRouter.post('/get-draft', require('./draft_claim/draftClaim-get') );
+		draftClaimRouter.post('/delete', require('./draft_claim/draftClaim-delete') );
+		draftClaimRouter.post('/publish', require('./draft_claim/draftClaim-publish'));
+
+	
 	// Delete?- do we give the option to delete? May need a super user level.
 
 

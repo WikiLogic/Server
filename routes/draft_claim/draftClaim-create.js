@@ -14,6 +14,7 @@ var User = require('../../models/user'),
  * http://patorjk.com/software/taag/#p=display&f=Cyberlarge&t=UPDATE
  */ 
 module.exports = function(req, res) {
+	console.log('/draft_claim/Create');
 
 	//clean the input?
 	var candidateClaim = req.body.draftClaim;
