@@ -135,6 +135,7 @@ angular.module('Editor')
 					console.log('Claim published! new user: ', data);
 					//$rootScope.user = data; //fail - kills the object population.
 					//get & set the new user - also update?
+					
 					userService.getCurrentUserLists();
 
 					//watch the user object for an update, when that happens, update the refrences

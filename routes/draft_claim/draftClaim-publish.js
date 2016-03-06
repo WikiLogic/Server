@@ -52,11 +52,9 @@ module.exports = function(req, res) {
 				});
 			},
 			function(callback) {
-			//2: Remove any refrences to draft claims.
-				//console.log('this draft: ', candidateClaim);
+			//2: Remove any refrences to draft claims from candidate claim
 				removeDraftRefrences('supporting');
 				removeDraftRefrences('opposing');
-				//console.log('this claim: ', candidateClaim);
 				callback(null);
 
 
@@ -87,33 +85,52 @@ module.exports = function(req, res) {
 
 			},
 			function(callback) {
-			//3: Save draft claim as published claim
+				//3.1: Create a new claim object
 				var newClaim = new Claim;
 				newClaim.description = candidateClaim.description;
 				newClaim.supporting = candidateClaim.supporting;
 				newClaim.opposing = candidateClaim.opposing;
 				newClaim.meta = candidateClaim.meta;
 
+				//3.2 Save new claim object to db
 				newClaim.save(function(err,result){
 					if(err) {
-						var errString = "Can't publish, DB error: " + err;
 						res.status(500);
-						callback(new Error(errString));
+						callback(new Error("Can't publish, DB error: " + err));
 					} else {
 						callback(null, result);
 					}
 				});
 			},
+			function(callback) {
+				//4 remove old draft claim from draft claims db
+				// TODO: this is repeated code from the draftClaim-delete.js route... probably need to manage this more efficently
+				DraftClaim.find({'_id':candidateClaim._id}).remove().exec(function(err,result){
+					if(err){
+						res.status(500);
+						callback(new Error("Can't remove draft claim, DB error: " + err));
+					} else {
+						callback(null);
+					}
+				});
+			},
 			function(newPublishedClaim,callback) {
-			//4.1: add newClaim to user's published list
+				//5.1: add newClaim to user's published list
 				currentUser.meta.published.push(newPublishedClaim._id);
 				
-			//4.2: remove draftClaim from user's unPublished list
+				//5.2: remove draftClaim from user's unPublished list
 				var killDex = currentUser.meta.unPublished.indexOf(candidateClaim._id);
 				currentUser.meta.unPublished.splice(killDex, 1);
 
-				callback(null, currentUser);
-
+				//5.3: save the new user object
+				currentUser.save(function(err, result){
+					if(err){
+						res.status(500);
+						callback(new Error("Can't update user profile, DB error: " + err));
+					} 
+					//success, move onto the next step
+					callback(null, currentUser);
+				});	
 			}
 		],
 		function (err, currentUser) {//finished!

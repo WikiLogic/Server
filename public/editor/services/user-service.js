@@ -8,6 +8,7 @@ angular.module('Editor')
 	function($http, $rootScope){
 		var service = {
 			getCurrentUserLists: function(){
+				console.log('user service has been called!');
 				
 				/** getCurrentUserLists
 				 * asks the server for the claims / drafts / trash created by the user
