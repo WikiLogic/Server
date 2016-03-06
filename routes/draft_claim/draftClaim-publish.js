@@ -102,7 +102,7 @@ module.exports = function(req, res) {
 					}
 				});
 			},
-			function(callback) {
+			function(newPublishedClaim, callback) {
 				//4 remove old draft claim from draft claims db
 				// TODO: this is repeated code from the draftClaim-delete.js route... probably need to manage this more efficently
 				DraftClaim.find({'_id':candidateClaim._id}).remove().exec(function(err,result){
@@ -110,7 +110,7 @@ module.exports = function(req, res) {
 						res.status(500);
 						callback(new Error("Can't remove draft claim, DB error: " + err));
 					} else {
-						callback(null);
+						callback(null, newPublishedClaim);
 					}
 				});
 			},
