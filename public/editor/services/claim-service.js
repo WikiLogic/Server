@@ -139,7 +139,7 @@ angular.module('Editor')
 
 					//watch the user object for an update, when that happens, update the refrences
 				}).error(function(data, status, headers, config) {
-					console.log('save claims service: Could not publish claim - womp womp :(');
+					console.log('public/editor/services/claim-service.js <- ', JSON.stringify(data));
 				});
 			}
 		};

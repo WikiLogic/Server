@@ -13,7 +13,7 @@ var User = require('../../models/user'),
  * |       |_____| |_____] |_____ __|__ ______| |     |
  * http://patorjk.com/software/taag/#p=display&f=Cyberlarge&t=PUBLISH
  */
-console.log('publishing route');
+
  /**
   * This moves a draft claim out into the published network.
   * For Alpha, this will only publish a single claim. Refrences to any drafts will be lost.
@@ -26,7 +26,6 @@ console.log('publishing route');
   * TODO: Clean the input
   */
 module.exports = function(req, res) {
-	console.log('/draft_claim/Publish');
 
 	//This is the draftClaim that is being published
 	var candidateClaim = req.body.draftClaim;
@@ -44,8 +43,8 @@ module.exports = function(req, res) {
 
 					if (result.length){
 						//Can't publish - there is an identical claim
-						console.log('PUBLISHING FAIL: IDENTICAL');
-						callback(new Error("Can't publish - there is an identical claim already out there"));
+						res.status(409);
+						callback(new Error("Can't publish, identical claim already exists."));
 					} else {
 						//didn't find any conflicts, on to the publishing!
 						callback(null);
@@ -53,7 +52,6 @@ module.exports = function(req, res) {
 				});
 			},
 			function(callback) {
-				console.log('2');
 			//2: Remove any refrences to draft claims.
 				//console.log('this draft: ', candidateClaim);
 				removeDraftRefrences('supporting');
@@ -90,7 +88,6 @@ module.exports = function(req, res) {
 			},
 			function(callback) {
 			//3: Save draft claim as published claim
-			console.log('3');
 				var newClaim = new Claim;
 				newClaim.description = candidateClaim.description;
 				newClaim.supporting = candidateClaim.supporting;
@@ -99,7 +96,9 @@ module.exports = function(req, res) {
 
 				newClaim.save(function(err,result){
 					if(err) {
-						res.status(500).send('Error in publishing draftClaim to DB.');
+						var errString = "Can't publish, DB error: " + err;
+						res.status(500);
+						callback(new Error(errString));
 					} else {
 						callback(null, result);
 					}
@@ -107,7 +106,6 @@ module.exports = function(req, res) {
 			},
 			function(newPublishedClaim,callback) {
 			//4.1: add newClaim to user's published list
-			console.log('4');
 				currentUser.meta.published.push(newPublishedClaim._id);
 				
 			//4.2: remove draftClaim from user's unPublished list
@@ -119,15 +117,16 @@ module.exports = function(req, res) {
 			}
 		],
 		function (err, currentUser) {//finished!
-			console.log('5');
 			if(err) {
-				console.error('Error finding claim from newClaim-route.js');
-				res.status(200).send(err);
-			} 
-			//return the updated user object
-			var userObjToSend = {};
-				userObjToSend.meta = currentUser.meta; //stops us from sending the password and db id with the user object. Bit messy. but hey.
-			res.status(200).send(userObjToSend);
+				console.error('Error in draftClaim-publish.js: ', err);
+				res.send('routes/draft_claim/draftClaim-publishjs <- ' + err);
+			} else {
+				//return the updated user object
+				var userObjToSend = {};
+					userObjToSend.meta = currentUser.meta; //stops us from sending the password and db id with the user object. Bit messy. but hey.
+				res.status(200).send(userObjToSend);
+			}
+			
 		}
 	);
 };
