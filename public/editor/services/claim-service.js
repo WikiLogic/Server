@@ -1,147 +1,76 @@
 'use strict';
 /*
- * These services handle the saving of claims, they're set as an editor service 
- * as it's a restricted activity (not on the client side - on the server side)
+ * This service sends requests for (published) claims to the server.
+ * The results are then applied to the search results global
+ * Might be an idea to combine them all and simply pass the type of list we're asking for.
+ * The server will probably be the one dealing with figuring out the actual list content.
  */
 
 angular.module('Editor')
-.factory('draftService',['$http','$rootScope','userService',
-	function($http,$rootScope,userService){
+.factory('claimService',['$http','$rootScope',
+	function($http, $rootScope){
 		var service = {
-			saveDraftToProfile: function(draftClaim){
-				/*
-				 * Asking the server to save the draftClaim to the current users profile
-				 * draftClaim is an object with a description
-				 */
-				 console.log('2. draftClaim to save: ', draftClaim);
-				return $http.post('/draft-claim/new', {'draftClaim':draftClaim}).success(function(data, status, headers, config) {
-					//console.log('Claim saved! ', data);
-					//$scope.user.meta.unPublished.push(data);
-
-				}).error(function(data, status, headers, config) {
-					console.log('save claims service: Could not save claim - womp womp :(');
-				});
-			},
-			updateDraft: function(draftClaim){
-				/*
-				 * Asking the server to update an existing draftClaim on the current users profile.
-				 * This should update everything in the draft
-				 */
-				return $http.post('/draft-claim/update', {'draftClaim':draftClaim}).success(function(data, status, headers, config) {
+			search: {
+				byOrder: function(sortBy){
+					//claimService.search.byOrder()
+					$rootScope.search.order = sortBy;
+					$rootScope.search.term = ' ';
 					
-					//The server has informed us the save was successfull, and returned a copy of the object it saved.
-					//Now we add that object to the user object (TODO future, check these two objects against each other?)
-					//run through the drafts on the user scope looking for a match
-					for (var i=0; i< $rootScope.user.meta.unPublished.length; i++){
-						if ($rootScope.user.meta.unPublished[i]._id == data._id){
-							//Found a match, set it's details as the curret draft on the global object
-							$rootScope.user.meta.unPublished[i] = data;
-							break;
-						}
-					}
-
-					//if current draft has the same ID as the saved claim - update that too.
-					if ($rootScope.currentDraft._id == data._id) {
-						$rootScope.currentDraft = data;
-						//TODO (future) lock out editing while save is happening? Unlock when server returns
-					}
-
-				}).error(function(data, status, headers, config) {
-					console.log('save claims service: Could not update claim - womp womp :(');
-				});
-			},
-			deleteDraft: function(draftClaim){
-				/*
-				 * Takes a full draft claim object to delete, I'll call it "Del Boy" for clarity :)
-				 * Del Boy is deleted from the user's draft claim list.
-				 * Del Boy also deleted from any other drafts in the user's draft list that refrence him.
-				 * This should account for all instances - no published claim should refrence Del Boy as he lives in the shadows (it is not public).
-				 */
-
-				var draftList = $rootScope.user.meta.unPublished;
-				var draftUses = "";
-
-				var checkForDraftUse = function(side, i) {
-					//iterate through the given side's arguments
-					for (var j = 0; j < draftList[i][side].length; j++) {
-						//iterate through the current argument's reasons
-						for (var m = 0; m < draftList[i][side][j].reasons.length; m++) {
-							//check if this reason is Del Boy
-							if (draftList[i][side][j].reasons[m].claimObjectRefrence == draftClaim._id) {
-								//add to the list of places it's been used
-								draftUses += '"' + draftList[i].description + '"  ';
-							}
-						}
-					}
-				}
-
-				//Now we run through each draft in the user's draft list
-				for(var i = 0; i < draftList.length; i++){
-
-					//If we find Del Boy himself - note the index
-					if (draftList[i]._id == draftClaim._id){
-						var killDex = i;
-					}
-
-					//For all the other draft claims, check for signs of Del Boy
-					checkForDraftUse('supporting', i);
-					checkForDraftUse('opposing', i);
-				}
-
-				/* 
-				 * Now we should have found every instance of Del Boy.
-				 * If he is being used in other drafts, however, it would probably be good to 
-				 * check with the user that they really want to go through with the deletion.
-				 */
-
-				if (draftUses.length > 1) {
-					if (confirm('"' + draftClaim.description + '" is used in: \n' + draftUses + '\nAre you sure you want to delete it?')) {
-						//Yep, they really want to kill him!
-						doTheDelete();
-					} else {
-						//I guess they didn't really want to kill Del Boy
-					}
-				} else {
-					//Del Boy's not of any use to anyone, so no need to double check :)
-					doTheDelete();
-				}
-
-				function doTheDelete(){
-					return $http.post('/draft-claim/delete', {'draftClaimID':draftClaim._id}).success(function(data, status, headers, config) {
-						console.log('Claim deleted! ', data);
-						tidyUpDelBoysRemains();
+					/* 
+					 * Server side, this will be the equivolent of WP_Query();
+					 * At the moment we're only asking for order by a few different params.
+					 * more will come in the future!  Will have to build up our own query system :)
+					 */
+					return $http.get('/list-claims?sortBy=' + sortBy).success(function(data, status, headers, config) {
+						service.claims = data;
 					}).error(function(data, status, headers, config) {
-						console.log('We asked the server to delete Del Boy, but it seems Del Boy has sabotaged the effort - womp womp :(');
+						console.error('getterOfClaims.getListOfClaimsBy:' + sortBy);
 					});
-				}
 
-				//Murder has been committed. Time to tidy up the crime scene.
-				function tidyUpDelBoysRemains(){
-					//remove him from the user's draft list
-					//remove any instance of him from wherever he was refrenced
-					//actually, all that is too much work - lets just get a refreshed user object from the server :)
-					userService.getCurrentUserLists();
-				}
-				
-			},
-			publishDraftClaim: function(draftClaim){
-				/*
-				 * This is passed a claim from the user's draft list.
-				 * 1 - ask the server to publish it 
-				 * 1.5: TODO disable any actions on the draft claim that's getting published. show a spinner?
-				 * 2 - get an updated user object from the server?
-				 */
-				return $http.post('/draft-claim/publish', {'draftClaim':draftClaim}).success(function(data, status, headers, config) {
-					console.log('Claim published! new user: ', data);
-					//$rootScope.user = data; //fail - kills the object population.
-					//get & set the new user - also update?
-					
-					userService.getCurrentUserLists();
+				},
+				byString: function(searchTerm){
+					//claimService.search.byString()
+					$rootScope.search.term = searchTerm;
+					$rootScope.search.order = 'relevance';
+					/*
+					 * Splitting out text search of claims - feels like this'll be a good
+					 * idea for the future.
+					 */
+					return $http.get('/search/claims?searchTerm=' + searchTerm).success(function(data, status, headers, config) {
+						$rootScope.search.results = data;
+						console.log('The published results are in! ', JSON.stringify(data));
+						/*
+						$rootScope.search.results = [
+							{description:"1"},
+							{description:"2"},
+							{description:"3"},
+							{description:"4"}
+						];
+						*/
+					}).error(function(data, status, headers, config) {
+						$rootScope.search.results = {}; //put the error in as a result and send report home?
+						console.error('Error in service: searchClaims.byString(' + searchTerm + ')');
+					});
+				},
+				byID: function(claimID){
+					//claimService.search.byID()
 
-					//watch the user object for an update, when that happens, update the refrences
-				}).error(function(data, status, headers, config) {
-					console.log('public/editor/services/draft-service.js <- ', JSON.stringify(data));
-				});
+					/*
+					 * This asks the server for a single claim, by ID 
+					 */
+					return $http.get('/search/claim?id=' + claimID).success(function(data, status, headers, config) {
+						service.claims = data;
+					}).error(function(data, status, headers, config) {
+						console.error('getterOfClaims.byID:' + claimID);
+					});
+
+				},
+			}
+			
+			clearResults: function(){
+				//claimService.clearResults()
+				$rootScope.search.term = '';
+				$rootScope.search.results = [];
 			}
 		};
 		return service;
