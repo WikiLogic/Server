@@ -39,19 +39,25 @@ module.exports = function(req, res) {
 					} else {
 						draftClaimFromDB = result;
 						draftClaimToReturn = JSON.stringify(result);
-						draftClaimToReturn = JSON.parse(draftClaimToReturn);
+						draftClaimToReturn = JSON.parse(draftClaimToReturn); //TOO what's going on here? explain this! Weird bug i guess
 						callback(null);
 					}
 				});
 			},
 			function(callback) {
-				//2. run through each side, each arg, each reason - build the reasonDataArray
+				//2. run through each side, each arg, each reason - build the reasonDataArray. This is a preperation step
+				// reasonArrayIterator iterates through all reasons to the arguments on a side,
+				// those reasons are then passed to reasonArrayBuilder which adds index numbers and other details to reasonDataArray
 				reasonArrayIterator(draftClaimFromDB, 'supporting');
 				reasonArrayIterator(draftClaimFromDB, 'opposing');
 				callback(null);
 			},
 			function(callback) {
 				//3. Now the reasonDataArray has been built, run a map async to get all the reasons
+				// each object in the reasonDataArray is passed to getAndAddReason
+				// getAndAddReason finds the relevant draft or claim in the db and passes that to replaceRefWithReason.
+				// replaceRefWithReason takes the claim / draft object and inserts it into the main draft that was asked for in the original request
+				// once all map functions have returned we call the callback and the request is returned.
 				async.map(reasonDataArray, getAndAddReason, function(err, result){
 					if (err) {
 						callback(err);
@@ -61,14 +67,26 @@ module.exports = function(req, res) {
 				});
 
 				function getAndAddReason(reasonData, mapCallback){
-
+					//TODO get claims from claim db, not draft db
 					// thisReason.reasonObj = {};
 					// thisReason.side = side;
 					// thisReason.argIndex = argIndex;
 					// thisReason.reasonIndex = reasonIndex;
+					// thisReason.draft = t/f
 					// thisReason.ID = draftObject[side][argIndex].reasons[reasonIndex].claimObjectRefrence;
-					DraftClaim.findOne({_id:reasonData.ID}).exec(function(err, result){
+					var Collection;
+					if (reasonData.draft) {
+						//it's a draft, look in the draft collection
+						Collection = DraftClaim;
+					} else {
+						//it's a published claim, look in the claims collection
+						Collection = Claim;
+					}
+
+					//it's a draft, look in the draft collection
+					Collection.findOne({_id:reasonData.ID}).exec(function(err, result){
 						if(err){
+							console.log('err: ', err);
 							mapCallback(err);
 						} else {
 							//we now have the reason from the database and it's location in the main draft, 
@@ -81,6 +99,7 @@ module.exports = function(req, res) {
 						}
 						mapCallback(null);
 					});
+					
 				}
 
 				/**
@@ -158,6 +177,7 @@ module.exports = function(req, res) {
 			thisReason.side = side;
 			thisReason.argIndex = argIndex;
 			thisReason.reasonIndex = reasonIndex;
+			thisReason.draft = draftObject[side][argIndex].reasons[reasonIndex].reasonMeta.draft;
 			thisReason.ID = draftObject[side][argIndex].reasons[reasonIndex].claimObjectRefrence;
 
 			reasonDataArray.push(thisReason);
