@@ -67,7 +67,6 @@ module.exports = function(req, res) {
 				});
 
 				function getAndAddReason(reasonData, mapCallback){
-					//TODO get claims from claim db, not draft db
 					// thisReason.reasonObj = {};
 					// thisReason.side = side;
 					// thisReason.argIndex = argIndex;

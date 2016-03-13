@@ -6,8 +6,8 @@
  * we're already there!
  */
 
-Editor.controller('argumentController', ['$scope', '$rootScope', 'claimService', 'searchClaims', 'searchDrafts', 'theEvaluator', 
-function($scope, $rootScope, claimService, searchClaims, searchDrafts, theEvaluator) {
+Editor.controller('argumentController', ['$scope', '$rootScope', 'draftService', 'searchClaims', 'searchDrafts', 'theEvaluator', 
+function($scope, $rootScope, draftService, searchClaims, searchDrafts, theEvaluator) {
 
  	var searchListener = 'off';
 
@@ -134,7 +134,7 @@ function($scope, $rootScope, claimService, searchClaims, searchDrafts, theEvalua
 		//check if it actually needs to be saved
 		if (reasonToSave.reasonMeta.state == 'New') {
 
-			claimService.saveDraftToProfile(reasonToSave.claimObjectRefrence).success(function(result){
+			draftService.saveDraftToProfile(reasonToSave.claimObjectRefrence).success(function(result){
 				//The server has now confirmed the new claim to have been saved and sent us the full claim object
 
 				//add it to the user object 

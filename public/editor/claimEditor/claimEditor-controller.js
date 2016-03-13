@@ -3,8 +3,8 @@
  * 
  */
 
-Editor.controller('claimEditorController', ['$scope', '$rootScope', '$routeParams', 'searchClaims', 'userService', 'claimService', 'theEvaluator',
-function($scope, $rootScope, $routeParams, searchClaims, userService, claimService, theEvaluator) {
+Editor.controller('claimEditorController', ['$scope', '$rootScope', '$routeParams', 'searchClaims', 'userService', 'draftService', 'theEvaluator',
+function($scope, $rootScope, $routeParams, searchClaims, userService, draftService, theEvaluator) {
 
 	$scope.claim = {};
 	
@@ -49,7 +49,7 @@ function($scope, $rootScope, $routeParams, searchClaims, userService, claimServi
 
 	$scope.saveEdit = function(draftClaim){
 		console.log('saving edits ', draftClaim);
-		claimService.updateDraft(draftClaim).success(function(result){
+		draftService.updateDraft(draftClaim).success(function(result){
 
 			console.log('finished saving, current draft: ', $rootScope.currentDraft);
 
@@ -60,7 +60,7 @@ function($scope, $rootScope, $routeParams, searchClaims, userService, claimServi
 
 	$scope.publishClaim = function(claim){
 		console.log('going to publish ', claim);
-		claimService.publishDraftClaim(claim).success(function(result){
+		draftService.publishDraftClaim(claim).success(function(result){
 			//on success, add result to published claims list & remove from drafts (this has already been done server side)
 			console.log('unshifting published array: ', result);
 			$rootScope.user.meta.published.unshift(result);
@@ -75,7 +75,7 @@ function($scope, $rootScope, $routeParams, searchClaims, userService, claimServi
 
 	$scope.deleteDraft = function(draftClaim){
 		//TODO: double check that the user want's to do this
-		claimService.deleteDraft(draftClaim).success(function(result){
+		draftService.deleteDraft(draftClaim).success(function(result){
 			console.log('Kill ID ' + draftClaim._id);
 			console.log('kill list: ' + $rootScope.user.meta.unPublished);
 			var unPupList = $rootScope.user.meta.unPublished;

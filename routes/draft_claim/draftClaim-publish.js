@@ -90,7 +90,7 @@ module.exports = function(req, res) {
 				newClaim.description = candidateClaim.description;
 				newClaim.supporting = candidateClaim.supporting;
 				newClaim.opposing = candidateClaim.opposing;
-				newClaim.meta = candidateClaim.meta;
+				newClaim.meta = candidateClaim.meta; //TODO: remode 'draft' meta - it's not required
 
 				//3.2 Save new claim object to db
 				newClaim.save(function(err,result){

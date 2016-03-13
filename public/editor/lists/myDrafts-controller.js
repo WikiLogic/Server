@@ -3,14 +3,14 @@
  * This is the controller for the list of the user's draft claims
  */
 
-Editor.controller('MyDraftsController', ['$scope', '$rootScope', '$location', 'claimService', function($scope, $rootScope, $location, claimService) {
+Editor.controller('MyDraftsController', ['$scope', '$rootScope', '$location', 'draftService', function($scope, $rootScope, $location, draftService) {
 
  	$scope.publishDraft = function(draftClaim){
- 	 	claimService.publishDraftClaim(draftClaim);
+ 	 	draftService.publishDraftClaim(draftClaim);
  	}
 
  	$scope.deleteDraft = function(draftClaim){
-		claimService.deleteDraft(draftClaim);
+		draftService.deleteDraft(draftClaim);
  	}
 
 }]);

@@ -3,8 +3,8 @@
  * 
  */
 
-Editor.controller('draftEditorController', ['$scope', '$rootScope', '$routeParams', 'userService', 'claimService', 'theEvaluator',
-function($scope, $rootScope, $routeParams, userService, claimService, theEvaluator) {
+Editor.controller('draftEditorController', ['$scope', '$rootScope', '$routeParams', 'userService', 'draftService', 'theEvaluator',
+function($scope, $rootScope, $routeParams, userService, draftService, theEvaluator) {
 
 	$scope.init = function(){
 		if ($rootScope.user) {
@@ -68,7 +68,7 @@ function($scope, $rootScope, $routeParams, userService, claimService, theEvaluat
 		//First check all the reasons, they all need to be up to date before we can save.
 		if ( checkReasonState('supporting') && checkReasonState('opposing') ) {
 
-			claimService.updateDraft(draftClaim).success(function(result){
+			draftService.updateDraft(draftClaim).success(function(result){
 			//console.log('finished saving, current draft: ', $rootScope.currentDraft);
 			}).error(function(){
 				console.log('saving edits failed somehow');
@@ -131,7 +131,7 @@ function($scope, $rootScope, $routeParams, userService, claimService, theEvaluat
 
 	$scope.publishClaim = function(claim){
 		console.log('going to publish ', claim);
-		claimService.publishDraftClaim(claim).success(function(result){
+		draftService.publishDraftClaim(claim).success(function(result){
 			//on success, add result to published claims list & remove from drafts (this has already been done server side)
 			console.log('unshifting published array: ', result);
 			$rootScope.user.meta.published.unshift(result);
@@ -145,7 +145,7 @@ function($scope, $rootScope, $routeParams, userService, claimService, theEvaluat
 	}
 
 	$scope.deleteDraft = function(draftClaim){
-		claimService.deleteDraft(draftClaim).success(function(result){
+		draftService.deleteDraft(draftClaim).success(function(result){
 			//Yeay! Deleted!
 		}).error(function(){
 			//TODO: Do something when delete fails

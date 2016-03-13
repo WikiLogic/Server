@@ -1,17 +1,17 @@
 'use strict';
-var claimService;
+var draftService;
 
 describe('Claim Service', function(){
 	beforeEach(module('Editor'));
 
-	beforeEach(inject(function(_claimService_){
-		claimService = _claimService_;
+	beforeEach(inject(function(_draftService_){
+		draftService = _draftService_;
 	}));
 
 	describe('saveDraftToProfile(draftClaim)', function(){
 		
 		it('should exist', function(){
-			expect(claimService.saveDraftToProfile).toBeDefined();
+			expect(draftService.saveDraftToProfile).toBeDefined();
 		});
 	});
 });

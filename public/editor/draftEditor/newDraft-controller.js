@@ -4,7 +4,7 @@
  * deals with defining new claims.
  */
 
-Editor.controller('NewDraftController', ['$scope', '$rootScope', '$location', 'claimService', function($scope, $rootScope, $location, claimService) {
+Editor.controller('NewDraftController', ['$scope', '$rootScope', '$location', 'draftService', function($scope, $rootScope, $location, draftService) {
 
  	/*
  	 * 
@@ -61,7 +61,7 @@ Editor.controller('NewDraftController', ['$scope', '$rootScope', '$location', 'c
  	  */
  	 $scope.saveToProfile = function(){
  	 	console.log('1. saving new draft: ', $scope.newDraft);
- 	 	claimService.saveDraftToProfile($scope.newDraft).success(function(result){
+ 	 	draftService.saveDraftToProfile($scope.newDraft).success(function(result){
 
 			$scope.user.meta.unPublished.push(result);
 			$rootScope.currentDraft = result;

@@ -5,7 +5,7 @@
  */
 
 angular.module('Editor')
-.factory('claimService',['$http','$rootScope','userService',
+.factory('draftService',['$http','$rootScope','userService',
 	function($http,$rootScope,userService){
 		var service = {
 			saveDraftToProfile: function(draftClaim){
@@ -140,7 +140,7 @@ angular.module('Editor')
 
 					//watch the user object for an update, when that happens, update the refrences
 				}).error(function(data, status, headers, config) {
-					console.log('public/editor/services/claim-service.js <- ', JSON.stringify(data));
+					console.log('public/editor/services/draft-service.js <- ', JSON.stringify(data));
 				});
 			}
 		};
