@@ -10,6 +10,20 @@ angular.module('Editor')
 .factory('claimService',['$http','$rootScope',
 	function($http, $rootScope){
 		var service = {
+			getClaim: function(claimID){
+				/*
+				 * Takes an ID, 
+				 * asks the server for the claim of that ID
+				 * sets 'focus' as that claim
+				 */
+				$http.post('/claim/get-claim', {'claim':claimID}).success(function(data, status, headers, config) {
+					//if the returned object is a qualifying claim object, set to inFocus
+					$rootScope.inFocus = data;
+				}).error(function(data, status, headers, config) {
+					console.log('Getting claim data failed - http request error in the service');
+				});
+
+			},
 			search: {
 				byOrder: function(sortBy){
 					//claimService.search.byOrder()

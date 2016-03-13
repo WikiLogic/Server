@@ -40,6 +40,11 @@ module.exports = function(router, passport) {
 		draftClaimRouter.post('/delete', require('./draft_claim/draftClaim-delete') );
 		draftClaimRouter.post('/publish', require('./draft_claim/draftClaim-publish'));
 
+	var claimRouter = express.Router({mergeParams: true});
+	router.use('/claim', hasAccess, claimRouter);
+		claimRouter.post('/update', require('./claim/claim-update') );
+		claimRouter.post('/get-claim', require('./claim/claim-get') );
+
 	
 	// Delete?- do we give the option to delete? May need a super user level.
 
