@@ -14,7 +14,7 @@ angular.module('Editor')
 				/*
 				 * Takes an ID, 
 				 * asks the server for the claim of that ID
-				 * sets 'focus' as that claim
+				 * sets 'inFocus' as that claim
 				 */
 				$http.post('/claim/get-claim', {'claim':claimID}).success(function(data, status, headers, config) {
 					//if the returned object is a qualifying claim object, set to inFocus
