@@ -2,24 +2,16 @@
 /**
  * 
  */
-
-Editor.controller('claimEditorController', ['$scope', '$rootScope', '$routeParams', 'searchClaims', 'userService', 'draftService', 'theEvaluator',
-function($scope, $rootScope, $routeParams, searchClaims, userService, draftService, theEvaluator) {
+console.log('registering claim controller');
+Editor.controller('claimEditorController', ['$scope', '$rootScope', '$routeParams', 'claimService', 'userService', 'draftService', 'theEvaluator',
+function($scope, $rootScope, $routeParams, claimService, userService, draftService, theEvaluator) {
 
 	$scope.claim = {};
 	
 	//Init - load the claim
 	$scope.init = function(){
 		//get the claim from the url id
-		searchClaims.byID($routeParams.id).success(function(result){
-
-			//$scope.claim = result[0];
-			console.log('got claim: ', result[0]);
-			$rootScope.currentDraft = result[0];
-
-		}).error(function(){
-			//handle the lack of getting a claim :(
-		});
+		claimService.getClaim($routeParams.id);
 	}
 
 

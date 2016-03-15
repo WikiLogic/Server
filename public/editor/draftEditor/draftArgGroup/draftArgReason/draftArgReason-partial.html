@@ -1,0 +1,23 @@
+<!-- THE INDIVIDUAL REASON PARTIAL
+These guys are the reasons that make up an argument
+You could say this is the soul of WL!
+-->
+
+<div class="reason reason--index-{{$index}}">
+	<div class="reason__breaking-claim">
+		<img src="/icons/black/bolt.svg"><!-- if false show this -->
+	</div>
+	<div class="reason__status">
+		<img ng-if="!reason.claimObjectRefrence.status" src="/icons/black/cross.svg" alt="false">
+		<img ng-if="reason.claimObjectRefrence.status" src="/icons/black/check.svg" alt="true">
+	</div>
+
+	<div class="autosizing-input reason__description js-attach-searchBox"><!-- add side, arg index and reason index  -->
+		<textarea name="" id="" class="autosizing-input__input" cols="30" rows="10" ng-change="changeReason($index, reason.claimObjectRefrence.description)" ng-model="reason.claimObjectRefrence.description"></textarea>
+		<div class="autosizing-input__sizer">{{reason.claimObjectRefrence.description}}</div>
+	</div>
+	<p>state: {{reason.reasonMeta.state}}</p>
+
+	<div class="btn btn--small" ng-click="deleteReason($index)">delete</div>
+	<div class="btn btn--small" ng-click="saveNewReason($index)">save</div>
+</div>

@@ -5,7 +5,7 @@
  * Might be an idea to combine them all and simply pass the type of list we're asking for.
  * The server will probably be the one dealing with figuring out the actual list content.
  */
-
+console.log('resistering claim service');
 angular.module('Editor')
 .factory('claimService',['$http','$rootScope',
 	function($http, $rootScope){
@@ -19,6 +19,7 @@ angular.module('Editor')
 				$http.post('/claim/get-claim', {'claim':claimID}).success(function(data, status, headers, config) {
 					//if the returned object is a qualifying claim object, set to inFocus
 					$rootScope.inFocus = data;
+					console.log('$rootScope.inFocus', $rootScope.inFocus);
 				}).error(function(data, status, headers, config) {
 					console.log('Getting claim data failed - http request error in the service');
 				});
@@ -79,7 +80,7 @@ angular.module('Editor')
 					});
 
 				},
-			}
+			},
 			
 			clearResults: function(){
 				//claimService.clearResults()

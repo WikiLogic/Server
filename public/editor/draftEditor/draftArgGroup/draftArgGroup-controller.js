@@ -6,7 +6,7 @@
  * we're already there!
  */
 
-Editor.controller('argumentController', ['$scope', '$rootScope', 'draftService', 'searchClaims', 'searchDrafts', 'theEvaluator', 
+Editor.controller('draftArgGroupController', ['$scope', '$rootScope', 'draftService', 'searchClaims', 'searchDrafts', 'theEvaluator', 
 function($scope, $rootScope, draftService, searchClaims, searchDrafts, theEvaluator) {
 
  	var searchListener = 'off';

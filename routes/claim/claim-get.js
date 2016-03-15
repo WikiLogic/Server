@@ -35,6 +35,7 @@ module.exports = function(req, res) {
 						//poop
 						callback(err);
 					} else {
+						console.log('1: got claim: ', result);
 						claimFromDB = result;
 						claimToReturn = JSON.stringify(result);
 						claimToReturn = JSON.parse(claimToReturn); //TOO what's going on here? explain this! Weird bug i guess
@@ -46,8 +47,10 @@ module.exports = function(req, res) {
 				//2. run through each side, each arg, each reason - build the reasonDataArray. This is a preperation step
 				// reasonArrayIterator iterates through all reasons to the arguments on a side,
 				// those reasons are then passed to reasonArrayBuilder which adds index numbers and other details to reasonDataArray
+				console.log('2: reasonDataArray', reasonDataArray);
 				reasonArrayIterator(claimFromDB, 'supporting');
 				reasonArrayIterator(claimFromDB, 'opposing');
+				console.log('3: reasonDataArray', reasonDataArray);
 				callback(null);
 			},
 			function(callback) {
@@ -77,6 +80,7 @@ module.exports = function(req, res) {
 							console.log('err: ', err);
 							mapCallback(err);
 						} else {
+							console.log("4: got reason: ", result);
 							//we now have the reason from the database and it's location in the main claim, 
 							//we should add it to the claim 
 							if (result !== null) {

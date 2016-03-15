@@ -1,16 +1,51 @@
-
+<!-- Big options -->
 <div class="horizontal-menu" ng-init="init()">
 	<div class="btn btn--light" ng-click="saveEdit(currentDraft)">Submit changes</div>
 	<div class="btn btn--light">Flag ?</div>
 	<div class="btn btn--light">Copy ?</div>
 </div>
 
+<!-- Main Claim -->
 <div class="draft-editor__description">
-	<img ng-if="currentDraft.status" src="/icons/black/check.svg" alt="true">
-	<img ng-if="!currentDraft.status" src="/icons/black/cross.svg" alt="false">
-	<h2>{{currentDraft.description}}</h2>
+	<img ng-if="inFocus.status" src="/icons/black/check.svg" alt="true">
+	<img ng-if="!inFocus.status" src="/icons/black/cross.svg" alt="false">
+	<h2>{{inFocus.description}}</h2>
 </div>
 
+<!-- Claim refrences -->
+<div class="argument-editor">
 
-<div ng-include src="'/editor/argumentEditor/argumentEditor-partial.html'"></div>
+	<div class="argument-editor__args-row">
+		<div class="argument-editor__args-row__supporting-column">
+			<div class="argument-editor__args-row__column-title">
+				<h3>For</h3>
+				<div class="btn btn--small" ng-click="addArgument('supporting')">Add argument</div>
+			</div>
+
+			<!-- for each for argument in inFocus.supporting -->
+			<div ng-repeat="arg in inFocus.supporting track by $index">
+				<div ng-controller="claimArgGroupController" ng-init="init('supporting', $index)" ng-include src="'/editor/claimEditor/claimArgGroup/claimArgGroup-partial.html'">
+					
+				</div>
+			</div>				
+		</div>
+
+		<div class="argument-editor__args-row__spacer-column"></div>
+		
+		<div class="argument-editor__args-row__opposing-column">
+			<div class="argument-editor__args-row__column-title">
+				<h3>Against</h3>
+				<div class="btn btn--small" ng-click="addArgument('opposing')">Add argument</div>
+			</div>
+			
+			<!-- for each for argument in inFocus.opposing -->
+			<div ng-repeat="arg in inFocus.opposing track by $index">
+				<div ng-controller="claimArgGroupController" ng-init="init('opposing', $index)" ng-include src="'/editor/claimEditor/claimArgGroup/claimArgGroup-partial.html'">
+					
+				</div>
+			</div>	
+
+		</div>
+	</div>
+</div>
 
