@@ -36,7 +36,7 @@ function($scope, $rootScope, draftService, searchClaims, searchDrafts, theEvalua
 			}
 			
 		}
-		$rootScope.currentDraft[$scope.side][argIndex].reasons.push(emptyReasonObj);
+		$rootScope.inFocus[$scope.side][argIndex].reasons.push(emptyReasonObj);
 	}
 
 	/**
@@ -46,6 +46,7 @@ function($scope, $rootScope, draftService, searchClaims, searchDrafts, theEvalua
 	 * reasonDecription is the string in question - the stuff the user is typing.
 	 */
 	$scope.changeReason = function(reasonIndex, reasonDecription) {
+		//TODO: check if this is a group that has just been added, only allow then. otherwise - nope!
 
 		//Get the active element that the user is typing into
 		var columClass = '.argument-editor__args-row__' + $scope.side + '-column',
@@ -79,7 +80,7 @@ function($scope, $rootScope, draftService, searchClaims, searchDrafts, theEvalua
 		//set this reason to active, change state.  -- TODO: figure out how to turn off active state
 
 		//set this reason to unsaved (until save as new draft is clicked or it's replaced with a search result)
-		$rootScope.currentDraft[$scope.side][$scope.argIndex].reasons[reasonIndex].reasonMeta.state = 'New'; //State defenitions in editor-app.js
+		$rootScope.inFocus[$scope.side][$scope.argIndex].reasons[reasonIndex].reasonMeta.state = 'New'; //State defenitions in editor-app.js
 
 		//now watch for a selection from the search (which is global)
 		//but first check if there is already a listener on search.selectedResult
@@ -96,17 +97,17 @@ function($scope, $rootScope, draftService, searchClaims, searchDrafts, theEvalua
 					if ($rootScope.search.selectedResult.claimType == 'Draft'){
 						isThisADraft = true;
 					}
-					$rootScope.currentDraft[$scope.side][$scope.argIndex].reasons[reasonIndex].claimObjectRefrence = $rootScope.search.selectedResult.claimObject;
-					$rootScope.currentDraft[$scope.side][$scope.argIndex].reasons[reasonIndex].reasonMeta.draft = isThisADraft;
+					$rootScope.inFocus[$scope.side][$scope.argIndex].reasons[reasonIndex].claimObjectRefrence = $rootScope.search.selectedResult.claimObject;
+					$rootScope.inFocus[$scope.side][$scope.argIndex].reasons[reasonIndex].reasonMeta.draft = isThisADraft;
 					//set the status as 'Claim' - to show that this is a link to an existing published claim, but it's not been saved yet... waht Just save it now!?
-					$rootScope.currentDraft[$scope.side][$scope.argIndex].reasons[reasonIndex].reasonMeta.state = newVal.claimType;
+					$rootScope.inFocus[$scope.side][$scope.argIndex].reasons[reasonIndex].reasonMeta.state = newVal.claimType;
 					searchListener(); //clear the watch?
 					//hide the search results
 					searchDrafts.clearResults();
 					searchClaims.clearResults();
 
 					//now evaluate!
-					$rootScope.currentDraft = theEvaluator.evaluateClaim($rootScope.currentDraft);
+					$rootScope.inFocus = theEvaluator.evaluateClaim($rootScope.inFocus);
 
 				}
 			});
@@ -114,7 +115,7 @@ function($scope, $rootScope, draftService, searchClaims, searchDrafts, theEvalua
 			console.log('listener is on!');
 		}
 
-		//$rootScope.claimSearch = $rootScope.currentDraft.description;
+		//$rootScope.claimSearch = $rootScope.inFocus.description;
 		//set which reason is in focus
 	}
 
@@ -127,7 +128,7 @@ function($scope, $rootScope, draftService, searchClaims, searchDrafts, theEvalua
 	$scope.saveNewReason = function(reasonIndex){
 
 		//Get the reason from within the global current draft object
-		var reasonToSave = $rootScope.currentDraft[$scope.side][$scope.argIndex].reasons[reasonIndex];
+		var reasonToSave = $rootScope.inFocus[$scope.side][$scope.argIndex].reasons[reasonIndex];
 
 		console.log('reasonToSave: ', reasonToSave); //how does this already have an _id ???
 
@@ -141,16 +142,16 @@ function($scope, $rootScope, draftService, searchClaims, searchDrafts, theEvalua
 				$scope.user.meta.unPublished.push(result);
 
 				//replace the reason object with the full returned object (with date, _id, ...)
-				$rootScope.currentDraft[$scope.side][$scope.argIndex].reasons[reasonIndex].claimObjectRefrence = result;
+				$rootScope.inFocus[$scope.side][$scope.argIndex].reasons[reasonIndex].claimObjectRefrence = result;
 				
 				//Update status
-				$rootScope.currentDraft[$scope.side][$scope.argIndex].reasons[reasonIndex].reasonMeta.state = 'Saved';
+				$rootScope.inFocus[$scope.side][$scope.argIndex].reasons[reasonIndex].reasonMeta.state = 'Saved';
 
 			}).error(function(){
 				//In the event that the new claim has not been saved - save it locally
 				//TODO: save claims locally when server fails
 				console.error('TODO: save claims locally when server fails');
-				$rootScope.currentDraft[$scope.side][$scope.argIndex].reasons[reasonIndex].reasonMeta.state = 'Error';
+				$rootScope.inFocus[$scope.side][$scope.argIndex].reasons[reasonIndex].reasonMeta.state = 'Error';
 			});
 		} else {
 			console.log('state: ', reasonToSave.reasonMeta.state);
@@ -159,11 +160,11 @@ function($scope, $rootScope, draftService, searchClaims, searchDrafts, theEvalua
 	}
 
 	/*
-	 * This simply removes the reason from the argument group in the $rootScope.currentDraft
+	 * This simply removes the reason from the argument group in the $rootScope.inFocus
 	 * We don't care about the details of the reason, if it's new, or an existing published claim, or whatever.
 	 */
 	$scope.deleteReason = function(reasonIndex){
-		$rootScope.currentDraft[$scope.side][$scope.argIndex].reasons.splice(reasonIndex, 1);
+		$rootScope.inFocus[$scope.side][$scope.argIndex].reasons.splice(reasonIndex, 1);
 	}
 
 	/*
@@ -171,7 +172,9 @@ function($scope, $rootScope, draftService, searchClaims, searchDrafts, theEvalua
 	 * Should probably be a two step thing.
 	 */
 	$scope.deleteArgument = function(argIndex){
-		$rootScope.currentDraft[$scope.side].splice(argIndex, 1);
+		//TODO: check if this group is in edit / has not yet been published.
+		console.log('todo: check if published');
+		$rootScope.inFocus[$scope.side].splice(argIndex, 1);
 	}
 
 

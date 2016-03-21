@@ -1,33 +1,7 @@
-
-//Vendor imports
-$icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/bootstrap/";
-// bower:scss
-//@import "bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
-// endbower
-//hi
-
-//Our variables
-@import "partials/utilities/settings";
-@import "partials/utilities/icons";
-
-//Our mixins
-@import "partials/utilities/mixins/*";
-
-//
-@import "partials/base/normalize";
-//@import "partials/base/fonts";
-@import "partials/base/typography";
-@import "partials/base/forms";
-
-//Major/Macro layout - the big stuff - site wire-frame
-@import "partials/layout/*";
-
-//Minor/Micro layouts - elements throughout the site in any location
-@import "partials/components/*";
-
-//
-@import "partials/pages/*";
-
-//
-//@media print { @import "partials/print"; }
-
+@import "variables";
+@import "0_mixins/*";
+@import "1_base/*";
+@import "2_atoms/*";
+@import "3_components/*";
+@import "4_locations/*";
+@import "5_pages/*";
