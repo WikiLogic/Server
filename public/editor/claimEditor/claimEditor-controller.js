@@ -14,27 +14,16 @@ function($scope, $rootScope, $routeParams, claimService, userService, draftServi
 		claimService.getClaim($routeParams.id);
 	}
 
-
 	$scope.saveAddition = function(claim){
-		console.log('TODO: save addition to claim ', claim);
-		/*
-		draftService.updateDraft(claim).success(function(result){
-
-			console.log('finished saving, current draft: ', $rootScope.currentDraft);
-
-		}).error(function(){
-			console.log('saving edits failed somehow');
-		});
-		*/
+		claimService.submitClaimUpdate(claim);
 	}
 
 	$scope.makeDraftCopy = function(claim){
-		console.log('TODO: make a draft copy of this claim to play with... ?', claim);
+		claimService.copyClaimToDrafts(claim);
 	}
 
 	$scope.flagClaim = function(claim){
-		console.log('TODO: flag this claim... ?');
-		//Also TODO - make a list of flags and handlers
+		claimService.submitClaimFlag(claim);
 	}
 
 	/*

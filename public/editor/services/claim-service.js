@@ -25,6 +25,41 @@ angular.module('Editor')
 				});
 
 			},
+			submitClaimUpdate: function(claim){
+				/*
+				 * Asking the server to update an existing draftClaim on the current users profile.
+				 * This should update everything in the draft
+				 */
+				return $http.post('/claim/update', {'claim':claim}).success(function(data, status, headers, config) {
+					
+					//The server has informed us the save was successfull, and returned a copy of the object it saved.
+					//Now we add that object to the user object (TODO future, check these two objects against each other?)
+					//run through the drafts on the user scope looking for a match
+					for (var i=0; i< $rootScope.user.meta.unPublished.length; i++){
+						if ($rootScope.user.meta.unPublished[i]._id == data._id){
+							//Found a match, set it's details as the curret draft on the global object
+							$rootScope.user.meta.unPublished[i] = data;
+							break;
+						}
+					}
+
+					//if current draft has the same ID as the saved claim - update that too.
+					if ($rootScope.currentDraft._id == data._id) {
+						$rootScope.currentDraft = data;
+						//TODO (future) lock out editing while save is happening? Unlock when server returns
+					}
+
+				}).error(function(data, status, headers, config) {
+					console.log('save claims service: Could not update claim - womp womp :(');
+				});
+			},
+			submitClaimFlag: function(claim, flag){
+				//TODO list of flags and how each is handled
+				console.log('TODO: claim flag: ', claim, flag);
+			},
+			copyClaimToDrafts: function(claim){
+				console.log('TODO: copy claim to drafts: ', claim);
+			},
 			search: {
 				byOrder: function(sortBy){
 					//claimService.search.byOrder()
@@ -81,7 +116,6 @@ angular.module('Editor')
 
 				},
 			},
-			
 			clearResults: function(){
 				//claimService.clearResults()
 				$rootScope.search.term = '';
