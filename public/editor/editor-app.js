@@ -44,7 +44,7 @@ Editor.config(function($routeProvider){
 			controller: "MyTrashController",
 			controllerAs: "MyTrashController"
 		})
-		.when("/explore:sort",	{
+		.when("/explore",	{
 			templateUrl: "/editor/explorer/explorerList-partial.html",
 			controller: "ExplorerController",
 			controllerAs: "ExplorerController"

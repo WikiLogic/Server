@@ -6,7 +6,8 @@
  */
  console.log('explorer controller here 1');	
 
-Editor.controller('ExplorerController', ['$scope', '$rootScope', 'userService', 'searchClaims', function($scope, $rootScope, userService, searchClaims) {
+Editor.controller('ExplorerController', ['$scope', '$rootScope', 'userService', 'searchClaims', 
+function($scope, $rootScope, userService, searchClaims) {
 	console.log('explorer controller here 2');
  	 /*
  	  * Once the client side is loaded - this fires off another request to get the list
