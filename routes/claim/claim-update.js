@@ -29,7 +29,7 @@ module.exports = function(req, res) {
 	//TODO: Test for problems with the claim that got sent: ignore deleted things, reject duplicate argumentGroups
 
 	//TODO get the DB version of this claim
-	console.log('claim to update: ', claimCandidate._id);
+	console.log('0: claim to update: ', claimCandidate);
 
 	async.waterfall([
 		function(next){
@@ -58,32 +58,42 @@ module.exports = function(req, res) {
 				var newForIndex = claimFromDB.supporting.length;
 				//add the groups
 				for (var n = 0; n < numOfNewForGroups; n++){
-					console.log('2.1.1 adding supporting argument');
+					console.log('2.1.1 adding supporting argument: ', claimCandidate.supporting[newForIndex]);
 					claimFromDB.supporting[newForIndex] = claimCandidate.supporting[newForIndex];
+					//TODO need to pull out the reason ID
 					newForIndex++;
 				}
 			}
 
 			//are there more opposing groups in the new claim?
 			if (claimCandidate.opposing.length > claimFromDB.opposing.length){
-				console.log('2.2 Adding opposing argument(s)');
+				
 				var numOfNewNorGroups = claimCandidate.opposing.length - claimFromDB.opposing.length;
 				var newNorIndex = claimFromDB.opposing.length;
+				console.log('2.2 Adding opposing argument(s), n:', numOfNewNorGroups);
 				//add the groups
-				for (var n = 0; n < numOfNewForGroups; n++){
+				for (var n = 0; n < numOfNewNorGroups; n++){
 					console.log('2.2.1 adding opposing argument');
-					claimFromDB.opposing[newForIndex] = claimCandidate.opposing[newForIndex];
+					claimFromDB.opposing[newNorIndex] = claimCandidate.opposing[newNorIndex];
 					newNorIndex++;
 				}
 			}
-
-			//Now the new groups have spaces
 
 			next(null);
 		},
 		function(next){
 			//3: save the updated db object
 			console.log('3.1 saving updated object to DB: ', claimFromDB);
+			Claim.findByIdAndUpdate(claimFromDB._id, { $set: {supporting:claimFromDB.supporting, opposing:claimFromDB.opposing} }, function(err, responseMeta){
+				if(err) {
+					console.log('ERROR: ', err);
+					res.status(500).send('Error in saving Claim update to database.');
+				} else {
+					console.log('3.2 responce: ', responseMeta);
+					next(null);
+				}
+			});
+			/*
 			Claim.update({_id:claimFromDB._id}, claimFromDB, { multi: true }, function(err, responseMeta){
 				if(err) {
 					console.log('ERROR: ', err);
@@ -92,6 +102,9 @@ module.exports = function(req, res) {
 					next(null);
 				}
 			});
+			*/
+
+
 		}
 	], function (err, result) {
 		// result now equals 'done'
