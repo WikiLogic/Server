@@ -15,39 +15,23 @@ module.exports = function(router, passport) {
 	});
 
 
-	/* PUBLIC ROUTES
+	/* PUBLIC ROUTES - 
+	Editor should only run in /editor. For now setting home to login.
+	Will make a public explorer app seporatly one day
 	=====================================================================
 	=====================================================================
 	=====================================================================*/
 
 	/* Serving the Explorer Angular app.*/
 	router.get('/', function (req, res) {
-		res.render('app-wrappers/explorer.hbs');
+		//res.render('app-wrappers/explorer.hbs');
+		res.render('layouts/login.hbs', {layout: false});
 	});
 
 
-	router.use('/list-claims', require('./listClaims-route') ); //Read 
-	router.use('/search', require('./searchClaims-route') );
-	router.use('/users', require('./users-route') ); //careful here - provides public data about users
-
-	router.use('/user', hasAccess, require('./user-route') ); //provides data about the user to the user
-
-	var draftClaimRouter = express.Router({mergeParams: true});
-	router.use('/draft-claim', hasAccess, draftClaimRouter);
-		draftClaimRouter.post('/new', require('./draft_claim/draftClaim-create') );
-		draftClaimRouter.post('/update', require('./draft_claim/draftClaim-update') );
-		draftClaimRouter.post('/get-draft', require('./draft_claim/draftClaim-get') );
-		draftClaimRouter.post('/delete', require('./draft_claim/draftClaim-delete') );
-		draftClaimRouter.post('/publish', require('./draft_claim/draftClaim-publish'));
-
-	var claimRouter = express.Router({mergeParams: true});
-	router.use('/claim', hasAccess, claimRouter);
-		claimRouter.post('/update', require('./claim/claim-update') );
-		claimRouter.post('/get-claim', require('./claim/claim-get') );
-
+	//When we do more public routes for the editor, they will go here
+	//router.use('/what-is-wl', require('./whatIsWL-route') );
 	
-	// Delete?- do we give the option to delete? May need a super user level.
-
 
 	/* USER AUTHENTICATION
 	=====================================================================
@@ -127,6 +111,21 @@ module.exports = function(router, passport) {
 	router.get('/editor', hasAccess, function(req, res) {
 		res.render('app-wrappers/editor.hbs');
 	});
+
+	router.use('/user', hasAccess, require('./user-route') ); //provides data about the user to the user
+
+	var draftClaimRouter = express.Router({mergeParams: true});
+	router.use('/draft-claim', hasAccess, draftClaimRouter);
+		draftClaimRouter.post('/new', require('./draft_claim/draftClaim-create') );
+		draftClaimRouter.post('/update', require('./draft_claim/draftClaim-update') );
+		draftClaimRouter.post('/get-draft', require('./draft_claim/draftClaim-get') );
+		draftClaimRouter.post('/delete', require('./draft_claim/draftClaim-delete') );
+		draftClaimRouter.post('/publish', require('./draft_claim/draftClaim-publish'));
+
+	var claimRouter = express.Router({mergeParams: true});
+	router.use('/claim', hasAccess, claimRouter);
+		claimRouter.post('/update', require('./claim/claim-update') );
+		claimRouter.post('/get-claim', require('./claim/claim-get') );
 
 
 }; //END module exports

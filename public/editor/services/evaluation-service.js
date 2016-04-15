@@ -3,7 +3,7 @@
  * This is the core of WL! 
  */
 
-angular.module('Editor')
+angular.module('Explorer')
 .factory('theEvaluator',['$http',
 	function($http){
 		var service = {

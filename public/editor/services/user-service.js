@@ -7,6 +7,20 @@ angular.module('Editor')
 .factory('userService',['$http', '$rootScope',
 	function($http, $rootScope){
 		var service = {
+			getMyData: function(){
+				
+				/* 
+				 * This gets data for an individual user
+				 * It should not return any sensitive data
+				 */
+				return $http.get('/user/myData').success(function(data, status, headers, config) {
+					console.log('Got user data in the service! ', data);
+					service.myData = data;
+				}).error(function(data, status, headers, config) {
+					console.log('Getting user data failed - http request error in the service');
+				});
+
+			},
 			getCurrentUserLists: function(){
 				console.log('user service has been called!');
 				

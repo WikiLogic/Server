@@ -19,6 +19,11 @@ Editor.controller('EditorNavController', ['$scope', '$rootScope', '$location', '
  	 * May have to define a style guide if we're going to pass in parameters to these options.
  	 */
 
+ 	 //TODO: this was brought over from explorer - candidate for removal
+ 	 $rootScope.list = {
+		order:'default'
+	}
+
 	$rootScope.editorList = {
 		listType:'default'
 	}
@@ -44,7 +49,6 @@ Editor.controller('EditorNavController', ['$scope', '$rootScope', '$location', '
 		} else if (section == 'edit'){
 			var newLocation = '/' + verb;
 			$location.path( newLocation );
-
 		}
 	}
 

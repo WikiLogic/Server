@@ -4,9 +4,10 @@
  * deals with the various types of lists that get laied out
  * the controller name is a duplicate of the Explorer as the list controlls are common but function differently in each app
  */
+ console.log('explorer controller here 1');	
 
-Editor.controller('MyPublishedController', ['$scope', '$rootScope', 'userService', 'searchClaims', function($scope, $rootScope, userService, searchClaims) {
-
+Editor.controller('ExplorerController', ['$scope', '$rootScope', 'userService', 'searchClaims', function($scope, $rootScope, userService, searchClaims) {
+	console.log('explorer controller here 2');
  	 /*
  	  * Once the client side is loaded - this fires off another request to get the list
  	  */
