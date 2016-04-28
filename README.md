@@ -131,3 +131,5 @@ this looks good for the graph: http://cytoscapeweb.cytoscape.org/tutorial
 and this: http://sigmajs.org/
 
 Sounds for fun? http://loudlinks.rocks/#examples
+
+Fancy tool tip positioning> https://popper.js.org/
