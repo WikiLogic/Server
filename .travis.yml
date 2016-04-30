@@ -1,5 +1,5 @@
 before_script:
   - npm install -g gulp
-script: gulp
+script: gulp test
 language: node_js
 node_js: "0.12"

@@ -1,6 +1,8 @@
 WikiLogic 0.3
 =========
 
+[![Build Status](https://travis-ci.org/WikiLogic/WikiLogic.svg?branch=master)](https://travis-ci.org/WikiLogic/WikiLogic)
+
 The third prototype, making everything more modular
 
 ---
