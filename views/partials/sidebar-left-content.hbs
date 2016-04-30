@@ -5,7 +5,10 @@
 	<a class="logo" href="/">
 		<img src="/images/logo.svg" alt="WikiLogic Logo" width="50">
 	</a> 
-	<input class="search" type="text">
+	<form>
+		<input class="search" type="text" ng-model="searchInput" ng-change="searchInputChange()">
+		<input type="submit" class="inputAddon__button" ng-click="searchInputSubmit()" value="Search" />
+	</form>
 
 	<div class="editor-nav">
 		<div class="nav-sidebar">

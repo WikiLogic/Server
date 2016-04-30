@@ -4,7 +4,9 @@
  * deals with the various types of lists that get laied out
  */
 
-Editor.controller('EditorNavController', ['$scope', '$rootScope', '$location', 'searchClaims', function($scope, $rootScope, $location, searchClaims) {
+Editor.controller('EditorNavController', 
+	['$scope', '$rootScope', '$location', 'searchClaims', 
+	function($scope, $rootScope, $location, searchClaims) {
 
  	/*
  	 * In this controller we need to deal with the changing between different types of lists
@@ -27,8 +29,20 @@ Editor.controller('EditorNavController', ['$scope', '$rootScope', '$location', '
 	$rootScope.editorList = {
 		listType:'default'
 	}
+
+	$scope.searchInput = "";
 	var previousNavBtnId;
 
+	$scope.searchInputChange = function(){
+		console.log('search input changed: ', $scope.searchInput);
+	}
+
+	$scope.searchInputSubmit = function(){
+		console.log('search input submitted: ', $scope.searchInput);
+		searchClaims.byString($scope.searchInput); //sets of the search service, results will be placed in $rootScope....results
+		//now move the main view to show search results
+		
+	}
 	/*
 	 * This gets called by the navigation, we do our thing, then we call the router
 	 */
