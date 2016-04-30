@@ -126,7 +126,11 @@ module.exports = function(router, passport) {
 	router.use('/claim', hasAccess, claimRouter);
 		claimRouter.post('/update', require('./claim/claim-update') );
 		claimRouter.post('/get-claim', require('./claim/claim-get') );
+		claimRouter.get('/search', require('./searchClaims-route') );
 
+	var searchRouter = express.Router({mergeParams: true});
+	router.use('/search', hasAccess, searchRouter);
+		searchRouter.get('/claims', require('./searchClaims-route') );
 
 }; //END module exports
 

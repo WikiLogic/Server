@@ -41,7 +41,7 @@ Editor.controller('EditorNavController',
 		console.log('search input submitted: ', $scope.searchInput);
 		searchClaims.byString($scope.searchInput); //sets of the search service, results will be placed in $rootScope....results
 		//now move the main view to show search results
-		
+		$location.path('/explore')
 	}
 	/*
 	 * This gets called by the navigation, we do our thing, then we call the router
