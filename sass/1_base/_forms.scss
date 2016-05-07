@@ -1,0 +1,46 @@
+/* ---------------------------------------- Forms */
+@mixin basicText(){
+	//@include transition(0.3s);
+	background-color:white !important;
+	padding: 5px 10px;
+	border: 1px solid #DDDDDD;
+	border-radius: 4px;
+	outline: none;
+	color: black;
+	&:focus {
+		box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+		border: 1px solid rgba(81, 203, 238, 1);
+	}
+}
+
+input, textarea {
+	@include basicText();
+	&.big {
+		padding:10px 15px;
+		font-size: 18px;
+	}
+	&.medium {
+
+	}
+	&.small {
+
+	}
+}
+
+
+.inputAddon {
+	display:flex;
+	&__field { 
+		flex:1; 
+		border-top-right-radius: 0;
+		border-bottom-right-radius: 0;
+	}
+	&__button {  
+		border-top-left-radius:0;
+		border-bottom-left-radius:0;
+		border-left:0;
+	} 
+}
+
+
+ 

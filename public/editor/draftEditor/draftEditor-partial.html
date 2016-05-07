@@ -16,5 +16,39 @@
 </div>
 
 
-<div ng-include src="'/editor/argumentEditor/argumentEditor-partial.html'"></div>
+<!-- Claim refrences -->
+<div class="argument-editor">
 
+	<div class="argument-editor__args-row">
+		<div class="argument-editor__args-row__supporting-column">
+			<div class="argument-editor__args-row__column-title">
+				<h3>For</h3>
+				<div class="btn btn--small" ng-click="addArgument('supporting')">Add argument</div>
+			</div>
+
+			<!-- for each for argument in currentDraft.supporting -->
+			<div ng-repeat="arg in currentDraft.supporting track by $index">
+				<div ng-controller="draftArgGroupController" ng-init="init('supporting', $index)" ng-include src="'/editor/draftEditor/draftArgGroup/draftArgGroup-partial.html'">
+					
+				</div>
+			</div>				
+		</div>
+
+		<div class="argument-editor__args-row__spacer-column"></div>
+		
+		<div class="argument-editor__args-row__opposing-column">
+			<div class="argument-editor__args-row__column-title">
+				<h3>Against</h3>
+				<div class="btn btn--small" ng-click="addArgument('opposing')">Add argument</div>
+			</div>
+			
+			<!-- for each for argument in currentDraft.opposing -->
+			<div ng-repeat="arg in currentDraft.opposing track by $index">
+				<div ng-controller="draftArgGroupController" ng-init="init('opposing', $index)" ng-include src="'/editor/draftEditor/draftArgGroup/draftArgGroup-partial.html'">
+					
+				</div>
+			</div>	
+
+		</div>
+	</div>
+</div>

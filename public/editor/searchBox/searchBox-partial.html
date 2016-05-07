@@ -1,0 +1,6 @@
+<div class="searchResults__result" ng-repeat="draft in search.draftResults">
+	<p><a ng-click="selectResult(draft, 'Draft')">Insert: </a>{{draft.description}}</p>
+</div>
+<div class="searchResults__result" ng-repeat="claim in search.results">
+	<p><a ng-click="selectResult(claim, 'Claim')">Insert: </a>{{claim.description}}</p>
+</div>

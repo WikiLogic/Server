@@ -5,6 +5,11 @@ The third prototype, making everything more modular
 
 ---
 
+Tests run on the master branch: https://travis-ci.org/WikiLogic/WikiLogic
+[![Build Status](https://travis-ci.org/WikiLogic/WikiLogic.svg?branch=master)](https://travis-ci.org/WikiLogic/WikiLogic)
+
+---
+
 Our [main site](http://www.wikilogicfoundation.org/) serves as the intro to the idea behind WL.
 
 We also have a [meta wiki](http://wikilogicfoundation.org/wiki/index.php?title=Main_Page) set up for more in depth theory, a good place to go if you are something of a Philosopher.
@@ -77,6 +82,21 @@ views/
 
 ---
 
+###The Global ($rootScope)
+
+```
+$rootscope = {
+	search: {
+		term: 'search term',
+		results: [an array of claim objects],
+		order: 'the order',
+		selectedResult: {a claim object}
+	}
+}
+```
+
+---
+
 ###DB command ref
 
 see user profile:
@@ -114,3 +134,9 @@ Shout out to [useiconic](https://useiconic.com/open/) for the icons!
 
 this looks good for the graph: http://cytoscapeweb.cytoscape.org/tutorial  
 and this: http://sigmajs.org/
+
+Sounds for fun? http://loudlinks.rocks/#examples
+
+Fancy tool tip positioning> https://popper.js.org/
+
+Make it look like office? http://dev.office.com/fabric

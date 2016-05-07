@@ -1,5 +1,5 @@
 'use strict';
-//The editor requires the explorer as it builds onto it.
+//The editor requires the explorer as it builds onto it. <- Edit, moving all required functionality from explorer into the editor
 var Editor = angular.module('Editor', ['Explorer', 'ngRoute']);
 	
 Editor.config(function($routeProvider){
@@ -44,31 +44,11 @@ Editor.config(function($routeProvider){
 			controller: "MyTrashController",
 			controllerAs: "MyTrashController"
 		})
-		.when("/explore/recent",	{
-			templateUrl: "/editor/lists/claimsList-partial.html",
-			controller: "MyPublishedController",
-			controllerAs: "MyPublishedController"
+		.when("/explore",	{
+			templateUrl: "/editor/explorer/explorerList-partial.html",
+			controller: "ExplorerController",
+			controllerAs: "ExplorerController"
 		})
-		.when("/explore/popular",	{
-			templateUrl: "/editor/lists/claimsList-partial.html",
-			controller: "MyPublishedController",
-			controllerAs: "MyPublishedController"
-		})
-		.when("/explore/influence",	{
-			templateUrl: "/editor/lists/claimsList-partial.html",
-			controller: "MyPublishedController",
-			controllerAs: "MyPublishedController"
-		})
-		.when("/explore/capricious",	{
-			templateUrl: "/editor/lists/claimsList-partial.html",
-			controller: "MyPublishedController",
-			controllerAs: "MyPublishedController"
-		})
-		.when("/explore/random",	{
-			templateUrl: "/editor/lists/claimsList-partial.html",
-			controller: "MyPublishedController",
-			controllerAs: "MyPublishedController"
-		});
 	//End routeProvider
 
 });
@@ -101,6 +81,7 @@ Editor.run(function($rootScope, userService, alertService){
 	};
 	userService.getCurrentUserLists();
 
+
 	/** The Search
 	 * term: the search term
 	 * results: an array of the results
@@ -109,8 +90,11 @@ Editor.run(function($rootScope, userService, alertService){
 	$rootScope.search = {
 		term: 'search term',
 		results: [],
-		order: 'the order'
+		draftResults: [],
+		order: 'the order',
+		selectedResult: {}
 	};
+
 
 	/** The Focus object
 	 * object: holds a full draft or claim object.  When editing a draft or full claim, this is where the local instance is stored.

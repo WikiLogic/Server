@@ -3,8 +3,8 @@
  * 
  */
 
-Editor.controller('claimFinderController', ['$scope', '$rootScope', '$routeParams', 'claimService', 'getterOfClaims', 
-	function($scope, $rootScope, $routeParams, claimService, getterOfClaims) {
+Editor.controller('claimFinderController', ['$scope', '$rootScope', '$routeParams', 'draftService', 'searchClaims', 
+	function($scope, $rootScope, $routeParams, draftService, searchClaims) {
 
 		//who called me!  Need to change the way I act - they're looking to use one of my results for something
 		//Maybe I should just add the result to a rootScope variable? Yeah - that sounds pretty good, super simple!
@@ -44,7 +44,7 @@ Editor.controller('claimFinderController', ['$scope', '$rootScope', '$routeParam
 		//search published claims - server
 		var searchPublished = function(searchTerm){
 			//call service
-			getterOfClaims.searchClaims(searchTerm).success(function(result){
+			searchClaims.byString(searchTerm).success(function(result){
 
 				$scope.claimResults.claims = result;
 				console.log('controller search results: ', result);

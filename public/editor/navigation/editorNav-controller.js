@@ -4,7 +4,9 @@
  * deals with the various types of lists that get laied out
  */
 
-Editor.controller('EditorNavController', ['$scope', '$rootScope', '$location', 'getterOfClaims', function($scope, $rootScope, $location, getterOfClaims) {
+Editor.controller('EditorNavController', 
+	['$scope', '$rootScope', '$location', 'searchClaims', 
+	function($scope, $rootScope, $location, searchClaims) {
 
  	/*
  	 * In this controller we need to deal with the changing between different types of lists
@@ -19,11 +21,28 @@ Editor.controller('EditorNavController', ['$scope', '$rootScope', '$location', '
  	 * May have to define a style guide if we're going to pass in parameters to these options.
  	 */
 
+ 	 //TODO: this was brought over from explorer - candidate for removal
+ 	 $rootScope.list = {
+		order:'default'
+	}
+
 	$rootScope.editorList = {
 		listType:'default'
 	}
+
+	$scope.searchInput = "";
 	var previousNavBtnId;
 
+	$scope.searchInputChange = function(){
+		console.log('search input changed: ', $scope.searchInput);
+	}
+
+	$scope.searchInputSubmit = function(){
+		console.log('search input submitted: ', $scope.searchInput);
+		searchClaims.byString($scope.searchInput); //sets of the search service, results will be placed in $rootScope....results
+		//now move the main view to show search results
+		$location.path('/explore')
+	}
 	/*
 	 * This gets called by the navigation, we do our thing, then we call the router
 	 */
@@ -44,13 +63,12 @@ Editor.controller('EditorNavController', ['$scope', '$rootScope', '$location', '
 		} else if (section == 'edit'){
 			var newLocation = '/' + verb;
 			$location.path( newLocation );
-
 		}
 	}
 
 	var setListOrderTo = function(sortBy){
 
-		getterOfClaims.getListOfClaimsBy(sortBy).success(function(result){
+		searchClaims.byOrder(sortBy).success(function(result){
 
 			var listArray = result;
 			
