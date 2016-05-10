@@ -16,32 +16,6 @@ html {
 }
 
 
-//Setting up the 3d swinging fun
-#editor-app {
-  perspective: 500px;
-  background: black;
-  .app-rap {
-    transition: transform .3s;
-    transform-origin: top left;
-  }
-  .claim-finder {
-    transition: all .3s;
-    transform-origin: right;
-    transform: rotateY(-90deg)scaleX(0);
-  }
-}
-/*
-#editor-app.finderActive {
-  .app-rap {
-    transform: rotateY(3.5deg) scalex(0.78) scaleY(0.85);
-    //height:115vh;
-  }
-  .claim-finder {
-    transform: rotateY(0deg)scaleX(1);
-  }
-}
-
-*/
 .form {
   .main {
     &__head {
