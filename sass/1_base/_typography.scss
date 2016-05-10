@@ -1,16 +1,80 @@
+$sans-serif: 'Roboto', sans-serif; 
+
 body {
-	font-family: 'Roboto', sans-serif; /* 100 / 300 / 700 */
-	font-weight: 300;
-	font-size: 14px;
+	font-family: $sans-serif; /* 100 / 300 / 700 */
+	font-weight: normal;
+	font-size: 1rem;
 }
 
-h3 {
-	margin:0 0 5px 0;
-	font-weight:300;
+
+/* ===== Headings ===== */
+/* ==================== */
+
+h1 { margin: 0 0 1em; font-family: $helvetica; font-size: rem(32); line-height: rem(32); font-weight: 200; } /* Page title */
+h2 { margin: 0 0 1em; font-family: $helvetica; font-size: rem(28); line-height: rem(30); font-weight: 200; } /* Page sub-titles */
+h3 { margin: 0 0 1em; font-family: $helvetica; font-size: rem(20); line-height: rem(22); font-weight: 300; } /* Sidebar title / lead-in / form area title */
+h4 { margin: 0 0 0.5em; font-family: $helvetica; font-size: rem(18); line-height: rem(24); font-weight: 400; }
+h5 { margin: 0 0 0.5em; font-family: $helvetica; font-size: rem(13); line-height: rem(15); font-weight: 600; text-transform: uppercase; }
+h6 { margin: 0 0 0.5em; font-family: $helvetica; font-size: rem(10); line-height: rem(12); font-weight: 600; text-transform: uppercase; }
+
+@include breakpoint($medium) {
+	h1 { font-size: rem(45); line-height: rem(42); }
+	h2 { font-size: rem(30); line-height: rem(32); }
+	h3 { font-size: rem(23); line-height: rem(23); }
+	h4 { font-size: rem(20); line-height: rem(24); }
+	h5 {  }
+	h6 {  }
 }
-p {
-	margin:0;
+@include breakpoint($large) {
+	h1 { font-size: rem(54); line-height: rem(50); }
+	h2 { font-size: rem(38); line-height: rem(38); }
+	h3 { font-size: rem(25); line-height: rem(30);}
+	h4 {  }
+	h5 {  }
+	h6 {  }
 }
+
+
+/* ===== Copy ===== */
+/* ================ */
+
+p.lead-in { font-size: rem(16); line-height: rem(22); }
+p         { font-size: rem(14); line-height: rem(22); margin: 0 0 1em; }
+p small   { font-size: rem(11); }
+
+@include breakpoint($small) {
+	p.lead-in { font-size: rem(17); line-height: rem(24); }
+	p         { font-size: rem(15); }
+	p small   { font-size: rem(12) }
+}
+
+@include breakpoint($medium) {
+	p.lead-in { font-size: rem(18); line-height: rem(26); }
+	p         { font-size: rem(16); line-height: rem(24); }
+	p small   { font-size: rem(13); }
+}
+
+/* text helpers */
+
+.text-color {
+	&--black.text-color--black { color: black; }
+}
+
+.align-right { text-align: right; }
+.align-center { text-align: center; }
+.align-left { text-align: left; }
+
+hr {
+	border-style: none;
+	border: 0;
+	border-top: 1px solid #ddd;
+	margin: 0 0 rem(20);
+
+	&.hr--zeroed {
+		margin:0;
+	}
+}
+
 a {
 	@include transition(0.1s);
 	color:#5f9aec;
@@ -23,67 +87,4 @@ a[ng-click]{
 }
 img {
 	display:block;
-}
-
-hr {
-	background:transparent;
-	border:0;
-	border-top:1px solid $sidebarBGlight;
-}
-
-
-
-
-/* -------------------------------------- Scrollbar */
-
-::-webkit-scrollbar {
-    width: 10px;
-}
- 
-/* Track */
-::-webkit-scrollbar-track {
-    -webkit-border-radius: 12px;
-    border-radius: 12px;
-}
- 
-/* Handle */
-::-webkit-scrollbar-thumb {
-    background: $middleGrey; 
-}
-::-webkit-scrollbar-thumb:window-inactive {
-	background: $middleGrey; 
-}
-
-
-/* -------------------------------------- Autosizing Inputs
- * Funky little trick here, the sizer containes a copy of the text
- * and is used to expand the parent.  The input fills the height!
- */
-.autosizing-input {
-	position:relative;
-	&__input {
-		position:absolute;
-		top:0;
-		bottom:0;
-		width:100% !important;
-		border:0;
-
-		padding:3px 4px 4px 4px;
-		height: auto !important;
-
-		white-space: normal;
-		resize: none;
-		overflow: hidden;
-		background-color: transparent !important;
-
-		&:focus {
-			box-shadow: none;
-			border:none;
-			background-color: white !important;
-		}
-	}
-	&__sizer {
-		padding:3px 4px 4px 4px;
-		color: transparent;
-	}
 }
