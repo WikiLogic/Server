@@ -54,15 +54,8 @@ p small   { font-size: rem(11); }
 	p small   { font-size: rem(13); }
 }
 
-/* text helpers */
 
-.text-color {
-	&--black.text-color--black { color: black; }
-}
-
-.align-right { text-align: right; }
-.align-center { text-align: center; }
-.align-left { text-align: left; }
+/* ===== other copy tags ===== */
 
 hr {
 	border-style: none;
@@ -74,6 +67,8 @@ hr {
 		margin:0;
 	}
 }
+
+
 
 a {
 	@include transition(0.1s);
@@ -88,3 +83,4 @@ a[ng-click]{
 img {
 	display:block;
 }
+
