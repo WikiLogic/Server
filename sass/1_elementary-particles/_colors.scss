@@ -1,0 +1,53 @@
+/* shades of grey */
+$gallery:		#eeeeee;
+$alto:			#dddddd;
+$silver:		#cccccc;
+$lightGrey:		#515a70;
+$middleGrey:	#393f4f;
+$darkGrey:		#191e28;
+$darkerGrey:	#15181E;
+
+/* colors */
+
+$Carnation:		#F25454; //Red
+$redBerry:		#8B0000; //dark Red
+$rosewood:		#640000; //darker Red
+$Apple:			#31D332; //Green
+
+$redLight:		#FFA084;
+$redDark:		#F33501;
+$greenLight:	#00DA9D;
+$greenDark:		#195E4B;
+
+// Color Assignments
+// ------------------------------------------------------------------------------
+
+$darkBG:			$darkGrey; //for the dark backgrounded main sections
+$lightText:			$gallery;
+
+$lightBG:			$gallery; //for the light backgrounded main sections
+$darkText:			$middleGrey;
+
+$alertRed:			$redBerry;
+$alertRedBorder:	$rosewood;
+
+$textDark:			$darkerGrey;
+
+$trueGreen:			$Apple;
+$falseRed:			$Carnation;
+
+$mainBGclr:			$gallery;
+$lightBorderClr:	$alto;
+$darkBorderClr:		$middleGrey;
+$offWhiteText:		$silver;
+
+$sidebarBGdark: 	$darkGrey;
+$sidebarBGlight: 	$middleGrey;
+$sidebarLinkClr:	$offWhiteText;
+
+$ButtonClr: 		white;
+$ButtonBkg: 		$middleGrey;
+$ButtonClr-Hover: 	white;
+$ButtonBkg-Hover: 	$lightGrey;
+
+$claimFinderHover:	$middleGrey;

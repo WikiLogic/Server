@@ -1,7 +1,10 @@
-@import "variables";
-@import "0_mixins/*";
-@import "1_base/*";
-@import "2_atoms/*";
-@import "3_components/*";
-@import "4_locations/*";
-@import "5_pages/*";
+/* Laws
+ *
+ */
+@import "0_laws/*"; 
+@import "1_elementary-particles/*";
+@import "2_composit-particles/*";
+@import "3_atoms/*";
+@import "4_molecules/*";
+@import "5_compounds/*";
+@import "6_pages/*";
