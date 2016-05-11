@@ -58,7 +58,7 @@ gulp.task('startNODE', function () {
  //watch: ['server.js', 'passport.js', 'routes/']
 gulp.task('watch', function() {
     console.log('GULP: watch');
-  //gulp.watch('sass/**/*.scss', ['sass']);
+    gulp.watch('sass/**/*.scss', ['sass']);
 });
 
 /*
@@ -74,4 +74,4 @@ gulp.task('test', function (done) {
 /*
  * This runs all the gulp tasks in order
  */
-gulp.task('default', ['sass','startDB','startNODE']);
+gulp.task('default', ['sass','startDB','startNODE','watch']);

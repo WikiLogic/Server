@@ -1,0 +1,19 @@
+.sidebar-layout {
+	$block: &;
+
+	display: flex;
+	flex-direction: row;
+	align-items: streatch;
+
+	&__side { width: 210px; }
+	&__main { flex-grow: 5; }
+
+	&--left {
+		#{$block}__side { order: 1; }
+		#{$block}__main { order: 2; }
+	}
+	&--right {
+		#{$block}__side { order: 2; }
+		#{$block}__main { order: 1; }
+	}
+}

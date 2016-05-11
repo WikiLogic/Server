@@ -6,6 +6,8 @@ $breakpoints: (
 	superwide: 1200px
 );
 
+$oldIE: false;
+
 @mixin breakpoint($point) {
 	 @if $oldIE {
 		@content;
