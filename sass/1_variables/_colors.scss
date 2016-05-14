@@ -45,3 +45,9 @@ $grey-1:		#111111;  //default grey-dark
 	&--grey-1 { background-color: $grey-1; @include light-typography(); }
 	&--black { background-color: black; @include light-typography(); }
 }
+
+.text-color {
+	&--red { color: $WL_Red !important; }
+	&--blue { color: $WL_Blue !important; }
+	&--green { color: $WL_Green !important; }
+}

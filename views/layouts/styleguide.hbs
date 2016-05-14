@@ -5,7 +5,7 @@
     <title>Wikilogic Styleguide</title>
     <link rel="stylesheet" type="text/css" href="/styles/main.css">
 </head>
-<body class="sidebar-layout screen-height">
+<body class="sidebar-layout sidebar-layout--full-height">
 	<div class="sidebar-layout__side box bg-color--grey-1">
 		TODO: styleguide menu in here
 		<p>Typography</p>
@@ -31,14 +31,10 @@
 		</ul>
 
 		<hr>
-
-		<button>Default button</button>
-
-		<hr>
 		
 		<h2>Form Elements</h2>
 		<div class="row">
-			<div class="col box border">
+			<div class="col box">
 				<p>Independant form elements, <br>
 				auto width / width determined by component</p>
 				<p><input type="text"></p>
@@ -52,7 +48,7 @@
 				<textarea name="" id="" cols="30" rows="10"></textarea>
 				<p><button>button</button></p>
 			</div>
-			<div class="col box border">
+			<div class="col box">
 				<p>Within a form width 100%</p>
 				<form action="">
 					<p><input type="text"></p>
@@ -68,40 +64,73 @@
 				</form>
 			</div>
 		</div>
+
+		<br>
+		<hr>
+		<h2>Colors</h2>
 		
+		<div class="row box text-center">
+			<div class="col">
+				<h4 class="text-color--blue">$WL_Blue</h4>
+				<button>blue</button>
+			</div>
+			<div class="col">
+				<h4 class="text-color--green">$WL_Green</h4>
+				<button class="button--green">green</button>
+			</div>
+			<div class="col">
+				<h4 class="text-color--red">$WL_Red</h4>
+				<button class="button--red">red</button>
+			</div>
+		</div>
+		<div class="row bg-color--black box text-center">
+			<div class="col">
+				<h4 class="text-color--blue">$WL_Blue</h4>
+				<button>blue</button>
+			</div>
+			<div class="col">
+				<h4 class="text-color--green">$WL_Green</h4>
+				<button class="button--green">green</button>
+			</div>
+			<div class="col">
+				<h4 class="text-color--red">$WL_Red</h4>
+				<button class="button--red">red</button>
+			</div>
+		</div>
+		<br>
 		<hr>
 
 		<h2>Layouts</h2>
 		<h4>Sidebars</h4>
-		<pre><code>.sidebar-layout</code></pre>
+		<pre class="box"><code>.sidebar-layout</code></pre>
 		<div class="sidebar-layout">
 			<div class="sidebar-layout__side box border">
-				<pre><code>.sidebar-layout__side</code></pre>
+				<pre class="box"><code>.sidebar-layout__side</code></pre>
 			</div>
 			<div class="sidebar-layout__main box border">
-				<pre><code>.sidebar-layout__main</code></pre>		
+				<pre class="box"><code>.sidebar-layout__main</code></pre>		
 			</div>
 		</div>
 		<br>
-		<pre><code>.sidebar-layout .sidebar-layout--right</code></pre>
+		<pre class="box"><code>.sidebar-layout .sidebar-layout--right</code></pre>
 		<div class="sidebar-layout sidebar-layout--right">
 			<div class="sidebar-layout__side box border">
-				<pre><code>.sidebar-layout__side</code></pre>
+				<pre class="box"><code>.sidebar-layout__side</code></pre>
 			</div>
 			<div class="sidebar-layout__main box border">
-				<pre><code>.sidebar-layout__main</code></pre>		
+				<pre class="box"><code>.sidebar-layout__main</code></pre>		
 			</div>
 		</div>
 		<br>	
 		<h4>Columns</h4>
 		<div class="row">
-			<div class="col box border"><pre><code>.col</code></pre></div>
-			<div class="col box border"><pre><code>.col</code></pre></div>
+			<div class="col box border"><pre class="box"><code>.col</code></pre></div>
+			<div class="col box border"><pre class="box"><code>.col</code></pre></div>
 		</div>
 		<div class="row">
-			<div class="col box border"><pre><code>.col</code></pre></div>
-			<div class="col box border"><pre><code>.col</code></pre></div>
-			<div class="col box border"><pre><code>.col</code></pre></div>
+			<div class="col box border"><pre class="box"><code>.col</code></pre></div>
+			<div class="col box border"><pre class="box"><code>.col</code></pre></div>
+			<div class="col box border"><pre class="box"><code>.col</code></pre></div>
 		</div>
 		<hr>
 	</div>
