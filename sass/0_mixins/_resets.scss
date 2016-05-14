@@ -3,3 +3,7 @@
 		margin-bottom: 0;
 	}
 };
+
+.zero-typography-margins {
+	@include zero-typography-margins();
+}

@@ -6,11 +6,11 @@
     <link rel="stylesheet" type="text/css" href="/styles/main.css">
 </head>
 <body class="sidebar-layout screen-height">
-	<div class="sidebar-layout__side">
+	<div class="sidebar-layout__side box bg-color--grey-1">
 		TODO: styleguide menu in here
 		<p>Typography</p>
 	</div>
-	<div class="sidebar-layout__main">
+	<div class="sidebar-layout__main box bg-color--white">
 		
 
 
@@ -32,25 +32,76 @@
 
 		<hr>
 
-		<h2>Sidebar layouts</h2>
-		<pre>sidebar-layout</pre>
-		<div class="sidebar-layout">
-			<div class="sidebar-layout__side" style="border:1px solid black;">
-				<pre>.sidebar-layout__side</pre>
+		<button>Default button</button>
+
+		<hr>
+		
+		<h2>Form Elements</h2>
+		<div class="row">
+			<div class="col box border">
+				<p>Independant form elements, <br>
+				auto width / width determined by component</p>
+				<p><input type="text"></p>
+				<p><input type="password"></p>
+				<p><select name="select">
+					<option value="One">One</option>
+					<option value="Two">Two</option>
+					<option value="Three">Three</option>
+					<option value="Four">Four</option>
+				</select></p>
+				<textarea name="" id="" cols="30" rows="10"></textarea>
+				<p><button>button</button></p>
 			</div>
-			<div class="sidebar-layout__main" style="border:1px solid black;">
-				<pre>.sidebar-layout__main</pre>
+			<div class="col box border">
+				<p>Within a form width 100%</p>
+				<form action="">
+					<p><input type="text"></p>
+					<p><input type="password"></p>
+					<p><select name="select">
+						<option value="One">One</option>
+						<option value="Two">Two</option>
+						<option value="Three">Three</option>
+						<option value="Four">Four</option>
+					</select></p>
+					<p><textarea name="" id="" cols="30" rows="10"></textarea></p>
+					<p><button>button</button></p>
+				</form>
+			</div>
+		</div>
+		
+		<hr>
+
+		<h2>Layouts</h2>
+		<h4>Sidebars</h4>
+		<pre><code>.sidebar-layout</code></pre>
+		<div class="sidebar-layout">
+			<div class="sidebar-layout__side box border">
+				<pre><code>.sidebar-layout__side</code></pre>
+			</div>
+			<div class="sidebar-layout__main box border">
+				<pre><code>.sidebar-layout__main</code></pre>		
 			</div>
 		</div>
 		<br>
-		<pre>.sidebar-layout--right</pre>
+		<pre><code>.sidebar-layout .sidebar-layout--right</code></pre>
 		<div class="sidebar-layout sidebar-layout--right">
-			<div class="sidebar-layout__side" style="border:1px solid black;">
-				<pre>.sidebar-layout__side</pre>
+			<div class="sidebar-layout__side box border">
+				<pre><code>.sidebar-layout__side</code></pre>
 			</div>
-			<div class="sidebar-layout__main" style="border:1px solid black;">
-				<pre>.sidebar-layout__main</pre>
+			<div class="sidebar-layout__main box border">
+				<pre><code>.sidebar-layout__main</code></pre>		
 			</div>
+		</div>
+		<br>	
+		<h4>Columns</h4>
+		<div class="row">
+			<div class="col box border"><pre><code>.col</code></pre></div>
+			<div class="col box border"><pre><code>.col</code></pre></div>
+		</div>
+		<div class="row">
+			<div class="col box border"><pre><code>.col</code></pre></div>
+			<div class="col box border"><pre><code>.col</code></pre></div>
+			<div class="col box border"><pre><code>.col</code></pre></div>
 		</div>
 		<hr>
 	</div>

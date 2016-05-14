@@ -4,7 +4,7 @@
 	display: flex;
 	align-items: center;
 	padding: 4px;
-	+.claim-preview { border-top: 1px solid $lightBorderClr; }
+	//+.claim-preview { border-top: 1px solid $lightBorderClr; }
 
 	&__status {
 		width: 16px;
@@ -17,10 +17,10 @@
 	&__description {
 		flex-grow:1;
 		a {	
-			color: $textDark;
+			//color: $textDark;
 			text-decoration: none;
 			&:hover {
-				color: $textDark;
+				//color: $textDark;
 				text-decoration: underline;
 			}
 		}
@@ -55,7 +55,7 @@
 				display: inline-block;
 				width:25px;
 				height:10px;
-				background:$trueGreen;
+				//background:$trueGreen;
 				border-radius:2px;
 				vertical-align: middle;
 			}
@@ -67,7 +67,7 @@
 				display: inline-block;
 				width:25px;
 				height:10px;
-				background:$falseRed;
+				//background:$falseRed;
 				border-radius:2px;
 				vertical-align: middle;
 			}

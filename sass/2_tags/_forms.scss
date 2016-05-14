@@ -1,32 +1,66 @@
-/* ---------------------------------------- Forms */
-@mixin basicText(){
-	//@include transition(0.3s);
-	background-color:white !important;
-	padding: 5px 10px;
+input, 
+textarea,
+select {
+	background-color:white;
+	padding: rem(5) rem(10);
 	border: 1px solid #DDDDDD;
-	border-radius: 4px;
 	outline: none;
 	color: black;
 	&:focus {
-		box-shadow: 0 0 5px rgba(81, 203, 238, 1);
-		border: 1px solid rgba(81, 203, 238, 1);
+		box-shadow: 0 0 5px $WL_Blue;
+		border: 1px solid $WL_Blue;
 	}
 }
 
-input, textarea {
-	@include basicText();
-	&.big {
-		padding:10px 15px;
-		font-size: 18px;
-	}
-	&.medium {
+button {
+	background-color: $WL_Blue;
+	padding: 9px 14px 8px;
+	color: white;
+	border: 0;
+	position: relative;
 
+	&:after {
+		position: absolute;
+		display: block;
+		content: " ";
+		top: 5px;
+		right: 5px;
+		left: 5px;
+		bottom: 0;
+		box-shadow: 0 0 5px $WL_Blue;
+		transition: box-shadow 0.2s ease;
 	}
-	&.small {
 
+	&:hover {
+		&:after {
+			box-shadow: 0 1px 8px $WL_Blue;
+		}
+	}
+
+	&:focus, &:active {
+		&:after {
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			z-index: 1;
+			box-shadow: 0 0 5px darken($WL_Blue, 100%);
+		}
+		
+		outline: 0;
+		border: 0;
 	}
 }
 
+form {
+	input,
+	textarea,
+	select,
+	button {
+		width: 100%;
+		margin-bottom: 0.5em;
+	}
+}
 
 .inputAddon {
 	display:flex;
@@ -41,6 +75,3 @@ input, textarea {
 		border-left:0;
 	} 
 }
-
-
- 

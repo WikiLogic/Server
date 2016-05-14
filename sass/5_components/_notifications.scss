@@ -7,9 +7,9 @@
 
 .notification {
 	display:inline-block;
-	background-color: $alertRed;
+	//background-color: $alertRed;
 	padding: 6px 10px 6px 12px;
-	border-right: 2px solid $alertRedBorder;
+	//border-right: 2px solid $alertRedBorder;
 	margin-bottom: 10px;
 	@include shadowLight();
 	p {

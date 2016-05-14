@@ -4,7 +4,9 @@ $serif: serif;
 body {
 	font-family: $sans-serif; /* 100 / 300 / 700 */
 	font-weight: normal;
-	font-size: 1rem;
+	font-size: rem(14);
+	@include breakpoint(small) { font-size: rem(15); }
+	@include breakpoint(medium) { font-size: rem(16); }
 }
 
 
@@ -92,7 +94,7 @@ code, pre {
 
 a {
 	@include transition(0.1s);
-	color:#5f9aec;
+	color:$WL_Blue;
 	&:hover {
 		color:white;
 	}

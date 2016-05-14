@@ -1,3 +1,8 @@
+/* colors */
+$WL_Red:		#F25454; 
+$WL_Green:		#31D332; 
+$WL_Blue: 		#5f9aec;
+
 /* shades of grey */
 $grey-e:		#eeeeee;
 $grey-d:		#dddddd;
@@ -9,84 +14,34 @@ $grey-5:		#555555;
 $grey-4:		#444444;
 $grey-3:		#333333;
 $grey-2:		#222222;
-$grey-1:		#111111;
-
-
-$gallery:		#eeeeee;
-$alto:			#dddddd;
-$silver:		#cccccc;
-$lightGrey:		#515a70;
-$middleGrey:	#393f4f;
-$darkGrey:		#191e28;
-$darkerGrey:	#15181E;
-
-/* colors */
-
-$Carnation:		#F25454; //Red
-$redBerry:		#8B0000; //dark Red
-$rosewood:		#640000; //darker Red
-$Apple:			#31D332; //Green
-
-$redLight:		#FFA084;
-$redDark:		#F33501;
-$greenLight:	#00DA9D;
-$greenDark:		#195E4B;
-
-// Color Assignments
-// ------------------------------------------------------------------------------
-
-$darkBG:			$darkGrey; //for the dark backgrounded main sections
-$lightText:			$gallery;
-
-$lightBG:			$gallery; //for the light backgrounded main sections
-$darkText:			$middleGrey;
-
-$alertRed:			$redBerry;
-$alertRedBorder:	$rosewood;
-
-$textDark:			$darkerGrey;
-
-$trueGreen:			$Apple;
-$falseRed:			$Carnation;
-
-$mainBGclr:			$gallery;
-$lightBorderClr:	$alto;
-$darkBorderClr:		$middleGrey;
-$offWhiteText:		$silver;
-
-$sidebarBGdark: 	$darkGrey;
-$sidebarBGlight: 	$middleGrey;
-$sidebarLinkClr:	$offWhiteText;
-
-$ButtonClr: 		white;
-$ButtonBkg: 		$middleGrey;
-$ButtonClr-Hover: 	white;
-$ButtonBkg-Hover: 	$lightGrey;
-
-$claimFinderHover:	$middleGrey;
+$grey-1:		#111111;  //default grey-dark
 
 
 // Color helpers
 
 @mixin light-typography(){
-	
+	color: white;
+	svg { fill: white; }
+	h1, h2, h3, h4, h5, h6, p { color: white; }
 }
 @mixin dark-typography(){
-
+	color: black; 
+	svg { fill: black; }
+	h1, h2, h3, h4, h5, h6, p { color: black; }
 }
 
 .bg-color {
-	&--white { background-color: white; }
-	&--grey-e { background-color: grey-e; }
-	&--grey-d { background-color: grey-d; }
-	&--grey-c { background-color: grey-c; }
-	&--grey-b { background-color: grey-b; }
-	&--grey-a { background-color: grey-a; }
-	&--grey-6 { background-color: grey-6; }
-	&--grey-5 { background-color: grey-5; }
-	&--grey-4 { background-color: grey-4; }
-	&--grey-3 { background-color: grey-3; }
-	&--grey-2 { background-color: grey-2; }
-	&--grey-1 { background-color: grey-1; }
-	&--black { background-color: black; }
+	&--white { background-color: white; @include dark-typography(); }
+	&--grey-e { background-color: $grey-e; @include dark-typography(); }
+	&--grey-d { background-color: $grey-d; @include dark-typography(); }
+	&--grey-c { background-color: $grey-c; @include dark-typography(); }
+	&--grey-b { background-color: $grey-b; @include dark-typography(); }
+	&--grey-a { background-color: $grey-a; @include dark-typography(); }
+	&--grey-6 { background-color: $grey-6; @include light-typography(); }
+	&--grey-5 { background-color: $grey-5; @include light-typography(); }
+	&--grey-4 { background-color: $grey-4; @include light-typography(); }
+	&--grey-3 { background-color: $grey-3; @include light-typography(); }
+	&--grey-2 { background-color: $grey-2; @include light-typography(); }
+	&--grey-1 { background-color: $grey-1; @include light-typography(); }
+	&--black { background-color: black; @include light-typography(); }
 }
