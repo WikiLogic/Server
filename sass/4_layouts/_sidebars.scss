@@ -1,0 +1,25 @@
+.sidebar-layout {
+	$block: &;
+
+	display: flex;
+	flex-direction: row;
+	align-items: streatch;
+
+	&__side { min-width: 160px; }
+	&__main { flex-grow: 5; }
+
+	&--left {
+		#{$block}__side { order: 1; }
+		#{$block}__main { order: 2; }
+	}
+	&--right {
+		#{$block}__side { order: 2; }
+		#{$block}__main { order: 1; }
+	}
+
+	&--full-height {
+		height: 100vh;
+		#{$block}__side { overflow-y: auto; }
+		#{$block}__main { overflow-y: auto; }
+	}
+}

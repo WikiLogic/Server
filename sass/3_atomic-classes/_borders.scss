@@ -1,0 +1,10 @@
+.border {
+	border-width: 1px;
+	border-color: $grey-3;
+	border-style: solid;
+
+	&--light { border-color: $grey-c; }	
+	&--red { border-color: $WL_Red; }
+	&--green { border-color: $WL_Green; }
+	&--dashed { border-style: dashed; }
+}

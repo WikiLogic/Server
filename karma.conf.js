@@ -1,4 +1,4 @@
-// Karma configuration
+ // Karma configuration
 // Generated on Thu Jan 14 2016 10:41:09 GMT-0500 (Eastern Standard Time)
 
 module.exports = function(config) {
@@ -20,7 +20,8 @@ module.exports = function(config) {
       'node_modules/angular-mocks/angular-mocks.js',
       'public/explorer/explorer-app.js',
       'public/editor/editor-app.js',
-      'public/**/*.js'
+      'public/explorer/**/*.js',
+      'public/editor/**/*.js'
     ],
 
 

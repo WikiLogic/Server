@@ -1,7 +1,48 @@
-@import "variables";
+/* MIXINS
+ * ... no css output here, just mixins & functions to be used elsewhere 
+ */
 @import "0_mixins/*";
-@import "1_base/*";
-@import "2_atoms/*";
-@import "3_components/*";
-@import "4_locations/*";
-@import "5_pages/*";
+
+
+/* VARIABLES
+ * ...
+ *
+ */
+@import "1_variables/*"; 
+
+
+/* TAGS
+ * The default styling for each html tag
+ * and some modifyers for them.
+ */
+@import "2_tags/*";
+
+
+/* ATOMIC CLASSES
+ * These guys will do the bulk of the work
+ * When you come to adding markup, you should be looking to style it using classes from here
+ * They should get you 90% of the look you're after
+ */
+@import "3_atomic-classes/*";
+
+
+/* LAYOUTS
+ * These create the structurs within which components will live
+ */
+@import "4_layouts/*";
+
+
+/* COMPONENTS
+ * for any tweaking a component needs, 
+ * the bulk of the work should be done already though, these are minimal, 
+ * think carefully before adding anything in here.
+ */
+@import "5_components/*";
+
+
+/* PAGES
+ * A final resort.
+ * There should be practically nothing in here. 
+ * If you're looking to add in here, think really carefully.
+ */
+@import "6_pages/*";

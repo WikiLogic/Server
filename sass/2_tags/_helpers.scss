@@ -8,33 +8,25 @@
 
 @mixin titleBar(){
 	display:flex;
-	border-bottom: 1px solid $darkBorderClr;
+	border-bottom: 1px solid $grey-3;
 	margin-top: 20px;
 	margin-bottom: 5px;
 }
 
 @mixin whiteBox(){
 	background:white;
-	border: 1px solid $lightBorderClr;
+	//border: 1px solid $lightBorderClr;
 	padding: 5px 10px;
 	border-radius: 5px;
 }
 
 @mixin dashedLineBox(){
-	border: 1px dashed $darkBorderClr;
+	border: 1px dashed $grey-3;
 	border-radius: 5px;
 	padding:10px;
 }
 
-@mixin darkSection(){
-	background: $darkBG;
-	color: $lightText;
-}
 
-@mixin lightSection(){
-	background: $lightBG;
-	color: $darkText;
-}
 @mixin shadowLight(){
 	-webkit-box-shadow: 2px 2px 10px 0px rgba(0,0,0,0.75);
 	-moz-box-shadow: 2px 2px 10px 0px rgba(0,0,0,0.75);

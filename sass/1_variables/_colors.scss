@@ -1,0 +1,55 @@
+/* colors */
+$WL_Red:		#F25454; 
+$WL_Green:		#31D332; 
+$WL_Blue: 		#5f9aec;
+
+/* shades of grey */
+$grey-e:		#eeeeee;
+$grey-d:		#dddddd;
+$grey-c:		#cccccc;
+$grey-b:		#bbbbbb;
+$grey-a:		#aaaaaa;
+$grey-6:		#666666;
+$grey-5:		#555555;
+$grey-4:		#444444;
+$grey-3:		#333333;
+$grey-2:		#222222;
+$grey-1:		#111111;  //default grey-dark
+
+
+// Color helpers
+
+@mixin light-typography(){
+	color: white;
+	svg { fill: white; }
+	h1, h2, h3, h4, h5, h6, p { color: white; }
+}
+@mixin dark-typography(){
+	color: black; 
+	svg { fill: black; }
+	h1, h2, h3, h4, h5, h6, p { color: black; }
+}
+
+.bg-color {
+	&--white { background-color: white; @include dark-typography(); }
+	&--grey-e { background-color: $grey-e; @include dark-typography(); }
+	&--grey-d { background-color: $grey-d; @include dark-typography(); }
+	&--grey-c { background-color: $grey-c; @include dark-typography(); }
+	&--grey-b { background-color: $grey-b; @include dark-typography(); }
+	&--grey-a { background-color: $grey-a; @include dark-typography(); }
+	&--grey-6 { background-color: $grey-6; @include light-typography(); }
+	&--grey-5 { background-color: $grey-5; @include light-typography(); }
+	&--grey-4 { background-color: $grey-4; @include light-typography(); }
+	&--grey-3 { background-color: $grey-3; @include light-typography(); }
+	&--grey-2 { background-color: $grey-2; @include light-typography(); }
+	&--grey-1 { background-color: $grey-1; @include light-typography(); }
+	&--black { background-color: black; @include light-typography(); }
+}
+
+.text-color {
+	&--white { color: white !important; }
+	&--red { color: $WL_Red !important; }
+	&--blue { color: $WL_Blue !important; }
+	&--green { color: $WL_Green !important; }
+	&--black { color: black !important; }
+}

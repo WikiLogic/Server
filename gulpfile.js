@@ -1,4 +1,5 @@
 var gulp = require('gulp'),
+    gutil = require('gulp-util'),
     sass = require('gulp-sass'),
     globbing = require('gulp-css-globbing'),
     autoprefixer = require('gulp-autoprefixer'),
@@ -58,20 +59,23 @@ gulp.task('startNODE', function () {
  //watch: ['server.js', 'passport.js', 'routes/']
 gulp.task('watch', function() {
     console.log('GULP: watch');
-  //gulp.watch('sass/**/*.scss', ['sass']);
+    gulp.watch('sass/**/*.scss', ['sass']);
 });
 
 /*
  * The Karma test
  */
-gulp.task('test', function (done) {
-    new karmaServer({
+gulp.task('test', function (exitCode) {
+    karmaServer.start({
         configFile: __dirname + '/karma.conf.js',
         singleRun: true
-    }, done).start();
+    }, function() {
+        gutil.log('exitCode: ', exitCode);
+        process.exit(exitCode);
+    });
 });
 
 /*
  * This runs all the gulp tasks in order
  */
-gulp.task('default', ['sass','startDB','startNODE']);
+gulp.task('default', ['sass','startDB','startNODE','watch']);

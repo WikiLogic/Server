@@ -1,4 +1,6 @@
 # Logs
+
+
 logs
 *.log
 
@@ -31,8 +33,27 @@ public/styles/main.css
 # Dependency directory
 # https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git
 node_modules
+<<<<<<< HEAD
+bower_modules
+.idea
+# OS X
+.DS_Store*
+Icon?
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+=======
+>>>>>>> master
 
 # =============================================================================== #
 #My convention folder for saving files via bit torrent sync, not meant for GitHub #
 # =============================================================================== #
+<<<<<<< HEAD
 /Assets*/
+Web.config
+=======
+/Assets*/
+>>>>>>> master

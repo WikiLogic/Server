@@ -1,0 +1,16 @@
+::-webkit-scrollbar {
+    width: 10px;
+}
+ 
+/* Track */
+::-webkit-scrollbar-track {
+    background-color: $grey-c;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: $grey-3; 
+}
+::-webkit-scrollbar-thumb:window-inactive {
+	background: $grey-3; 
+}

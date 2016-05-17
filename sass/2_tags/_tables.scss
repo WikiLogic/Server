@@ -1,0 +1,26 @@
+table {
+	font-size: rem(16);
+	margin-bottom: 1em;
+
+	tr {
+		border-bottom: 1px solid #eee;
+	}
+
+	thead {
+		background-color: #eee;
+
+		th {
+			padding: rem(20);
+			text-align: left;	
+		}
+	}
+
+	tbody {
+		tr {
+			td {
+				padding: rem(20);
+			}
+		}
+	}	
+
+}

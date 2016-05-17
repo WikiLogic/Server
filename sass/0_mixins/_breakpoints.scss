@@ -1,3 +1,13 @@
+$breakpoints: (
+	tiny: 320px,
+	small: 540px,
+	medium: 768px,
+	wide: 980px,
+	superwide: 1200px
+);
+
+$oldIE: false;
+
 @mixin breakpoint($point) {
 	 @if $oldIE {
 		@content;
