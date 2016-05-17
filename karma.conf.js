@@ -18,7 +18,6 @@ module.exports = function(config) {
       'public/js/angular.min.js',
       'public/js/angular-route.min.js',
       'node_modules/angular-mocks/angular-mocks.js',
-      'public/explorer/explorer-app.js',
       'public/editor/editor-app.js',
       'public/**/*.js'
     ],

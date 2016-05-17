@@ -47,7 +47,9 @@ $grey-1:		#111111;  //default grey-dark
 }
 
 .text-color {
+	&--white { color: white !important; }
 	&--red { color: $WL_Red !important; }
 	&--blue { color: $WL_Blue !important; }
 	&--green { color: $WL_Green !important; }
+	&--black { color: black !important; }
 }

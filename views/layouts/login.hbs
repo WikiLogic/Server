@@ -5,36 +5,34 @@
     <title>Wikilogic Login</title>
     <link rel="stylesheet" type="text/css" href="/styles/main.css">
 </head>
-<body class="form">
-	<div class="main__head">
-		<h1>Log in.</h1>
-		<p class="learn-more">What is WikiLogic?</p>
-	</div>
-
-	<div class="main__body single-form-page">	
+<body class="bg-color--grey-3">
+	<br>
+	<div class="card box bg-color--white">
+		<h1 class="text-center">Log in.</h1>
 			
-		<form class="single-form-page__form" action="/login" method="post">
-			<p>Sign in</p>
+		<form action="/login" method="post">
 			<input type="text" name="email" placeholder="email">
 			<input type="password" name="password" placeholder="password">
 			<input type="submit" value="Log In">
 		</form>
 		
-		<br />
-		<div class="single-form-page__form">
+		<br>
+
+		<div>
 			<a href="/auth/facebook">Facebook</a> 
 			<a href="/auth/twitter">Twitter</a> 
 			<a href="/auth/google">Google</a>
 		</div>
-		<br />
-		<a href="#">Forgotton your password?</a><br />
-		<a href="/">Back to WL</a>
+		
+		<br>
+
+		<a href="#">Forgotton your password?</a><br>
+		<a href="/">Back to WL</a><br>
 		<a href="/styleguide">Or checkout the WL styleguide!</a>
 		<br><br>
 		or
 		<br><br>
 		<a href="/signup" class="btn">Signup</a>
-
 	</div>
 </body>
 </html>
