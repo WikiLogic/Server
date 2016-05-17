@@ -1,4 +1,5 @@
 var gulp = require('gulp'),
+    gutil = require('gulp-util'),
     sass = require('gulp-sass'),
     globbing = require('gulp-css-globbing'),
     autoprefixer = require('gulp-autoprefixer'),
@@ -64,11 +65,14 @@ gulp.task('watch', function() {
 /*
  * The Karma test
  */
-gulp.task('test', function (done) {
-    new karmaServer({
+gulp.task('test', function (exitCode) {
+    karmaServer.start({
         configFile: __dirname + '/karma.conf.js',
         singleRun: true
-    }, done).start();
+    }, function() {
+        gutil.log('exitCode: ', exitCode);
+        process.exit(exitCode);
+    });
 });
 
 /*
