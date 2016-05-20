@@ -14,6 +14,7 @@ module.exports = function(config) {
 
 
     // list of files / patterns to load in the browser
+    // Test files are beside their 'real life' counterparts
     files: [
       'public/js/angular.min.js',
       'public/js/angular-route.min.js',

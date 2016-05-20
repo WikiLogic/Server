@@ -1,0 +1,15 @@
+/* <svg class="logo" */
+svg.logo {
+
+	fill: black;
+	path { fill: black; }
+
+	&--white {
+		path { fill: black; }
+	}
+
+	&--200 {
+		height: 200px;
+		width: 100%;
+	}
+}

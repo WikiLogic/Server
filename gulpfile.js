@@ -64,6 +64,7 @@ gulp.task('watch', function() {
 
 /*
  * The Karma test
+ * Test files are beside their 'real life' counterparts
  */
 gulp.task('test', function (exitCode) {
     karmaServer.start({

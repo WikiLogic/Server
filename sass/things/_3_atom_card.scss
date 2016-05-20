@@ -1,5 +1,5 @@
 .card {
-	max-width: 500px;
+	
 	margin: auto;
 	border-radius: 5px;
 	//border: 1px solid $grey-6;
@@ -15,5 +15,13 @@
 		bottom: 0;
 		box-shadow: 0 0 10px $grey-6;
 		z-index: -1;
+	}
+
+	&--360 {
+		max-width: 360px;
+	}
+
+	&--500 {
+		max-width: 500px;
 	}
 }
