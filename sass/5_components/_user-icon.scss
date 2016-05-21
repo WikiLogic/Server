@@ -1,0 +1,14 @@
+.user-icon {
+	border-radius: 50px;
+	border-style: solid;
+	overflow: hidden;
+	background: rgba(white, 0);
+	transition: background 0.2s ease;
+	img {
+		mix-blend-mode: luminosity;
+	}
+
+	&:hover {
+		background: rgba(white, 1);
+	}
+}

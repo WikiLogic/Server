@@ -1,3 +1,17 @@
-.search-input {
-	
+.search-form {
+	position: relative;
+	$block: &;
+
+	&__icon {
+		width: rem(50);
+		height: rem(50);
+		position: absolute;
+		top: rem(6);
+		left: 0;
+		svg { display: block; }
+	}
+	input#{$block}__input {
+		margin-left: rem(40);
+		width: calc(100% - #{rem(40)})
+	}
 }

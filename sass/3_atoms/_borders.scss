@@ -1,11 +1,11 @@
 .border {
 	border-width: 1px;
-	border-color: $grey-3;
-	border-style: solid;
+	border-color: rgba($WL_Blue, 0.5);
+	border-style: dashed;
 
-	&--light { border-color: $grey-c; }	
-	&--red { border-color: $WL_Red; }
-	&--green { border-color: $WL_Green; }
-	&--dashed { border-style: dashed; }
+	&--white { border-color: rgba(white, 0.5); }	
+	&--red { border-color: rgba($WL_Red, 0.5); }
+	&--green { border-color: rgba($WL_Green, 0.5); }
+	&--solid { border-style: solid; }
 }
 
