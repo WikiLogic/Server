@@ -5,8 +5,11 @@
 	flex-direction: row;
 	align-items: streatch;
 
-	&__side { min-width: 160px; max-width: 230px; }
-	&__main { flex-grow: 5; }
+	&__side { 
+		width: rem(230); 
+		min-width: rem(230);
+	}
+	&__main { flex-grow: 1; }
 
 	&--left {
 		#{$block}__side { order: 1; }

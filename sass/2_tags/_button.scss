@@ -3,7 +3,7 @@ input[type='submit']
 button
 */
 .button {
-	background-color: $WL_Blue;
+
 	padding: 9px 14px 8px;
 	color: white;
 	border: 0;
@@ -13,80 +13,67 @@ button
 	&--compact {
 		padding: 5px 14px 4px;
 	}
-
-	>* {
-		z-index: 3;
-	}
-
-	&:before {
-		position: absolute;
-		display: block;
-		content: " ";
-		top: 5px;
-		right: 5px;
-		left: 5px;
-		bottom: 0;
-		box-shadow: 0 0 5px $WL_Blue;
-		z-index: 3;
-	}
-
-	&:after {
-		position: absolute;
-		display: block;
-		content: " ";
-		top: 0;
-		bottom: 0;
-		left: 0;
-		right: 0;
-		background-color: inherit;
-		z-index: -1;
-	}
-
+	
+	transition: background-image 0.2s ease;
+	
+	background-image: radial-gradient(circle farthest-corner at 50% 20%, darken($WL_Blue, 5%), darken($WL_Blue, 3%));
+	
 	&:hover {
-		&:before {
-			box-shadow: 0 1px 8px $WL_Blue;
+		background-image: radial-gradient(circle farthest-corner at 50% 20%, lighten($WL_Blue, 1%), darken($WL_Blue, 3%));
+	}
+	&:active {
+		background-image: radial-gradient(circle farthest-corner at 50% 20%, darken($WL_Blue, 8%), darken($WL_Blue, 6%));
+		border: 0;
+		outline: 0;
+		box-shadow: inset 0px 0px 5px rgba(darken($WL_Blue, 20%), 0.5);
+	}
+
+	&--green {
+		background-image: radial-gradient(circle farthest-corner at 50% 20%, darken($WL_Green, 5%), darken($WL_Green, 3%));
+	
+		&:hover {
+			background-image: radial-gradient(circle farthest-corner at 50% 20%, lighten($WL_Green, 1%), darken($WL_Green, 3%));
+		}
+		&:active {
+			background-image: radial-gradient(circle farthest-corner at 50% 20%, darken($WL_Green, 8%), darken($WL_Green, 6%));
+			border: 0;
+			outline: 0;
+			box-shadow: inset 0px 0px 5px rgba(darken($WL_Green, 20%), 0.5);
 		}
 	}
 
-	&:active {
-		&:before {
-			top: 0;
-			left: 0;
-			right: 0;
-			bottom: 0;
-			box-shadow: inset 0 0 10px darken($WL_Blue, 5%);
+	&--red {
+		background-image: radial-gradient(circle farthest-corner at 50% 20%, darken($WL_Red, 5%), darken($WL_Red, 3%));
+	
+		&:hover {
+			background-image: radial-gradient(circle farthest-corner at 50% 20%, lighten($WL_Red, 1%), darken($WL_Red, 3%));
 		}
-		outline: 0;
-		border: 0;
+		&:active {
+			background-image: radial-gradient(circle farthest-corner at 50% 20%, darken($WL_Red, 8%), darken($WL_Red, 6%));
+			border: 0;
+			outline: 0;
+			box-shadow: inset 0px 0px 5px rgba(darken($WL_Red, 20%), 0.5);
+		}
 	}
 
 	&:focus {
 		outline: 0;
-		border: 0;
-	}
-
-	&--green {
-		background-color: $WL_Green;
-		&:before { box-shadow: 0 0 5px $WL_Green; }
-		&:hover { &:before { box-shadow: 0 1px 8px $WL_Green; } }
-		&:active { &:before { box-shadow: inset 0 0 10px darken($WL_Green, 5%); } }
-	}
-
-	&--red {
-		background-color: $WL_Red;
-		&:before { box-shadow: 0 0 5px $WL_Red; }
-		&:hover { &:before { box-shadow: 0 1px 8px $WL_Red; } }
-		&:active { &:before { box-shadow: inset 0 0 10px darken($WL_Red, 5%); } }
 	}
 
 	&--white {}
 
 	&--clear {
+		background-image: none;
 		background-color: rgba(white, 0);
-		&:before { display: none; }
-		&:after { display: none; }
+
 		&:hover {
+			background-image: none;
 			background-color: rgba($WL_Blue, 0.2);
+		}
+		&:active {
+			background-image: none;
+			background-color: rgba(darken($WL_Blue, 5%), 0.2);
+			box-shadow: inset 0px 0px 10px rgba(black, 0.3);
 		}
 	}
 
