@@ -6,12 +6,9 @@ br {
 }
 
 hr {
-	border-style: none;
 	border: 0;
-	border-top: 2px solid $WL_Blue;
-	margin: rem(16) 0 rem(32);
+	border-top: 1px dashed rgba($WL_Blue, 0.5);
+	margin: 0 0 rem(16) 0;
 
-	&.hr--zeroed {
-		margin:0;
-	}
+	&.hr--zeroed { margin:0; }
 }

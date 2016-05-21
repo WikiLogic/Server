@@ -1,6 +1,6 @@
 $blue-5: rgba(darken($WL_Blue, 5%), 0.5);
 $blue-8: rgba(darken($WL_Blue, 8%), 0.5);
-.pattern {
+.bg-pattern {
 	background-image: repeating-linear-gradient(
 		30deg,
 		rgba($blue-5, 0.5),

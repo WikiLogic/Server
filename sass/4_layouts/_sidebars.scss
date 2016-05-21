@@ -5,7 +5,7 @@
 	flex-direction: row;
 	align-items: streatch;
 
-	&__side { min-width: 160px; }
+	&__side { min-width: 160px; max-width: 230px; }
 	&__main { flex-grow: 5; }
 
 	&--left {

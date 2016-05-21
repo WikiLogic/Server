@@ -1,14 +1,23 @@
-button, .button, input[type='submit'] {
+/*
+input[type='submit'] 
+button
+*/
+.button {
 	background-color: $WL_Blue;
 	padding: 9px 14px 8px;
 	color: white;
 	border: 0;
 	position: relative;
 	display: block;
-	z-index:5;
+
+	&--compact {
+		padding: 5px 14px 4px;
+	}
+
 	>* {
 		z-index: 3;
 	}
+
 	&:before {
 		position: absolute;
 		display: block;
@@ -18,8 +27,9 @@ button, .button, input[type='submit'] {
 		left: 5px;
 		bottom: 0;
 		box-shadow: 0 0 5px $WL_Blue;
-		z-index: -2;
+		z-index: 3;
 	}
+
 	&:after {
 		position: absolute;
 		display: block;
@@ -54,9 +64,6 @@ button, .button, input[type='submit'] {
 		outline: 0;
 		border: 0;
 	}
-}
-
-.button {
 
 	&--green {
 		background-color: $WL_Green;
@@ -64,27 +71,25 @@ button, .button, input[type='submit'] {
 		&:hover { &:before { box-shadow: 0 1px 8px $WL_Green; } }
 		&:active { &:before { box-shadow: inset 0 0 10px darken($WL_Green, 5%); } }
 	}
+
 	&--red {
 		background-color: $WL_Red;
 		&:before { box-shadow: 0 0 5px $WL_Red; }
 		&:hover { &:before { box-shadow: 0 1px 8px $WL_Red; } }
 		&:active { &:before { box-shadow: inset 0 0 10px darken($WL_Red, 5%); } }
 	}
-	&--white {
-		color: black;
-		background-color: white;
-		padding: 0.3125rem 0.625rem;
-		border: 1px solid #DDDDDD;
-		&:before { box-shadow: 0 0 5px $grey-c; }
-		&:hover { &:before { box-shadow: 0 1px 8px $grey-c; } }
-		&:active { 
-			border: 1px solid #DDDDDD;
-			&:before { box-shadow: inset 0 0 10px darken($grey-c, 5%); } 
-		}
-		&:focus {
-			border: 1px solid #DDDDDD;
+
+	&--white {}
+
+	&--clear {
+		background-color: rgba(white, 0);
+		&:before { display: none; }
+		&:after { display: none; }
+		&:hover {
+			background-color: rgba($WL_Blue, 0.2);
 		}
 	}
+
 }
 
 
@@ -101,3 +106,6 @@ button, .button, input[type='submit'] {
 		border-left:0;
 	} 
 }
+
+input[type='submit'] { @extend .button; }
+button { @extend .button; }
