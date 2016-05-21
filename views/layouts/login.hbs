@@ -36,14 +36,17 @@
 			c-0.391-0.911-1.07-2.002-0.939-3.271c0.13-1.27,0.391-2.1,0.781-2.49l6.142,0.037c3.971-0.391,6.008-0.925,7.897-2.357
 			c1.888-1.432,3.447-3.674,4.613-6.543l73.853-175.127L350.832,147.904z"/>
 		</svg>
-			
-		<form action="/login" method="post">
-			<input type="text" name="email" placeholder="email">
-			<input type="password" name="password" placeholder="password">
-			<input type="submit" value="Log In">
-		</form>
 		
+		<form action="/login" method="post">
+			<input type="text" name="email" placeholder="email" class="full-width">
+			<br>
+			<input type="password" name="password" placeholder="password" class="full-width">
+			<br>
+			<input type="submit" value="Log In" class="full-width">
+		</form>
+
 		<br>
+		<hr>
 <!--
 		<div>
 			<a href="/auth/facebook">Facebook</a> 
@@ -51,11 +54,10 @@
 			<a href="/auth/google">Google</a>
 		</div>
 -->	
-		<div class="text-center">
-			<button class="button--white full-width">Forgotton your password?</button><br>
-			<button ng-href="/signup" class="button--white full-width">Signup</button>	
-			<br><br>
-		</div>
+
+		<button class="button--red full-width">Forgotton your password?</button>
+		<br>
+		<button ng-href="/signup" class="button--green full-width">Signup</button>	
 	</div>
 </body>
 </html>

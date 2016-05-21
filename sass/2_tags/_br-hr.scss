@@ -1,0 +1,17 @@
+br {
+	display: block;
+	padding:0;
+	padding-bottom: rem(16);
+	content: " ";
+}
+
+hr {
+	border-style: none;
+	border: 0;
+	border-top: 2px solid $WL_Blue;
+	margin: rem(16) 0 rem(32);
+
+	&.hr--zeroed {
+		margin:0;
+	}
+}

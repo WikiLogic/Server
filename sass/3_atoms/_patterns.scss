@@ -1,0 +1,12 @@
+$blue-5: rgba(darken($WL_Blue, 5%), 0.5);
+$blue-8: rgba(darken($WL_Blue, 8%), 0.5);
+.pattern {
+	background-image: repeating-linear-gradient(
+		30deg,
+		rgba($blue-5, 0.5),
+		rgba($blue-5, 0.5) 8px,
+		rgba($blue-8, 0.5) 9px,
+		rgba($blue-5, 0.5) 10px
+	),
+	radial-gradient(circle farthest-corner at 50% 20%, $blue-5, black);
+}

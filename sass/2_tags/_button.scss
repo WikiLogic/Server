@@ -1,18 +1,4 @@
-input, 
-textarea,
-select {
-	background-color:white;
-	padding: rem(5) rem(10);
-	border: 1px solid #DDDDDD;
-	outline: none;
-	color: black;
-	&:focus {
-		box-shadow: 0 0 5px $WL_Blue;
-		border: 1px solid $WL_Blue;
-	}
-}
-
-button, .button {
+button, .button, input[type='submit'] {
 	background-color: $WL_Blue;
 	padding: 9px 14px 8px;
 	color: white;
@@ -101,15 +87,6 @@ button, .button {
 	}
 }
 
-form {
-	input,
-	textarea,
-	select,
-	button {
-		width: 100%;
-		margin-bottom: 0.5em;
-	}
-}
 
 .inputAddon {
 	display:flex;
