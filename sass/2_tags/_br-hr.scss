@@ -1,8 +1,15 @@
-br {
+.br {
 	display: block;
 	padding:0;
 	padding-bottom: rem(16);
 	content: " ";
+	&--5 {
+		padding-bottom: rem(5);
+	}
+}
+
+br {
+	@extend .br;
 }
 
 hr {
