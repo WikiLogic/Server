@@ -1,0 +1,12 @@
+.header-layout {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+
+    &__head {
+        flex: none;
+    }
+    &__body {
+        flex-grow: 1;
+    }
+}

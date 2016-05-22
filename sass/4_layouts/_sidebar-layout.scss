@@ -6,8 +6,8 @@
 	align-items: streatch;
 
 	&__side { 
-		width: rem(230); 
-		min-width: rem(230);
+		width: rem(230);
+		flex: none;
 	}
 	&__main { flex-grow: 1; }
 

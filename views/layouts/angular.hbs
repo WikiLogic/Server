@@ -14,9 +14,9 @@
 </head>
 <body>
 
-<div ng-app="Editor" id="editor-app" class="bg-pattern screen-height">
+<div ng-app="Editor" id="editor-app" class="bg-pattern header-layout">
 
-    <div class="search-form bg-color--grey-1 box">
+    <div class="header-layout__head search-form bg-color--grey-1 box">
         <a class="search-form__icon" href="/">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" class="logo--white">
                 <path fill="white" d="M245.812,152.105c-0.522-0.521-0.798-1.595-0.83-3.223c-0.034-1.626,0.244-2.767,0.83-3.418
@@ -50,9 +50,9 @@
         <input class="search-form__input" type="text" ng-model="searchInput" placeholder="Search WL" ng-change="searchInputChange()">
     </div>
 
-    <div class="sidebar-layout">
+    <div class="header-layout__body sidebar-layout">
 
-        <div ng-controller="EditorNavController" class="sidebar-layout__side bg-color--grey-1">
+        <div ng-controller="EditorNavController" class="sidebar-layout__side y-scroll bg-color--grey-1">
 
             <hr>
 
@@ -79,7 +79,7 @@
             </div>
         </div>
 
-        <div class="sidebar-layout__main box" ng-view>
+        <div class="sidebar-layout__main y-scroll box" ng-view>
              
 
         </div>
