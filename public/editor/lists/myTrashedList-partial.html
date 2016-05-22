@@ -1,9 +1,10 @@
-<div class="card box"> <!-- ng-controller="MyTrashController" -->
-	<div class="deleted-list-title js-collapsable-title">
-		<img src="/icons/black/trash.svg" alt="pencil">
-		<h3>Deleted drafts</h3>
-	</div>
-	<div class="js-collapsable-content">
-		<div ng-repeat="claim in user.meta.trashed" ng-include src="'/editor/single/trashed-partial.html'"></div>
-	</div>
+<div class="card box bg-color--white"> <!-- ng-controller="MyTrashController" -->
+	<h3 class="deleted-list-title js-collapsable-title">
+		<img src="/icons/black/trash.svg" alt="pencil" class="icon">
+		<span>Deleted drafts</span>
+	</h3>
+
+	<p>TODO</p>
+	<div ng-repeat="claim in user.meta.trashed" ng-include src="'/editor/single/trashed-partial.html'"></div>
+
 </div>

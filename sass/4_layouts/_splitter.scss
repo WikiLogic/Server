@@ -17,6 +17,7 @@
 	&--full-width {
 		display: table;
 		width: 100%;
+		.splitter__right { text-align: right; }
 	}
 
 	&--v-centered {

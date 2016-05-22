@@ -9,6 +9,8 @@ button
 	border: 0;
 	position: relative;
 	display: block;
+	cursor: pointer;
+	user-select: none; 
 
 	&--compact {
 		padding: 5px 14px 4px;

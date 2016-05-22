@@ -1,3 +1,7 @@
 .box {
 	padding: rem(16);
+
+	&--5 {
+		padding: rem(5);
+	}
 }

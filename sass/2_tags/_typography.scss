@@ -67,6 +67,10 @@ code, pre {
 	color: #ccc;
 	font: 12px/1.2 Menlo, Consolas, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
 }
+
+span {
+	vertical-align: middle;
+}
 /* pop up alert / notification. black code thing: https://www.jetbrains.com
  overflow-y: auto;
   overflow-x: hidden;

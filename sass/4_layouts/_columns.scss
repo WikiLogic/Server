@@ -1,5 +1,5 @@
 $gutter: rem(16);
-.row {
+.flex-row {
 	display: flex;
 	flex-direction: row;
 	align-items: streatch;
@@ -9,8 +9,14 @@ $gutter: rem(16);
 	}
 }
 
+.row {
+	@include clearfix();
+	
+}
+
 .col {
-	margin: $gutter;
+	margin: ($gutter/2);
+	float: left;
 	&--10 { width: calc(10% - #{$gutter}); }
 	&--20 { width: calc(20% - #{$gutter}); }
 	&--25 { width: calc(25% - #{$gutter}); }
