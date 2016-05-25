@@ -1,8 +1,11 @@
 before_install:
-  - "export DISPLAY=:99.0"
-  - "sh -e /etc/init.d/xvfb start"
+- export DISPLAY=:99.0
+- sh -e /etc/init.d/xvfb start
 before_script:
-  - npm install -g gulp
+- npm install -g gulp
 script: gulp test
 language: node_js
-node_js: "0.12"
+node_js: '0.12'
+deploy:
+  api_key:
+    secure: ZvHby9/OTeYr8DuqSc4Otdv8FPN10S0B4l890Q8CtMJhKa7poyPXytN1TSn/7GTzswQbjJpUgzR5oVrapYuuXLP3f6t/6QV1fgWeQhSsy8+4qynbFnW6xjFWW1BoRkgRma9/uqs/4p0PMfSemWy5SfZUaYxfHw816d5fVFKttwTXq/TlQwoBRFjnVk3O23Xbgz4CY64AM8nLEfPWHybq6VfAraFRpB0MG8RzBzqkeoGY7+F3MFtS9zce6+qhaRvIlTaxUTY42aZVn7C5z0WA0SsevlYIn8a6s6YogUXxImhbE24bNRXr//02ClTb+/pyg4/sPwjwHtEqN9KhOJP6c9G7pMj0gA1ODilbaYv98Ud+UVUAgIQJewEuz35IvHXVby23BEO3KqwOu3JKsz8cmCtuIipySfDdJI3XrdOIbUXgJFU2vxx7DrN/tbe19jhRKUEPCSfhk9A9naXHvjrAmWpi4EuDW2RRU6aCeV1eE9huWxNCiHKAiTHW3e0wh4DqwvFEOPbgE+4WQKTxvE1qYg3cmhrLGZrGRS7fYcoy7pU43rFsy4hlohD9Vi0qqDFRAZqQ9jZWZBwkib1ctd6KrnNgcb9TFPW18gxKk7HxRn3U7TjFzFO0HeACyVIrdfAxJYqPKGlNE8CtCcZXFt6Cu2bfioBLMktif+iHI2MIKVA=
