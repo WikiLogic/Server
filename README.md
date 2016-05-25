@@ -140,3 +140,11 @@ Sounds for fun? http://loudlinks.rocks/#examples
 Fancy tool tip positioning> https://popper.js.org/
 
 Make it look like office? http://dev.office.com/fabric
+
+swap db to rethink - push!!!
+
+One day: http://googleresearch.blogspot.com/2016/05/announcing-syntaxnet-worlds-most.html?m=1 here's the repo: https://github.com/tensorflow/models/tree/master/syntaxnet
+
+some good ideas for styles: http://cognition.happycog.com/article/happy-cog-starter-files-2016-edition
+
+Haxl: https://github.com/facebook/Haxl could be useful
