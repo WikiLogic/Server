@@ -3,27 +3,30 @@ This guy is the wrapper that holds the reasons
 to make up an argument.  He is the many boxes 
 that appear inside the for or against columns.
  -->
+<br>
+<div class="argument argument--impact-false argument--index-{{$index}} border border--red"> 
 
-<div class="argument argument--impact-false argument--index-{{$index}}"> 
-
-	<!-- Any useful metadata to do with this 
-	particualr argument will go here!-->
-	<div class="argument__head">
-		<div class="argument__head__status">
-			<img ng-if="arg.status" src="/icons/black/check.svg" alt="true">
-			<img ng-if="!arg.status" src="/icons/black/cross.svg" alt="false">
+	<!-- Argument group head-->
+	<div class="splitter splitter--full-width box box--5">
+		<div class="splitter__left">
+			<p>
+				<img ng-if="arg.status" src="/icons/black/check.svg" alt="true" class="icon">
+				<img ng-if="!arg.status" src="/icons/black/cross.svg" alt="false" class="icon">
+				<span>Index: {{$index}}</span>
+			</p>	
+		
 		</div>
-		<div class="argument__head__author">
-			Index: {{$index}}
+		<div class="splitter__right">
+			<!-- am i for or against? -->
+			<div class="button button--compact display-inline-block" ng-click="addReason($index)">Add reason</div>
+			<div class="button button--compact display-inline-block" ng-click="deleteArgument($index)">Delete Group</div>
 		</div>
-		<!-- am i for or against? -->
-		<div class="btn btn--small" ng-click="addReason($index)">Add reason</div>
-		<div class="btn btn--small" ng-click="deleteArgument($index)">Delete</div>
 	</div>
+
 
 	<!-- This is the important part, for every 
 	reason in the argument, we call in the 
 	individual reason partial-->
-	<div ng-repeat="reason in arg.reasons track by $index" ng-include src="'/editor/claimEditor/claimArgGroup/claimArgReason/claimArgReason-partial.html'"></div>
+	<div class="box" ng-repeat="reason in arg.reasons track by $index" ng-include src="'/editor/claimEditor/claimArgGroup/claimArgReason/claimArgReason-partial.html'"></div>
 
 </div>
