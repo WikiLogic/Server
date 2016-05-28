@@ -542,7 +542,8 @@ button
     padding: 5px 14px 4px; }
   .button:hover, input[type='submit']:hover, button:hover {
     background-image: -webkit-radial-gradient(50% 20%, circle farthest-corner, #649ded, #5191ea);
-    background-image: radial-gradient(circle farthest-corner at 50% 20%, #649ded, #5191ea); }
+    background-image: radial-gradient(circle farthest-corner at 50% 20%, #649ded, #5191ea);
+    color: white; }
   .button:active, input[type='submit']:active, button:active {
     background-image: -webkit-radial-gradient(50% 20%, circle farthest-corner, #3b83e8, #4489e9);
     background-image: radial-gradient(circle farthest-corner at 50% 20%, #3b83e8, #4489e9);
@@ -606,7 +607,7 @@ button
 html {
   box-sizing: border-box;
   height: 100vh;
-  width: 100vw;
+  width: 100%;
   margin: 0;
   border: 0;
   padding: 0; }
@@ -617,7 +618,10 @@ html {
 body {
   margin: 0;
   border: 0;
-  padding: 0; }
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  max-width: 100vw; }
 
 input[type='text'], input[type='password'], input[type='search'] {
   background-color: white;
@@ -830,6 +834,9 @@ p small {
 .text-align-right {
   text-align: right; }
 
+.text-align-center {
+  text-align: center; }
+
 .no-break {
   white-space: nowrap; }
 
@@ -954,8 +961,6 @@ They should get you 90% of the look you're after
     bottom: 0;
     box-shadow: 0 0 10px #666666;
     z-index: -1; }
-  .card--360 {
-    max-width: 360px; }
   .card--500 {
     max-width: 500px; }
 
