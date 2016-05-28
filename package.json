@@ -2,20 +2,6 @@
   "name": "Wikilogic",
   "version": "0.3.0",
   "private": true,
-  "devDependencies": {
-    "gulp-css-globbing": "^0.1.8",
-    "gulp-autoprefixer": "^2.3.1",
-    "gulp-sass": "^2.0.1",
-    "gulp-watch": "^4.2.4",
-    "jasmine-core": "^2.4.1",
-    "karma": "^0.13.19",
-    "karma-chrome-launcher": "^0.2.2",
-    "karma-firefox-launcher": "^0.1.7",
-    "karma-ie-launcher": "^0.2.0",
-    "karma-jasmine": "^0.3.6",
-    "karma-phantomjs-launcher": "^1.0.0",
-    "karma-safari-launcher": "^0.1.1",
-  },
   "dependencies": {
     "angular-mocks": "^1.4.8",
     "angular-ui-router": "^0.2.15",
@@ -39,5 +25,19 @@
     "passport-local": "^1.0.0",
     "passport-twitter": "^1.0.3",
     "phantomjs-prebuilt": "^2.1.7"
-  }
+  },
+  "devDependencies": {
+    "gulp-css-globbing": "^0.1.8",
+    "gulp-autoprefixer": "^2.3.1",
+    "gulp-sass": "^2.0.1",
+    "gulp-watch": "^4.2.4",
+    "jasmine-core": "^2.4.1",
+    "karma": "^0.13.19",
+    "karma-chrome-launcher": "^0.2.2",
+    "karma-firefox-launcher": "^0.1.7",
+    "karma-ie-launcher": "^0.2.0",
+    "karma-jasmine": "^0.3.6",
+    "karma-phantomjs-launcher": "^1.0.0",
+    "karma-safari-launcher": "^0.1.1"
+  },
 }
