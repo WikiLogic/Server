@@ -44,6 +44,11 @@ Editor.config(function($routeProvider){
 			controller: "MyTrashController",
 			controllerAs: "MyTrashController"
 		})
+		.when("/my-profile",	{
+			templateUrl: "/editor/userProfile/myProfile.html",
+			controller: "MyProfileController",
+			controllerAs: "MyProfileController"
+		})
 		.when("/explore",	{
 			templateUrl: "/editor/explorer/explorerList-partial.html",
 			controller: "ExplorerController",
