@@ -77,6 +77,7 @@ gulp.task('test', function (exitCode) {
 });
 
 /*
- * This runs all the gulp tasks in order
+ * The tasks to run
  */
-gulp.task('default', ['sass','startDB','startNODE','watch']);
+gulp.task('dev', ['sass','startDB','startNODE','watch']);
+gulp.task('default', ['startDB','startNODE']);

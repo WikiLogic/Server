@@ -51,7 +51,8 @@ console.timeEnd('       3: Setting up authentication');
 /* DATABASE!!
 ==========================================*/
 console.time('      2: Connecting to DB');
-mongoose.connect('mongodb://localhost/wl-03-dev');
+//mongoose.connect('mongodb://localhost/wl-03-dev');
+mongoose.connect('mongodb://wikilogicheroku:wikilogicheroku@ds049150.mlab.com:49150/wikilogic-demo');
 console.timeEnd('      2: Connecting to DB');
 
 /* ROUTING - all the rout defenitions in routes.js
