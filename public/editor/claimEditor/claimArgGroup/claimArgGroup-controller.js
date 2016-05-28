@@ -49,7 +49,7 @@ function($scope, $rootScope, draftService, searchClaims, searchDrafts, theEvalua
 		//TODO: check if this is a group that has just been added, only allow then. otherwise - nope!
 
 		//Get the active element that the user is typing into
-		var columClass = '.argument-editor__args-row__' + $scope.side + '-column',
+		var columClass = '.js-' + $scope.side + '-column',
 			argumentClass = '.argument--index-' + $scope.argIndex,
 			reasonClass = '.reason--index-' + reasonIndex,
 			reasonElement = $(columClass).find(argumentClass).find(reasonClass).find('.js-attach-searchBox'),

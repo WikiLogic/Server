@@ -46,9 +46,10 @@ function($scope, $rootScope, draftService, searchClaims, searchDrafts, theEvalua
 	 * reasonDecription is the string in question - the stuff the user is typing.
 	 */
 	$scope.changeReason = function(reasonIndex, reasonDecription) {
+		console.log('reason changing: ', reasonDecription);
 
 		//Get the active element that the user is typing into
-		var columClass = '.argument-editor__args-row__' + $scope.side + '-column',
+		var columClass = '.js-' + $scope.side + '-column',
 			argumentClass = '.argument--index-' + $scope.argIndex,
 			reasonClass = '.reason--index-' + reasonIndex,
 			reasonElement = $(columClass).find(argumentClass).find(reasonClass).find('.js-attach-searchBox'),

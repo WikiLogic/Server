@@ -22,7 +22,13 @@ You could say this is the soul of WL!
 	<br class="br--5">
 
 	<div class="box">
-		<h4 class="no-margins">{{reason.claimObjectRefrence.description}}</h4>
+		<!-- TODO - if editable, use textarea -->
+		<!--<h4 class="no-margins">{{reason.claimObjectRefrence.description}}</h4>-->
+		<textarea 	name="" id="" rows="4" 
+				class="full-width display-block js-attach-searchBox" 
+				ng-change="changeReason($index, reason.claimObjectRefrence.description)"
+				ng-model="reason.claimObjectRefrence.description">
+		</textarea>
 	</div>
 
 </div>
