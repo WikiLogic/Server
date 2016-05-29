@@ -1,0 +1,12 @@
+.a {
+	text-decoration: none;
+	color: $WL_Blue;
+	&:hover {
+		color: lighten($WL_Blue, 10%);
+	}
+}
+
+a[ng-click], a{
+    cursor: pointer;
+    @extend .a; 
+}

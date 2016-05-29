@@ -3,8 +3,8 @@
  * 
  */
 
-Editor.controller('draftEditorController', ['$scope', '$rootScope', '$routeParams', 'userService', 'claimService', 'theEvaluator',
-function($scope, $rootScope, $routeParams, userService, claimService, theEvaluator) {
+Editor.controller('draftEditorController', ['$scope', '$rootScope', '$routeParams', 'userService', 'draftService', 'theEvaluator',
+function($scope, $rootScope, $routeParams, userService, draftService, theEvaluator) {
 
 	$scope.init = function(){
 		if ($rootScope.user) {
@@ -68,7 +68,7 @@ function($scope, $rootScope, $routeParams, userService, claimService, theEvaluat
 		//First check all the reasons, they all need to be up to date before we can save.
 		if ( checkReasonState('supporting') && checkReasonState('opposing') ) {
 
-			claimService.updateDraft(draftClaim).success(function(result){
+			draftService.updateDraft(draftClaim).success(function(result){
 			//console.log('finished saving, current draft: ', $rootScope.currentDraft);
 			}).error(function(){
 				console.log('saving edits failed somehow');
@@ -84,6 +84,7 @@ function($scope, $rootScope, $routeParams, userService, claimService, theEvaluat
 	 * Run through the reasons looking for any that haven't been saved.  
 	 * Alert the user / show them as needing saved 
 	 * If any are needing saved, halt the main saving process.
+	 * TODO: this feels like it should be in a service, not a controller.
 	 */
 	var checkReasonState = function(side){
 		//run through the argument groups on this side
@@ -94,7 +95,7 @@ function($scope, $rootScope, $routeParams, userService, claimService, theEvaluat
 				var thisState = $rootScope.currentDraft[side][groupItr].reasons[reasonItr].reasonMeta.state;
 				switch(thisState) {
 					case "New":
-						console.error('Theres a New guy in town, thats a fail');
+						console.error('Theres a New guy in town, thats a fail'); //TODO: make this save properly, keep as error until done so
 						return false;
 						break; 
 					case "Default":
@@ -102,11 +103,11 @@ function($scope, $rootScope, $routeParams, userService, claimService, theEvaluat
 						return false;
 						break;
 					case "Claim":
-						console.error('got an unsaved link to a claim');
+						console.error('got an unsaved link to a claim'); //TODO: make this save properly, keep as error until done so
 						return true;
 						break;
 					case "Draft":
-						console.error('got an unsaved link to a Draft');
+						console.error('got an unsaved link to a Draft'); //TODO: make this save properly, keep as error until done so
 						return true;
 						break;
 					case "Saved":
@@ -118,7 +119,7 @@ function($scope, $rootScope, $routeParams, userService, claimService, theEvaluat
 						return true;
 						break;
 					default:
-						console.log('hit default... maybe a deleted reason?');
+						console.log('hit default when checking through reasons... not sure how this could have happened');
 						return true;
 				}
 				return false;//if we have a reason but the status is not 'Saved'
@@ -130,7 +131,7 @@ function($scope, $rootScope, $routeParams, userService, claimService, theEvaluat
 
 	$scope.publishClaim = function(claim){
 		console.log('going to publish ', claim);
-		claimService.publishDraftClaim(claim).success(function(result){
+		draftService.publishDraftClaim(claim).success(function(result){
 			//on success, add result to published claims list & remove from drafts (this has already been done server side)
 			console.log('unshifting published array: ', result);
 			$rootScope.user.meta.published.unshift(result);
@@ -144,7 +145,7 @@ function($scope, $rootScope, $routeParams, userService, claimService, theEvaluat
 	}
 
 	$scope.deleteDraft = function(draftClaim){
-		claimService.deleteDraft(draftClaim).success(function(result){
+		draftService.deleteDraft(draftClaim).success(function(result){
 			//Yeay! Deleted!
 		}).error(function(){
 			//TODO: Do something when delete fails

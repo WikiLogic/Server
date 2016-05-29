@@ -6,7 +6,22 @@
 </div>
 
 <h3 class="claim-finder__section-title">Your Drafts</h3>
-<div ng-repeat="claim in claimResults.myDrafts" ng-include src="'/editor/claimFinder/claimSearchResult-partial.html'"></div>
+<!-- <div ng-repeat="claim in claimResults.myDrafts" ng-include src="'/editor/claimFinder/claimSearchResult-partial.html'"> -->
+<div ng-repeat="claim in claimResults.myDrafts" class="claim-search-result">
+	<p>{{claim.description}}</p> 
+	<div class="claim-search-result__btns">
+		<div class="btn btn--small b1" ng-click="selectClaim(claim)"><span>select</span><img src="/icons/white/map-marker.svg"></div> 
+		<div class="btn btn--small b2"><span>inspect</span><img src="/icons/white/magnifying-glass.svg"></div>
+	</div>
+</div>
 
 <h3 class="claim-finder__section-title">Published Claims</h3>
-<div ng-repeat="claim in claimResults.claims" ng-include src="'/editor/claimFinder/claimSearchResult-partial.html'"></div>
+<!-- <div ng-repeat="claim in claimResults.claims" ng-include src="'/editor/claimFinder/claimSearchResult-partial.html'"> -->
+<div ng-repeat="claim in claimResults.claims" class="claim-search-result">
+	<p>{{claim.description}}</p> 
+	<div class="claim-search-result__btns">
+		<div class="btn btn--small b1" ng-click="selectClaim(claim)"><span>select</span><img src="/icons/white/map-marker.svg"></div> 
+		<div class="btn btn--small b2"><span>inspect</span><img src="/icons/white/magnifying-glass.svg"></div>
+	</div>
+<!-- </div> -->
+</div>

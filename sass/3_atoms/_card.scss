@@ -1,0 +1,23 @@
+.card {
+	
+	margin: auto;
+	border-radius: 5px;
+	//border: 1px solid $grey-6;
+	position: relative;
+
+	&:before {
+		content: " ";
+		display: block;
+		position: absolute;
+		top: 5px;
+		right: 5px;
+		left: 5px;
+		bottom: 0;
+		box-shadow: 0 0 10px $grey-1;
+		z-index: -1;
+	}
+
+	&--500 {
+		max-width: 500px;
+	}
+}

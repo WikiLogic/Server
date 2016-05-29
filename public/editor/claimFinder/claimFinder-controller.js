@@ -3,8 +3,8 @@
  * 
  */
 
-Editor.controller('claimFinderController', ['$scope', '$rootScope', '$routeParams', 'claimService', 'searchClaims', 
-	function($scope, $rootScope, $routeParams, claimService, searchClaims) {
+Editor.controller('claimFinderController', ['$scope', '$rootScope', '$routeParams', 'draftService', 'searchClaims', 
+	function($scope, $rootScope, $routeParams, draftService, searchClaims) {
 
 		//who called me!  Need to change the way I act - they're looking to use one of my results for something
 		//Maybe I should just add the result to a rootScope variable? Yeah - that sounds pretty good, super simple!

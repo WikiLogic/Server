@@ -1,0 +1,11 @@
+select {
+	background-color:white;
+	padding: rem(5) rem(10);
+	border: 1px solid #DDDDDD;
+	outline: none;
+	color: black;
+	&:focus {
+		box-shadow: 0 0 5px $WL_Blue;
+		border: 1px solid $WL_Blue;
+	}
+}

@@ -1,0 +1,17 @@
+input[type='text'], input[type='password'], input[type='search'] {
+	background-color: white;
+	padding: rem(5) rem(10);
+	outline: none;
+	color: black;
+	border: 0;
+	border-bottom: 2px solid rgba($WL_Blue, 0.2);
+	transition: border-bottom-color 0.2s ease;
+
+	&:hover {
+		border-bottom-color: rgba($WL_Blue, 0.4);
+	}
+
+	&:focus {
+		border-bottom-color: rgba($WL_Blue, 0.6);
+	}
+}

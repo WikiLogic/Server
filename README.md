@@ -5,6 +5,11 @@ The third prototype, making everything more modular
 
 ---
 
+Tests run on the master branch: https://travis-ci.org/WikiLogic/WikiLogic
+[![Build Status](https://travis-ci.org/WikiLogic/WikiLogic.svg?branch=master)](https://travis-ci.org/WikiLogic/WikiLogic)
+
+---
+
 Our [main site](http://www.wikilogicfoundation.org/) serves as the intro to the idea behind WL.
 
 We also have a [meta wiki](http://wikilogicfoundation.org/wiki/index.php?title=Main_Page) set up for more in depth theory, a good place to go if you are something of a Philosopher.
@@ -131,3 +136,15 @@ this looks good for the graph: http://cytoscapeweb.cytoscape.org/tutorial
 and this: http://sigmajs.org/
 
 Sounds for fun? http://loudlinks.rocks/#examples
+
+Fancy tool tip positioning> https://popper.js.org/
+
+Make it look like office? http://dev.office.com/fabric
+
+swap db to rethink - push!!!
+
+One day: http://googleresearch.blogspot.com/2016/05/announcing-syntaxnet-worlds-most.html?m=1 here's the repo: https://github.com/tensorflow/models/tree/master/syntaxnet
+
+some good ideas for styles: http://cognition.happycog.com/article/happy-cog-starter-files-2016-edition
+
+Haxl: https://github.com/facebook/Haxl could be useful

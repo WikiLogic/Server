@@ -1,0 +1,30 @@
+$gutter: rem(16);
+.flex-row {
+	display: flex;
+	flex-direction: row;
+	align-items: streatch;
+
+	.col {
+		flex-grow: 1;
+	}
+}
+
+.row {
+	@include clearfix();
+	
+}
+
+.col {
+	margin: ($gutter/2);
+	float: left;
+	&--10 { width: calc(10% - #{$gutter}); }
+	&--20 { width: calc(20% - #{$gutter}); }
+	&--25 { width: calc(25% - #{$gutter}); }
+	&--30 { width: calc(30% - #{$gutter}); }
+	&--50 { width: calc(50% - #{$gutter}); }
+	&--70 { width: calc(70% - #{$gutter}); }
+	&--75 { width: calc(75% - #{$gutter}); }
+	&--80 { width: calc(80% - #{$gutter}); }
+	&--90 { width: calc(90% - #{$gutter}); }
+	&--100 { width: calc(100% - #{$gutter}); }
+}

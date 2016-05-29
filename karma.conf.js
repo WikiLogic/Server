@@ -1,4 +1,4 @@
-// Karma configuration
+ // Karma configuration
 // Generated on Thu Jan 14 2016 10:41:09 GMT-0500 (Eastern Standard Time)
 
 module.exports = function(config) {
@@ -14,13 +14,15 @@ module.exports = function(config) {
 
 
     // list of files / patterns to load in the browser
+    // Test files are beside their 'real life' counterparts
     files: [
       'public/js/angular.min.js',
       'public/js/angular-route.min.js',
       'node_modules/angular-mocks/angular-mocks.js',
       'public/explorer/explorer-app.js',
       'public/editor/editor-app.js',
-      'public/**/*.js'
+      'public/explorer/**/*.js',
+      'public/editor/**/*.js'
     ],
 
 
@@ -61,7 +63,7 @@ module.exports = function(config) {
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
     //browsers: ['Chrome', 'Firefox', 'IE'],
-    browsers: ['Chrome'],
+    browsers: ['PhantomJS'],
 
 
     // Continuous Integration mode

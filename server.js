@@ -1,6 +1,5 @@
 console.time('    0: Everything ready!');
 
-
 /* Make an express! 
 =========================================*/
 console.time('           7: Setting up Express');
@@ -17,7 +16,7 @@ var passport = require('passport'); //the authentication
 var session = require('express-session');
 var bodyParser   = require('body-parser'); //To read html forms
 var cookieParser = require('cookie-parser'); //To read the cookies, om nom nom
-var morgan = require('morgan'); //for better logging
+//var morgan = require('morgan'); //for better logging
 var mongoose = require('mongoose'); //To talk to mongo!
 console.timeEnd('          6: Requiring modules');
 
@@ -30,7 +29,7 @@ app.set('view engine', 'hbs');
 app.use(bodyParser.json()); // Lets us get data from form submittion
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser()); //Getting data from cookies
-app.use(morgan('dev')); //Setting up the logging
+//app.use(morgan('tiny')); //Setting up the logging
 console.timeEnd('         5: Configuring packages');
 
 /* DEFINING the static files
@@ -51,14 +50,17 @@ console.timeEnd('       3: Setting up authentication');
 /* DATABASE!!
 ==========================================*/
 console.time('      2: Connecting to DB');
-mongoose.connect('mongodb://localhost/wl-03-dev');
+
+var DATABASE_URL = process.env.DATABASE_URL || 'mongodb://localhost/wl-03-dev';
+mongoose.connect(DATABASE_URL);
+
 console.timeEnd('      2: Connecting to DB');
 
 /* ROUTING - all the rout defenitions in routes.js
  * TODO: need to change to express.router
  * =========================================*/
 console.time('     1: Setting up the routes');
-require('./controllers')(router, passport);
+require('./routes')(router, passport);
 //app.use(require('./controllers'))
 app.use('/', router);
 console.timeEnd('     1: Setting up the routes');
@@ -67,7 +69,7 @@ console.timeEnd('     1: Setting up the routes');
 ==========================================*/
 console.timeEnd('    0: Everything ready!');
 
-var server = app.listen(3000, function () {
+var server = app.listen(process.env.PORT || 3000, function () {
 
   var host = server.address().address;
   var port = server.address().port;

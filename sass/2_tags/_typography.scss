@@ -1,0 +1,101 @@
+$sans-serif: sans-serif; 
+$serif: serif;
+
+body {
+	font-family: $sans-serif; /* 100 / 300 / 700 */
+	font-weight: normal;
+	font-size: rem(14);
+	@include breakpoint(small) { font-size: rem(15); }
+	@include breakpoint(medium) { font-size: rem(16); }
+}
+
+
+/* ===== Headings ===== */
+/* ==================== */
+
+h1 { margin: 0 0 0.25em; font-family: $serif; font-size: rem(32); line-height: rem(32); font-weight: 200; } /* Page title */
+h2 { margin: 0 0 0.25em; font-family: $serif; font-size: rem(28); line-height: rem(30); font-weight: 200; } /* Page sub-titles */
+h3 { margin: 0 0 0.5em; font-family: $sans-serif; font-size: rem(20); line-height: rem(22); font-weight: 300; } /* Sidebar title / lead-in / form area title */
+h4 { margin: 0 0 0.5em; font-family: $sans-serif; font-size: rem(18); line-height: rem(24); font-weight: 400; }
+h5 { margin: 0 0 0.75em; font-family: $sans-serif; font-size: rem(13); line-height: rem(15); font-weight: 600; text-transform: uppercase; }
+h6 { margin: 0 0 0.75em; font-family: $sans-serif; font-size: rem(10); line-height: rem(12); font-weight: 600; text-transform: uppercase; }
+
+@include breakpoint(medium) {
+	h1 { font-size: rem(45); line-height: rem(42); }
+	h2 { font-size: rem(30); line-height: rem(32); }
+	h3 { font-size: rem(23); line-height: rem(23); }
+	h4 { font-size: rem(20); line-height: rem(24); }
+	h5 {  }
+	h6 {  }
+}
+@include breakpoint(wide) {
+	h1 { font-size: rem(54); line-height: rem(50); }
+	h2 { font-size: rem(38); line-height: rem(38); }
+	h3 { font-size: rem(25); line-height: rem(30);}
+	h4 {  }
+	h5 {  }
+	h6 {  }
+}
+
+
+/* ===== Copy ===== */
+/* ================ */
+
+p.lead-in { font-size: rem(16); line-height: rem(22); }
+p         { font-size: rem(14); line-height: rem(22); margin: 0 0 1em; }
+p small   { font-size: rem(11); }
+
+@include breakpoint(small) {
+	p.lead-in { font-size: rem(17); line-height: rem(24); }
+	p         { font-size: rem(15); }
+	p small   { font-size: rem(12) }
+}
+
+@include breakpoint(medium) {
+	p.lead-in { font-size: rem(18); line-height: rem(26); }
+	p         { font-size: rem(16); line-height: rem(24); }
+	p small   { font-size: rem(13); }
+}
+
+
+.text-underline {text-decoration: underline; }
+.text-align-right { text-align: right; }
+.text-align-center { text-align: center; }
+.no-break { white-space: nowrap; }
+
+.no-margins { 
+	margin-bottom: 0;
+	margin-top: 0;
+	margin-left: 0;
+	margin-right: 0;
+}
+
+code, pre {
+	background: #000;
+	color: #ccc;
+	font: 12px/1.2 Menlo, Consolas, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
+}
+
+span {
+	vertical-align: middle;
+}
+/* pop up alert / notification. black code thing: https://www.jetbrains.com
+ overflow-y: auto;
+  overflow-x: hidden;
+  padding: 23px 23px 0;
+  width: 380px;
+  height: 110px;
+  background: #000;
+  color: #ccc;
+  font: 12px/1.2 Menlo, Consolas, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
+  -webkit-transition: height .4s;
+  transition: height .4s;
+ */
+// close X
+//  background: transparent url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsv….709v1.182h-1.182l-5.708-5.709-5.709%205.709h-1.181z%22%2F%3E%3C%2Fsvg%3E") no-repeat 50%/.6em;
+
+
+img {
+	display:block;
+}
+

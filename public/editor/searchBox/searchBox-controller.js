@@ -1,6 +1,6 @@
 'use strict';
 /**
- * the template (html) runs of the global search results, so we don't need to worry about filling that here.
+ * the template (html) runs from the global search results, so we don't need to worry about filling that here.
  * However, me may need to clear it on occasion.
  * 
  */
@@ -12,10 +12,17 @@ Editor.controller('SearchBoxController', ['$scope', '$rootScope', function($scop
 	 * So when a user selects a result, all we do is set the selected result bit of the global: $rootScope.search.selectedResult = {};
 	 */
  	$scope.selectResult = function(claimObj, claimType){
- 		console.log('claimObj: ', claimObj);
- 		console.log('claimType: ', claimType);
- 		$rootScope.search.selectedResult.claimObject = claimObj;
- 		$rootScope.search.selectedResult.claimType = claimType; //'draft' or 'claim'... or 'axiom'?
+ 		var newSelectedResult = {
+ 			'claimObject' : claimObj,
+ 			'claimType' : claimType
+ 		}
+ 		$rootScope.search.selectedResult = newSelectedResult;
  	} 
+
+ 	//catch all reset to get the results box out the way. Cheat for the 0.3 tag
+ 	$(window).on('click', function(){
+ 		$('.searchResultsTip').css('top', '-100%');
+ 		$('.searchResultsTip').css('left', '0');
+ 	})
  	  
 }]);

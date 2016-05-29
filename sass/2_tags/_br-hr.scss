@@ -1,0 +1,21 @@
+.br {
+	display: block;
+	padding:0;
+	padding-bottom: rem(16);
+	content: " ";
+	&--5 {
+		padding-bottom: rem(5);
+	}
+}
+
+br {
+	@extend .br;
+}
+
+hr {
+	border: 0;
+	border-top: 1px dashed rgba($WL_Blue, 0.5);
+	margin: 0 0 rem(16) 0;
+
+	&.hr--zeroed { margin:0; }
+}

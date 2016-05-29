@@ -1,0 +1,34 @@
+<!-- THE INDIVIDUAL REASON PARTIAL
+These guys are the reasons that make up an argument
+You could say this is the soul of WL!
+-->
+
+<div class="reason--index-{{$index}} box box--5 border border--red">
+
+	<div class="splitter splitter--full-width">
+		<div class="splitter__left">
+			<p>
+				<img ng-if="!reason.claimObjectRefrence.status" src="/icons/black/cross.svg" alt="false" class="icon">
+				<img ng-if="reason.claimObjectRefrence.status" src="/icons/black/check.svg" alt="true" class="icon">
+				<img src="/icons/black/bolt.svg" class="icon"><!-- if false show this -->
+			</p>
+		</div>
+		<div class="splitter__right">
+			<div class="button button--compact display-inline-block" ng-click="saveNewReason($index)">Save</div>
+			<div class="button button--compact display-inline-block" ng-click="deleteReason($index)">Delete</div>
+		</div>
+	</div>
+
+	<br class="br--5">
+
+	<div class="box">
+		<!-- TODO - if editable, use textarea -->
+		<!--<h4 class="no-margins">{{reason.claimObjectRefrence.description}}</h4>-->
+		<textarea 	name="" id="" rows="4" 
+				class="full-width display-block js-attach-searchBox" 
+				ng-change="changeReason($index, reason.claimObjectRefrence.description)"
+				ng-model="reason.claimObjectRefrence.description">
+		</textarea>
+	</div>
+
+</div>

@@ -1,9 +1,18 @@
-<div> <!-- MyDraftsController set by editor-app.js -->
-	<div class="draft-list-title js-collapsable-title">
-		<img src="/icons/black/pencil.svg" alt="pencil">
-		<h3>My Drafts</h3>
-	</div>
-	<div class="js-collapsable-content"><!-- makes content collapsible -->
-		<div ng-repeat="draft in user.meta.unPublished" ng-include src="'/editor/single/draft-partial.html'"></div>
-	</div>
+<div class="card box bg-color--white"> <!-- MyDraftsController set by editor-app.js -->
+	<h3>
+		<img src="/icons/black/pencil.svg" alt="pencil" class="icon">
+		<span>My Drafts</span>
+	</h3>
+	
+	<div ng-repeat="draft in user.meta.unPublished" ng-include src="'/editor/single/draft-partial.html'"></div>
+
+</div>
+
+<br>
+
+<div class="card box bg-color--white" ng-controller="NewDraftController"> <!-- NewDraftController defined in editor-app.js -->
+	<form class="inputAddon">
+		<input type="text" class="inputAddon__field big" ng-model="newDraft.description" ng-change="newDescriptionCheck()" placeholder="Write up a new draft here" />   
+		<input type="submit" id="js-saveDraftBtn" class="inputAddon__button" ng-click="saveToProfile(newClaim)" value="Save draft" />
+	</form>
 </div>

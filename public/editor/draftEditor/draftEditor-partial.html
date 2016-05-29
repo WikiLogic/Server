@@ -1,20 +1,82 @@
+<div class="card box bg-color--white">
 
-<div class="horizontal-menu" ng-init="init()">
-	<div class="btn btn--light" ng-click="saveEdit(currentDraft)">Save</div>
-	<div class="btn btn--light">Publish</div>
-	<div class="btn btn--light">Delete</div>
-</div>
+	<div class="splitter splitter--full-width" ng-init="init()">
+		<div class="splitter__left">
+			<h3>
+				<img src="/icons/black/pencil.svg" alt="draft" class="icon ">
+				<span>Draft	</span>
+			</h3>
+		</div>
+		<div class="splitter__right">
+			<div class="button display-inline-block" ng-click="saveEdit(currentDraft)">Save</div>
+			<div class="button display-inline-block">Publish</div>
+			<div class="button display-inline-block">Delete</div>
+		</div>
+	</div>
 
-<div class="draft-editor__description">
-	<img src="/icons/white/pencil.svg" alt="draft">
-	<img ng-if="currentDraft.status" src="/icons/black/check.svg" alt="true">
-	<img ng-if="!currentDraft.status" src="/icons/black/cross.svg" alt="false">
-	<div class="autosizing-input">
-		<textarea name="" id="" class="autosizing-input__input" ng-change="changeDescription()" cols="30" rows="10" ng-model="currentDraft.description"></textarea>
-		<div class="autosizing-input__sizer">{{currentDraft.description}}</div>
+	<br>
+
+	<div class="splitter splitter--full-width splitter--v-centered box box--5 bg-pattern--red">
+		<div class="splitter__left box v-align-top">
+			<h3 class="no-break">
+				<img ng-if="currentDraft.status" src="/icons/black/check.svg" alt="true" class="icon">
+				<img ng-if="!currentDraft.status" src="/icons/black/cross.svg" alt="false" class="icon">
+			</h3>
+		</div>
+		<div class="splitter__right full-width">
+			<textarea name="" id="" rows="3" class="full-width display-block textarea--red" ng-model="currentDraft.description"></textarea>
+		</div>
+	</div>
+
+	<br>
+
+
+	<!-- Claim refrences -->
+	<div class="row">
+		<div class="col col--50 js-supporting-column">
+
+			<!-- for column header -->
+			<div class="splitter splitter--full-width splitter--v-bottom">
+				<div class="splitter__left">
+					<h3>For</h3>
+				</div>
+				<div class="splitter__right">
+					<div class="button button--compact display-inline-block" ng-click="addArgument('supporting')">Add argument</div>
+				</div>
+			</div>
+
+			<br class="br--5">
+
+			<!-- for each for argument in currentDraft.supporting -->
+			<div ng-repeat="arg in currentDraft.supporting track by $index">
+				<div ng-controller="draftArgGroupController" ng-init="init('supporting', $index)" ng-include src="'/editor/draftEditor/draftArgGroup/draftArgGroup-partial.html'">
+					
+				</div>
+			</div>				
+		</div>
+
+		
+		<div class="col col--50 js-opposing-column">
+
+			<!-- against column header -->
+			<div class="splitter splitter--full-width splitter--v-bottom">
+				<div class="splitter__left">
+					<h3>Against</h3>
+				</div>
+				<div class="splitter__right">
+					<div class="button button--compact display-inline-block" ng-click="addArgument('opposing')">Add argument</div>
+				</div>
+			</div>
+
+			<br class="br--5">
+			
+			<!-- for each for argument in currentDraft.opposing -->
+			<div ng-repeat="arg in currentDraft.opposing track by $index">
+				<div ng-controller="draftArgGroupController" ng-init="init('opposing', $index)" ng-include src="'/editor/draftEditor/draftArgGroup/draftArgGroup-partial.html'">
+					
+				</div>
+			</div>	
+
+		</div>
 	</div>
 </div>
-
-
-<div ng-include src="'/editor/argumentEditor/argumentEditor-partial.html'"></div>
-

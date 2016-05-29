@@ -1,0 +1,23 @@
+.notification-wrap {
+	position: absolute;
+	top: 11px;
+	right: 15px;
+	text-align:right;
+}
+
+.notification {
+	display:inline-block;
+	//background-color: $alertRed;
+	padding: 6px 10px 6px 12px;
+	//border-right: 2px solid $alertRedBorder;
+	margin-bottom: 10px;
+	@include shadowLight();
+	p {
+		@include horizontalBlock();
+	}
+	img {
+		@include horizontalBlock();
+		margin-left: 5px;
+		width: 12px;
+	}
+}

@@ -1,0 +1,68 @@
+.splitter {
+	font-size: rem(16);
+	display: block;
+	@include zero-typography-margins();
+
+	&__left {
+		display: table-cell;
+		vertical-align: top;
+		padding-right: rem(10);
+	}
+	&__right {
+		display: table-cell;
+		vertical-align: top;
+		padding-left: rem(10);
+	}
+
+	&--full-width {
+		display: table;
+		width: 100%;
+		.splitter__right { text-align: right; }
+	}
+
+	&--v-centered {
+		> .splitter__left {
+			vertical-align: middle;
+		}
+
+		> .splitter__right {
+			vertical-align: middle;
+		}
+	}
+
+	&--v-bottom {
+		> .splitter__left {
+			vertical-align: bottom;
+		}
+
+		> .splitter__right {
+			vertical-align: bottom;
+		}
+	}
+
+	/*
+	 * --v-centered doesn't work on this
+	 * for justified split with vertical centering, use the above 2 modifyers and align right content to the right in the component
+	 * too much extra mark up would be required to implement that here.
+	 */
+	&--justify {
+
+		> .splitter__left {
+			display: block;
+			float: left;
+		}
+
+		> .splitter__right {
+			display: block;
+			float: right;
+		}
+
+		&:after { 
+			content: "."; 
+			visibility: hidden; 
+			display: block; 
+			height: 0; 
+			clear: both;
+		}	
+	}
+}

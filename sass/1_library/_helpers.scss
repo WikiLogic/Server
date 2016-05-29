@@ -1,0 +1,38 @@
+//@include transition(0.3s);
+@mixin transition($time){
+	-webkit-transition: all $time ease-in-out;
+	-moz-transition: all $time ease-in-out;
+	-ms-transition: all $time ease-in-out;
+	-o-transition: all $time ease-in-out;
+}
+
+@mixin titleBar(){
+	display:flex;
+	border-bottom: 1px solid $grey-3;
+	margin-top: 20px;
+	margin-bottom: 5px;
+}
+
+@mixin whiteBox(){
+	background:white;
+	//border: 1px solid $lightBorderClr;
+	padding: 5px 10px;
+	border-radius: 5px;
+}
+
+@mixin dashedLineBox(){
+	border: 1px dashed $grey-3;
+	border-radius: 5px;
+	padding:10px;
+}
+
+
+@mixin shadowLight(){
+	-webkit-box-shadow: 2px 2px 10px 0px rgba(0,0,0,0.75);
+	-moz-box-shadow: 2px 2px 10px 0px rgba(0,0,0,0.75);
+	box-shadow: 2px 2px 10px 0px rgba(0,0,0,0.75);
+}
+@mixin horizontalBlock(){
+	display:inline-block;
+	vertical-align:middle;
+}
