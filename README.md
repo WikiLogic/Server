@@ -1,11 +1,8 @@
-WikiLogic 0.3
+WikiLogic 0.4: Ferret
 =========
 
-The third prototype, making everything more modular
+*F*ront *E*nd: *R*est*R*ucturing *E*very*T*hing
 
----
-
-Tests run on the master branch: https://travis-ci.org/WikiLogic/WikiLogic
 [![Build Status](https://travis-ci.org/WikiLogic/WikiLogic.svg?branch=master)](https://travis-ci.org/WikiLogic/WikiLogic)
 
 ---
@@ -37,6 +34,7 @@ To run WikiLogic locally you'll need a few things installed:
 		* Now you should be able to open up the console and run `mongod` and it'll go!
 4. [Gulp](http://gulpjs.com/) - A task runner to make life easier, `npm install -g gulp`, also global
 5. [Compass](http://compass-style.org/) to build the Sass *Note, after changing to gulp I'm not sure if we need this anymore?*
+6. `npm install webpack -g`
 
 With all that set up we can now get the Wikilogic specific stuff onto your machine.
 

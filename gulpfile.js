@@ -5,7 +5,8 @@ var gulp = require('gulp'),
     autoprefixer = require('gulp-autoprefixer'),
     nodemon = require('gulp-nodemon'),
     exec = require('child_process').exec,
-    karmaServer = require('karma').Server;
+    karmaServer = require('karma').Server,
+    webpack = require('webpack-stream');
 
 /*
  * This task compiles Sass into CSS
@@ -20,6 +21,16 @@ gulp.task('sass', function() {
     .pipe(sass())
     .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1'))
     .pipe(gulp.dest('public/styles'));
+});
+
+
+/*
+ * This task uses webpack to compile our ES6 modules into a bundled js file
+ */
+gulp.task('es6', function(){
+    return gulp.src('src/entry.js')
+        .pipe(webpack( require('./webpack.config.js') ))
+        .pipe(gulp.dest('dist/'));
 });
 
 
@@ -53,6 +64,7 @@ gulp.task('startNODE', function () {
     });
 });
 
+
 /*
  * The watchers on the wall
  */
@@ -60,7 +72,9 @@ gulp.task('startNODE', function () {
 gulp.task('watch', function() {
     console.log('GULP: watch');
     gulp.watch('sass/**/*.scss', ['sass']);
+    gulp.watch('js/**/*.js', ['es6']);
 });
+
 
 /*
  * The Karma test
@@ -75,6 +89,7 @@ gulp.task('test', function (exitCode) {
         process.exit(exitCode);
     });
 });
+
 
 /*
  * The tasks to run
