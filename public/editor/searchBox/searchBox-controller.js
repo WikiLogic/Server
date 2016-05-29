@@ -18,5 +18,11 @@ Editor.controller('SearchBoxController', ['$scope', '$rootScope', function($scop
  		}
  		$rootScope.search.selectedResult = newSelectedResult;
  	} 
+
+ 	//catch all reset to get the results box out the way. Cheat for the 0.3 tag
+ 	$(window).on('click', function(){
+ 		$('.searchResultsTip').css('top', '-100%');
+ 		$('.searchResultsTip').css('left', '0');
+ 	})
  	  
 }]);

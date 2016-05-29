@@ -959,7 +959,7 @@ They should get you 90% of the look you're after
     right: 5px;
     left: 5px;
     bottom: 0;
-    box-shadow: 0 0 10px #666666;
+    box-shadow: 0 0 10px #131E2D;
     z-index: -1; }
   .card--500 {
     max-width: 500px; }
@@ -1417,9 +1417,7 @@ think carefully before adding anything in here.
   position: absolute;
   top: -100%;
   left: 0;
-  z-index: 999999;
-  background-color: black;
-  color: white; }
+  z-index: 999999; }
 
 .user-icon {
   border-radius: 50px;
