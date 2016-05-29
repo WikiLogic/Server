@@ -1,6 +1,5 @@
 console.time('    0: Everything ready!');
 
-
 /* Make an express! 
 =========================================*/
 console.time('           7: Setting up Express');
@@ -51,8 +50,10 @@ console.timeEnd('       3: Setting up authentication');
 /* DATABASE!!
 ==========================================*/
 console.time('      2: Connecting to DB');
-//mongoose.connect('mongodb://localhost/wl-03-dev');
-mongoose.connect('mongodb://wikilogicheroku:wikilogicheroku@ds049150.mlab.com:49150/wikilogic-demo');
+
+var DATABASE_URL = process.env.DATABASE_URL || 'mongodb://localhost/wl-03-dev';
+mongoose.connect(DATABASE_URL);
+
 console.timeEnd('      2: Connecting to DB');
 
 /* ROUTING - all the rout defenitions in routes.js
