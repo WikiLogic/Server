@@ -14,11 +14,6 @@ Editor.config(function($routeProvider){
 			controller: "MyDraftsController",
 			controllerAs: "MyDraftsController"
 		})
-		.when("/new-draft",	{
-			templateUrl: "/editor/draftEditor/newDraft-partial.html",
-			controller: "NewDraftController",
-			controllerAs: "NewDraftController"
-		})
 		.when("/edit-draft/:id",	{
 			templateUrl: "/editor/draftEditor/draftEditor-partial.html",
 			controller: "draftEditorController",

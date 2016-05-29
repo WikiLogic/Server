@@ -65,7 +65,7 @@ Editor.controller('NewDraftController', ['$scope', '$rootScope', '$location', 'd
 
 			$scope.user.meta.unPublished.push(result);
 			$rootScope.currentDraft = result;
-			$location.path('/edit-draft');
+			//$location.path('/edit-draft');
 
 		});
  	 }

@@ -7,3 +7,12 @@
 	<div ng-repeat="draft in user.meta.unPublished" ng-include src="'/editor/single/draft-partial.html'"></div>
 
 </div>
+
+<br>
+
+<div class="card box bg-color--white" ng-controller="NewDraftController"> <!-- NewDraftController defined in editor-app.js -->
+	<form class="inputAddon">
+		<input type="text" class="inputAddon__field big" ng-model="newDraft.description" ng-change="newDescriptionCheck()" placeholder="Write up a new draft here" />   
+		<input type="submit" id="js-saveDraftBtn" class="inputAddon__button" ng-click="saveToProfile(newClaim)" value="Save draft" />
+	</form>
+</div>
