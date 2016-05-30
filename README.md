@@ -148,3 +148,9 @@ One day: http://googleresearch.blogspot.com/2016/05/announcing-syntaxnet-worlds-
 some good ideas for styles: http://cognition.happycog.com/article/happy-cog-starter-files-2016-edition
 
 Haxl: https://github.com/facebook/Haxl could be useful
+
+---
+
+other argument maps:
+
+ - debategraph: http://debategraph.org/
