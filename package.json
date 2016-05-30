@@ -44,6 +44,7 @@
     "karma-jasmine": "^0.3.6",
     "karma-phantomjs-launcher": "^1.0.0",
     "karma-safari-launcher": "^0.1.1",
+    "script-loader": "^0.7.0",
     "webpack": "^1.13.1",
     "webpack-stream": "^3.2.0"
   }

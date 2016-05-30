@@ -1,5 +1,9 @@
 import 'babel-polyfill'; //for older browsers
+
+require('script!./third_party/sightglass.js');
+require('script!./third_party/rivets.js');
+require('script!./third_party/jquery.js');
+
 var WL_STATE = require('./state/WL_STATE.js');
 
-console.log('WL_STATE: ', WL_STATE);
 rivets.bind($('#god'), WL_STATE);
