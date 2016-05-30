@@ -2,7 +2,9 @@
 // version: 0.9.0
 // author: Michael Richards
 // license: MIT
+var sightglass = require('./sightglass.js');
 (function() {
+  console.info('Loading Rivets');
   var Rivets, bindMethod, unbindMethod, _ref,
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
     __slice = [].slice,

@@ -1,4 +1,5 @@
 (function() {
+  console.info('loading sightglass');
   // Public sightglass interface.
   function sightglass(obj, keypath, callback, options) {
     return new Observer(obj, keypath, callback, options)

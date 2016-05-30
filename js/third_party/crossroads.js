@@ -5,6 +5,7 @@
  */
 
 (function () {
+    console.info('loading crossroads');
 var factory = function (signals) {
 
     var crossroads,
