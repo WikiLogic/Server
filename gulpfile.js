@@ -13,14 +13,14 @@ var gulp = require('gulp'),
  * The server does not need to restart on styling changes.
  */
 gulp.task('sass', function() {
-  return gulp.src('sass/main.scss')
+  return gulp.src('editor/src/sass/main.scss')
     .pipe(globbing({
         // Configure it to use SCSS files
         extensions: ['.scss']
     }))
     .pipe(sass())
     .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1'))
-    .pipe(gulp.dest('public/styles'));
+    .pipe(gulp.dest('editor/dist/css'));
 });
 
 
@@ -28,7 +28,7 @@ gulp.task('sass', function() {
  * This task uses webpack to compile our ES6 modules into a bundled js file
  */
 gulp.task('es6', function(){
-    return gulp.src('src/entry.js')
+    return gulp.src('editor/src/js/main.js')
         .pipe(webpack( require('./webpack.config.js') ))
         .pipe(gulp.dest('dist/'));
 });
@@ -55,8 +55,8 @@ gulp.task('startDB', function (cb) {
  */
 gulp.task('startNODE', function () {
     nodemon({
-        script: 'server.js',
-        ignore: ['public/'],
+        script: 'server/server.js',
+        ignore: ['public/', 'editor/'],
         env: { 'NODE_ENV': 'development' }
     })
     .on('restart', function () {
@@ -71,8 +71,8 @@ gulp.task('startNODE', function () {
  //watch: ['server.js', 'passport.js', 'routes/']
 gulp.task('watch', function() {
     console.log('GULP: watch');
-    gulp.watch('sass/**/*.scss', ['sass']);
-    gulp.watch('js/**/*.js', ['es6']);
+    gulp.watch('editor/src/sass/**/*.scss', ['sass']);
+    gulp.watch('editor/src/js/**/*.js', ['es6']);
 });
 
 
