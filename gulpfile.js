@@ -50,7 +50,8 @@ gulp.task('startNODE', function () {
     })
     .on('restart', function () {
       console.log('restarted!');
-    });
+    })
+    .on('error', gutil.log);;
 });
 
 /*
