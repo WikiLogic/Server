@@ -50,8 +50,8 @@ console.timeEnd('       3: Setting up authentication');
 /* DATABASE!!
 ==========================================*/
 console.time('      2: Connecting to DB');
-
-var DATABASE_URL = process.env.DATABASE_URL || 'mongodb://localhost/wl-03-dev';
+var DATABASE_URL = process.env.DATABASE_URL;
+console.log('DATABASE_URL: ', DATABASE_URL);
 mongoose.connect(DATABASE_URL);
 
 console.timeEnd('      2: Connecting to DB');
