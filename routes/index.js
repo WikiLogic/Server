@@ -52,7 +52,7 @@ module.exports = function(router, passport) {
 	});
 
 	router.post('/signup', passport.authenticate('local-signup', {
-		successRedirect: '/profile',
+		successRedirect: '/editor',
 		failureRedirect: '/',
 		passReqToCallback : true
 		})
