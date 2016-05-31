@@ -149,6 +149,8 @@ some good ideas for styles: http://cognition.happycog.com/article/happy-cog-star
 
 Haxl: https://github.com/facebook/Haxl could be useful
 
+port finder in case ports are already being used on your computer: https://github.com/indexzero/node-portfinder
+
 ---
 
 other argument maps:
