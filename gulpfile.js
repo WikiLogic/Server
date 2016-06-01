@@ -6,7 +6,24 @@ var gulp = require('gulp'),
     nodemon = require('gulp-nodemon'),
     exec = require('child_process').exec,
     karmaServer = require('karma').Server,
-    webpack = require('webpack-stream');
+    webpack = require('webpack-stream'),
+    eslint = require('gulp-eslint');
+
+
+/* =======================================================================
+ * ========================================== Phase 1: Code quality check!
+ */
+gulp.task('lintjs', function () {
+    return gulp.src(['**/*.js','!node_modules/**'])
+        .pipe(eslint())
+        .pipe(eslint.format())
+        .pipe(eslint.failAfterError());
+});
+ 
+
+/* =======================================================================
+ * ========================== Phase 2: Compile the higher level languages!
+ */
 
 /*
  * This task compiles Sass into CSS
@@ -33,6 +50,9 @@ gulp.task('es6', function(){
         .pipe(gulp.dest('dist/'));
 });
 
+/* =======================================================================
+ * ============================================ Phase 3: Start the engins!
+ */
 
 /*
  * This task starts a MongoDB server.
@@ -64,6 +84,9 @@ gulp.task('startNODE', function () {
     });
 });
 
+/* =======================================================================
+ * =============================================== Phase 4: Stay vigilant.
+ */
 
 /*
  * The watchers on the wall
@@ -94,5 +117,5 @@ gulp.task('test', function (exitCode) {
 /*
  * The tasks to run
  */
-gulp.task('dev', ['sass','startDB','startNODE','watch']);
+gulp.task('dev', ['lintjs','sass','es6','startDB','startNODE','watch']);
 gulp.task('default', ['startDB','startNODE']);
