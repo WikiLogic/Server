@@ -2,8 +2,7 @@
   "name": "Wikilogic",
   "version": "0.3.0",
    "engines": {
-    "node": "4.1.1",
-    "npm": "2.14.4"
+    "node": "4.1.1"
   },
   "scripts": {
     "start": "gulp"
