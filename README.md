@@ -47,8 +47,10 @@ With all that set up we can now get the Wikilogic specific stuff onto your machi
 
 Ok! Now lets get it running
 
-1. Navigate to the project folder and run `gulp`.  Hopefully it'll just go!
-3. Now open your browser and go to [http://localhost:3000/](http://localhost:3000/)
+1. Navigate to the project folder and run 
+	 - `gulp` when you just want to use / demo WL.
+	 - `gulp dev` when you're looking to contribute some code.
+2. Now open your browser and go to [http://localhost:3000/](http://localhost:3000/)
 
 You should now have Wikilogic running locally!  Bravo sir/madam, bravo!  You'll have to fill in some statements yourself to play around with it.  We'll be adding an online test database soon-ish which the (future) demo will run on and which you should be able to connect to as well using a different grunt, like `grunt demo` or something.  Will update this when that arrives!  Until then, happy stating!
 
