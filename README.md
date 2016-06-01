@@ -151,6 +151,8 @@ Haxl: https://github.com/facebook/Haxl could be useful
 
 port finder in case ports are already being used on your computer: https://github.com/indexzero/node-portfinder
 
+get some standard linting set up: https://blog.codepen.io/2014/04/22/009-code-quality/
+
 ---
 
 other argument maps:
