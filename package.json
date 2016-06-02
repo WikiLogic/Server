@@ -21,6 +21,7 @@
     "express-session": "^1.11.2",
     "gravatar": "^1.1.1",
     "gulp": "^3.8.11",
+    "gulp-sass": "^2.0.1",
     "gulp-nodemon": "^2.0.3",
     "gulp-util": "^3.0.7",
     "mongoose": "^4.0.3",
@@ -35,7 +36,6 @@
   "devDependencies": {
     "gulp-css-globbing": "^0.1.8",
     "gulp-autoprefixer": "^2.3.1",
-    "gulp-sass": "^2.0.1",
     "gulp-watch": "^4.2.4",
     "jasmine-core": "^2.4.1",
     "karma": "^0.13.19",
