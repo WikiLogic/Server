@@ -47,33 +47,37 @@ module.exports = function(passport) {
         },
         function(req, email, password, done) {
             process.nextTick(function() {
-                // find a user whose email is the same as the forms email
-                // we are checking to see if the user trying to login already exists
-                User.findOne({ 'local.email' :  email }, function(err, user) {
-                    if (err) {
-                        console.log('Signup error: ', err);
-                        return done(err);
-                    }
+                if (email.length > 5) {
+                    // find a user whose email is the same as the forms email
+                    // we are checking to see if the user trying to login already exists
+                    User.findOne({ 'local.email' :  email }, function(err, user) {
+                        if (err) {
+                            console.log('Signup error: ', err);
+                            return done(err);
+                        }
 
-                    if (user) {
-                        //that user already exists
-                        return done(null, false);
-                    } else {
-                        console.log('new user!');
-                        var newUser            = new User();
+                        if (user) {
+                            //that user already exists
+                            console.warn('user already exists');
+                            return done(null, false);
+                        } else {
+                            console.log('new user!');
+                            var newUser            = new User();
 
-                        // set the user's local credentials
-                        newUser.local.email    = email;
-                        newUser.local.password = newUser.generateHash(password);
+                            // set the user's local credentials
+                            newUser.local.email    = email;
+                            newUser.local.password = newUser.generateHash(password);
 
-                        // save the user
-                        newUser.save(function(err) {
-                            if (err)
-                                throw err;
-                            return done(null, newUser);
-                        });
-                    }
-                });    
+                            // save the user
+                            newUser.save(function(err) {
+                                if (err) { console.error('Error adding new user: ', err); }
+                                return done(null, newUser);
+                            });
+                        }
+                    });    
+                } else {
+                    console.log("don't think we got an email through: ", email);
+                }
             });
         })
     );

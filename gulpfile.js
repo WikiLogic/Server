@@ -4,7 +4,6 @@ var gulp = require('gulp'),
     globbing = require('gulp-css-globbing'),
     autoprefixer = require('gulp-autoprefixer'),
     nodemon = require('gulp-nodemon'),
-    exec = require('child_process').exec,
     karmaServer = require('karma').Server;
 
 /*
@@ -23,26 +22,13 @@ gulp.task('sass', function() {
 });
 
 
-/*
- * This task starts a MongoDB server.
- * It should only start the server if there isn't one running already
- * (this sometimes happens if there was an error in the last start up)
- */
-gulp.task('startDB', function (cb) {
-	exec('mongod', function (err, stdout, stderr) {
-		console.log('Gulp startDB: ', stdout);
-		console.log('Gulp startDB err: ', stderr);
-		cb(err);
-	});
-});
-
 
 /*
  * This task starts the Node.js server,
  * It should restart when anything server side changes
  *     server.js, passport.js, routes, controllers (although they're not set up yet), & models
  */
-gulp.task('startNODE', function () {
+gulp.task('startNode', function () {
     nodemon({
         script: 'server.js',
         ignore: ['public/'],
@@ -53,6 +39,8 @@ gulp.task('startNODE', function () {
     })
     .on('error', gutil.log);;
 });
+
+
 
 /*
  * The watchers on the wall
@@ -78,7 +66,7 @@ gulp.task('test', function (exitCode) {
 });
 
 /*
- * The tasks to run
+ * The tasks to run - don't run gulp directly, instead use `npm start`
  */
-gulp.task('dev', ['sass','startDB','startNODE','watch']);
-gulp.task('default', ['startDB','startNODE']);
+gulp.task('dev', gulp.series('sass','startNode','watch'));
+gulp.task('default', gulp.series('startNode'));

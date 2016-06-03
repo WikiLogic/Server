@@ -35,7 +35,7 @@ To run WikiLogic locally you'll need a few things installed:
 		* in the `system variables` find `path`, select it and click edit, 
 		* at the end of that string add `;` then the path to the mongo exe files.  It'll be something like `;C:\Program Files\MongoDB 2.6 Standard\bin\`.  
 		* Now you should be able to open up the console and run `mongod` and it'll go!
-4. [Gulp](http://gulpjs.com/) - A task runner to make life easier, `npm install -g gulp`, also global
+4. [Gulp](http://gulpjs.com/) - A task runner to make life easier, we're on v4 now https://demisx.github.io/gulp4/2015/01/15/install-gulp4.html
 5. [Compass](http://compass-style.org/) to build the Sass *Note, after changing to gulp I'm not sure if we need this anymore?*
 
 With all that set up we can now get the Wikilogic specific stuff onto your machine.
