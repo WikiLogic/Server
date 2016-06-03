@@ -66,12 +66,7 @@ gulp.task('test', function (done) {
     });
     */
     done(0);
-//    process.exit(0);
-/*
-    new karmaServer({
-        configFile: __dirname + '/karma.conf.js',
-        singleRun: true
-    }, done).start();*/
+
 });
 
 /*
