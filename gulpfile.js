@@ -56,15 +56,13 @@ gulp.task('watch', function() {
  * Test files are beside their 'real life' counterparts
  */
 gulp.task('test', function (done) {
-    /*
+    
     karmaServer.start({
         configFile: __dirname + '/karma.conf.js',
         singleRun: true
     }, function() {
         done();
     });
-    */
-    done();
 });
 
 /*
