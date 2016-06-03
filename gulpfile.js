@@ -57,12 +57,19 @@ gulp.task('watch', function() {
  */
 gulp.task('test', function (done) {
     
+    /*
     karmaServer.start({
         configFile: __dirname + '/karma.conf.js',
         singleRun: true
     }, function() {
         done();
     });
+    */
+
+    new karmaServer({
+        configFile: __dirname + '/karma.conf.js',
+        singleRun: true
+    }, done).start();
 });
 
 /*
