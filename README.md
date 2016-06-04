@@ -13,6 +13,7 @@ You'll need these already installed:
  - [Node.js](http://nodejs.org/)
  - [MongoDB](http://www.mongodb.org/)
  - [Browserify](http://browserify.org/)
+ - [Gulp](http://gulpjs.com/)
 
 Then you can install WikiLogic:
 

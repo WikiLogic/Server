@@ -10,13 +10,12 @@
     "build": "npm run compile",
     "start": "echo \"Starting WikiLogic\"",
     "start:dev": "npm run clean && npm run compile && mongod && start chrome 'localhost:3000'",
-    "watch:sass": "nodemon -e scss -x \"npm run build-css\"",
     "pretest": "run npm lint",
     "test": "mocha ./editor/test -u bdd -R spec",
     "lint": "jshint **/*.js",
     "compile": "npm run compile:es6 && npm run compile:sass",
     "compile:es6": "browserify editor/src/js/main.js | uglifyjs -mc > editor/dist/js/main.bundle.js",
-    "compile:sass": "node-sass --include-path scss editor/src/sass/main.scss editor/dist/css/main.css",
+    "compile:sass": "gulp",
     "clean": "rimraf editor/dist/js/* & rimraf editor/dist/css/*"
   },
   "jshintConfig": {
@@ -44,10 +43,14 @@
     "passport-twitter": "^1.0.3"
   },
   "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^3.1.0",
+    "gulp-css-globbing": "^0.1.8",
+    "gulp-sass": "^2.3.1",
+    "gulp-util": "^3.0.7",
     "jasmine-core": "^2.4.1",
     "jshint": "^2.9.2",
     "mocha": "^2.5.3",
-    "node-sass": "^3.7.0",
     "nodemon": "^1.9.2",
     "rimraf": "^2.5.2",
     "sass-glob-importer": "^1.0.1",
