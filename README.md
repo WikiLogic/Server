@@ -1,9 +1,8 @@
 #WikiLogic 0.4: Ferret
-=========
 
-#*F*ront *E*nd: *R*est*R*ucturing *E*very*T*hing [![Build Status](https://travis-ci.org/WikiLogic/WikiLogic.svg?branch=master)](https://travis-ci.org/WikiLogic/WikiLogic)
+##*F*ront *E*nd: *R*est*R*ucturing *E*very*T*hing 
 
----
+###[![Build Status](https://travis-ci.org/WikiLogic/WikiLogic.svg?branch=master)](https://travis-ci.org/WikiLogic/WikiLogic)
 
 ##Getting set up
 
