@@ -4,6 +4,8 @@
 
 ###[![Build Status](https://travis-ci.org/WikiLogic/WikiLogic.svg?branch=master)](https://travis-ci.org/WikiLogic/WikiLogic)
 
+---
+
 ##Getting set up
 
 You'll need these already installed:
