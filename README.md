@@ -1,11 +1,33 @@
-WikiLogic 0.4: Ferret
+#WikiLogic 0.4: Ferret
 =========
 
-*F*ront *E*nd: *R*est*R*ucturing *E*very*T*hing
-
-[![Build Status](https://travis-ci.org/WikiLogic/WikiLogic.svg?branch=master)](https://travis-ci.org/WikiLogic/WikiLogic)
+#*F*ront *E*nd: *R*est*R*ucturing *E*very*T*hing [![Build Status](https://travis-ci.org/WikiLogic/WikiLogic.svg?branch=master)](https://travis-ci.org/WikiLogic/WikiLogic)
 
 ---
+
+##Getting set up
+
+You'll need these already installed:
+
+ - [Node.js](http://nodejs.org/)
+ - [MongoDB](http://www.mongodb.org/)
+ - [Browserify](http://browserify.org/)
+
+Then you can install WikiLogic:
+
+ - clone the repo
+ - run `npm i`
+
+Finally we can run it in a few ways:
+
+ - run `npm start` To run WL.
+ - run `npm start:dev` To start WL with all the development tools
+ - run `npm test` To check your work
+
+---
+
+##
+
 
 Our [main site](http://www.wikilogicfoundation.org/) serves as the intro to the idea behind WL.
 

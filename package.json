@@ -1,12 +1,31 @@
 {
   "name": "Wikilogic",
-  "version": "0.3.0",
+  "version": "0.4.1",
+  "main": "./server/server.js",
   "private": true,
+  "engine": {
+    "node": "4.4.5"
+  },
+  "scripts": {
+    "build": "npm run compile",
+    "start": "echo \"Starting WikiLogic\"",
+    "start:dev": "npm run clean && npm run compile && mongod && start chrome 'localhost:3000'",
+    "watch:sass": "nodemon -e scss -x \"npm run build-css\"",
+    "pretest": "run npm lint",
+    "test": "mocha ./editor/test -u bdd -R spec",
+    "lint": "jshint **/*.js",
+    "compile": "npm run compile:es6 && npm run compile:sass",
+    "compile:es6": "browserify editor/src/js/main.js | uglifyjs -mc > editor/dist/js/main.bundle.js",
+    "compile:sass": "node-sass --include-path scss editor/src/sass/main.scss editor/dist/css/main.css",
+    "clean": "rimraf editor/dist/js/* & rimraf editor/dist/css/*"
+  },
+  "jshintConfig": {
+    "esnext": true
+  },
+  "licence": "MIT",
+  "author": "Iain J McCallum",
   "dependencies": {
-    "angular-mocks": "^1.4.8",
-    "angular-ui-router": "^0.2.15",
     "async": "^1.2.1",
-    "babel-polyfill": "^6.9.1",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "~1.12.0",
     "cookie-parser": "^1.3.4",
@@ -15,9 +34,6 @@
     "express-handlebars": "^2.0.1",
     "express-session": "^1.11.2",
     "gravatar": "^1.1.1",
-    "gulp": "^3.8.11",
-    "gulp-nodemon": "^2.0.3",
-    "gulp-util": "^3.0.7",
     "jquery": "^2.2.4",
     "mongoose": "^4.0.3",
     "morgan": "^1.5.3",
@@ -25,27 +41,18 @@
     "passport-facebook": "^2.0.0",
     "passport-google-oauth": "^0.2.0",
     "passport-local": "^1.0.0",
-    "passport-twitter": "^1.0.3",
-    "phantomjs-prebuilt": "^2.1.7"
+    "passport-twitter": "^1.0.3"
   },
   "devDependencies": {
-    "babel-core": "^6.9.1",
-    "babel-loader": "^6.2.4",
-    "babel-preset-es2015": "^6.9.0",
-    "gulp-autoprefixer": "^2.3.1",
-    "gulp-css-globbing": "^0.1.8",
-    "gulp-sass": "^2.0.1",
-    "gulp-watch": "^4.2.4",
     "jasmine-core": "^2.4.1",
-    "karma": "^0.13.19",
-    "karma-chrome-launcher": "^0.2.2",
-    "karma-firefox-launcher": "^0.1.7",
-    "karma-ie-launcher": "^0.2.0",
-    "karma-jasmine": "^0.3.6",
-    "karma-phantomjs-launcher": "^1.0.0",
-    "karma-safari-launcher": "^0.1.1",
+    "jshint": "^2.9.2",
+    "mocha": "^2.5.3",
+    "node-sass": "^3.7.0",
+    "nodemon": "^1.9.2",
+    "rimraf": "^2.5.2",
+    "sass-glob-importer": "^1.0.1",
     "script-loader": "^0.7.0",
-    "webpack": "^1.13.1",
-    "webpack-stream": "^3.2.0"
+    "should": "^9.0.0",
+    "uglifyjs": "^2.4.10"
   }
 }
