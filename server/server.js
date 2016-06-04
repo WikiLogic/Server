@@ -69,18 +69,20 @@ console.timeEnd('     1: Setting up the routes');
 ==========================================*/
 console.timeEnd('    0: Everything ready!');
 
-var server = app.listen(process.env.PORT || 3000, function () {
+if (!module.parent){ //if testing, don't run the server, the test already has a server running
+	var server = app.listen(process.env.PORT || 3000, function () {
 
-  var host = server.address().address;
-  var port = server.address().port;
+	  var host = server.address().address;
+	  var port = server.address().port;
 
-	console.log('        ______ ____   __');
-	console.log('       / ____// __ \\ / /');
-	console.log('      / / __ / / / // / ');
-	console.log('     / /_/ // /_/ //_/  ');
-	console.log('     \\____/ \\____/(_)   ');
-	console.log(' ');
+		console.log('        ______ ____   __');
+		console.log('       / ____// __ \\ / /');
+		console.log('      / / __ / / / // / ');
+		console.log('     / /_/ // /_/ //_/  ');
+		console.log('     \\____/ \\____/(_)   ');
+		console.log(' ');
 
-	console.log('Connect to localhost:3000');
+		console.log('Connect to localhost:3000');
 
-});
+	});
+}
