@@ -9,13 +9,14 @@
   "scripts": {
     "build": "npm run compile",
     "start": "echo \"Starting WikiLogic\"",
-    "start:dev": "npm run clean && npm run compile && mongod && start chrome 'localhost:3000'",
+    "start:dev": "npm run clean && npm run compile && npm run watch | mongod | node ./server/server.js | start chrome /new-tab http://localhost:3000",
     "pretest": "run npm lint",
     "test": "mocha ./editor/test -u bdd -R spec",
     "lint": "jshint **/*.js",
+    "watch": "gulp watch",
     "compile": "npm run compile:es6 && npm run compile:sass",
     "compile:es6": "browserify editor/src/js/main.js | uglifyjs -mc > editor/dist/js/main.bundle.js",
-    "compile:sass": "gulp",
+    "compile:sass": "gulp sass",
     "clean": "rimraf editor/dist/js/* & rimraf editor/dist/css/*"
   },
   "jshintConfig": {
