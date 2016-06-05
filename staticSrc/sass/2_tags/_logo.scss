@@ -1,6 +1,7 @@
 /* <svg class="logo" */
 svg.logo {
 	width: 100%;
+	max-width: 100%;
 	fill: black;
 	path { fill: black; }
 
@@ -13,7 +14,8 @@ svg.logo {
 		height: 100px;
 	}
 	&--200 {
-		height: 200px;
+		width: 200px;
+		height: 100%;
 		
 	}
 }

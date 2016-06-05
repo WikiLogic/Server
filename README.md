@@ -23,7 +23,11 @@ Then you can pull in WikiLogic:
 Finally we can start it up:
 
  - `npm start` to run WL without any bells and whistles.
- - `npm run start:dev` Here be bells and whistles!
+
+ - `npm run start:dev` Here be bells and whistles! It runs the three below for you:
+	 - Starts up mongod: `npm run spinup:database`
+	 - Starts up node: `npm run spinup:server`
+	 - Starts up the watchers`npm run watch`
 
 ---
 

@@ -4,7 +4,7 @@
 .display-inline-block { display: inline-block; }
 .display-block { display: block; }
 
-.align-center { margin: 0 auto; }
+.align-center { margin: 0 auto;  display: block; }
 .v-align-top.v-align-top.v-align-top { vertical-align: top; }
 
 .y-scroll { overflow-y: auto; }

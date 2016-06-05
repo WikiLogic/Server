@@ -21,7 +21,8 @@
     "spinup": "npm run spinup:database & npm run spinup:server",
     "spinup:database": "start cmd /k mongod",
     "spinup:server": "start cmd /k nodemon --ignore editor ./server/server.js",
-    "watch": "npm run watch:es6",
+    "watch": "npm run watch:sass & np run watch:es6",
+    "watch:sass": "start cmd /k gulp",
     "watch:lint": "watch 'jshint staticSrc/es6/' staticSrc/es6/*.js",
     "watch:es6": "watchify staticSrc/es6/main.js -o static/js/main.bundle.js -dv",
     "watch:test": "npm run test -- --watch -R min"
