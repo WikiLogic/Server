@@ -15,15 +15,15 @@ You'll need these already installed:
  - [Browserify](http://browserify.org/)
  - [Gulp](http://gulpjs.com/)
 
-Then you can install WikiLogic:
+Then you can pull in WikiLogic:
 
- - clone the repo
- - run `npm i`
+ - `git clone https://github.com/WikiLogic/WikiLogic.git`
+ - `npm install`
 
-Finally we can run it:
+Finally we can start it up:
 
- - run `npm start` Will run WL without any bells and whistles.
- - run `npm start:dev` Here be bells and whistles!
+ - `npm start` to run WL without any bells and whistles.
+ - `npm run start:dev` Here be bells and whistles!
 
 ---
 

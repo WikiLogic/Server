@@ -16,26 +16,29 @@ var passport = require('passport'); //the authentication
 var session = require('express-session');
 var bodyParser   = require('body-parser'); //To read html forms
 var cookieParser = require('cookie-parser'); //To read the cookies, om nom nom
-//var morgan = require('morgan'); //for better logging
 var mongoose = require('mongoose'); //To talk to mongo!
 console.timeEnd('          6: Requiring modules');
 
 /* CONFIGURING the packages
 =========================================*/
 console.time('         5: Configuring packages');
-app.set('views', './views'); //Setting the location for template files
-app.engine('hbs', expressHbs({extname:'hbs', defaultLayout:'angular'})); //Setting the template rendering engine
+app.set('views', './server/views'); //Setting the location for template files
+app.engine('hbs', expressHbs({
+	extname:'hbs', 
+	defaultLayout:'default',
+	layoutsDir: './server/views/layouts',
+	partialsDir: './server/views/partials'
+}));
 app.set('view engine', 'hbs');
 app.use(bodyParser.json()); // Lets us get data from form submittion
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser()); //Getting data from cookies
-//app.use(morgan('tiny')); //Setting up the logging
 console.timeEnd('         5: Configuring packages');
 
 /* DEFINING the static files
 =========================================*/
 console.time('        4: Defining public resources');
-app.use(express.static('public')); //Setting the location for general static files (styling, images)
+app.use(express.static('static')); //Setting the location for general static files (styling, images)
 console.timeEnd('        4: Defining public resources');
 
 /* Setting up authentication using Passport
