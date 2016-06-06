@@ -107,6 +107,8 @@ some good ideas for styles: http://cognition.happycog.com/article/happy-cog-star
 
 Haxl: https://github.com/facebook/Haxl could be useful
 
+animations on scroll: https://github.com/michalsnik/aos - test this, looks good!
+
 ---
 
 Wikilogic is maintained by The [WikiLogic Foundation](http://www.wikilogicfoundation.org/) 
