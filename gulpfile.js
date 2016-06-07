@@ -41,7 +41,7 @@ gulp.task('es6', function(done) {
 });
 
 gulp.task('watch', function() {
-    gulp.watch(['staticSrc/sass/**/*.scss', 'staticSrc/js/**/*.js'], ['sass', 'es6']);
+    gulp.watch(['staticSrc/sass/**/*.scss', 'staticSrc/es6/**/*.js'], ['sass', 'es6']);
 });
 
 

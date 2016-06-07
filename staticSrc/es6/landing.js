@@ -17,8 +17,16 @@ $('.js-login').on('click', function(){
 		password: andEnter
 	},
 	function(data, status){
-		alert("Data: " + data + "\nStatus: " + status);
-	});
+		
+		if (status == 'success') {
+			//redirect to the editor... ?
+			window.location.href = "/editor";
+		}
+	}).done(function(){
+		console.log('complete');
+	}).fail(function(){
+		console.log('login fail');
+	})
 });
 
 $('.js-signup').on('click', function(){
