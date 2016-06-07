@@ -4,7 +4,12 @@
 var gulp = require('gulp'),
     sass = require('gulp-sass'),
     globbing = require('gulp-css-globbing'),
-    autoprefixer = require('gulp-autoprefixer');
+    autoprefixer = require('gulp-autoprefixer'),
+    browserify = require('browserify'),
+    source     = require('vinyl-source-stream'),
+    rename     = require('gulp-rename'),
+    glob       = require('glob'),
+    es         = require('event-stream');
 
 gulp.task('sass', function() {
   return gulp.src('staticSrc/sass/main.scss')
@@ -17,26 +22,27 @@ gulp.task('sass', function() {
 });
 
 gulp.task('es6', function(done) {
-    glob('./app/main-**.js', function(err, files) {
+    glob('./staticSrc/es6/**.js', function(err, files) {
         if(err) done(err);
 
         var tasks = files.map(function(entry) {
+            console.log('entry: ', entry);
             return browserify({ entries: [entry] })
                 .bundle()
                 .pipe(source(entry))
                 .pipe(rename({
+                    dirname: '',
                     extname: '.bundle.js'
                 }))
-                .pipe(gulp.dest('./dist'));
+                .pipe(gulp.dest('./static/js'));
             });
         es.merge(tasks).on('end', done);
     })
 });
 
-
 gulp.task('watch', function() {
-    gulp.watch('staticSrc/sass/**/*.scss', ['sass']);
+    gulp.watch(['staticSrc/sass/**/*.scss', 'staticSrc/js/**/*.js'], ['sass', 'es6']);
 });
 
 
-gulp.task('default', ['sass','watch']);
+gulp.task('default', ['sass','es6','watch']);

@@ -21,7 +21,7 @@
     "spinup": "npm run spinup:database & npm run spinup:server",
     "spinup:database": "start cmd /k mongod",
     "spinup:server": "start cmd /k nodemon --ignore editor ./server/server.js",
-    "watch": "npm run watch:sass & np run watch:es6",
+    "watch": "npm run watch:sass",
     "watch:sass": "start cmd /k gulp",
     "watch:lint": "watch 'jshint staticSrc/es6/' staticSrc/es6/*.js",
     "watch:es6": "watchify staticSrc/es6/main.js -o static/js/main.bundle.js -dv",
@@ -54,6 +54,7 @@
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.0",
     "gulp-css-globbing": "^0.1.8",
+    "gulp-rename": "^1.2.2",
     "gulp-sass": "^2.3.1",
     "gulp-util": "^3.0.7",
     "jasmine-core": "^2.4.1",
@@ -64,6 +65,7 @@
     "script-loader": "^0.7.0",
     "should": "^9.0.0",
     "uglifyjs": "^2.4.10",
+    "vinyl-source-stream": "^1.1.0",
     "watch": "^0.18.0",
     "watchify": "^3.7.0"
   }

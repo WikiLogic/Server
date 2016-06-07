@@ -9815,77 +9815,30 @@ return jQuery;
 }));
 
 },{}],2:[function(require,module,exports){
-require('jquery');
+$ = require('jquery');
 
-var WL_STATE = require('./state/WL_STATE.js');
 
-rivets.configure({
-	prefix: 'view',
-	preloadData: true,
-	rootInterface: '.',
-	templateDelimiters: ['{', '}'],
-	handler: function(target, event, binding) {
-		//Nothing hapening in this hook other than logging for development
-		console.info('->> user interaction: ', binding.keypath);
-		//this is required to continue the chain of events
-		this.call(target, event, binding.view.models);
-	}
+
+$('.js-login').on('click', function(){
+	console.log('login button clicked!');
+	//email
+	var speakFriend = $('.js-speak-friend').val();
+	//password
+	var andEnter = $('.js-and-enter').val();
+
+	console.log('speakFriend: ', speakFriend);
+	console.log('andEnter: ', andEnter);
+	
+	$.post("login", {
+		email: speakFriend,
+		password: andEnter
+	},
+	function(data, status){
+		alert("Data: " + data + "\nStatus: " + status);
+	});
 });
 
-rivets.bind($('#god'), WL_STATE);
-},{"./state/WL_STATE.js":3,"jquery":1}],3:[function(require,module,exports){
-'use strict';
-
-var WL_STATE = {};
-
-WL_STATE.user = require('./user'); //get user init from state.user.js
-
-module.exports = {
-	user : {
-		gravatar: 'string',
-		drafts_list: {
-			items: []
-		},
-		claim_list: {
-			items: []
-		},
-		trashed_list: {
-			items: []
-		} 
-	},
-	search: {
-		term: 'search term',
-		results: [],
-		order: 'the order',
-		selectedResult: {}
-	},
-	alerts: {
-		settings: {
-			enabled: true,
-			level: 5,
-			duration: 5000
-		},
-		items: []
-	},
-	display: {
-		claim_list: {
-			items: []
-		}
-	}
-};
-},{"./user":4}],4:[function(require,module,exports){
-'use strict';
-
-module.exports = {
-	gravatar: 'string',
-	drafts_list: {
-		items: []
-	},
-	claim_list: {
-		items: []
-	},
-	trashed_list: {
-		items: []
-	} 
-}
-},{}]},{},[2]);
+$('.js-signup').on('click', function(){
+	console.log('signup button clicked!');
+});
+},{"jquery":1}]},{},[2]);
