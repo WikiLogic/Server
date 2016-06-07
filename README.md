@@ -13,7 +13,8 @@ You'll need these already installed:
  - [Node.js](http://nodejs.org/)
  - [MongoDB](http://www.mongodb.org/)
  - [Browserify](http://browserify.org/)
- - [Gulp](http://gulpjs.com/)
+ - [Gulp 4](http://gulpjs.com/) `npm install -g gulpjs/gulp.git#4.0`
+ npm install -g jshint
 
 Then you can pull in WikiLogic:
 

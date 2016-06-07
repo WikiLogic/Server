@@ -9,7 +9,9 @@ var gulp = require('gulp'),
     source     = require('vinyl-source-stream'),
     rename     = require('gulp-rename'),
     glob       = require('glob'),
-    es         = require('event-stream');
+    es         = require('event-stream'),
+    jslint = require('gulp-jslint');
+
 
 gulp.task('sass', function() {
   return gulp.src('staticSrc/sass/main.scss')
@@ -20,6 +22,11 @@ gulp.task('sass', function() {
     .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1'))
     .pipe(gulp.dest('static/css'));
 });
+
+gulp.task('watch:sass', function() {
+    gulp.watch('staticSrc/sass/**/*.scss', gulp.series('sass'));
+});
+
 
 gulp.task('es6', function(done) {
     glob('./staticSrc/es6/**.js', function(err, files) {
@@ -40,9 +47,10 @@ gulp.task('es6', function(done) {
     })
 });
 
-gulp.task('watch', function() {
-    gulp.watch(['staticSrc/sass/**/*.scss', 'staticSrc/es6/**/*.js'], ['sass', 'es6']);
+gulp.task('watch:es6', function() {
+    gulp.watch('staticSrc/es6/**/*.js', gulp.series('es6'));
 });
 
 
-gulp.task('default', ['sass','es6','watch']);
+gulp.task('watch', gulp.parallel('watch:sass', 'watch:es6'));
+gulp.task('default', gulp.series('sass','es6','watch'));
