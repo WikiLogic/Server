@@ -24,10 +24,11 @@ Finally we can start it up:
 
  - `npm start` to run WL without any bells and whistles.
 
- - `npm run start:dev` Here be bells and whistles! It runs the three below for you:
-	 - Starts up mongod: `npm run spinup:database`
-	 - Starts up node: `npm run spinup:server`
-	 - Starts up the watchers`npm run watch`
+ - `npm run start:dev` Here be bells and whistles! It should open 3 command line windows running these:
+	 - For the DB: `npm run spinup:database` (starts up mongod)
+	 - For the server: `npm run spinup:server` (starts up the node server with nodemon, will restart on any changes in /server)
+	 - For the front end: `gulp` (compiles & watches sass and js)
+	 - The window you ran the original command from should remain free so you can commit to your hearts content without worrying about stop/starting any processes!
 
 ---
 
