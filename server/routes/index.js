@@ -25,7 +25,7 @@ module.exports = function(router, passport) {
 	/* Serving the Explorer Angular app.*/
 	router.get('/', function (req, res) {
 		//res.render('app-wrappers/explorer.hbs');
-		res.render('landing.hbs');
+		res.render('landing.hbs', {layout: 'landing'});
 	});
 
 	router.get('/styleguide', function (req, res) {
@@ -42,14 +42,6 @@ module.exports = function(router, passport) {
 	=====================================================================
 	=====================================================================
 	=====================================================================*/
-
-	router.get('/signup', function (req, res) {
-		res.render('layouts/signup.hbs', {layout: false});
-	});
-
-	router.get('/login', function (req, res) {
-		res.render('layouts/login.hbs', {layout: false});
-	});
 
 	router.post('/signup', passport.authenticate('local-signup', {
 		successRedirect: '/profile',
