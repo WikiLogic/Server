@@ -28,7 +28,7 @@ Finally we can start it up:
  - `npm run start:dev` Here be bells and whistles! It should open 3 command line windows running these:
 	 - For the DB: `npm run spinup:database` (starts up mongod)
 	 - For the server: `npm run spinup:server` (starts up the node server with nodemon, will restart on any changes in /server)
-	 - For the front end: `gulp` (compiles & watches sass and js)
+	 - For the front end: `gulp` (compiles & watches sass, js, and svgs)
 	 - The window you ran the original command from should remain free so you can commit to your hearts content without worrying about stop/starting any processes!
 
 ---

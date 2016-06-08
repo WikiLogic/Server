@@ -27,7 +27,7 @@ app.engine('hbs', expressHbs({
 	extname:'hbs', 
 	defaultLayout:'default',
 	layoutsDir: './server/views/layouts',
-	partialsDir: './server/views/partials'
+	partialsDir: ['./server/views/partials', './server/views/svgs']
 }));
 app.set('view engine', 'hbs');
 app.use(bodyParser.json()); // Lets us get data from form submittion

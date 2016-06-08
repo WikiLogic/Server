@@ -10,7 +10,8 @@ var gulp = require('gulp'),
     rename     = require('gulp-rename'),
     glob       = require('glob'),
     es         = require('event-stream'),
-    jslint = require('gulp-jslint');
+    jslint = require('gulp-jslint'),
+    svgSprite  = require('gulp-svg-sprite');
 
 
 gulp.task('sass', function() {
@@ -51,6 +52,35 @@ gulp.task('watch:es6', function() {
     gulp.watch('staticSrc/es6/**/*.js', gulp.series('es6'));
 });
 
+var svgConfig = {
+    svg:{
+        rootAttributes: {width: 0, height: 0, display: 'none'}
+    },
+    mode: {
+        symbol: {
+            dest: '.',
+            //sprite : 'vector.spritesheet.svg',
+            sprite : 'svgs.hbs',
+            /*example: {
+                template: src + '/sprites/vector.example.html',
+                dest: 'vector.example.html'
+            }*/
+            example: null
+        }
+    }
+}
 
-gulp.task('watch', gulp.parallel('watch:sass', 'watch:es6'));
-gulp.task('default', gulp.series('sass','es6','watch'));
+gulp.task('svg', function () {
+
+    return gulp.src('staticSrc/svgs/**.svg')
+        .pipe(svgSprite(svgConfig))
+        .pipe(gulp.dest('server/views/partials/'));
+});
+
+gulp.task('watch:svg', function() {
+    gulp.watch('staticSrc/svgs/**.svg', gulp.series('svg'));
+});
+
+
+gulp.task('watch', gulp.parallel('watch:sass', 'watch:es6', 'watch:svg'));
+gulp.task('default', gulp.series('sass','es6','svg','watch'));
