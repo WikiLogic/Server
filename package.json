@@ -11,16 +11,12 @@
   },
   "scripts": {
     "start": "npm run spinup",
-    "start:dev": "npm run spinup & npm run watch",
-    "clean": "rimraf static/js/* & rimraf static/css/*",
-    "test": "mocha ./test -u bdd -R spec",
-    "spinup": "npm run spinup:database & npm run spinup:server",
-    "spinup:database": "start cmd /k mongod",
-    "spinup:server": "start cmd /k nodemon --ignore editor ./server/server.js",
-    "watch": "npm run watch:staticSrc",
-    "watch:staticSrc": "start cmd /k gulp & npm run watch:lint",
-    "watch:lint": "watch 'jshint staticSrc/es6/*.js' staticSrc/es6/",
-    "watch:test": "npm run test -- --watch -R min"
+    "start:dev": "npm run database & npm run server & npm run staticSrc & npm run test",
+    "database": "start cmd /k mongod",
+    "server": "start cmd /k nodemon --ignore editor ./server/server.js",
+    "gulp": "start cmd /k gulp",
+    "test": "npm run mocha -- --watch -R min",
+    "mocha": "mocha ./test -u bdd -R spec"
   },
   "jshintConfig": {
     "esnext": true
@@ -53,18 +49,14 @@
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^2.3.1",
     "gulp-util": "^3.0.7",
-    "install": "^0.8.1",
     "jasmine-core": "^2.4.1",
     "jshint": "^2.9.2",
     "mocha": "^2.5.3",
     "npm": "^3.9.5",
-    "rimraf": "^2.5.2",
     "sass-glob-importer": "^1.0.1",
-    "script-loader": "^0.7.0",
     "should": "^9.0.0",
     "uglifyjs": "^2.4.10",
     "vinyl-source-stream": "^1.1.0",
     "watch": "^0.18.0",
-    "watchify": "^3.7.0"
   }
 }
