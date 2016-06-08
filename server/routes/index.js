@@ -106,7 +106,7 @@ module.exports = function(router, passport) {
 	/* Serving the Editor Angular app */
 	/* Need to set 'Editor' as value of angluar-app */
 	router.get('/editor', hasAccess, function(req, res) {
-		res.render('layouts/angular.hbs');
+		res.render('editor.hbs', {layout: 'app'});
 	});
 
 	router.use('/user', hasAccess, require('./user-route') ); //provides data about the user to the user
