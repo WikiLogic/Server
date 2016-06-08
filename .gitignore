@@ -18,9 +18,6 @@ lib-cov
 # Coverage directory used by tools like istanbul
 coverage
 
-# Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
-.grunt
-
 # node-waf configuration
 .lock-wscript
 
@@ -30,8 +27,8 @@ build/Release
 # Dependency directory
 # https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git
 node_modules
-bower_modules
 .idea
+
 # OS X
 .DS_Store*
 Icon?
@@ -42,11 +39,4 @@ Thumbs.db
 ehthumbs.db
 Desktop.ini
 
-
-# =============================================================================== #
-#My convention folder for saving files via bit torrent sync, not meant for GitHub #
-# =============================================================================== #
-
-/Assets*/
-Web.config
 
