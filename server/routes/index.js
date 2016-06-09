@@ -99,7 +99,8 @@ module.exports = function(router, passport) {
 	// user profile - is this part of an angular app?
 	router.get('/profile', hasAccess, function(req, res) {
 		res.render('profile.hbs', {
-            user : req.user // get the user out of session and pass to template
+			layout: 'app',
+            user: req.user // get the user out of session and pass to template
         });
 	});
 
