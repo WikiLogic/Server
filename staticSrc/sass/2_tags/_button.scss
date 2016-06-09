@@ -6,11 +6,16 @@ button
 
 	padding: 9px 14px 8px;
 	color: white;
+	fill: white;
 	border: 0;
 	position: relative;
 	display: block;
 	cursor: pointer;
 	user-select: none; 
+
+	svg { 
+		fill:white; 
+	}
 
 	&--compact {
 		padding: 5px 14px 4px;

@@ -1,6 +1,8 @@
 svg {
 	width: 1em;
 	height: 1em;
+	min-height: rem(16);
+	min-width: rem(16);
 	display: inline-block;
 	vertical-align: middle;
 }

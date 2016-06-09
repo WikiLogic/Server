@@ -1,3 +1,120 @@
+<!-- This is the 'drafts' view. Everything to do with looking at you rlist of drafts, changing them and making new ones is held here -->
+
+<!-- draft to edit (slides down when active) -->
+
+<div class="card box bg-color--white">
+
+    <!-- editor box title -->
+    <div class="splitter splitter--full-width splitter--v-centered">
+        <div class="splitter__left">
+            <h3>
+                <svg><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#pencil"></use></svg>
+                <span>Edit</span>
+            </h3>
+        </div>
+        <div class="splitter__right">
+            <div class="button display-inline-block" ng-click="saveEdit(currentDraft)">Save</div>
+            <div class="button display-inline-block">Publish</div>
+            <div class="button display-inline-block">Delete</div>
+        </div>
+    </div>
+
+    <!-- edit claim text -->
+    <div class="splitter splitter--full-width splitter--v-centered box box--5 bg-pattern--red">
+        <div class="splitter__left box v-align-top">
+            <h3 class="no-break">
+                <img ng-if="currentDraft.status" src="/icons/black/check.svg" alt="true" class="icon">
+                <img ng-if="!currentDraft.status" src="/icons/black/cross.svg" alt="false" class="icon">
+            </h3>
+        </div>
+        <div class="splitter__right full-width">
+            <textarea name="" id="" rows="3" class="full-width display-block textarea--red" ng-model="currentDraft.description"></textarea>
+        </div>
+    </div>
+
+    <!-- edit claim refrences -->
+    <div class="row">
+        <div class="col col--50 js-supporting-column">
+
+            <!-- for column header -->
+            <div class="splitter splitter--full-width splitter--v-bottom">
+                <div class="splitter__left"><h3>For</h3></div>
+                <div class="splitter__right">
+                    <div class="button button--compact display-inline-block" ng-click="addArgument('supporting')">Add argument</div>
+                </div>
+            </div>
+
+            <br class="br--5">
+
+            <!-- for each argument group in supporting -->
+                        
+        </div>
+
+        
+        <div class="col col--50 js-opposing-column">
+
+            <!-- against column header -->
+            <div class="splitter splitter--full-width splitter--v-bottom">
+                <div class="splitter__left"><h3>Against</h3></div>
+                <div class="splitter__right">
+                    <div class="button button--compact display-inline-block" ng-click="addArgument('opposing')">Add argument</div>
+                </div>
+            </div>
+
+            <br class="br--5">
+            
+            <!-- for each argument group in.opposing -->
+            
+
+        </div>
+    </div>
+
+</div>
+
+<br class="br--5">
+
+<!-- List box -->
 <div class="card bg-color--white box">
-    <p>this is the editor view!</p>
+
+    <div class="splitter splitter--full-width splitter--v-centered">
+        <div class="splitter__left">
+            <h3><svg><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#pencil"></use></svg> Drafts</h3>
+        </div>
+        <div class="splitter__right">
+            <input type="text" placeholder="Search Drafts" >
+            <button class="button button--blue display-inline-block">New Draft <svg><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#plus"></use></svg></button>
+        </div>
+    </div>
+
+    <br>
+
+
+    
+
+
+    <!-- for each draft -->
+    <div class="claim-list-item splitter splitter--full-width box box--5 box--wide">
+        <p class="splitter__left">
+            <svg class="bump-up-1"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#check"></use></svg>
+            <a ng-href="#edit-draft/{{draft._id}}">draft.description</a>
+        </p>
+        <div class="claim-list-item__hover-show splitter__right">
+            <!--<a class="button button--compact display-inline" ng-href="#edit-draft/{{draft._id}}">Edit</a>-->
+            <div class="button button--compact button--green display-inline" ng-click="publishDraft(draft)">Publish</div>
+            <div class="button button--compact button--red display-inline" ng-click="deleteDraft(draft)">Delete</div>
+        </div>
+    </div>
+
+    <div class="claim-list-item splitter splitter--full-width box box--5 box--wide">
+        <p class="splitter__left">
+            <svg class="bump-up-1"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>
+            <a ng-href="#edit-draft/{{draft._id}}">draft.description</a>
+        </p>
+        <div class="claim-list-item__hover-show splitter__right">
+            <!--<a class="button button--compact display-inline" ng-href="#edit-draft/{{draft._id}}">Edit</a>-->
+            <div class="button button--compact button--green display-inline" ng-click="publishDraft(draft)">Publish</div>
+            <div class="button button--compact button--red display-inline" ng-click="deleteDraft(draft)">Delete</div>
+        </div>
+    </div>
+
 </div>

@@ -4,4 +4,9 @@
 	&--5 {
 		padding: rem(5);
 	}
+
+	&--wide {
+		padding-right: 0;
+		padding-left: 0;
+	}
 }

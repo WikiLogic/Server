@@ -11,7 +11,7 @@
   },
   "scripts": {
     "start": "npm run database & npm run server",
-    "start:dev": "npm run database & npm run server & npm run staticSrc & npm run test",
+    "start:dev": "npm run database & npm run server & npm run gulp & npm run test",
     "database": "start cmd /k mongod",
     "server": "start cmd /k nodemon ./server/server.js",
     "gulp": "start cmd /k gulp",
