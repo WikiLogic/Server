@@ -663,6 +663,12 @@ select {
     box-shadow: 0 0 5px #5f9aec;
     border: 1px solid #5f9aec; }
 
+svg {
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  vertical-align: middle; }
+
 table {
   font-size: 1rem;
   margin-bottom: 1em; }
@@ -953,6 +959,12 @@ They should get you 90% of the look you're after
   height: 1em;
   display: inline-block;
   vertical-align: middle; }
+  .icon--30 {
+    width: 1.875rem;
+    height: 1.875rem; }
+  .icon--60 {
+    width: 3.75rem;
+    height: 3.75rem; }
 
 .icon-history {
   background-image: url(/images/icons/history.svg); }
@@ -964,10 +976,14 @@ They should get you 90% of the look you're after
   display: inline; }
 
 .display-inline-block {
-  display: inline-block; }
+  display: inline-block;
+  vertical-align: middle; }
 
 .display-block {
   display: block; }
+
+.display-none {
+  display: none; }
 
 .align-center {
   margin: 0 auto;
@@ -978,6 +994,30 @@ They should get you 90% of the look you're after
 
 .y-scroll {
   overflow-y: auto; }
+
+.bump-up-1 {
+  position: relative;
+  top: -1px; }
+
+.bump-up-2 {
+  position: relative;
+  top: -2px; }
+
+.bump-up-3 {
+  position: relative;
+  top: -3px; }
+
+.bump-down-1 {
+  position: relative;
+  top: 1px; }
+
+.bump-down-2 {
+  position: relative;
+  top: 2px; }
+
+.bump-down-3 {
+  position: relative;
+  top: 3px; }
 
 /* text helpers */
 .text-right {
@@ -1295,6 +1335,9 @@ think carefully before adding anything in here.
     .draft-editor__description .autosizing-input__input, .draft-editor__description .autosizing-input__sizer {
       font-size: 26px; }
 
+/* Pretty unique this bit - the logo at the top of the site.
+ * So I think it deserves it's own component.
+ */
 .notification-wrap {
   position: absolute;
   top: 11px;

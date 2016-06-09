@@ -1,11 +1,9 @@
 <div class="bg-pattern header-layout">
 
-    <div class="header-layout__head search-form bg-color--grey-1 box">
-        <a class="search-form__icon" href="/">
-            <span class="logo--white">
-                <svg><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#wl"></use></svg>
-            </span>
-        </a> 
+    <div class="header-layout__head search-form bg-color--grey-1">
+        
+        <svg class="icon icon--60"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#wl"></use></svg>
+        
         <input class="js-search" type="text" placeholder="Search WL">
     </div>
 
@@ -16,7 +14,7 @@
             <hr>
 
             <div class="text-center">
-                <a href="#my-profile" class="align-center border user-icon display-inline-block">
+                <a href="#my-profile" class="border user-icon display-inline-block">
                     <img src="{{user.meta.gravatar}}?s=80" alt="your profile" class="display-block">
                 </a>
                 <p>Iain J McCallum</p>

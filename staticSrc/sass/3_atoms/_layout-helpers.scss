@@ -1,10 +1,24 @@
 .full-width { width: 100%; }
 
 .display-inline { display: inline; }
-.display-inline-block { display: inline-block; }
+.display-inline-block { display: inline-block; vertical-align: middle; }
 .display-block { display: block; }
+.display-none {	display: none; }
 
 .align-center { margin: 0 auto;  display: block; }
 .v-align-top.v-align-top.v-align-top { vertical-align: top; }
 
 .y-scroll { overflow-y: auto; }
+
+.bump {
+	&-up {
+		&-1 { position: relative; top: -1px; }
+		&-2 { position: relative; top: -2px; }
+		&-3 { position: relative; top: -3px; }
+	}
+	&-down {
+		&-1 { position: relative; top: 1px; }
+		&-2 { position: relative; top: 2px; }
+		&-3 { position: relative; top: 3px; }
+	}
+}

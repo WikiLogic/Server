@@ -3,6 +3,16 @@
 	height: 1em;
 	display: inline-block;
 	vertical-align: middle;
+
+	&--30 {
+		width: rem(30);
+		height: rem(30);
+	}
+
+	&--60 {
+		width: rem(60);
+		height: rem(60);
+	}
 }
 
 .icon-history {
