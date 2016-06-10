@@ -17,5 +17,11 @@ hr {
 	border-top: 1px dashed rgba($WL_Blue, 0.5);
 	margin: 0 0 rem(16) 0;
 
-	&.hr--zeroed { margin:0; }
+	&.hr{
+		&--zeroed { margin:0; }
+
+		&--white { border-color: white; }
+	}
+
+
 }

@@ -109,7 +109,10 @@ The various settings / variables that will be used throughout
     color: white; }
 
 .text-color--white {
-  color: white !important; }
+  color: white !important;
+  fill: white; }
+  .text-color--white svg {
+    fill: white; }
 
 .text-color--red {
   color: #F25454 !important; }
@@ -121,7 +124,10 @@ The various settings / variables that will be used throughout
   color: #31D332 !important; }
 
 .text-color--black {
-  color: black !important; }
+  color: black !important;
+  fill: black; }
+  .text-color--black svg {
+    fill: black; }
 
 .hover-color--grey-2:hover {
   color: #223856;
@@ -526,6 +532,8 @@ hr {
   margin: 0 0 1rem 0; }
   hr.hr--zeroed {
     margin: 0; }
+  hr.hr--white {
+    border-color: white; }
 
 /*
 input[type='submit'] 
@@ -843,6 +851,9 @@ p.small {
 
 .text-align-center {
   text-align: center; }
+
+.text-align-left {
+  text-align: left !important; }
 
 .no-break {
   white-space: nowrap; }

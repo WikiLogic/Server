@@ -47,11 +47,11 @@ $grey-1:		#131E2D;  //default grey-dark
 }
 
 .text-color {
-	&--white { color: white !important; }
+	&--white { color: white !important; fill: white; svg { fill: white; } }
 	&--red { color: $WL_Red !important; }
 	&--blue { color: $WL_Blue !important; }
 	&--green { color: $WL_Green !important; }
-	&--black { color: black !important; }
+	&--black { color: black !important; fill: black; svg { fill: black; } }
 }
 
 .hover-color {
