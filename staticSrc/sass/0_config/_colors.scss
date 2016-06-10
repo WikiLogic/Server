@@ -12,8 +12,8 @@ $grey-a:		#aaaaaa;
 $grey-6:		#666666;
 $grey-5:		#555555;
 $grey-4:		#444444;
-$grey-3:		#333333;
-$grey-2:		#222222;
+$grey-3:		#375073;
+$grey-2:		#223856;
 $grey-1:		#131E2D;  //default grey-dark
 
 
@@ -52,4 +52,9 @@ $grey-1:		#131E2D;  //default grey-dark
 	&--blue { color: $WL_Blue !important; }
 	&--green { color: $WL_Green !important; }
 	&--black { color: black !important; }
+}
+
+.hover-color {
+	&--grey-2:hover { color: $grey-2; fill: $grey-2; }
+	&--red:hover { color: $WL_Red; fill: $WL_Red; }
 }

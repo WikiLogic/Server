@@ -9,11 +9,13 @@
 	<div class="display-none">{{>svgs}}</div>
 	<div class="header-layout">
 
-	    <div class="header-layout__head search-form bg-color--grey-1">
-	        
-	        <svg class="icon icon--60"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#wl"></use></svg>
-	        
-	        <input class="js-search" type="text" placeholder="Search WL">
+	    <div class="header-layout__head bg-color--grey-1 splitter splitter--full-width box box--16">
+	        <div class="splitter__left">
+	        	<svg class="icon icon--30"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#wl"></use></svg>	
+	        </div>
+	        <div class="splitter__right full-width">
+	        	<input class="js-search full-width" type="text" placeholder="Search WL">
+	        </div>
 	    </div>
 
 	    <div class="header-layout__body sidebar-layout">
@@ -45,7 +47,7 @@
 	            </div>
 	        </div>
 
-	        <div class="sidebar-layout__main y-scroll box">
+	        <div class="sidebar-layout__main">
 	             	
 	             {{{body}}}
 

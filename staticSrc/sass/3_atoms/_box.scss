@@ -5,8 +5,17 @@
 		padding: rem(5);
 	}
 
+	&--16 {
+		padding: rem(16);
+	}
+
 	&--wide {
 		padding-right: 0;
 		padding-left: 0;
+	}
+
+	&--tall {
+		padding-top: 0;
+		padding-bottom: 0;
 	}
 }

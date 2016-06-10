@@ -77,7 +77,7 @@ The various settings / variables that will be used throughout
     color: white; }
 
 .bg-color--grey-3 {
-  background-color: #333333;
+  background-color: #375073;
   color: white; }
   .bg-color--grey-3 svg {
     fill: white; }
@@ -85,7 +85,7 @@ The various settings / variables that will be used throughout
     color: white; }
 
 .bg-color--grey-2 {
-  background-color: #222222;
+  background-color: #223856;
   color: white; }
   .bg-color--grey-2 svg {
     fill: white; }
@@ -122,6 +122,14 @@ The various settings / variables that will be used throughout
 
 .text-color--black {
   color: black !important; }
+
+.hover-color--grey-2:hover {
+  color: #223856;
+  fill: #223856; }
+
+.hover-color--red:hover {
+  color: #F25454;
+  fill: #F25454; }
 
 /*! normalize.css v3.0.1 | MIT License | git.io/normalize */
 /**
@@ -567,6 +575,15 @@ button
       border: 0;
       outline: 0;
       box-shadow: inset 0px 0px 5px rgba(208, 16, 16, 0.5); }
+  .button--clear {
+    background-image: none;
+    background: none; }
+    .button--clear:hover {
+      background-image: none;
+      background: none; }
+    .button--clear:active {
+      background-image: none;
+      background: none; }
   .button:focus, input[type='submit']:focus, button:focus {
     outline: 0; }
   .button--clear {
@@ -651,10 +668,10 @@ svg.logo {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #333333; }
+  background: #375073; }
 
 ::-webkit-scrollbar-thumb:window-inactive {
-  background: #333333; }
+  background: #375073; }
 
 select {
   background-color: white;
@@ -669,8 +686,6 @@ select {
 svg {
   width: 1em;
   height: 1em;
-  min-height: 1rem;
-  min-width: 1rem;
   display: inline-block;
   vertical-align: middle; }
 
@@ -790,33 +805,34 @@ h6 {
 /* ================ */
 p.lead-in {
   font-size: 1rem;
-  line-height: 1.375rem; }
+  line-height: 1.2; }
 
 p {
   font-size: 0.875rem;
-  line-height: 1.375rem;
+  line-height: 1.2;
   margin: 0 0 1em; }
 
-p small {
-  font-size: 0.6875rem; }
+p small,
+p.small {
+  font-size: 0.6875rem;
+  line-height: 1; }
 
 @media (min-width: 540px) {
   p.lead-in {
-    font-size: 1.0625rem;
-    line-height: 1.5rem; }
+    font-size: 1.0625rem; }
   p {
     font-size: 0.9375rem; }
-  p small {
+  p small,
+  p.small {
     font-size: 0.75rem; } }
 
 @media (min-width: 768px) {
   p.lead-in {
-    font-size: 1.125rem;
-    line-height: 1.625rem; }
+    font-size: 1.125rem; }
   p {
-    font-size: 1rem;
-    line-height: 1.5rem; }
-  p small {
+    font-size: 1rem; }
+  p small,
+  p.small {
     font-size: 0.8125rem; } }
 
 .text-underline {
@@ -929,14 +945,22 @@ They should get you 90% of the look you're after
     border-color: rgba(49, 211, 50, 0.5); }
   .border--solid {
     border-style: solid; }
+  .border--top {
+    border-width: 0;
+    border-top-width: 1px; }
 
 .box {
   padding: 1rem; }
   .box--5 {
     padding: 0.3125rem; }
+  .box--16 {
+    padding: 1rem; }
   .box--wide {
     padding-right: 0;
     padding-left: 0; }
+  .box--tall {
+    padding-top: 0;
+    padding-bottom: 0; }
 
 .card {
   margin: auto;
@@ -954,6 +978,15 @@ They should get you 90% of the look you're after
     z-index: -1; }
   .card--500 {
     max-width: 500px; }
+  .card--drop {
+    border-top-right-radius: 0;
+    border-top-left-radius: 0; }
+  .card--pop {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0; }
+
+.cursor-pointer {
+  cursor: pointer; }
 
 .icon {
   width: 1em;
@@ -985,6 +1018,12 @@ They should get you 90% of the look you're after
 
 .display-none {
   display: none; }
+
+.float-right {
+  float: right; }
+
+.float-left {
+  float: left; }
 
 .align-center {
   margin: 0 auto;
@@ -1174,21 +1213,17 @@ These create the structurs within which components will live
     margin-bottom: 0; }
   .splitter__left {
     display: table-cell;
-    vertical-align: top;
+    vertical-align: middle;
     padding-right: 0.625rem; }
   .splitter__right {
     display: table-cell;
-    vertical-align: top;
+    vertical-align: middle;
     padding-left: 0.625rem; }
   .splitter--full-width {
     display: table;
     width: 100%; }
     .splitter--full-width .splitter__right {
       text-align: right; }
-  .splitter--v-centered > .splitter__left {
-    vertical-align: middle; }
-  .splitter--v-centered > .splitter__right {
-    vertical-align: middle; }
   .splitter--v-bottom > .splitter__left {
     vertical-align: bottom; }
   .splitter--v-bottom > .splitter__right {
@@ -1250,7 +1285,7 @@ think carefully before adding anything in here.
 .claim-finder__section-title {
   display: -ms-flexbox;
   display: flex;
-  border-bottom: 1px solid #333333;
+  border-bottom: 1px solid #375073;
   margin-top: 20px;
   margin-bottom: 5px; }
 
@@ -1294,14 +1329,11 @@ think carefully before adding anything in here.
   .claim-search-result:hover .btn {
     opacity: 1; }
 
-.claim-list-item__hover-show .button, .claim-list-item__hover-show input[type='submit'], .claim-list-item__hover-show button {
+.claim-list-item__hover-show {
   opacity: 0; }
 
-.claim-list-item:hover .claim-list-item__hover-show .button, .claim-list-item:hover .claim-list-item__hover-show input[type='submit'], .claim-list-item:hover .claim-list-item__hover-show button {
+.claim-list-item:hover .claim-list-item__hover-show {
   opacity: 1; }
-
-.claim-list-item:hover .icon {
-  fill: #31D332; }
 
 .js-collapsable-title {
   position: relative; }

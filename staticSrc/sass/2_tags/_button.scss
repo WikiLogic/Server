@@ -64,6 +64,19 @@ button
 		}
 	}
 
+	&--clear {
+		background-image: none;
+		background: none;
+		&:hover {
+			background-image: none;
+			background: none;
+		}
+		&:active {
+			background-image: none;
+			background: none;
+		}
+	}
+
 	&:focus {
 		outline: 0;
 	}

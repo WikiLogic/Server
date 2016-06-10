@@ -2,19 +2,12 @@
 	$block: &;
 
 	&__hover-show {
-		.button {
-			opacity: 0;
-		}
+		opacity: 0;
 	}
 	&:hover {
 		#{$block}__hover-show {
-			.button {
-				opacity: 1;
-			}
-		}
-		.icon {
-			fill: $WL_Green;
+			opacity: 1;
+		
 		}
 	}
-
 }

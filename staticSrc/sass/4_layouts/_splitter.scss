@@ -5,12 +5,12 @@
 
 	&__left {
 		display: table-cell;
-		vertical-align: top;
+		vertical-align: middle;
 		padding-right: rem(10);
 	}
 	&__right {
 		display: table-cell;
-		vertical-align: top;
+		vertical-align: middle;
 		padding-left: rem(10);
 	}
 
@@ -20,15 +20,6 @@
 		.splitter__right { text-align: right; }
 	}
 
-	&--v-centered {
-		> .splitter__left {
-			vertical-align: middle;
-		}
-
-		> .splitter__right {
-			vertical-align: middle;
-		}
-	}
 
 	&--v-bottom {
 		> .splitter__left {

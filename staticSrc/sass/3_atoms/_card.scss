@@ -20,4 +20,14 @@
 	&--500 {
 		max-width: 500px;
 	}
+
+	&--drop {
+		border-top-right-radius: 0;
+		border-top-left-radius: 0;
+	}
+
+	&--pop {
+		border-bottom-right-radius: 0;
+		border-bottom-left-radius: 0;
+	}
 }

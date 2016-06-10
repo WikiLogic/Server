@@ -8,5 +8,10 @@
 	&--green { border-color: rgba($WL_Green, 0.5); }
 	
 	&--solid { border-style: solid; }
+
+	&--top {
+		border-width: 0;
+		border-top-width: 1px;
+	}
 }
 
