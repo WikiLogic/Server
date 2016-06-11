@@ -1,15 +1,6 @@
 //took this: https://css-tricks.com/dont-overthink-it-grids/ and tweaked it... a lot
 $pad: rem(16);
 
-@mixin col-base(){
-	float: left;
-	padding-right: $pad;
-	&:last-of-type {
-		padding-right: 0;
-		padding-bottom: 0;
-	}
-}
-
 .row {
 
 	&:after {
@@ -38,15 +29,23 @@ $pad: rem(16);
 	&.row { .row__col--left-padding  { padding-left: $pad; } }
 
 
-	// half column, 50%, easy
-	&__col--1-half { 
-		width: 50%;
-		@include col-base();
+
+	@mixin col-base($width){
+
+		//by default - colum width at all widths
+		width: $width;
+		float: left;
+		padding-right: $pad;
+
+		&:last-of-type {
+			padding-right: 0;
+		}
 
 		//to declare a breakpoint by the class
 		&\@small {
 			//reset all to full width
 			width: 100%;
+			padding-right: 0;
 			//make a gap between them
 			padding-bottom: $pad;
 			//except on the last guy
@@ -55,17 +54,23 @@ $pad: rem(16);
 			//when the named breakpoint arrives
 			@include breakpoint(small) { 
 				//set it all back to normal
-				@include col-base();
-				width: 50%; 
+				width: $width;
+				float: left;
+				padding-right: $pad;
 				padding-bottom: 0;
+				&:last-of-type {
+					padding-right: 0;
+				}
 			}
 		}
-		
 	}
 
-	&__col--1-third { width: 33.33%; }
-	&__col--2-third { width: 66.66%; }
+	// half column, 50%, easy
+	&__col--1-quarter {	@include col-base(25%); }
+	&__col--1-third { @include col-base(33.33%); }
 
-	&__col--1-quarter {	width: 25%; }
-	&__col--3-quarter {	width: 75%; }
+	&__col--1-half { @include col-base(50%); }
+		
+	&__col--2-third { @include col-base(66.66%); }
+	&__col--3-quarter {	@include col-base(75%); }
 }

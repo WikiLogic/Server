@@ -30,7 +30,7 @@ module.exports = function(router, passport) {
 
 	router.get('/styleguide', function (req, res) {
 		//res.render('app-wrappers/explorer.hbs');
-		res.render('styleguide.hbs', {layout: false});
+		res.render('styleguide.hbs', {layout: 'app'});
 	});
 
 

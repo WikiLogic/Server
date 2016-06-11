@@ -1,70 +1,79 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>Wikilogic Styleguide</title>
-    <link rel="stylesheet" type="text/css" href="/styles/main.css">
-</head>
-<body class="bg-pattern header-layout">
-	<div class="header-layout__head search-form bg-color--grey-1 box">
-        <a class="search-form__icon" href="/">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" class="logo--white">
-                <path fill="white" d="M245.812,152.105c-0.522-0.521-0.798-1.595-0.83-3.223c-0.034-1.626,0.244-2.767,0.83-3.418
-                c10.938,0.261,18.196,0.391,21.777,0.391c3.711,0,9.57-0.13,17.578-0.391c0.65,0.651,0.977,1.774,0.977,3.369
-                c0,1.596-0.327,2.686-0.977,3.271c-2.995,0.327-5.566,0.977-7.715,1.953s-3.972,2.458-5.469,4.443
-                c-1.499,1.987-2.637,3.745-3.418,5.273c-0.781,1.53-1.792,3.825-3.027,6.885l-68.145,167.376c-1.172,3.06-2.768,4.622-4.785,4.688
-                c-1.889,0-3.418-1.562-4.59-4.688l-64.156-166.3c-2.866-7.356-5.258-12.109-7.178-14.258c-1.921-2.148-5.518-3.45-10.791-3.906
-                c-0.651-0.65-0.977-1.758-0.977-3.32s0.259-2.669,0.781-3.32c8.789,0.261,15.723,0.391,20.801,0.391
-                c5.469,0,13.541-0.13,24.219-0.391c0.521,0.651,0.781,1.774,0.781,3.369c0,1.596-0.261,2.686-0.781,3.271
-                c-6.706,0.717-10.678,2.067-11.914,4.053c-1.237,1.987-0.651,5.942,1.758,11.865l56.539,145.402h0.977l58.282-145.598
-                c2.539-5.469,3.14-9.57,1.807-12.305C256.831,154.253,252.712,152.627,245.812,152.105z"/> 
 
-                <path fill="white" d="M309.812,151.105c-0.522-0.521-0.798-1.595-0.83-3.223c-0.034-1.626,0.244-2.767,0.83-3.418
-                c10.938,0.261,18.196,0.391,21.777,0.391c3.711,0,40.425-0.13,48.433-0.391c0.65,0.651,0.977,1.774,0.977,3.369
-                c0,1.596-0.327,2.686-0.977,3.271c-2.995,0.327-33.023-0.701-38.57,1.953c-2.129,1.019-3.972,2.458-5.469,4.443
-                c-1.499,1.987-2.637,3.745-3.418,5.273c-0.781,1.53-1.792,3.825-3.027,6.885l-68.145,167.376c-1.172,3.06-2.768,4.622-4.785,4.688
-                c-1.889,0-3.418-1.562-4.59-4.688l-64.156-166.3c-2.866-7.356-5.258-12.109-7.178-14.258c-1.921-2.148-5.518-3.45-10.791-3.906
-                c-0.651-0.65-0.977-1.758-0.977-3.32s0.259-2.669,0.781-3.32c8.789,0.261,15.723,0.391,20.801,0.391
-                c5.469,0,13.541-0.13,24.219-0.391c0.521,0.651,0.781,1.774,0.781,3.369c0,1.596-0.261,2.686-0.781,3.271
-                c-6.706,0.717-10.678,2.067-11.914,4.053c-1.237,1.987-0.651,5.942,1.758,11.865l56.539,145.402h0.977l58.282-145.598
-                c2.539-5.469,3.14-9.57,1.807-12.305C320.831,153.253,316.712,151.627,309.812,151.105z"/> 
+<div class="box">
 
-                <path fill="white" d="M350.832,147.904c-0.098,1.27,29.645,2.81,29.19,3.201l-6.586,0.267c-3.972,0.391-5.927,0.743-7.815,2.175
-                c-1.889,1.433-3.529,3.796-4.613,6.543l-70.182,164.469c-0.41,1.012-0.642,1.814-0.577,2.596c0,2.279,1.032,4.11,2.334,5.412
-                c1.302,1.303,3.125,1.953,5.469,1.953h61.973c11.588,0,21.387-8.724,29.395-26.172c2.278-0.521,4.166-0.064,5.664,1.367
-                c-5.469,13.607-9.343,23.609-11.621,32.008c-11.719-0.261-19.304-0.391-22.754-0.391h-80.625c-3.972,0-11.431,0.13-23.475,0.391
-                c-0.391-0.911-1.07-2.002-0.939-3.271c0.13-1.27,0.391-2.1,0.781-2.49l6.142,0.037c3.971-0.391,6.008-0.925,7.897-2.357
-                c1.888-1.432,3.447-3.674,4.613-6.543l73.853-175.127L350.832,147.904z"/>
-            </svg>
-        </a> 
-        <input class="search-form__input" type="text" ng-model="searchInput" placeholder="Search WL" ng-change="searchInputChange()">
-    </div>
-	<div class="header-layout__body sidebar-layout">
-		
-		
-		<div class="sidebar-layout__side y-scroll bg-color--grey-1">
-			<hr>
-			<div class="box">
-				TODO: styleguide menu in here
-				<p>Typography</p>
-			</div>
-			<hr>
-			<div class="box">
-                {{> nav-utility }}
+	<h1 class="text-color--white">WikiLogic Styleguide</h1>
+	<p class="text-color--white">These are the classes you are looking for</p>
+
+	<hr class="hr--white">
+
+	<div class="card bg-color--white box">
+		<p>claim list item</p>
+		<div class="claim-list-item splitter splitter--full-width box box--5 box--wide">
+            
+            <a class="splitter__left">
+                <svg class="bump-up-1 color--black"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#check"></use></svg>
+                draft.description
+            </a>
+            
+            <div class="claim-list-item__hover-show splitter__right text-color--black">
+            
+                <svg class="icon hover-color--blue cursor-pointer"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#pencil"></use></svg>
+                <svg class="icon hover-color--blue cursor-pointer"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#cloud-upload"></use></svg>
+                <svg class="icon hover-color--red cursor-pointer"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#trash"></use></svg>
+                
             </div>
-		</div>
-		<div class="sidebar-layout__main y-scroll box">
-			
-			<h1 class="text-color--white">WikiLogic Styleguide</h1>
-			<p class="text-color--white">Description of the purpose of this</p>
+        </div>
+    </div>
 
-			<br>
+	<br>
+	<hr class="hr--white">
 
+	<div class="row">
+		<div class="row__col--1-third box bg-color--red">$WL_Red</div>
+		<div class="row__col--1-third box bg-color--blue">$WL_Blue</div>
+		<div class="row__col--1-third box bg-color--green">$WL_Green</div>
+	</div>
+
+	<div class="row">
+		<div class="row__col--1-third box bg-pattern--red">$WL_Red</div>
+		<div class="row__col--1-third box bg-pattern">$WL_Blue</div>
+		<div class="row__col--1-third box bg-pattern--green">$WL_Green</div>
+	</div>
+
+	<br>
+
+	<div class="row">
+		<div class="row__col--1-half box bg-color--white">white</div>
+		<div class="row__col--1-half box bg-color--grey-1">$grey-1</div>	
+
+		<div class="row__col--1-half box bg-color--grey-e">$grey-e</div>
+		<div class="row__col--1-half box bg-color--grey-2">$grey-2</div>	
+
+		<div class="row__col--1-half box bg-color--grey-d">$grey-d</div>
+		<div class="row__col--1-half box bg-color--grey-3">$grey-3</div>	
+
+		<div class="row__col--1-half box bg-color--grey-c">$grey-c</div>
+		<div class="row__col--1-half box bg-color--grey-4">$grey-4</div>	
+
+		<div class="row__col--1-half box bg-color--grey-b">$grey-b</div>
+		<div class="row__col--1-half box bg-color--grey-5">$grey-5</div>	
+
+		<div class="row__col--1-half box bg-color--grey-a">$grey-a</div>
+		<div class="row__col--1-half box bg-color--grey-6">$grey-6</div>	
+	</div>
+	
+	<br>
+	<hr class="hr--white">
+	<p class="text-color--white">Typography</p>
+
+	<div class="row">
+
+		<div class="row__col--1-half">
 			<div class="card box bg-color--white">
 				<h2>Typography</h2>
 				<hr>
-				<h1>Heading 1</h1>
-				<h2>Heading 2</h2>
+				<h1>Page Heading, h1</h1>
+				<h2>Section Heading, h2</h2>
 				<h3>Heading 3</h3>
 				<h4>Heading 4</h4>
 				<h5>Heading 5</h5>
@@ -78,150 +87,172 @@
 					<li>Default list</li>
 				</ul>
 			</div>
+		</div>
 
-			<br>
-
-			<div class="card box bg-color--white">
-				<h2>Form Elements</h2>
+		<div class="row__col--1-half">
+			<div class="card box bg-color--black">
+				<h2>Typography</h2>
 				<hr>
-				<div class="row">
-					<div class="col col--50 box">
-						<p>Independant form elements, <br>
-						auto width / width determined by component</p>
-						<p><input type="text"></p>
-						<p><input type="password"></p>
-						<p><select name="select">
-							<option value="One">One</option>
-							<option value="Two">Two</option>
-							<option value="Three">Three</option>
-							<option value="Four">Four</option>
-						</select></p>
-						<textarea name="" id="" cols="30" rows="10"></textarea>
-						<p><button>button</button></p>
-					</div>
-					<div class="col col--50 box">
-						<p>Within a form width 100%</p>
-						<form action="">
-							<p><input type="text"></p>
-							<p><input type="password"></p>
-							<p><select name="select">
-								<option value="One">One</option>
-								<option value="Two">Two</option>
-								<option value="Three">Three</option>
-								<option value="Four">Four</option>
-							</select></p>
-							<p><textarea name="" id="" cols="30" rows="10"></textarea></p>
-							<p><button>button</button></p>
-						</form>
-					</div>
-				</div>
+				<h1>Page Heading, h1</h1>
+				<h2>Section Heading, h2</h2>
+				<h3>Heading 3</h3>
+				<h4>Heading 4</h4>
+				<h5>Heading 5</h5>
+				<h6>Heading 6</h6>
+				<p>Paragraph text. Et mazim tamquam eligendi usu. Justo etiam impetus ne mea, te mel epicuri platonem, cum dico scripserit ea. Malis assum sapientem id eum, id mei aliquip labitur cotidieque. Sonet vivendum torquatos vix ex. Cibo neglegentur eu nec. Ius solet graeci ut. Ad sale inciderint his.</p>
+				<p>plain, <a href="#">link</a>, <i>italic</i>, <b>bold</b>, <i><b>bold italic</b></i></p>
+				<p><small>plain, <a href="#">link</a>, <i>italic</i>, <b>bold</b>, <i><b>bold italic</b></i></small></p>
+				<ul>
+					<li>Default list</li>
+					<li>Default list</li>
+					<li>Default list</li>
+				</ul>
 			</div>
+		</div>
 
-			<br>
+	</div>
 
-			<div class="card box bg-color--white">
-				<h2>Backgrounds</h2>
-				<hr>
-				<div class="flex-row">
-					<div class="col box bg-color--grey-1">
-						<p>.bg-color--grey-1</p>
-						<div class="box bg-color--white">.bg-color--white</div>
-					</div>
-					<div class="col box bg-pattern">.bg-pattern</div>
-					<div class="col box bg-pattern--red">.bg-pattern--red</div>
-					<div class="col box bg-pattern--green">.bg-pattern--green</div>
-				</div>
+	
+
+	<br>
+
+	<div class="card box bg-color--white">
+		<h2>Form Elements</h2>
+		<hr>
+		<div class="row">
+			<div class="col col--50 box">
+				<p>Independant form elements, <br>
+				auto width / width determined by component</p>
+				<p><input type="text"></p>
+				<p><input type="password"></p>
+				<p><select name="select">
+					<option value="One">One</option>
+					<option value="Two">Two</option>
+					<option value="Three">Three</option>
+					<option value="Four">Four</option>
+				</select></p>
+				<textarea name="" id="" cols="30" rows="10"></textarea>
+				<p><button>button</button></p>
 			</div>
-
-			<br>
-			
-			<div class="card box bg-color--white">
-				<h2>Buttons</h2>
-				<hr>
-				<div class="flex-row box text-center">
-					<div class="col">
-						<button>.button / button</button>
-					</div>
-					<div class="col">
-						<button class="button--green">.button--green</button>
-					</div>
-					<div class="col">
-						<button class="button--red">.button--red</button>
-					</div>
-				</div>
-				<div class="flex-row bg-color--grey-1 box text-center">
-					<div class="col">
-						<button>.button / button</button>
-					</div>
-					<div class="col">
-						<button class="button--green">.button--green</button>
-					</div>
-					<div class="col">
-						<button class="button--red">.button--red</button>
-					</div>
-				</div>
+			<div class="col col--50 box">
+				<p>Within a form width 100%</p>
+				<form action="">
+					<p><input type="text"></p>
+					<p><input type="password"></p>
+					<p><select name="select">
+						<option value="One">One</option>
+						<option value="Two">Two</option>
+						<option value="Three">Three</option>
+						<option value="Four">Four</option>
+					</select></p>
+					<p><textarea name="" id="" cols="30" rows="10"></textarea></p>
+					<p><button>button</button></p>
+				</form>
 			</div>
-
-			<br>
-
-			<div class="card box bg-color--white">
-
-				<h2>Layouts</h2>
-				<hr>
-				<h3>.header-layout</h3>
-				<div class="header-layout">
-					<div class="header-layout__head box border">
-						<p>.header-layout__head</p>
-					</div>
-					<div class="header-layout__body box border">
-						<p>.header-layout__body</p>
-						<br>
-						<h3>.sidebar-layout</h3>
-						<div class="sidebar-layout">
-							<div class="sidebar-layout__side box border">
-								<p>.sidebar-layout__side</p>
-							</div>
-							<div class="sidebar-layout__main box border">
-								<p>.sidebar-layout__main</p>	
-							</div>
-						</div>
-						<br>
-						<h3>.flex-row</h3>
-						<div class="flex-row">
-							<div class="col border"><p>.col</p></div>
-							<div class="col border"><p>.col</p></div>
-							<div class="col border"><p>can have an arbritery number of cols.</p></div>
-							<div class="col border"><p>They will adapt.</p></div>
-						</div>
-						<br>
-						<h3>.row</h3>
-						<p>More tranditional columns, defined by %, 90, 80, 75, 70, 50, 30, 25, 20, 10</p>
-						<div class="row">
-							<div class="col col--50 border box">.col.col--50</div>
-							<div class="col col--20 border box">.col.col--20</div>
-							<div class="col col--10 border box">.col.col--10</div>
-							<div class="col col--10 border box">.col.col--10</div>
-							<div class="col col--10 border box">.col.col--10</div>
-						</div>
-						<br>
-						<h3>.splitter</h3>
-						<div class="splitter">
-							<div class="splitter__left box border"><p>.splitter__left</p></div>
-							<div class="splitter__right box border"><p>.splitter__right</p></div>
-						</div>
-						<br>
-						<p>.splitter .splitter--full-width</p>
-						<div class="splitter splitter--full-width">
-							<div class="splitter__left box border"><p>.splitter__left</p></div>
-							<div class="splitter__right box border"><p>.splitter__right</p></div>
-						</div>
-
-					</div>
-				</div>
-
-			</div>
-
 		</div>
 	</div>
-</body>
-</html>
+
+	<br>
+
+	<div class="card box bg-color--white">
+		<h2>Backgrounds</h2>
+		<hr>
+		<div class="flex-row">
+			<div class="col box bg-color--grey-1">
+				<p>.bg-color--grey-1</p>
+				<div class="box bg-color--white">.bg-color--white</div>
+			</div>
+			<div class="col box bg-pattern">.bg-pattern</div>
+			<div class="col box bg-pattern--red">.bg-pattern--red</div>
+			<div class="col box bg-pattern--green">.bg-pattern--green</div>
+		</div>
+	</div>
+
+	<br>
+
+	<div class="card box bg-color--white">
+		<h2>Buttons</h2>
+		<hr>
+		<div class="flex-row box text-center">
+			<div class="col">
+				<button>.button / button</button>
+			</div>
+			<div class="col">
+				<button class="button--green">.button--green</button>
+			</div>
+			<div class="col">
+				<button class="button--red">.button--red</button>
+			</div>
+		</div>
+		<div class="flex-row bg-color--grey-1 box text-center">
+			<div class="col">
+				<button>.button / button</button>
+			</div>
+			<div class="col">
+				<button class="button--green">.button--green</button>
+			</div>
+			<div class="col">
+				<button class="button--red">.button--red</button>
+			</div>
+		</div>
+	</div>
+
+	<br>
+
+	<div class="card box bg-color--white">
+
+		<h2>Layouts</h2>
+		<hr>
+		<h3>.header-layout</h3>
+		<div class="header-layout">
+			<div class="header-layout__head box border">
+				<p>.header-layout__head</p>
+			</div>
+			<div class="header-layout__body box border">
+				<p>.header-layout__body</p>
+				<br>
+				<h3>.sidebar-layout</h3>
+				<div class="sidebar-layout">
+					<div class="sidebar-layout__side box border">
+						<p>.sidebar-layout__side</p>
+					</div>
+					<div class="sidebar-layout__main box border">
+						<p>.sidebar-layout__main</p>	
+					</div>
+				</div>
+				<br>
+				<h3>.flex-row</h3>
+				<div class="flex-row">
+					<div class="col border"><p>.col</p></div>
+					<div class="col border"><p>.col</p></div>
+					<div class="col border"><p>can have an arbritery number of cols.</p></div>
+					<div class="col border"><p>They will adapt.</p></div>
+				</div>
+				<br>
+				<h3>.row</h3>
+				<p>More tranditional columns, defined by %, 90, 80, 75, 70, 50, 30, 25, 20, 10</p>
+				<div class="row">
+					<div class="col col--50 border box">.col.col--50</div>
+					<div class="col col--20 border box">.col.col--20</div>
+					<div class="col col--10 border box">.col.col--10</div>
+					<div class="col col--10 border box">.col.col--10</div>
+					<div class="col col--10 border box">.col.col--10</div>
+				</div>
+				<br>
+				<h3>.splitter</h3>
+				<div class="splitter">
+					<div class="splitter__left box border"><p>.splitter__left</p></div>
+					<div class="splitter__right box border"><p>.splitter__right</p></div>
+				</div>
+				<br>
+				<p>.splitter .splitter--full-width</p>
+				<div class="splitter splitter--full-width">
+					<div class="splitter__left box border"><p>.splitter__left</p></div>
+					<div class="splitter__right box border"><p>.splitter__right</p></div>
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+</div>

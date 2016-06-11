@@ -9,9 +9,9 @@ $grey-d:		#dddddd;
 $grey-c:		#cccccc;
 $grey-b:		#bbbbbb;
 $grey-a:		#aaaaaa;
-$grey-6:		#666666;
-$grey-5:		#555555;
-$grey-4:		#444444;
+$grey-6:		#6f8db9;
+$grey-5:		#5e7ca8;
+$grey-4:		#4e6a92;
 $grey-3:		#375073;
 $grey-2:		#223856;
 $grey-1:		#131E2D;  //default grey-dark
@@ -31,6 +31,9 @@ $grey-1:		#131E2D;  //default grey-dark
 }
 
 .bg-color {
+	&--red { background-color: $WL_Red; @include light-typography();}
+	&--blue { background-color: $WL_Blue; @include light-typography(); }
+	&--green { background-color: $WL_Green; @include light-typography(); }
 	&--white { background-color: white; @include dark-typography(); }
 	&--grey-e { background-color: $grey-e; @include dark-typography(); }
 	&--grey-d { background-color: $grey-d; @include dark-typography(); }
@@ -54,7 +57,12 @@ $grey-1:		#131E2D;  //default grey-dark
 	&--black { color: black !important; fill: black; svg { fill: black; } }
 }
 
+.color {
+	&--black { fill: black !important; }
+}
+
 .hover-color {
 	&--grey-2:hover { color: $grey-2; fill: $grey-2; }
 	&--red:hover { color: $WL_Red; fill: $WL_Red; }
+	&--blue:hover { color: $WL_Blue; fill: $WL_Blue; }
 }

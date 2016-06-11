@@ -4,6 +4,30 @@ The various settings / variables that will be used throughout
 */
 /* colors */
 /* shades of grey */
+.bg-color--red {
+  background-color: #F25454;
+  color: white; }
+  .bg-color--red svg {
+    fill: white; }
+  .bg-color--red h1, .bg-color--red h2, .bg-color--red h3, .bg-color--red h4, .bg-color--red h5, .bg-color--red h6, .bg-color--red p {
+    color: white; }
+
+.bg-color--blue {
+  background-color: #5f9aec;
+  color: white; }
+  .bg-color--blue svg {
+    fill: white; }
+  .bg-color--blue h1, .bg-color--blue h2, .bg-color--blue h3, .bg-color--blue h4, .bg-color--blue h5, .bg-color--blue h6, .bg-color--blue p {
+    color: white; }
+
+.bg-color--green {
+  background-color: #31D332;
+  color: white; }
+  .bg-color--green svg {
+    fill: white; }
+  .bg-color--green h1, .bg-color--green h2, .bg-color--green h3, .bg-color--green h4, .bg-color--green h5, .bg-color--green h6, .bg-color--green p {
+    color: white; }
+
 .bg-color--white {
   background-color: white;
   color: black; }
@@ -53,7 +77,7 @@ The various settings / variables that will be used throughout
     color: black; }
 
 .bg-color--grey-6 {
-  background-color: #666666;
+  background-color: #6f8db9;
   color: white; }
   .bg-color--grey-6 svg {
     fill: white; }
@@ -61,7 +85,7 @@ The various settings / variables that will be used throughout
     color: white; }
 
 .bg-color--grey-5 {
-  background-color: #555555;
+  background-color: #5e7ca8;
   color: white; }
   .bg-color--grey-5 svg {
     fill: white; }
@@ -69,7 +93,7 @@ The various settings / variables that will be used throughout
     color: white; }
 
 .bg-color--grey-4 {
-  background-color: #444444;
+  background-color: #4e6a92;
   color: white; }
   .bg-color--grey-4 svg {
     fill: white; }
@@ -129,6 +153,9 @@ The various settings / variables that will be used throughout
   .text-color--black svg {
     fill: black; }
 
+.color--black {
+  fill: black !important; }
+
 .hover-color--grey-2:hover {
   color: #223856;
   fill: #223856; }
@@ -136,6 +163,10 @@ The various settings / variables that will be used throughout
 .hover-color--red:hover {
   color: #F25454;
   fill: #F25454; }
+
+.hover-color--blue:hover {
+  color: #5f9aec;
+  fill: #5f9aec; }
 
 /*! normalize.css v3.0.1 | MIT License | git.io/normalize */
 /**
@@ -938,7 +969,12 @@ When you come to adding markup, you should be looking to style it using classes 
 They should get you 90% of the look you're after
 */
 .bg-pattern {
+  color: white;
   background-image: repeating-linear-gradient(30deg, rgba(59, 131, 232, 0.5), rgba(59, 131, 232, 0.5) 8px, rgba(36, 117, 229, 0.5) 9px, rgba(59, 131, 232, 0.5) 10px), radial-gradient(circle farthest-corner at 50% 20%, rgba(72, 140, 233, 0.5), black); }
+  .bg-pattern svg {
+    fill: white; }
+  .bg-pattern h1, .bg-pattern h2, .bg-pattern h3, .bg-pattern h4, .bg-pattern h5, .bg-pattern h6, .bg-pattern p {
+    color: white; }
   .bg-pattern--red {
     background-image: repeating-linear-gradient(30deg, rgba(239, 46, 46, 0.5), rgba(239, 46, 46, 0.5) 8px, rgba(237, 22, 22, 0.5) 9px, rgba(239, 46, 46, 0.5) 10px), radial-gradient(circle farthest-corner at 50% 20%, rgba(240, 60, 60, 0.5), rgba(113, 9, 9, 0.5)); }
   .bg-pattern--green {
@@ -1132,39 +1168,110 @@ These create the structurs within which components will live
 .row.row .row__col--left-padding {
   padding-left: 1rem; }
 
+.row__col--1-quarter {
+  width: 25%;
+  float: left;
+  padding-right: 1rem; }
+  .row__col--1-quarter:last-of-type {
+    padding-right: 0; }
+  .row__col--1-quarter\@small {
+    width: 100%;
+    padding-right: 0;
+    padding-bottom: 1rem; }
+    .row__col--1-quarter\@small:last-of-type {
+      padding-bottom: 0; }
+    @media (min-width: 540px) {
+      .row__col--1-quarter\@small {
+        width: 25%;
+        float: left;
+        padding-right: 1rem;
+        padding-bottom: 0; }
+        .row__col--1-quarter\@small:last-of-type {
+          padding-right: 0; } }
+
+.row__col--1-third {
+  width: 33.33%;
+  float: left;
+  padding-right: 1rem; }
+  .row__col--1-third:last-of-type {
+    padding-right: 0; }
+  .row__col--1-third\@small {
+    width: 100%;
+    padding-right: 0;
+    padding-bottom: 1rem; }
+    .row__col--1-third\@small:last-of-type {
+      padding-bottom: 0; }
+    @media (min-width: 540px) {
+      .row__col--1-third\@small {
+        width: 33.33%;
+        float: left;
+        padding-right: 1rem;
+        padding-bottom: 0; }
+        .row__col--1-third\@small:last-of-type {
+          padding-right: 0; } }
+
 .row__col--1-half {
   width: 50%;
   float: left;
   padding-right: 1rem; }
   .row__col--1-half:last-of-type {
-    padding-right: 0;
-    padding-bottom: 0; }
+    padding-right: 0; }
   .row__col--1-half\@small {
     width: 100%;
+    padding-right: 0;
     padding-bottom: 1rem; }
     .row__col--1-half\@small:last-of-type {
       padding-bottom: 0; }
     @media (min-width: 540px) {
       .row__col--1-half\@small {
+        width: 50%;
         float: left;
         padding-right: 1rem;
-        width: 50%;
         padding-bottom: 0; }
         .row__col--1-half\@small:last-of-type {
-          padding-right: 0;
-          padding-bottom: 0; } }
-
-.row__col--1-third {
-  width: 33.33%; }
+          padding-right: 0; } }
 
 .row__col--2-third {
-  width: 66.66%; }
-
-.row__col--1-quarter {
-  width: 25%; }
+  width: 66.66%;
+  float: left;
+  padding-right: 1rem; }
+  .row__col--2-third:last-of-type {
+    padding-right: 0; }
+  .row__col--2-third\@small {
+    width: 100%;
+    padding-right: 0;
+    padding-bottom: 1rem; }
+    .row__col--2-third\@small:last-of-type {
+      padding-bottom: 0; }
+    @media (min-width: 540px) {
+      .row__col--2-third\@small {
+        width: 66.66%;
+        float: left;
+        padding-right: 1rem;
+        padding-bottom: 0; }
+        .row__col--2-third\@small:last-of-type {
+          padding-right: 0; } }
 
 .row__col--3-quarter {
-  width: 75%; }
+  width: 75%;
+  float: left;
+  padding-right: 1rem; }
+  .row__col--3-quarter:last-of-type {
+    padding-right: 0; }
+  .row__col--3-quarter\@small {
+    width: 100%;
+    padding-right: 0;
+    padding-bottom: 1rem; }
+    .row__col--3-quarter\@small:last-of-type {
+      padding-bottom: 0; }
+    @media (min-width: 540px) {
+      .row__col--3-quarter\@small {
+        width: 75%;
+        float: left;
+        padding-right: 1rem;
+        padding-bottom: 0; }
+        .row__col--3-quarter\@small:last-of-type {
+          padding-right: 0; } }
 
 .header-layout {
   height: 100vh;
