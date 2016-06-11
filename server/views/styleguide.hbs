@@ -5,16 +5,44 @@
 	<p class="text-color--white">These are the classes you are looking for</p>
 
 	<div class="tabs js-tabs" data-tab-group="guide">
-		<div class="tab" data-tab-name="basic">
+		<div class="tabs__tab tabs__tab--active" data-tab-name="basic">
 			Basic Styles
 		</div>
-		<div class="tab" data-tab-name="components">
+		<div class="tabs__tab" data-tab-name="components">
 			Components
 		</div>
-		<div class="tab" data-tab-name="tab">
+		<div class="tabs__tab" data-tab-name="tab">
 			And these are tabs!
 		</div>
 	</div>
+
+	<br>
+
+	<div class="tabs tabs--light js-tabs" data-tab-group="guide">
+		<div class="tabs__tab tabs__tab--active" data-tab-name="basic">
+			These
+		</div>
+		<div class="tabs__tab" data-tab-name="components">
+			are 
+		</div>
+		<div class="tabs__tab" data-tab-name="tab">
+			light tabs
+		</div>
+	</div>
+
+	<br>
+
+	<div class="toaster js-toaster">
+		<div class="toaster__bread">
+			This is a toaster (you might call it an accordion, but we dont).
+			<svg class="toaster__bread__icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#plus"></use></svg>
+		</div>
+		<div class="toaster__toast">
+			Here is the toast! Yes - it's upside down, but that's relative.
+		</div>
+	</div>
+
+	<br>
 
 	<div class="card bg-color--white box">
 		<p>claim list item</p>
@@ -38,6 +66,8 @@
 	<br>
 	<hr class="hr--white">
 
+	<p>Here are the colors we use, and our column classes:</p>
+
 	<div class="row">
 		<div class="row__col--1-third">
 			<div class="box bg-color--red">$WL_Red</div> 
@@ -47,6 +77,25 @@
 		</div>
 		<div class="row__col--1-third">
 			<div class="box bg-color--green">$WL_Green</div>
+		</div>
+	</div>
+
+	<br>
+
+	<div class="row">
+		<div class="row__col--1-half">
+			<div class="box bg-color--grey-1">$grey-1</div>
+		</div>
+		<div class="row__col--1-half">
+			<div class="box bg-color--white">white</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="row__col--1-half">
+			<div class="box bg-color--grey-2">$grey-2</div>
+		</div>
+		<div class="row__col--1-half">
+			<div class="box bg-color--grey-e">$grey-e</div>
 		</div>
 	</div>
 
@@ -64,29 +113,45 @@
 
 	<br>
 
-	<div class="row">
-		<div class="row__col--1-half">
-			<div class="box bg-color--grey-1">$grey-1</div>
+	
+	<br>
+
+	<div class="card box bg-color--white">
+		<p>This is a card! And here's one of my favorite layout helpers:</p>
+		<div class="splitter">
+			<div class="splitter__left box border"><p>I call it a "splitter"</p></div>
+			<div class="splitter__right box border"><p>The borders are just showing the structure</p></div>
 		</div>
-		<div class="row__col--1-half">
-			<div class="box bg-color--grey-2">$grey-2</div>
+		<br>
+		<div class="splitter splitter--full-width">
+			<div class="splitter__left box border"><p>It pushes things left</p></div>
+			<div class="splitter__right box border"><p>and right,<br>in line with each other! <br>This one's also a full width variant</p></div>
 		</div>
+
+		<br>
+		<div class="box bg-color--grey-1">
+			Also
+			<div class="box bg-color--white">
+				you might have noticed
+				<div class="box bg-color--grey-1">
+					everything has the same padding!
+					<div class="box bg-color--white">
+						That's because <i>all</i> the padding is handled by a little class called
+						<div class="box bg-color--grey-1">.box</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
 	</div>
 
 	<br>
-
-	<div class="card box bg-color--white">.card .bg-color--white .box</div>
-
-	<br>
 	<hr class="hr--white">
-	<p class="text-color--white">Typography</p>
 
 	<div class="row">
 
 		<div class="row__col--1-half">
 			<div class="card box bg-color--white">
-				<h2>Typography</h2>
-				<hr>
 				<h1>Page Heading, h1</h1>
 				<h2>Section Heading, h2</h2>
 				<h3>Heading 3</h3>
@@ -106,8 +171,6 @@
 
 		<div class="row__col--1-half">
 			<div class="card box bg-color--grey-1">
-				<h2>Typography</h2>
-				<hr>
 				<h1>Page Heading, h1</h1>
 				<h2>Section Heading, h2</h2>
 				<h3>Heading 3</h3>
@@ -131,23 +194,22 @@
 
 	<br>
 
-	<div class="card box bg-color--white">
-		<p><input type="text" value="input"></p>
-		<p><select name="select">
-			<option value="select">Select</option>
-			<option value="One">One</option>
-			<option value="Two">Two</option>
-			<option value="Three">Three</option>
-			<option value="Four">Four</option>
-		</select></p>
-		<textarea name="" id="" cols="30" rows="10">Textarea!</textarea>
-	</div>
 
-	<br>
 
 	<div class="card box bg-color--white">
 		<div class="row">
-			<div class="row__col--1-half box">
+			<div class="row__col--1-third box">
+				<p><input type="text" value="input"></p>
+				<p><select name="select">
+					<option value="select">Select</option>
+					<option value="One">One</option>
+					<option value="Two">Two</option>
+					<option value="Three">Three</option>
+					<option value="Four">Four</option>
+				</select></p>
+				<textarea name="" id="" cols="30" rows="10">Textarea!</textarea>
+			</div>
+			<div class="row__col--1-third box">
 				<button>button tag</button>
 				<br>
 				<input type="button" value="input[type=button]">
@@ -157,7 +219,7 @@
 				<a href="#" class="button">a.button</a>
 				<br>
 			</div>
-			<div class="row__col--1-half box">
+			<div class="row__col--1-third box">
 				<button class="button--green">.button--green</button>
 				<br>
 				<button class="button--red">.button--red</button>
@@ -166,65 +228,6 @@
 			</div>
 		</div>
 		
-
-	</div>
-
-	<br>
-
-	<div class="card box bg-color--white">
-
-		<h2>Layouts</h2>
-		<hr>
-		<h3>.header-layout</h3>
-		<div class="header-layout">
-			<div class="header-layout__head box border">
-				<p>.header-layout__head</p>
-			</div>
-			<div class="header-layout__body box border">
-				<p>.header-layout__body</p>
-				<br>
-				<h3>.sidebar-layout</h3>
-				<div class="sidebar-layout">
-					<div class="sidebar-layout__side box border">
-						<p>.sidebar-layout__side</p>
-					</div>
-					<div class="sidebar-layout__main box border">
-						<p>.sidebar-layout__main</p>	
-					</div>
-				</div>
-				<br>
-				<h3>.flex-row</h3>
-				<div class="flex-row">
-					<div class="col border"><p>.col</p></div>
-					<div class="col border"><p>.col</p></div>
-					<div class="col border"><p>can have an arbritery number of cols.</p></div>
-					<div class="col border"><p>They will adapt.</p></div>
-				</div>
-				<br>
-				<h3>.row</h3>
-				<p>More tranditional columns, defined by %, 90, 80, 75, 70, 50, 30, 25, 20, 10</p>
-				<div class="row">
-					<div class="col col--50 border box">.col.col--50</div>
-					<div class="col col--20 border box">.col.col--20</div>
-					<div class="col col--10 border box">.col.col--10</div>
-					<div class="col col--10 border box">.col.col--10</div>
-					<div class="col col--10 border box">.col.col--10</div>
-				</div>
-				<br>
-				<h3>.splitter</h3>
-				<div class="splitter">
-					<div class="splitter__left box border"><p>.splitter__left</p></div>
-					<div class="splitter__right box border"><p>.splitter__right</p></div>
-				</div>
-				<br>
-				<p>.splitter .splitter--full-width</p>
-				<div class="splitter splitter--full-width">
-					<div class="splitter__left box border"><p>.splitter__left</p></div>
-					<div class="splitter__right box border"><p>.splitter__right</p></div>
-				</div>
-
-			</div>
-		</div>
 
 	</div>
 </div>

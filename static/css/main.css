@@ -1556,6 +1556,88 @@ think carefully before adding anything in here.
   left: 0;
   z-index: 999999; }
 
+.tabs {
+  display: table-row;
+  color: white; }
+  .tabs svg {
+    fill: white; }
+  .tabs h1, .tabs h2, .tabs h3, .tabs h4, .tabs h5, .tabs h6, .tabs p {
+    color: white; }
+  .tabs__tab {
+    display: table-cell;
+    padding: 1rem;
+    background: #223856;
+    cursor: pointer;
+    border-right: 1px solid #5f9aec; }
+    .tabs__tab--5 {
+      padding: 0.3125rem; }
+    .tabs__tab--16 {
+      padding: 1rem; }
+    .tabs__tab--wide {
+      padding-right: 0;
+      padding-left: 0; }
+    .tabs__tab--tall {
+      padding-top: 0;
+      padding-bottom: 0; }
+    .tabs__tab:last-of-type {
+      border-right: 0; }
+    .tabs__tab:hover {
+      background: #131E2D; }
+    .tabs__tab--active {
+      background: #131E2D; }
+  .tabs--light {
+    color: black; }
+    .tabs--light svg {
+      fill: black; }
+    .tabs--light h1, .tabs--light h2, .tabs--light h3, .tabs--light h4, .tabs--light h5, .tabs--light h6, .tabs--light p {
+      color: black; }
+    .tabs--light .tabs__tab {
+      background: #eeeeee; }
+      .tabs--light .tabs__tab:hover {
+        background: white; }
+      .tabs--light .tabs__tab--active {
+        background: white; }
+
+.toaster {
+  background: white;
+  color: black;
+  border-radius: 5px; }
+  .toaster svg {
+    fill: black; }
+  .toaster h1, .toaster h2, .toaster h3, .toaster h4, .toaster h5, .toaster h6, .toaster p {
+    color: black; }
+  .toaster__bread {
+    border-bottom: 1px solid #5f9aec;
+    padding: 1rem;
+    cursor: pointer;
+    position: relative; }
+    .toaster__bread--5 {
+      padding: 0.3125rem; }
+    .toaster__bread--16 {
+      padding: 1rem; }
+    .toaster__bread--wide {
+      padding-right: 0;
+      padding-left: 0; }
+    .toaster__bread--tall {
+      padding-top: 0;
+      padding-bottom: 0; }
+    .toaster__bread__icon {
+      position: absolute;
+      right: 1rem;
+      top: 1rem; }
+  .toaster__toast {
+    padding: 1rem; }
+    .toaster__toast--5 {
+      padding: 0.3125rem; }
+    .toaster__toast--16 {
+      padding: 1rem; }
+    .toaster__toast--wide {
+      padding-right: 0;
+      padding-left: 0; }
+    .toaster__toast--tall {
+      padding-top: 0;
+      padding-bottom: 0; }
+
 .user-icon {
   border-radius: 50px;
   border-style: solid;
