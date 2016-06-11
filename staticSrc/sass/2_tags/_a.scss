@@ -6,7 +6,4 @@
 	}
 }
 
-a[ng-click], a{
-    cursor: pointer;
-    @extend .a; 
-}
+a { @extend .a; }

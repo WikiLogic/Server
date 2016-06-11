@@ -4,170 +4,6 @@ The various settings / variables that will be used throughout
 */
 /* colors */
 /* shades of grey */
-.bg-color--red {
-  background-color: #F25454;
-  color: white; }
-  .bg-color--red svg {
-    fill: white; }
-  .bg-color--red h1, .bg-color--red h2, .bg-color--red h3, .bg-color--red h4, .bg-color--red h5, .bg-color--red h6, .bg-color--red p {
-    color: white; }
-
-.bg-color--blue {
-  background-color: #5f9aec;
-  color: white; }
-  .bg-color--blue svg {
-    fill: white; }
-  .bg-color--blue h1, .bg-color--blue h2, .bg-color--blue h3, .bg-color--blue h4, .bg-color--blue h5, .bg-color--blue h6, .bg-color--blue p {
-    color: white; }
-
-.bg-color--green {
-  background-color: #31D332;
-  color: white; }
-  .bg-color--green svg {
-    fill: white; }
-  .bg-color--green h1, .bg-color--green h2, .bg-color--green h3, .bg-color--green h4, .bg-color--green h5, .bg-color--green h6, .bg-color--green p {
-    color: white; }
-
-.bg-color--white {
-  background-color: white;
-  color: black; }
-  .bg-color--white svg {
-    fill: black; }
-  .bg-color--white h1, .bg-color--white h2, .bg-color--white h3, .bg-color--white h4, .bg-color--white h5, .bg-color--white h6, .bg-color--white p {
-    color: black; }
-
-.bg-color--grey-e {
-  background-color: #eeeeee;
-  color: black; }
-  .bg-color--grey-e svg {
-    fill: black; }
-  .bg-color--grey-e h1, .bg-color--grey-e h2, .bg-color--grey-e h3, .bg-color--grey-e h4, .bg-color--grey-e h5, .bg-color--grey-e h6, .bg-color--grey-e p {
-    color: black; }
-
-.bg-color--grey-d {
-  background-color: #dddddd;
-  color: black; }
-  .bg-color--grey-d svg {
-    fill: black; }
-  .bg-color--grey-d h1, .bg-color--grey-d h2, .bg-color--grey-d h3, .bg-color--grey-d h4, .bg-color--grey-d h5, .bg-color--grey-d h6, .bg-color--grey-d p {
-    color: black; }
-
-.bg-color--grey-c {
-  background-color: #cccccc;
-  color: black; }
-  .bg-color--grey-c svg {
-    fill: black; }
-  .bg-color--grey-c h1, .bg-color--grey-c h2, .bg-color--grey-c h3, .bg-color--grey-c h4, .bg-color--grey-c h5, .bg-color--grey-c h6, .bg-color--grey-c p {
-    color: black; }
-
-.bg-color--grey-b {
-  background-color: #bbbbbb;
-  color: black; }
-  .bg-color--grey-b svg {
-    fill: black; }
-  .bg-color--grey-b h1, .bg-color--grey-b h2, .bg-color--grey-b h3, .bg-color--grey-b h4, .bg-color--grey-b h5, .bg-color--grey-b h6, .bg-color--grey-b p {
-    color: black; }
-
-.bg-color--grey-a {
-  background-color: #aaaaaa;
-  color: black; }
-  .bg-color--grey-a svg {
-    fill: black; }
-  .bg-color--grey-a h1, .bg-color--grey-a h2, .bg-color--grey-a h3, .bg-color--grey-a h4, .bg-color--grey-a h5, .bg-color--grey-a h6, .bg-color--grey-a p {
-    color: black; }
-
-.bg-color--grey-6 {
-  background-color: #6f8db9;
-  color: white; }
-  .bg-color--grey-6 svg {
-    fill: white; }
-  .bg-color--grey-6 h1, .bg-color--grey-6 h2, .bg-color--grey-6 h3, .bg-color--grey-6 h4, .bg-color--grey-6 h5, .bg-color--grey-6 h6, .bg-color--grey-6 p {
-    color: white; }
-
-.bg-color--grey-5 {
-  background-color: #5e7ca8;
-  color: white; }
-  .bg-color--grey-5 svg {
-    fill: white; }
-  .bg-color--grey-5 h1, .bg-color--grey-5 h2, .bg-color--grey-5 h3, .bg-color--grey-5 h4, .bg-color--grey-5 h5, .bg-color--grey-5 h6, .bg-color--grey-5 p {
-    color: white; }
-
-.bg-color--grey-4 {
-  background-color: #4e6a92;
-  color: white; }
-  .bg-color--grey-4 svg {
-    fill: white; }
-  .bg-color--grey-4 h1, .bg-color--grey-4 h2, .bg-color--grey-4 h3, .bg-color--grey-4 h4, .bg-color--grey-4 h5, .bg-color--grey-4 h6, .bg-color--grey-4 p {
-    color: white; }
-
-.bg-color--grey-3 {
-  background-color: #375073;
-  color: white; }
-  .bg-color--grey-3 svg {
-    fill: white; }
-  .bg-color--grey-3 h1, .bg-color--grey-3 h2, .bg-color--grey-3 h3, .bg-color--grey-3 h4, .bg-color--grey-3 h5, .bg-color--grey-3 h6, .bg-color--grey-3 p {
-    color: white; }
-
-.bg-color--grey-2 {
-  background-color: #223856;
-  color: white; }
-  .bg-color--grey-2 svg {
-    fill: white; }
-  .bg-color--grey-2 h1, .bg-color--grey-2 h2, .bg-color--grey-2 h3, .bg-color--grey-2 h4, .bg-color--grey-2 h5, .bg-color--grey-2 h6, .bg-color--grey-2 p {
-    color: white; }
-
-.bg-color--grey-1 {
-  background-color: #131E2D;
-  color: white; }
-  .bg-color--grey-1 svg {
-    fill: white; }
-  .bg-color--grey-1 h1, .bg-color--grey-1 h2, .bg-color--grey-1 h3, .bg-color--grey-1 h4, .bg-color--grey-1 h5, .bg-color--grey-1 h6, .bg-color--grey-1 p {
-    color: white; }
-
-.bg-color--black {
-  background-color: black;
-  color: white; }
-  .bg-color--black svg {
-    fill: white; }
-  .bg-color--black h1, .bg-color--black h2, .bg-color--black h3, .bg-color--black h4, .bg-color--black h5, .bg-color--black h6, .bg-color--black p {
-    color: white; }
-
-.text-color--white {
-  color: white !important;
-  fill: white; }
-  .text-color--white svg {
-    fill: white; }
-
-.text-color--red {
-  color: #F25454 !important; }
-
-.text-color--blue {
-  color: #5f9aec !important; }
-
-.text-color--green {
-  color: #31D332 !important; }
-
-.text-color--black {
-  color: black !important;
-  fill: black; }
-  .text-color--black svg {
-    fill: black; }
-
-.color--black {
-  fill: black !important; }
-
-.hover-color--grey-2:hover {
-  color: #223856;
-  fill: #223856; }
-
-.hover-color--red:hover {
-  color: #F25454;
-  fill: #F25454; }
-
-.hover-color--blue:hover {
-  color: #5f9aec;
-  fill: #5f9aec; }
-
 /*! normalize.css v3.0.1 | MIT License | git.io/normalize */
 /**
  * 1. Set default font family to sans-serif.
@@ -540,14 +376,11 @@ TAGS
 The default styling for each html tag
 and some modifyers for them.
 */
-.a, a[ng-click], a {
+.a, a {
   text-decoration: none;
   color: #5f9aec; }
   .a:hover, a:hover {
     color: #8db7f1; }
-
-a[ng-click], a {
-  cursor: pointer; }
 
 .br, br {
   display: block;
@@ -570,7 +403,7 @@ hr {
 input[type='submit'] 
 button
 */
-.button, input[type='submit'], button {
+.button, input[type='submit'], input[type='button'], button {
   padding: 9px 14px 8px;
   color: white;
   fill: white;
@@ -584,14 +417,14 @@ button
           user-select: none;
   transition: background-image 0.2s ease;
   background-image: radial-gradient(circle farthest-corner at 50% 20%, #488ce9, #5191ea); }
-  .button svg, input[type='submit'] svg, button svg {
+  .button svg, input[type='submit'] svg, input[type='button'] svg, button svg {
     fill: white; }
-  .button--compact {
-    padding: 5px 14px 4px; }
-  .button:hover, input[type='submit']:hover, button:hover {
+  .button--small {
+    padding: 1px 5px; }
+  .button:hover, input[type='submit']:hover, input[type='button']:hover, button:hover {
     background-image: radial-gradient(circle farthest-corner at 50% 20%, #649ded, #5191ea);
     color: white; }
-  .button:active, input[type='submit']:active, button:active {
+  .button:active, input[type='submit']:active, input[type='button']:active, button:active {
     background-image: radial-gradient(circle farthest-corner at 50% 20%, #3b83e8, #4489e9);
     border: 0;
     outline: 0;
@@ -623,7 +456,7 @@ button
     .button--clear:active {
       background-image: none;
       background: none; }
-  .button:focus, input[type='submit']:focus, button:focus {
+  .button:focus, input[type='submit']:focus, input[type='button']:focus, button:focus {
     outline: 0; }
   .button--clear {
     background-image: none;
@@ -968,18 +801,6 @@ These guys will do the bulk of the work
 When you come to adding markup, you should be looking to style it using classes from here
 They should get you 90% of the look you're after
 */
-.bg-pattern {
-  color: white;
-  background-image: repeating-linear-gradient(30deg, rgba(59, 131, 232, 0.5), rgba(59, 131, 232, 0.5) 8px, rgba(36, 117, 229, 0.5) 9px, rgba(59, 131, 232, 0.5) 10px), radial-gradient(circle farthest-corner at 50% 20%, rgba(72, 140, 233, 0.5), black); }
-  .bg-pattern svg {
-    fill: white; }
-  .bg-pattern h1, .bg-pattern h2, .bg-pattern h3, .bg-pattern h4, .bg-pattern h5, .bg-pattern h6, .bg-pattern p {
-    color: white; }
-  .bg-pattern--red {
-    background-image: repeating-linear-gradient(30deg, rgba(239, 46, 46, 0.5), rgba(239, 46, 46, 0.5) 8px, rgba(237, 22, 22, 0.5) 9px, rgba(239, 46, 46, 0.5) 10px), radial-gradient(circle farthest-corner at 50% 20%, rgba(240, 60, 60, 0.5), rgba(113, 9, 9, 0.5)); }
-  .bg-pattern--green {
-    background-image: repeating-linear-gradient(30deg, rgba(39, 181, 39, 0.5), rgba(39, 181, 39, 0.5) 8px, rgba(34, 160, 35, 0.5) 9px, rgba(39, 181, 39, 0.5) 10px), radial-gradient(circle farthest-corner at 50% 20%, rgba(41, 193, 42, 0.5), rgba(1, 4, 1, 0.4)); }
-
 .border {
   border-width: 1px;
   border-color: rgba(95, 154, 236, 0.5);
@@ -1031,6 +852,182 @@ They should get you 90% of the look you're after
   .card--pop {
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0; }
+
+.bg-pattern {
+  color: white;
+  background-image: repeating-linear-gradient(30deg, rgba(59, 131, 232, 0.5), rgba(59, 131, 232, 0.5) 8px, rgba(36, 117, 229, 0.5) 9px, rgba(59, 131, 232, 0.5) 10px), radial-gradient(circle farthest-corner at 50% 20%, rgba(72, 140, 233, 0.5), black); }
+  .bg-pattern svg {
+    fill: white; }
+  .bg-pattern h1, .bg-pattern h2, .bg-pattern h3, .bg-pattern h4, .bg-pattern h5, .bg-pattern h6, .bg-pattern p {
+    color: white; }
+  .bg-pattern--red {
+    background-image: repeating-linear-gradient(30deg, rgba(239, 46, 46, 0.5), rgba(239, 46, 46, 0.5) 8px, rgba(237, 22, 22, 0.5) 9px, rgba(239, 46, 46, 0.5) 10px), radial-gradient(circle farthest-corner at 50% 20%, rgba(240, 60, 60, 0.5), rgba(113, 9, 9, 0.5)); }
+  .bg-pattern--green {
+    background-image: repeating-linear-gradient(30deg, rgba(39, 181, 39, 0.5), rgba(39, 181, 39, 0.5) 8px, rgba(34, 160, 35, 0.5) 9px, rgba(39, 181, 39, 0.5) 10px), radial-gradient(circle farthest-corner at 50% 20%, rgba(41, 193, 42, 0.5), rgba(1, 4, 1, 0.4)); }
+
+.bg-color--red {
+  background-color: #F25454;
+  color: white; }
+  .bg-color--red svg {
+    fill: white; }
+  .bg-color--red h1, .bg-color--red h2, .bg-color--red h3, .bg-color--red h4, .bg-color--red h5, .bg-color--red h6, .bg-color--red p {
+    color: white; }
+
+.bg-color--blue {
+  background-color: #5f9aec;
+  color: white; }
+  .bg-color--blue svg {
+    fill: white; }
+  .bg-color--blue h1, .bg-color--blue h2, .bg-color--blue h3, .bg-color--blue h4, .bg-color--blue h5, .bg-color--blue h6, .bg-color--blue p {
+    color: white; }
+
+.bg-color--green {
+  background-color: #31D332;
+  color: white; }
+  .bg-color--green svg {
+    fill: white; }
+  .bg-color--green h1, .bg-color--green h2, .bg-color--green h3, .bg-color--green h4, .bg-color--green h5, .bg-color--green h6, .bg-color--green p {
+    color: white; }
+
+.bg-color--white {
+  background-color: white;
+  color: black; }
+  .bg-color--white svg {
+    fill: black; }
+  .bg-color--white h1, .bg-color--white h2, .bg-color--white h3, .bg-color--white h4, .bg-color--white h5, .bg-color--white h6, .bg-color--white p {
+    color: black; }
+
+.bg-color--grey-e {
+  background-color: #eeeeee;
+  color: black; }
+  .bg-color--grey-e svg {
+    fill: black; }
+  .bg-color--grey-e h1, .bg-color--grey-e h2, .bg-color--grey-e h3, .bg-color--grey-e h4, .bg-color--grey-e h5, .bg-color--grey-e h6, .bg-color--grey-e p {
+    color: black; }
+
+.bg-color--grey-d {
+  background-color: #dddddd;
+  color: black; }
+  .bg-color--grey-d svg {
+    fill: black; }
+  .bg-color--grey-d h1, .bg-color--grey-d h2, .bg-color--grey-d h3, .bg-color--grey-d h4, .bg-color--grey-d h5, .bg-color--grey-d h6, .bg-color--grey-d p {
+    color: black; }
+
+.bg-color--grey-c {
+  background-color: #cccccc;
+  color: black; }
+  .bg-color--grey-c svg {
+    fill: black; }
+  .bg-color--grey-c h1, .bg-color--grey-c h2, .bg-color--grey-c h3, .bg-color--grey-c h4, .bg-color--grey-c h5, .bg-color--grey-c h6, .bg-color--grey-c p {
+    color: black; }
+
+.bg-color--grey-b {
+  background-color: #bbbbbb;
+  color: black; }
+  .bg-color--grey-b svg {
+    fill: black; }
+  .bg-color--grey-b h1, .bg-color--grey-b h2, .bg-color--grey-b h3, .bg-color--grey-b h4, .bg-color--grey-b h5, .bg-color--grey-b h6, .bg-color--grey-b p {
+    color: black; }
+
+.bg-color--grey-a {
+  background-color: #aaaaaa;
+  color: black; }
+  .bg-color--grey-a svg {
+    fill: black; }
+  .bg-color--grey-a h1, .bg-color--grey-a h2, .bg-color--grey-a h3, .bg-color--grey-a h4, .bg-color--grey-a h5, .bg-color--grey-a h6, .bg-color--grey-a p {
+    color: black; }
+
+.bg-color--grey-6 {
+  background-color: #6f8db9;
+  color: white; }
+  .bg-color--grey-6 svg {
+    fill: white; }
+  .bg-color--grey-6 h1, .bg-color--grey-6 h2, .bg-color--grey-6 h3, .bg-color--grey-6 h4, .bg-color--grey-6 h5, .bg-color--grey-6 h6, .bg-color--grey-6 p {
+    color: white; }
+
+.bg-color--grey-5 {
+  background-color: #5e7ca8;
+  color: white; }
+  .bg-color--grey-5 svg {
+    fill: white; }
+  .bg-color--grey-5 h1, .bg-color--grey-5 h2, .bg-color--grey-5 h3, .bg-color--grey-5 h4, .bg-color--grey-5 h5, .bg-color--grey-5 h6, .bg-color--grey-5 p {
+    color: white; }
+
+.bg-color--grey-4 {
+  background-color: #4e6a92;
+  color: white; }
+  .bg-color--grey-4 svg {
+    fill: white; }
+  .bg-color--grey-4 h1, .bg-color--grey-4 h2, .bg-color--grey-4 h3, .bg-color--grey-4 h4, .bg-color--grey-4 h5, .bg-color--grey-4 h6, .bg-color--grey-4 p {
+    color: white; }
+
+.bg-color--grey-3 {
+  background-color: #375073;
+  color: white; }
+  .bg-color--grey-3 svg {
+    fill: white; }
+  .bg-color--grey-3 h1, .bg-color--grey-3 h2, .bg-color--grey-3 h3, .bg-color--grey-3 h4, .bg-color--grey-3 h5, .bg-color--grey-3 h6, .bg-color--grey-3 p {
+    color: white; }
+
+.bg-color--grey-2 {
+  background-color: #223856;
+  color: white; }
+  .bg-color--grey-2 svg {
+    fill: white; }
+  .bg-color--grey-2 h1, .bg-color--grey-2 h2, .bg-color--grey-2 h3, .bg-color--grey-2 h4, .bg-color--grey-2 h5, .bg-color--grey-2 h6, .bg-color--grey-2 p {
+    color: white; }
+
+.bg-color--grey-1 {
+  background-color: #131E2D;
+  color: white; }
+  .bg-color--grey-1 svg {
+    fill: white; }
+  .bg-color--grey-1 h1, .bg-color--grey-1 h2, .bg-color--grey-1 h3, .bg-color--grey-1 h4, .bg-color--grey-1 h5, .bg-color--grey-1 h6, .bg-color--grey-1 p {
+    color: white; }
+
+.bg-color--black {
+  background-color: black;
+  color: white; }
+  .bg-color--black svg {
+    fill: white; }
+  .bg-color--black h1, .bg-color--black h2, .bg-color--black h3, .bg-color--black h4, .bg-color--black h5, .bg-color--black h6, .bg-color--black p {
+    color: white; }
+
+.text-color--white {
+  color: white !important;
+  fill: white; }
+  .text-color--white svg {
+    fill: white; }
+
+.text-color--red {
+  color: #F25454 !important; }
+
+.text-color--blue {
+  color: #5f9aec !important; }
+
+.text-color--green {
+  color: #31D332 !important; }
+
+.text-color--black {
+  color: black !important;
+  fill: black; }
+  .text-color--black svg {
+    fill: black; }
+
+.color--black {
+  fill: black !important; }
+
+.hover-color--grey-2:hover {
+  color: #223856;
+  fill: #223856; }
+
+.hover-color--red:hover {
+  color: #F25454;
+  fill: #F25454; }
+
+.hover-color--blue:hover {
+  color: #5f9aec;
+  fill: #5f9aec; }
 
 .cursor-pointer {
   cursor: pointer; }

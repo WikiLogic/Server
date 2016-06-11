@@ -17,8 +17,8 @@ button
 		fill:white; 
 	}
 
-	&--compact {
-		padding: 5px 14px 4px;
+	&--small {
+		padding: 1px 5px;
 	}
 	
 	transition: background-image 0.2s ease;
@@ -116,4 +116,5 @@ button
 }
 
 input[type='submit'] { @extend .button; }
+input[type='button'] { @extend .button; }
 button { @extend .button; }
