@@ -11455,8 +11455,8 @@ rivets.configure({
 		this.call(target, event, binding.view.models);
 	}
 });
-var main = document.getElementById('god');
-rivets.bind(main, window.WL_STATE);
+
+rivets.bind($('#god'), {state: window.WL_STATE});
 },{"./dom_watchers/search-input":5,"./dom_watchers/tabs":6,"./state/WL_STATE":9,"jquery":1,"rivets":2}],5:[function(require,module,exports){
 'use strict';
 

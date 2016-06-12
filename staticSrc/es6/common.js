@@ -27,5 +27,5 @@ rivets.configure({
 		this.call(target, event, binding.view.models);
 	}
 });
-var main = document.getElementById('god');
-rivets.bind(main, window.WL_STATE);
+
+rivets.bind($('#god'), {state: window.WL_STATE});
