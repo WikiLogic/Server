@@ -1586,7 +1586,7 @@ think carefully before adding anything in here.
       border-right: 0; }
     .tabs__tab:hover {
       background: #131E2D; }
-    .tabs__tab--active {
+    .tabs__tab.active {
       background: #131E2D; }
   .tabs--light {
     color: black; }
@@ -1598,7 +1598,7 @@ think carefully before adding anything in here.
       background: #eeeeee; }
       .tabs--light .tabs__tab:hover {
         background: white; }
-      .tabs--light .tabs__tab--active {
+      .tabs--light .tabs__tab.active {
         background: white; }
 
 .toaster {

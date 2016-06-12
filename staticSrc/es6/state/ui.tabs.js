@@ -108,7 +108,7 @@ module.exports = {
 		}
 
 		newTabGroup[tabToActivate] = true;	
-
+		console.log('WL_STATE.ui.tabs[groupName]: ', WL_STATE.ui.tabs[groupName]);
 		WL_STATE.ui.tabs[groupName] = newTabGroup;
 	}
 };

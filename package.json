@@ -39,7 +39,8 @@
     "passport-facebook": "^2.0.0",
     "passport-google-oauth": "^0.2.0",
     "passport-local": "^1.0.0",
-    "passport-twitter": "^1.0.3"
+    "passport-twitter": "^1.0.3",
+    "rivets": "^0.9.1"
   },
   "devDependencies": {
     "browserify": "^13.0.1",
