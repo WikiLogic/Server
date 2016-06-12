@@ -1,7 +1,5 @@
 'use strict';
 
-var WL_STATE = {};
-
 WL_STATE.user = require('./user'); //get user init from state.user.js
 
 module.exports = {

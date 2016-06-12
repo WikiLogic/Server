@@ -5,7 +5,8 @@
 	outline: none;
 	color: black;
 	resize:vertical;
-
+	max-width: 100%;
+	
 	&--red { &:focus { border-color: darken($WL_Red, 20%); } }
 	&--green { &:focus { border-color: darken($WL_Green, 20%); } }
 

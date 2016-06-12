@@ -6,6 +6,7 @@ input[type='text'], input[type='password'], input[type='search'] {
 	border: 0;
 	border-bottom: 2px solid rgba($WL_Blue, 0.2);
 	transition: border-bottom-color 0.2s ease;
+	max-width: 100%;
 
 	&:hover {
 		border-bottom-color: rgba($WL_Blue, 0.4);

@@ -9817,10 +9817,12 @@ return jQuery;
 },{}],2:[function(require,module,exports){
 
 var search = require('./dom_watchers/search-input');
-
 console.log('initting search');
 search.init();
-},{"./dom_watchers/search-input":3}],3:[function(require,module,exports){
+
+var tabs = require('./dom_watchers/tabs');
+tabs.init();
+},{"./dom_watchers/search-input":3,"./dom_watchers/tabs":4}],3:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -9833,4 +9835,165 @@ module.exports = {
 		});
 	}
 }
-},{"jquery":1}]},{},[2]);
+},{"jquery":1}],4:[function(require,module,exports){
+'use strict';
+
+var $ = require('jquery');
+var tabStateCtrl = require('../state/ui.tabs');
+
+/*
+ * This module is responsibe for handling any tab interactions
+ * Remember - tabs aren't just the 'tab' looking things that line
+ * up accross the top of a page - they are any group of objects
+ * that run on a boolean each in which only one can be true.
+ * So the logic that runs tabs is the same that might run radio
+ * buttons (if we had any).
+ */
+
+module.exports = {
+	init: function(){
+
+		$('.js-tab').each(function(){
+			var $thisTab = $(this);
+
+			//get the tab group name
+			var thisTabGroupName = $thisTab.data('tab-group');
+
+			//add it (the state control won't add twice, don't worry! It's worth the extra calls for the flexibility!)
+			tabStateCtrl.createTabGroup(thisTabGroupName);
+
+			//get the tab name
+			var thisTabName = $thisTab.data('tab-name');
+			
+			//TODO check if this tab wants to be initially true, as opposed to the first tab being so
+
+
+			//add it to the parent group
+			tabStateCtrl.addTabToTabGroup(thisTabGroupName, thisTabName);
+
+			//now watch for click events
+			$thisTab.on('click', function(){
+				var $this = $(this);
+				var thisTabName = $this.data('tab-name');
+				var thisTabGroup = $this.data('tab-group');
+
+				tabStateCtrl.activateTab(thisTabGroup, thisTabName);
+			});
+		});
+	}
+}
+},{"../state/ui.tabs":6,"jquery":1}],5:[function(require,module,exports){
+
+module.exports = {
+	cloneThisObject: function(obj) {
+		/* A helper function to clone an object - specifically needed to remove rivet's additional functions.
+		 * So we can mutate the clone without rivets firing over and over again.
+		 * http://heyjavascript.com/4-creative-ways-to-clone-objects/  (no 2)
+		 */
+		if (obj === null || typeof obj !== 'object') { return obj; }
+		var stringObj = JSON.stringify(obj)
+		var newObj = (JSON.parse(stringObj));
+		return newObj;
+	}
+}
+},{}],6:[function(require,module,exports){
+'use strict';
+
+var objectHelpers = require('../reducers/object_helpers');
+
+/*
+ * This module is responsibe for the state used by tabs: WL_STATE.ui.tabs
+ * 
+ * Example tab group state object: {
+		tab_group: [
+			{
+				tab_name: "Tab 1",
+				active: true
+			},
+			{
+				tab_name: "Tab 2",
+				active: false
+			}
+		]
+	}
+*/
+
+
+module.exports = {
+
+	createTabGroup: function(groupName){
+		var checkError = false;
+
+		//first check the name we've been passed is all good
+		if (typeof(groupName) != 'string' || groupName == null || groupName == undefined) {
+			console.error("There's someting weird about the tab group you're trying to add that tab to: ", WL_STATE.ui.tabs[groupName]);
+			checkError = true;
+		}
+
+		//now lets check that the group doesn't already exist
+		if (typeof(WL_STATE.ui.tabs[groupName]) == 'array') {
+			console.warn("Tab group already exists, not adding");
+			checkError = true;
+		}
+
+		if (!checkError) {
+			//yeay! New tab group!
+			WL_STATE.ui.tabs[groupName] = [];
+		}
+	},
+
+	addTabToTabGroup: function(groupName, tabName){
+		var checkError = false;
+
+		//first check the tab name is good
+		if (typeof(tabName) != 'string' || tabName == undefined || tabName == null) {
+			console.error("There's something weird about the name of the tab you're trying to create: ", tabName);
+			checkError = true;
+		}
+
+		//and check the group name
+		if (typeof(groupName) != 'string' || groupName == null || groupName == undefined) {
+			console.error("There's someting weird about the tab group you're trying to add that tab to: ", WL_STATE.ui.tabs[groupName]);
+			checkError = true;
+		}
+
+		//and make sure the group exists and is valid
+		if (typeof(WL_STATE.ui.tabs[groupName]) != 'array') {
+			console.error("There's something weird about the tab group you're trying to add your tab to: ", WL_STATE.ui.tabs[groupName]);
+			checkError = true;
+		}
+
+		if (!checkError) {
+			//yeay! new tab :)
+			var newTabObj = { tab_name: tabName	};
+
+			//if it's the first
+			if (WL_STATE.ui.tabs[groupName].length == 0){
+				//turn it on
+				newTabObj.active = true;
+			} else {
+				newTabObj.active = false;
+			}
+			
+			WL_STATE.ui.tabs[groupName].push(newTabObj);
+		}
+	},
+
+	activateTab: function(groupName, tabToActivate){
+		//going to assume the creation process above caught any tab bugs so we can run this afap! giggity
+		var newTabGroup = objectHelpers.cloneThisObject(WL_STATE.ui.tabs[groupName]);
+
+		for (var t = 0; t < newTabGroup.length; t++) {
+
+			if (newTabGroup[t].tab_name == tabToActivate) {
+				newTabGroup[t].active = true;	
+			} else {
+				newTabGroup[t].active = false;
+			}
+	
+		}
+
+		WL_STATE.ui.tabs[groupName] = newTabGroup;
+	}
+};
+},{"../reducers/object_helpers":5}]},{},[2]);

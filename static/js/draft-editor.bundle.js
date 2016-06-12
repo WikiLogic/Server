@@ -9834,9 +9834,6 @@ rivets.configure({
 
 rivets.bind($('#god'), WL_STATE);
 },{"./state/WL_STATE.js":3,"jquery":1}],3:[function(require,module,exports){
-'use strict';
-
-var WL_STATE = {};
 
 WL_STATE.user = require('./user'); //get user init from state.user.js
 

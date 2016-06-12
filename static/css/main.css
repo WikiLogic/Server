@@ -415,6 +415,7 @@ button
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
+  max-width: 100%;
   transition: background-image 0.2s ease;
   background-image: radial-gradient(circle farthest-corner at 50% 20%, #488ce9, #5191ea); }
   .button svg, input[type='submit'] svg, input[type='button'] svg, button svg {
@@ -508,7 +509,8 @@ input[type='text'], input[type='password'], input[type='search'] {
   color: black;
   border: 0;
   border-bottom: 2px solid rgba(95, 154, 236, 0.2);
-  transition: border-bottom-color 0.2s ease; }
+  transition: border-bottom-color 0.2s ease;
+  max-width: 100%; }
   input[type='text']:hover, input[type='password']:hover, input[type='search']:hover {
     border-bottom-color: rgba(95, 154, 236, 0.4); }
   input[type='text']:focus, input[type='password']:focus, input[type='search']:focus {
@@ -580,7 +582,8 @@ table {
   border: 1px solid #131E2D;
   outline: none;
   color: black;
-  resize: vertical; }
+  resize: vertical;
+  max-width: 100%; }
   .textarea--red:focus {
     border-color: #d01010; }
   .textarea--green:focus {
