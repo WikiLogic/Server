@@ -1,7 +1,5 @@
 'use strict';
 
-var user = require('./user'); //get user init from state.user.js
-
 module.exports = {
 	ui: {
 		tabs: {}

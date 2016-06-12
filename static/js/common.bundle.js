@@ -11427,7 +11427,8 @@ return jQuery;
 
 },{}],4:[function(require,module,exports){
 //first, init the global state
-WL_STATE = require('./state/WL_STATE');
+window.WL_STATE = require('./state/WL_STATE');
+
 $ = jQuery = require('jquery');
 
 
@@ -11438,17 +11439,8 @@ search.init();
 var tabs = require('./dom_watchers/tabs');
 tabs.init();
 
-// shim: {
-//         sightglass : {
-//             exports: 'sightglass'
-//         },
-//         rivets : {
-//             deps : ['sightglass'],
-//             exports : 'rivets'
-//         }
-//     }
 
-var rivets = require('rivets');
+window.rivets = require('rivets');
 
 //init rivets to drive the dom
 rivets.configure({
@@ -11463,8 +11455,8 @@ rivets.configure({
 		this.call(target, event, binding.view.models);
 	}
 });
-
-rivets.bind($('#god'), WL_STATE);
+var main = document.getElementById('god');
+rivets.bind(main, window.WL_STATE);
 },{"./dom_watchers/search-input":5,"./dom_watchers/tabs":6,"./state/WL_STATE":9,"jquery":1,"rivets":2}],5:[function(require,module,exports){
 'use strict';
 
@@ -11555,8 +11547,6 @@ module.exports = {
 },{}],9:[function(require,module,exports){
 'use strict';
 
-var user = require('./user'); //get user init from state.user.js
-
 module.exports = {
 	ui: {
 		tabs: {}
@@ -11593,7 +11583,7 @@ module.exports = {
 		}
 	}
 };
-},{"./user":11}],10:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 'use strict';
 
 var objectHelpers = require('../reducers/object_helpers');
@@ -11622,6 +11612,10 @@ var stringHelpers = require('../reducers/string_helpers');
 
 
 module.exports = {
+
+	createTabState: function(){
+		
+	},
 
 	createTabGroup: function(groupName){
 		var checkError = false;
@@ -11704,23 +11698,9 @@ module.exports = {
 		}
 
 		newTabGroup[tabToActivate] = true;	
-		console.log('WL_STATE.ui.tabs[groupName]: ', WL_STATE.ui.tabs[groupName]);
+
 		WL_STATE.ui.tabs[groupName] = newTabGroup;
+		console.log('WL_STATE.ui.tabs[groupName]: ', WL_STATE.ui.tabs[groupName]);
 	}
 };
-},{"../reducers/object_helpers":7,"../reducers/string_helpers":8}],11:[function(require,module,exports){
-'use strict';
-
-module.exports = {
-	gravatar: 'string',
-	drafts_list: {
-		items: []
-	},
-	claim_list: {
-		items: []
-	},
-	trashed_list: {
-		items: []
-	} 
-}
-},{}]},{},[4]);
+},{"../reducers/object_helpers":7,"../reducers/string_helpers":8}]},{},[4]);

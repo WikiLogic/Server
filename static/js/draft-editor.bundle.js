@@ -9823,8 +9823,6 @@ var WL_STATE = require('./state/WL_STATE.js');
 },{"./state/WL_STATE.js":3,"jquery":1}],3:[function(require,module,exports){
 'use strict';
 
-var user = require('./user'); //get user init from state.user.js
-
 module.exports = {
 	ui: {
 		tabs: {}
@@ -9861,19 +9859,4 @@ module.exports = {
 		}
 	}
 };
-},{"./user":4}],4:[function(require,module,exports){
-'use strict';
-
-module.exports = {
-	gravatar: 'string',
-	drafts_list: {
-		items: []
-	},
-	claim_list: {
-		items: []
-	},
-	trashed_list: {
-		items: []
-	} 
-}
 },{}]},{},[2]);

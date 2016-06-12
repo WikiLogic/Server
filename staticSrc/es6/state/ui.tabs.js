@@ -27,6 +27,10 @@ var stringHelpers = require('../reducers/string_helpers');
 
 module.exports = {
 
+	createTabState: function(){
+		
+	},
+
 	createTabGroup: function(groupName){
 		var checkError = false;
 
@@ -108,7 +112,8 @@ module.exports = {
 		}
 
 		newTabGroup[tabToActivate] = true;	
-		console.log('WL_STATE.ui.tabs[groupName]: ', WL_STATE.ui.tabs[groupName]);
+
 		WL_STATE.ui.tabs[groupName] = newTabGroup;
+		console.log('WL_STATE.ui.tabs[groupName]: ', WL_STATE.ui.tabs[groupName]);
 	}
 };

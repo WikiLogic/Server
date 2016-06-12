@@ -1,5 +1,6 @@
 //first, init the global state
-WL_STATE = require('./state/WL_STATE');
+window.WL_STATE = require('./state/WL_STATE');
+
 $ = jQuery = require('jquery');
 
 
@@ -10,17 +11,8 @@ search.init();
 var tabs = require('./dom_watchers/tabs');
 tabs.init();
 
-// shim: {
-//         sightglass : {
-//             exports: 'sightglass'
-//         },
-//         rivets : {
-//             deps : ['sightglass'],
-//             exports : 'rivets'
-//         }
-//     }
 
-var rivets = require('rivets');
+window.rivets = require('rivets');
 
 //init rivets to drive the dom
 rivets.configure({
@@ -35,5 +27,5 @@ rivets.configure({
 		this.call(target, event, binding.view.models);
 	}
 });
-
-rivets.bind($('#god'), WL_STATE);
+var main = document.getElementById('god');
+rivets.bind(main, window.WL_STATE);
