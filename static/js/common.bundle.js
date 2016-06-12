@@ -9815,6 +9815,11 @@ return jQuery;
 }));
 
 },{}],2:[function(require,module,exports){
+//first, init the global state
+WL_STATE = require('./state/WL_STATE');
+
+console.log('WL_STATE: ', WL_STATE);
+
 
 var search = require('./dom_watchers/search-input');
 console.log('initting search');
@@ -9822,7 +9827,7 @@ search.init();
 
 var tabs = require('./dom_watchers/tabs');
 tabs.init();
-},{"./dom_watchers/search-input":3,"./dom_watchers/tabs":4}],3:[function(require,module,exports){
+},{"./dom_watchers/search-input":3,"./dom_watchers/tabs":4,"./state/WL_STATE":6}],3:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -9876,13 +9881,13 @@ module.exports = {
 				var $this = $(this);
 				var thisTabName = $this.data('tab-name');
 				var thisTabGroup = $this.data('tab-group');
-
+				console.log('click tab!');
 				tabStateCtrl.activateTab(thisTabGroup, thisTabName);
 			});
 		});
 	}
 }
-},{"../state/ui.tabs":6,"jquery":1}],5:[function(require,module,exports){
+},{"../state/ui.tabs":7,"jquery":1}],5:[function(require,module,exports){
 
 module.exports = {
 	cloneThisObject: function(obj) {
@@ -9897,6 +9902,47 @@ module.exports = {
 	}
 }
 },{}],6:[function(require,module,exports){
+'use strict';
+
+var user = require('./user'); //get user init from state.user.js
+
+module.exports = {
+	ui: {
+		tabs: {}
+	},
+	user : {
+		gravatar: 'string',
+		drafts_list: {
+			items: []
+		},
+		claim_list: {
+			items: []
+		},
+		trashed_list: {
+			items: []
+		} 
+	},
+	search: {
+		term: 'search term',
+		results: [],
+		order: 'the order',
+		selectedResult: {}
+	},
+	alerts: {
+		settings: {
+			enabled: true,
+			level: 5,
+			duration: 5000
+		},
+		items: []
+	},
+	display: {
+		claim_list: {
+			items: []
+		}
+	}
+};
+},{"./user":8}],7:[function(require,module,exports){
 'use strict';
 
 var objectHelpers = require('../reducers/object_helpers');
@@ -9931,13 +9977,14 @@ module.exports = {
 		}
 
 		//now lets check that the group doesn't already exist
-		if (typeof(WL_STATE.ui.tabs[groupName]) == 'array') {
+		if (WL_STATE.ui.tabs.hasOwnProperty(groupName)) {
 			console.warn("Tab group already exists, not adding");
 			checkError = true;
 		}
 
 		if (!checkError) {
 			//yeay! New tab group!
+			console.info('setting new empty tab group');
 			WL_STATE.ui.tabs[groupName] = [];
 		}
 	},
@@ -9958,7 +10005,7 @@ module.exports = {
 		}
 
 		//and make sure the group exists and is valid
-		if (typeof(WL_STATE.ui.tabs[groupName]) != 'array') {
+		if (typeof(WL_STATE.ui.tabs[groupName]) != 'object') {
 			console.error("There's something weird about the tab group you're trying to add your tab to: ", WL_STATE.ui.tabs[groupName]);
 			checkError = true;
 		}
@@ -9975,6 +10022,7 @@ module.exports = {
 				newTabObj.active = false;
 			}
 			
+			console.info('adding new tab object: ', newTabObj);
 			WL_STATE.ui.tabs[groupName].push(newTabObj);
 		}
 	},
@@ -9996,4 +10044,19 @@ module.exports = {
 		WL_STATE.ui.tabs[groupName] = newTabGroup;
 	}
 };
-},{"../reducers/object_helpers":5}]},{},[2]);
+},{"../reducers/object_helpers":5}],8:[function(require,module,exports){
+'use strict';
+
+module.exports = {
+	gravatar: 'string',
+	drafts_list: {
+		items: []
+	},
+	claim_list: {
+		items: []
+	},
+	trashed_list: {
+		items: []
+	} 
+}
+},{}]},{},[2]);

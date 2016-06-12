@@ -38,7 +38,7 @@ module.exports = {
 				var $this = $(this);
 				var thisTabName = $this.data('tab-name');
 				var thisTabGroup = $this.data('tab-group');
-
+				console.log('click tab!');
 				tabStateCtrl.activateTab(thisTabGroup, thisTabName);
 			});
 		});

@@ -32,13 +32,14 @@ module.exports = {
 		}
 
 		//now lets check that the group doesn't already exist
-		if (typeof(WL_STATE.ui.tabs[groupName]) == 'array') {
+		if (WL_STATE.ui.tabs.hasOwnProperty(groupName)) {
 			console.warn("Tab group already exists, not adding");
 			checkError = true;
 		}
 
 		if (!checkError) {
 			//yeay! New tab group!
+			console.info('setting new empty tab group');
 			WL_STATE.ui.tabs[groupName] = [];
 		}
 	},
@@ -59,7 +60,7 @@ module.exports = {
 		}
 
 		//and make sure the group exists and is valid
-		if (typeof(WL_STATE.ui.tabs[groupName]) != 'array') {
+		if (typeof(WL_STATE.ui.tabs[groupName]) != 'object') {
 			console.error("There's something weird about the tab group you're trying to add your tab to: ", WL_STATE.ui.tabs[groupName]);
 			checkError = true;
 		}
@@ -76,6 +77,7 @@ module.exports = {
 				newTabObj.active = false;
 			}
 			
+			console.info('adding new tab object: ', newTabObj);
 			WL_STATE.ui.tabs[groupName].push(newTabObj);
 		}
 	},

@@ -1,8 +1,11 @@
 'use strict';
 
-WL_STATE.user = require('./user'); //get user init from state.user.js
+var user = require('./user'); //get user init from state.user.js
 
 module.exports = {
+	ui: {
+		tabs: {}
+	},
 	user : {
 		gravatar: 'string',
 		drafts_list: {
