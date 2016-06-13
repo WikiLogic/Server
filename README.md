@@ -155,6 +155,8 @@ get some standard linting set up: https://blog.codepen.io/2014/04/22/009-code-qu
 
 for documentation: https://github.com/integrations/gitbook
 
+UI ideas: https://airtable.com/templates/human-resources/employee-directory
+
 ---
 
 other argument maps:
