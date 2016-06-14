@@ -23,13 +23,8 @@ Then you can pull in WikiLogic:
 
 Finally we can start it up:
 
- - `npm start` to run WL without any bells and whistles.
-
- - `npm run start:dev` Here be bells and whistles! It should open 3 command line windows running these:
-	 - For the DB: `npm run spinup:database` (starts up mongod)
-	 - For the server: `npm run spinup:server` (starts up the node server with nodemon, will restart on any changes in /server)
-	 - For the front end: `gulp` (compiles & watches sass, js, and svgs)
-	 - The window you ran the original command from should remain free so you can commit to your hearts content without worrying about stop/starting any processes!
+ - `npm start` This will just run the server. TODO: hook up to the remote db when this command is run. 
+ - `npm run start:dev` This will run EVERYTHNIG locally, don't be afraid if your terminal goes nuts, there's a lot happening in there.
 
 ---
 
