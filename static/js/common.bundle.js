@@ -11470,6 +11470,7 @@ module.exports = {
 		});
 	}
 }
+
 },{"jquery":1}],6:[function(require,module,exports){
 'use strict';
 
