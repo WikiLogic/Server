@@ -5,7 +5,8 @@
 
 	//in this world, the bread is the controller
 	&__bread {
-		border-bottom: 1px solid $WL_Blue;
+		border-bottom: 1px solid rgba($WL_Blue, 0);
+		transition: border-color 0.3s ease;
 		@include box();
 		cursor: pointer;
 		position: relative;
@@ -20,10 +21,21 @@
 	
 	&__toast {
 		@include box();
+		display: none;
 	}
 
 	//when it's on / expanded, we consider the "toast" to be "toasted"
-	&--toasted {
+	&.toasted {
+		.toaster { 
+			
+			&__bread {
+				border-color: rgba($WL_Blue, 1);	
+				transition: border-color 0.6s ease;
+			}
 
+			&__toast {
+				display: block;
+			}
+		}
 	}
 }

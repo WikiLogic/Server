@@ -10,9 +10,15 @@
 		background: $grey-2;
 		cursor: pointer;
 		border-right: 1px solid $WL_Blue;
+		border-bottom: 1px solid $WL_Blue;
+
+		&:first-of-type {
+			border-top-left-radius: 5px;
+		}
 
 		&:last-of-type {
 			border-right: 0;
+			border-top-right-radius: 5px;
 		}
 
 		&:hover {
@@ -21,6 +27,7 @@
 
 		&.active {
 			background: $grey-1;	
+			border-bottom-color: $grey-1;
 		}
 	}
 
@@ -31,8 +38,15 @@
 			&__tab {
 				background: $grey-e;
 				&:hover { background: white; }
-				&.active { background: white; }
+				&.active { 
+					background: white; 
+					border-bottom-color: white;
+				}
 			}
 		}
+	}
+
+	+ * {
+		border-top-left-radius: 0;
 	}
 }

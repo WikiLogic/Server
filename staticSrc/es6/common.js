@@ -1,16 +1,10 @@
 //first, init the global state
 window.WL_STATE = require('./state/WL_STATE');
-
 $ = jQuery = require('jquery');
 
-
-var search = require('./dom_watchers/search-input');
-console.log('initting search');
-search.init();
-
-var tabs = require('./dom_watchers/tabs');
-tabs.init();
-
+require('./dom_watchers/search-input').init();
+require('./dom_watchers/tabs').init();
+require('./dom_watchers/toaster').init();
 
 window.rivets = require('rivets');
 

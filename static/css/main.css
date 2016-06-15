@@ -1571,7 +1571,8 @@ think carefully before adding anything in here.
     padding: 1rem;
     background: #223856;
     cursor: pointer;
-    border-right: 1px solid #5f9aec; }
+    border-right: 1px solid #5f9aec;
+    border-bottom: 1px solid #5f9aec; }
     .tabs__tab--5 {
       padding: 0.3125rem; }
     .tabs__tab--16 {
@@ -1582,12 +1583,16 @@ think carefully before adding anything in here.
     .tabs__tab--tall {
       padding-top: 0;
       padding-bottom: 0; }
+    .tabs__tab:first-of-type {
+      border-top-left-radius: 5px; }
     .tabs__tab:last-of-type {
-      border-right: 0; }
+      border-right: 0;
+      border-top-right-radius: 5px; }
     .tabs__tab:hover {
       background: #131E2D; }
     .tabs__tab.active {
-      background: #131E2D; }
+      background: #131E2D;
+      border-bottom-color: #131E2D; }
   .tabs--light {
     color: black; }
     .tabs--light svg {
@@ -1599,7 +1604,10 @@ think carefully before adding anything in here.
       .tabs--light .tabs__tab:hover {
         background: white; }
       .tabs--light .tabs__tab.active {
-        background: white; }
+        background: white;
+        border-bottom-color: white; }
+  .tabs + * {
+    border-top-left-radius: 0; }
 
 .toaster {
   background: white;
@@ -1610,7 +1618,8 @@ think carefully before adding anything in here.
   .toaster h1, .toaster h2, .toaster h3, .toaster h4, .toaster h5, .toaster h6, .toaster p {
     color: black; }
   .toaster__bread {
-    border-bottom: 1px solid #5f9aec;
+    border-bottom: 1px solid rgba(95, 154, 236, 0);
+    transition: border-color 0.3s ease;
     padding: 1rem;
     cursor: pointer;
     position: relative; }
@@ -1629,7 +1638,8 @@ think carefully before adding anything in here.
       right: 1rem;
       top: 1rem; }
   .toaster__toast {
-    padding: 1rem; }
+    padding: 1rem;
+    display: none; }
     .toaster__toast--5 {
       padding: 0.3125rem; }
     .toaster__toast--16 {
@@ -1640,6 +1650,11 @@ think carefully before adding anything in here.
     .toaster__toast--tall {
       padding-top: 0;
       padding-bottom: 0; }
+  .toaster.toasted .toaster__bread {
+    border-color: #5f9aec;
+    transition: border-color 0.6s ease; }
+  .toaster.toasted .toaster__toast {
+    display: block; }
 
 .user-icon {
   border-radius: 50px;

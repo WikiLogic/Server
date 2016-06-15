@@ -11428,17 +11428,11 @@ return jQuery;
 },{}],4:[function(require,module,exports){
 //first, init the global state
 window.WL_STATE = require('./state/WL_STATE');
-
 $ = jQuery = require('jquery');
 
-
-var search = require('./dom_watchers/search-input');
-console.log('initting search');
-search.init();
-
-var tabs = require('./dom_watchers/tabs');
-tabs.init();
-
+require('./dom_watchers/search-input').init();
+require('./dom_watchers/tabs').init();
+require('./dom_watchers/toaster').init();
 
 window.rivets = require('rivets');
 
@@ -11457,7 +11451,7 @@ rivets.configure({
 });
 
 rivets.bind($('#god'), {state: window.WL_STATE});
-},{"./dom_watchers/search-input":5,"./dom_watchers/tabs":6,"./state/WL_STATE":9,"jquery":1,"rivets":2}],5:[function(require,module,exports){
+},{"./dom_watchers/search-input":5,"./dom_watchers/tabs":6,"./dom_watchers/toaster":7,"./state/WL_STATE":10,"jquery":1,"rivets":2}],5:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -11518,7 +11512,39 @@ module.exports = {
 		});
 	}
 }
-},{"../state/ui.tabs":10,"jquery":1}],7:[function(require,module,exports){
+},{"../state/ui.tabs":11,"jquery":1}],7:[function(require,module,exports){
+'use strict';
+
+var $ = require('jquery');
+
+/*
+ * This module is responsibe for handling the toasters.
+ * For now, toasters are purley presentation elements, so
+ * they don't actually have any state which is why you don't 
+ * see any state controller being required.
+ */
+
+module.exports = {
+	init: function(){
+		console.log('initting toaster');
+		$('.js-toaster').on('click', function(){
+			console.log('toasting toaster');
+			var $thisToaster = $(this);
+
+			//toggle!
+			if ($thisToaster.hasClass('toasted')) {
+				console.log('sliding up');
+				$thisToaster.find('.toaster__toast').slideUp(300);
+				$thisToaster.removeClass('toasted');
+			} else {
+				console.log('sliding down');
+				$thisToaster.find('.toaster__toast').slideDown(300);
+				$thisToaster.addClass('toasted');
+			}
+		});
+	}
+}
+},{"jquery":1}],8:[function(require,module,exports){
 
 module.exports = {
 	cloneThisObject: function(obj) {
@@ -11532,7 +11558,7 @@ module.exports = {
 		return newObj;
 	}
 }
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -11545,7 +11571,7 @@ module.exports = {
 		return /[A-Z]/.test(s);
 	}
 }
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -11584,7 +11610,7 @@ module.exports = {
 		}
 	}
 };
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 'use strict';
 
 var objectHelpers = require('../reducers/object_helpers');
@@ -11704,4 +11730,4 @@ module.exports = {
 		console.log('WL_STATE.ui.tabs[groupName]: ', WL_STATE.ui.tabs[groupName]);
 	}
 };
-},{"../reducers/object_helpers":7,"../reducers/string_helpers":8}]},{},[4]);
+},{"../reducers/object_helpers":8,"../reducers/string_helpers":9}]},{},[4]);
