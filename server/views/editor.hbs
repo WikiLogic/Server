@@ -2,211 +2,112 @@
 
 <div class="y-scroll box text-color--white">
 
-    <!-- <p class="small no-margins">Draft List</p> -->
+    <div class="box">
 
-    <!-- List box -->
-    <div class="card bg-color--white box">
-
-        <input type="text" placeholder="Search drafts / write new" class="full-width">
-
-        <br>
-
-        <!-- for each draft -->
-        <div class="claim-list-item splitter splitter--full-width box box--5 box--wide">
-            
-            <a class="splitter__left">
-                <svg class="bump-up-1 color--black"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#check"></use></svg>
-                draft.description
-            </a>
-            
-            <div class="claim-list-item__hover-show splitter__right text-color--black">
-            
-                <svg class="icon hover-color--blue cursor-pointer"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#pencil"></use></svg>
-                <svg class="icon hover-color--blue cursor-pointer"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#cloud-upload"></use></svg>
-                <svg class="icon hover-color--red cursor-pointer"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#trash"></use></svg>
-                
+        <div class="tabs tabs--light">
+            <div class="tabs__tab js-tab active" 
+                data-tab-name="draft_list" 
+                data-tab-group="editor"
+                view-class-active="state.ui.tabs.editor.draft_list">
+                My Drafts
+            </div>
+            <div class="tabs__tab js-tab" 
+                data-tab-name="claim_n" 
+                data-tab-group="editor"
+                view-class-active="state.ui.tabs.editor.claim_n">
+                Claim-n
             </div>
         </div>
 
-        <div class="claim-list-item splitter splitter--full-width box box--5 box--wide">
-            <a class="splitter__left">
-                <svg class="bump-up-1 color--black"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#check"></use></svg>
-                draft.description
-            </a>
-            <div class="claim-list-item__hover-show splitter__right text-color--black">
-                <svg class="icon hover-color--grey-2 cursor-pointer"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#pencil"></use></svg>
-                <svg class="icon hover-color--grey-2 cursor-pointer"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#cloud-upload"></use></svg>
-                <svg class="icon hover-color--red cursor-pointer"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#trash"></use></svg>
-            </div>
+
+
+        <!-- List of my drafts -->
+        <div class="card bg-color--white box"
+            view-if="state.ui.tabs.editor.draft_list">
+
+            <input type="text" placeholder="Search drafts / write new" class="full-width">
+            <br>
+            {{> claim_list_item }}
+            {{> claim_list_item }}
+            {{> claim_list_item }}
+            {{> claim_list_item }}
+            {{> claim_list_item }}
+
         </div>
 
-    </div>
-
-    <br>
-    <hr class="hr--white">
-
-    <!-- <p class="small no-margins">Draft Detail</p> -->
-
-
-    <div class="row">
-        
-        <div class="row__col--1-half">
-            <div class="card bg-color--white text-color--black box">
-
-                <p class="full-width small">
-                    <svg class="float-left icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>&nbsp;
-                    an argument in which this draft is used in a supporting group</p>
-
-                <hr>
-
-                <p class="full-width small">
-                    <svg class="float-left icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>&nbsp;
-                    an argument in which this draft is used in a supporting group</p>
+        <!-- detail view of claim_n -->
+        <div view-if="state.ui.tabs.editor.claim_n">
             
-                <hr>
+            
+            <div class="row">
+            
+                <div class="row__col--1-half">
+                    <div class="card bg-color--white text-color--black box">
 
-                
-            </div>
-            <svg class="align-center icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-top"></use></svg>
-            <p class="small text-align-center no-margins">Supports</p>
+                        {{> referencing_claim }}
+                        <hr>
 
-        </div>
-
-        <div class="row__col--1-half">
-            <div class="card bg-color--white text-color--black box">
-
-                <p class="full-width small">
-                    <svg class="float-left icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>&nbsp;
-                    an argument in which this draft is used in an opposing group</p>
-
-                <hr>
-
-                <p class="full-width small">
-                    <svg class="float-left icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>&nbsp;
-                    an argument in which this draft is used in an opposing group</p>
-
-                <hr>
-
-                
-            </div>
-            <svg class="align-center icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-top"></use></svg>
-            <p class="small text-align-center no-margins">Opposes</p>
-
-        </div>
-    </div>
-
-
-    <div class="card bg-color--white text-color--black box">   
-        <p class="full-width text-align-center">
-            <svg class="float-left"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>&nbsp;
-            draft description blah blah blah
-        </p>
-    </div>
-    
-
-    <div class="row">
-        <div class="row__col--1-half">
-
-            <svg class="align-center icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-top"></use></svg>
-            <p class="small text-align-center no-margins">For</p>
-            <div class="card bg-color--white text-color--black box">
-
-                <!-- Start argument group -->
-                <div class="splitter splitter--full-width">
-                    <div class="splitter__left">
-                        <svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>        
-                    </div>
-                    <div class="splitter__right full-width text-align-left">
+                        {{> referencing_claim }}
+                        <hr>
                         
-                        <p class="full-width small">
-                            <svg class="float-left icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>&nbsp;
-                            an argument in this this first supporting group</p>
-
-                        <p class="full-width small">
-                            <svg class="float-left icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>&nbsp;
-                            an argument in this this first supporting group</p>
-
                     </div>
-                </div>
-                <br>
-                <hr>
-                <!-- End argument group -->
+                    <svg class="align-center icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-top"></use></svg>
+                    <p class="small text-align-center no-margins">Supports</p>
 
-                <!-- Start argument group -->
-                <div class="splitter splitter--full-width">
-                    <div class="splitter__left">
-                        <svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>        
-                    </div>
-                    <div class="splitter__right full-width text-align-left">
-                       
-                        <p class="full-width small">
-                            <svg class="float-left icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>&nbsp;
-                            an argument in this this first supporting group</p>
-
-                        <p class="full-width small">
-                            <svg class="float-left icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>&nbsp;
-                            an argument in this this first supporting group</p>
-
-                    </div>
                 </div>
 
-                <!-- End argument group -->
-            </div>
-        </div>
+                <div class="row__col--1-half">
+                    <div class="card bg-color--white text-color--black box">
 
-        <div class="row__col--1-half">
+                        {{> referencing_claim }}
+                        <hr>
 
-            <svg class="align-center icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-top"></use></svg>
-            <p class="small text-align-center no-margins">Against</p>
-            <div class="card bg-color--white text-color--black box">
-
-                <!-- Start argument group -->
-                <div class="splitter splitter--full-width">
-                    <div class="splitter__left">
-                        <svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>        
-                    </div>
-                    <div class="splitter__right full-width text-align-left">
-                       
-                        <p class="full-width small">
-                            <svg class="float-left icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>&nbsp;
-                            an argument in this this first supporting group</p>
-
-                        <p class="full-width small">
-                            <svg class="float-left icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>&nbsp;
-                            an argument in this this first supporting group</p>
-
-
-                    </div>
-                </div>
-                <br>
-                
-                
-                
-                <hr>
-                <!-- End argument group -->
-
-                <!-- Start argument group -->
-                <div class="splitter splitter--full-width">
-                    <div class="splitter__left">
-                        <svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>        
-                    </div>
-                    <div class="splitter__right full-width text-align-left">
+                        {{> referencing_claim }}
+                        <hr>
                         
-                        <p class="full-width small">
-                            <svg class="float-left icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>&nbsp;
-                            an argument in this this first supporting group</p>
+                    </div>
+                    <svg class="align-center icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-top"></use></svg>
+                    <p class="small text-align-center no-margins">Opposes</p>
 
-                        <p class="full-width small">
-                            <svg class="float-left icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>&nbsp;
-                            an argument in this this first supporting group</p>
+                </div>
+            </div>
 
+
+            <div class="card bg-color--white text-color--black box">   
+                <p class="full-width text-align-center">
+                    <svg class="float-left"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>&nbsp;
+                    draft description blah blah blah
+                </p>
+            </div>
+            
+
+            <div class="row">
+                <div class="row__col--1-half">
+
+                    <svg class="align-center icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-top"></use></svg>
+                    <p class="small text-align-center no-margins">For</p>
+                    <div class="card bg-color--white text-color--black box">
+
+                        {{> argument_group }}
+                        {{> argument_group }}
 
                     </div>
                 </div>
 
-                <!-- End argument group -->
+                <div class="row__col--1-half">
+
+                    <svg class="align-center icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-top"></use></svg>
+                    <p class="small text-align-center no-margins">Against</p>
+                    <div class="card bg-color--white text-color--black box">
+
+                        {{> argument_group }}
+                        {{> argument_group }}
+
+                    </div>
+                </div>
             </div>
         </div>
+
     </div>
 
 </div>
