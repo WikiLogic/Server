@@ -56,6 +56,9 @@ console.time('      2: Connecting to DB');
 
 var DATABASE_URL = process.env.DATABASE_URL || 'mongodb://localhost/wl-03-dev';
 mongoose.connect(DATABASE_URL);
+mongoose.connection.on('error', function(){
+	console.log('DB connection error');
+});
 
 console.timeEnd('      2: Connecting to DB');
 

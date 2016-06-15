@@ -6,6 +6,21 @@ var express = require('express'),
 
 module.exports = function(router, passport) {
 
+	//before any connection, check if db is running
+	router.use(function(req, res, next){
+		console.log('mongoose.connection.readyState: ', mongoose.connection.readyState);
+		if (mongoose.connection.readyState == 0) {
+			console.log("Oh oh - seems like the database isn't running");
+			res.locals.errorMessage = "Eh, sorry about this but it seems my database is feeling a bit under the weather. It's giving me the slient treatment. Now, I don't know if anyone else knows but I would really appreciate it if you could RAISE ALL HELL FOR ME THIS IS SCARY - HELP!!! HEEELP!!! ";
+
+			res.render('error.hbs', {layout: 'landing'});
+		} else {
+			next();
+		}
+	
+	});
+
+	//before any connection, check if user is logged in
 	router.use(function (req, res, next){
 		if (req.user){ 
 			res.locals.loggedIn = true; 
@@ -31,6 +46,11 @@ module.exports = function(router, passport) {
 	router.get('/styleguide', function (req, res) {
 		//res.render('app-wrappers/explorer.hbs');
 		res.render('styleguide.hbs', {layout: 'app'});
+	});
+
+	router.get('/error', function (req, res) {
+		//res.render('app-wrappers/explorer.hbs');
+		res.render('error.hbs', {layout: 'landing'});
 	});
 
 
@@ -68,7 +88,7 @@ module.exports = function(router, passport) {
 	router.get('/auth/facebook/callback',
 		passport.authenticate('facebook', {
 			successRedirect : '/profile',
-			failureRedirect : '/'
+			failureRedirect : '/error'
 		})
 	);
 
