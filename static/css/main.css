@@ -4,6 +4,7 @@ The various settings / variables that will be used throughout
 */
 /* colors */
 /* shades of grey */
+@import 'https://fonts.googleapis.com/css?family=Source+Sans+Pro';
 /*! normalize.css v3.0.1 | MIT License | git.io/normalize */
 /**
  * 1. Set default font family to sans-serif.
@@ -598,7 +599,7 @@ table {
   border-color: #1c821c; }
 
 body {
-  font-family: sans-serif;
+  font-family: "Source Sans Pro", sans-serif;
   /* 100 / 300 / 700 */
   font-weight: normal;
   font-size: 0.875rem; }
@@ -613,7 +614,7 @@ body {
 /* ==================== */
 h1 {
   margin: 0 0 0.25em;
-  font-family: serif;
+  font-family: "Maitree", serif;
   font-size: 2rem;
   line-height: 1;
   font-weight: 200; }
@@ -621,7 +622,7 @@ h1 {
 /* Page title */
 h2 {
   margin: 0 0 0.25em;
-  font-family: serif;
+  font-family: "Maitree", serif;
   font-size: 1.75rem;
   line-height: 1;
   font-weight: 200; }
@@ -629,7 +630,7 @@ h2 {
 /* Page sub-titles */
 h3 {
   margin: 0 0 0.5em;
-  font-family: sans-serif;
+  font-family: "Source Sans Pro", sans-serif;
   font-size: 1.25rem;
   line-height: 1;
   font-weight: 300; }
@@ -637,14 +638,14 @@ h3 {
 /* Sidebar title / lead-in / form area title */
 h4 {
   margin: 0 0 0.5em;
-  font-family: sans-serif;
+  font-family: "Source Sans Pro", sans-serif;
   font-size: 1.125rem;
   line-height: 1;
   font-weight: 400; }
 
 h5 {
   margin: 0 0 0.75em;
-  font-family: sans-serif;
+  font-family: "Source Sans Pro", sans-serif;
   font-size: 0.8125rem;
   line-height: 1.2;
   font-weight: 600;
@@ -652,7 +653,7 @@ h5 {
 
 h6 {
   margin: 0 0 0.75em;
-  font-family: sans-serif;
+  font-family: "Source Sans Pro", sans-serif;
   font-size: 0.625rem;
   line-height: 1.2;
   font-weight: 600;
