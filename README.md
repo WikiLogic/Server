@@ -157,6 +157,8 @@ for documentation: https://github.com/integrations/gitbook
 
 UI ideas: https://airtable.com/templates/human-resources/employee-directory
 
+better auth: https://auth0.com/blog/2015/08/20/from-theory-to-practice-adding-two-factor-to-node-dot-js/
+
 ---
 
 other argument maps:
