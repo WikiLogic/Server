@@ -4,7 +4,7 @@ The various settings / variables that will be used throughout
 */
 /* colors */
 /* shades of grey */
-@import 'https://fonts.googleapis.com/css?family=Source+Sans+Pro';
+@import 'https://fonts.googleapis.com/css?family=Crimson+Text:400|Roboto:400,700';
 /*! normalize.css v3.0.1 | MIT License | git.io/normalize */
 /**
  * 1. Set default font family to sans-serif.
@@ -562,7 +562,8 @@ svg {
   width: 1em;
   height: 1em;
   display: inline-block;
-  vertical-align: middle; }
+  vertical-align: middle;
+  fill: black; }
 
 table {
   font-size: 1rem;
@@ -599,10 +600,13 @@ table {
   border-color: #1c821c; }
 
 body {
-  font-family: "Source Sans Pro", sans-serif;
+  font-family: "Roboto", sans-serif;
   /* 100 / 300 / 700 */
   font-weight: normal;
-  font-size: 0.875rem; }
+  font-size: 0.875rem;
+  color: rgba(0, 0, 0, 0.87); }
+  body h1, body h2, body h3, body h4 {
+    color: black; }
   @media (min-width: 540px) {
     body {
       font-size: 0.9375rem; } }
@@ -614,49 +618,49 @@ body {
 /* ==================== */
 h1 {
   margin: 0 0 0.25em;
-  font-family: "Maitree", serif;
+  font-family: "Crimson Text", serif;
   font-size: 2rem;
   line-height: 1;
-  font-weight: 200; }
+  font-weight: 400; }
 
 /* Page title */
 h2 {
   margin: 0 0 0.25em;
-  font-family: "Maitree", serif;
+  font-family: "Crimson Text", serif;
   font-size: 1.75rem;
   line-height: 1;
-  font-weight: 200; }
+  font-weight: 400; }
 
 /* Page sub-titles */
 h3 {
   margin: 0 0 0.5em;
-  font-family: "Source Sans Pro", sans-serif;
+  font-family: "Roboto", sans-serif;
   font-size: 1.25rem;
   line-height: 1;
-  font-weight: 300; }
+  font-weight: 700; }
 
 /* Sidebar title / lead-in / form area title */
 h4 {
   margin: 0 0 0.5em;
-  font-family: "Source Sans Pro", sans-serif;
+  font-family: "Roboto", sans-serif;
   font-size: 1.125rem;
   line-height: 1;
-  font-weight: 400; }
+  font-weight: 700; }
 
 h5 {
   margin: 0 0 0.75em;
-  font-family: "Source Sans Pro", sans-serif;
+  font-family: "Roboto", sans-serif;
   font-size: 0.8125rem;
   line-height: 1.2;
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase; }
 
 h6 {
   margin: 0 0 0.75em;
-  font-family: "Source Sans Pro", sans-serif;
+  font-family: "Roboto", sans-serif;
   font-size: 0.625rem;
   line-height: 1.2;
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase; }
 
 @media (min-width: 768px) {
@@ -681,17 +685,20 @@ h6 {
 /* ================ */
 p.lead-in {
   font-size: 1rem;
-  line-height: 1.2; }
+  line-height: 1.2;
+  font-weight: 400; }
 
 p {
   font-size: 0.875rem;
   line-height: 1.2;
+  font-weight: 400;
   margin: 0 0 1em; }
 
 p small,
 p.small {
   font-size: 0.6875rem;
-  line-height: 1; }
+  line-height: 1;
+  font-weight: 400; }
 
 @media (min-width: 540px) {
   p.lead-in {
@@ -858,12 +865,14 @@ They should get you 90% of the look you're after
     border-bottom-left-radius: 0; }
 
 .bg-pattern {
-  color: white;
+  color: rgba(255, 255, 255, 0.87);
   background-image: repeating-linear-gradient(30deg, rgba(59, 131, 232, 0.5), rgba(59, 131, 232, 0.5) 8px, rgba(36, 117, 229, 0.5) 9px, rgba(59, 131, 232, 0.5) 10px), radial-gradient(circle farthest-corner at 50% 20%, rgba(72, 140, 233, 0.5), black); }
   .bg-pattern svg {
     fill: white; }
-  .bg-pattern h1, .bg-pattern h2, .bg-pattern h3, .bg-pattern h4, .bg-pattern h5, .bg-pattern h6, .bg-pattern p {
+  .bg-pattern h1, .bg-pattern h2, .bg-pattern h3, .bg-pattern h4 {
     color: white; }
+  .bg-pattern h5, .bg-pattern h6, .bg-pattern p {
+    color: rgba(255, 255, 255, 0.87); }
   .bg-pattern--red {
     background-image: repeating-linear-gradient(30deg, rgba(239, 46, 46, 0.5), rgba(239, 46, 46, 0.5) 8px, rgba(237, 22, 22, 0.5) 9px, rgba(239, 46, 46, 0.5) 10px), radial-gradient(circle farthest-corner at 50% 20%, rgba(240, 60, 60, 0.5), rgba(113, 9, 9, 0.5)); }
   .bg-pattern--green {
@@ -871,131 +880,163 @@ They should get you 90% of the look you're after
 
 .bg-color--red {
   background-color: #F25454;
-  color: white; }
+  color: rgba(255, 255, 255, 0.87); }
   .bg-color--red svg {
     fill: white; }
-  .bg-color--red h1, .bg-color--red h2, .bg-color--red h3, .bg-color--red h4, .bg-color--red h5, .bg-color--red h6, .bg-color--red p {
+  .bg-color--red h1, .bg-color--red h2, .bg-color--red h3, .bg-color--red h4 {
     color: white; }
+  .bg-color--red h5, .bg-color--red h6, .bg-color--red p {
+    color: rgba(255, 255, 255, 0.87); }
 
 .bg-color--blue {
   background-color: #5f9aec;
-  color: white; }
+  color: rgba(255, 255, 255, 0.87); }
   .bg-color--blue svg {
     fill: white; }
-  .bg-color--blue h1, .bg-color--blue h2, .bg-color--blue h3, .bg-color--blue h4, .bg-color--blue h5, .bg-color--blue h6, .bg-color--blue p {
+  .bg-color--blue h1, .bg-color--blue h2, .bg-color--blue h3, .bg-color--blue h4 {
     color: white; }
+  .bg-color--blue h5, .bg-color--blue h6, .bg-color--blue p {
+    color: rgba(255, 255, 255, 0.87); }
 
 .bg-color--green {
   background-color: #31D332;
-  color: white; }
+  color: rgba(255, 255, 255, 0.87); }
   .bg-color--green svg {
     fill: white; }
-  .bg-color--green h1, .bg-color--green h2, .bg-color--green h3, .bg-color--green h4, .bg-color--green h5, .bg-color--green h6, .bg-color--green p {
+  .bg-color--green h1, .bg-color--green h2, .bg-color--green h3, .bg-color--green h4 {
     color: white; }
+  .bg-color--green h5, .bg-color--green h6, .bg-color--green p {
+    color: rgba(255, 255, 255, 0.87); }
 
 .bg-color--white {
   background-color: white;
-  color: black; }
+  color: rgba(0, 0, 0, 0.87); }
   .bg-color--white svg {
     fill: black; }
-  .bg-color--white h1, .bg-color--white h2, .bg-color--white h3, .bg-color--white h4, .bg-color--white h5, .bg-color--white h6, .bg-color--white p {
+  .bg-color--white h1, .bg-color--white h2, .bg-color--white h3, .bg-color--white h4 {
     color: black; }
+  .bg-color--white h5, .bg-color--white h6, .bg-color--white p {
+    color: rgba(0, 0, 0, 0.87); }
 
 .bg-color--grey-e {
   background-color: #eeeeee;
-  color: black; }
+  color: rgba(0, 0, 0, 0.87); }
   .bg-color--grey-e svg {
     fill: black; }
-  .bg-color--grey-e h1, .bg-color--grey-e h2, .bg-color--grey-e h3, .bg-color--grey-e h4, .bg-color--grey-e h5, .bg-color--grey-e h6, .bg-color--grey-e p {
+  .bg-color--grey-e h1, .bg-color--grey-e h2, .bg-color--grey-e h3, .bg-color--grey-e h4 {
     color: black; }
+  .bg-color--grey-e h5, .bg-color--grey-e h6, .bg-color--grey-e p {
+    color: rgba(0, 0, 0, 0.87); }
 
 .bg-color--grey-d {
   background-color: #dddddd;
-  color: black; }
+  color: rgba(0, 0, 0, 0.87); }
   .bg-color--grey-d svg {
     fill: black; }
-  .bg-color--grey-d h1, .bg-color--grey-d h2, .bg-color--grey-d h3, .bg-color--grey-d h4, .bg-color--grey-d h5, .bg-color--grey-d h6, .bg-color--grey-d p {
+  .bg-color--grey-d h1, .bg-color--grey-d h2, .bg-color--grey-d h3, .bg-color--grey-d h4 {
     color: black; }
+  .bg-color--grey-d h5, .bg-color--grey-d h6, .bg-color--grey-d p {
+    color: rgba(0, 0, 0, 0.87); }
 
 .bg-color--grey-c {
   background-color: #cccccc;
-  color: black; }
+  color: rgba(0, 0, 0, 0.87); }
   .bg-color--grey-c svg {
     fill: black; }
-  .bg-color--grey-c h1, .bg-color--grey-c h2, .bg-color--grey-c h3, .bg-color--grey-c h4, .bg-color--grey-c h5, .bg-color--grey-c h6, .bg-color--grey-c p {
+  .bg-color--grey-c h1, .bg-color--grey-c h2, .bg-color--grey-c h3, .bg-color--grey-c h4 {
     color: black; }
+  .bg-color--grey-c h5, .bg-color--grey-c h6, .bg-color--grey-c p {
+    color: rgba(0, 0, 0, 0.87); }
 
 .bg-color--grey-b {
   background-color: #bbbbbb;
-  color: black; }
+  color: rgba(0, 0, 0, 0.87); }
   .bg-color--grey-b svg {
     fill: black; }
-  .bg-color--grey-b h1, .bg-color--grey-b h2, .bg-color--grey-b h3, .bg-color--grey-b h4, .bg-color--grey-b h5, .bg-color--grey-b h6, .bg-color--grey-b p {
+  .bg-color--grey-b h1, .bg-color--grey-b h2, .bg-color--grey-b h3, .bg-color--grey-b h4 {
     color: black; }
+  .bg-color--grey-b h5, .bg-color--grey-b h6, .bg-color--grey-b p {
+    color: rgba(0, 0, 0, 0.87); }
 
 .bg-color--grey-a {
   background-color: #aaaaaa;
-  color: black; }
+  color: rgba(0, 0, 0, 0.87); }
   .bg-color--grey-a svg {
     fill: black; }
-  .bg-color--grey-a h1, .bg-color--grey-a h2, .bg-color--grey-a h3, .bg-color--grey-a h4, .bg-color--grey-a h5, .bg-color--grey-a h6, .bg-color--grey-a p {
+  .bg-color--grey-a h1, .bg-color--grey-a h2, .bg-color--grey-a h3, .bg-color--grey-a h4 {
     color: black; }
+  .bg-color--grey-a h5, .bg-color--grey-a h6, .bg-color--grey-a p {
+    color: rgba(0, 0, 0, 0.87); }
 
 .bg-color--grey-6 {
   background-color: #6f8db9;
-  color: white; }
+  color: rgba(255, 255, 255, 0.87); }
   .bg-color--grey-6 svg {
     fill: white; }
-  .bg-color--grey-6 h1, .bg-color--grey-6 h2, .bg-color--grey-6 h3, .bg-color--grey-6 h4, .bg-color--grey-6 h5, .bg-color--grey-6 h6, .bg-color--grey-6 p {
+  .bg-color--grey-6 h1, .bg-color--grey-6 h2, .bg-color--grey-6 h3, .bg-color--grey-6 h4 {
     color: white; }
+  .bg-color--grey-6 h5, .bg-color--grey-6 h6, .bg-color--grey-6 p {
+    color: rgba(255, 255, 255, 0.87); }
 
 .bg-color--grey-5 {
   background-color: #5e7ca8;
-  color: white; }
+  color: rgba(255, 255, 255, 0.87); }
   .bg-color--grey-5 svg {
     fill: white; }
-  .bg-color--grey-5 h1, .bg-color--grey-5 h2, .bg-color--grey-5 h3, .bg-color--grey-5 h4, .bg-color--grey-5 h5, .bg-color--grey-5 h6, .bg-color--grey-5 p {
+  .bg-color--grey-5 h1, .bg-color--grey-5 h2, .bg-color--grey-5 h3, .bg-color--grey-5 h4 {
     color: white; }
+  .bg-color--grey-5 h5, .bg-color--grey-5 h6, .bg-color--grey-5 p {
+    color: rgba(255, 255, 255, 0.87); }
 
 .bg-color--grey-4 {
   background-color: #4e6a92;
-  color: white; }
+  color: rgba(255, 255, 255, 0.87); }
   .bg-color--grey-4 svg {
     fill: white; }
-  .bg-color--grey-4 h1, .bg-color--grey-4 h2, .bg-color--grey-4 h3, .bg-color--grey-4 h4, .bg-color--grey-4 h5, .bg-color--grey-4 h6, .bg-color--grey-4 p {
+  .bg-color--grey-4 h1, .bg-color--grey-4 h2, .bg-color--grey-4 h3, .bg-color--grey-4 h4 {
     color: white; }
+  .bg-color--grey-4 h5, .bg-color--grey-4 h6, .bg-color--grey-4 p {
+    color: rgba(255, 255, 255, 0.87); }
 
 .bg-color--grey-3 {
   background-color: #375073;
-  color: white; }
+  color: rgba(255, 255, 255, 0.87); }
   .bg-color--grey-3 svg {
     fill: white; }
-  .bg-color--grey-3 h1, .bg-color--grey-3 h2, .bg-color--grey-3 h3, .bg-color--grey-3 h4, .bg-color--grey-3 h5, .bg-color--grey-3 h6, .bg-color--grey-3 p {
+  .bg-color--grey-3 h1, .bg-color--grey-3 h2, .bg-color--grey-3 h3, .bg-color--grey-3 h4 {
     color: white; }
+  .bg-color--grey-3 h5, .bg-color--grey-3 h6, .bg-color--grey-3 p {
+    color: rgba(255, 255, 255, 0.87); }
 
 .bg-color--grey-2 {
   background-color: #223856;
-  color: white; }
+  color: rgba(255, 255, 255, 0.87); }
   .bg-color--grey-2 svg {
     fill: white; }
-  .bg-color--grey-2 h1, .bg-color--grey-2 h2, .bg-color--grey-2 h3, .bg-color--grey-2 h4, .bg-color--grey-2 h5, .bg-color--grey-2 h6, .bg-color--grey-2 p {
+  .bg-color--grey-2 h1, .bg-color--grey-2 h2, .bg-color--grey-2 h3, .bg-color--grey-2 h4 {
     color: white; }
+  .bg-color--grey-2 h5, .bg-color--grey-2 h6, .bg-color--grey-2 p {
+    color: rgba(255, 255, 255, 0.87); }
 
 .bg-color--grey-1 {
   background-color: #131E2D;
-  color: white; }
+  color: rgba(255, 255, 255, 0.87); }
   .bg-color--grey-1 svg {
     fill: white; }
-  .bg-color--grey-1 h1, .bg-color--grey-1 h2, .bg-color--grey-1 h3, .bg-color--grey-1 h4, .bg-color--grey-1 h5, .bg-color--grey-1 h6, .bg-color--grey-1 p {
+  .bg-color--grey-1 h1, .bg-color--grey-1 h2, .bg-color--grey-1 h3, .bg-color--grey-1 h4 {
     color: white; }
+  .bg-color--grey-1 h5, .bg-color--grey-1 h6, .bg-color--grey-1 p {
+    color: rgba(255, 255, 255, 0.87); }
 
 .bg-color--black {
   background-color: black;
-  color: white; }
+  color: rgba(255, 255, 255, 0.87); }
   .bg-color--black svg {
     fill: white; }
-  .bg-color--black h1, .bg-color--black h2, .bg-color--black h3, .bg-color--black h4, .bg-color--black h5, .bg-color--black h6, .bg-color--black p {
+  .bg-color--black h1, .bg-color--black h2, .bg-color--black h3, .bg-color--black h4 {
     color: white; }
+  .bg-color--black h5, .bg-color--black h6, .bg-color--black p {
+    color: rgba(255, 255, 255, 0.87); }
 
 .text-color--white {
   color: white !important;
@@ -1562,11 +1603,13 @@ think carefully before adding anything in here.
 
 .tabs {
   display: table-row;
-  color: white; }
+  color: rgba(255, 255, 255, 0.87); }
   .tabs svg {
     fill: white; }
-  .tabs h1, .tabs h2, .tabs h3, .tabs h4, .tabs h5, .tabs h6, .tabs p {
+  .tabs h1, .tabs h2, .tabs h3, .tabs h4 {
     color: white; }
+  .tabs h5, .tabs h6, .tabs p {
+    color: rgba(255, 255, 255, 0.87); }
   .tabs__tab {
     display: table-cell;
     padding: 1rem;
@@ -1595,11 +1638,13 @@ think carefully before adding anything in here.
       background: #131E2D;
       border-bottom-color: #131E2D; }
   .tabs--light {
-    color: black; }
+    color: rgba(0, 0, 0, 0.87); }
     .tabs--light svg {
       fill: black; }
-    .tabs--light h1, .tabs--light h2, .tabs--light h3, .tabs--light h4, .tabs--light h5, .tabs--light h6, .tabs--light p {
+    .tabs--light h1, .tabs--light h2, .tabs--light h3, .tabs--light h4 {
       color: black; }
+    .tabs--light h5, .tabs--light h6, .tabs--light p {
+      color: rgba(0, 0, 0, 0.87); }
     .tabs--light .tabs__tab {
       background: #eeeeee; }
       .tabs--light .tabs__tab:hover {
@@ -1612,12 +1657,14 @@ think carefully before adding anything in here.
 
 .toaster {
   background: white;
-  color: black;
+  color: rgba(0, 0, 0, 0.87);
   border-radius: 5px; }
   .toaster svg {
     fill: black; }
-  .toaster h1, .toaster h2, .toaster h3, .toaster h4, .toaster h5, .toaster h6, .toaster p {
+  .toaster h1, .toaster h2, .toaster h3, .toaster h4 {
     color: black; }
+  .toaster h5, .toaster h6, .toaster p {
+    color: rgba(0, 0, 0, 0.87); }
   .toaster__bread {
     border-bottom: 1px solid rgba(95, 154, 236, 0);
     transition: border-color 0.3s ease;

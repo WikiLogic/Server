@@ -1,13 +1,15 @@
 @mixin light-typography(){
-	color: white;
+	color: rgba(white, 0.87);
 	svg { fill: white; }
-	h1, h2, h3, h4, h5, h6, p { color: white; }
+	h1, h2, h3, h4 { color: white; }
+	h5, h6, p { color: rgba(white, 0.87); }
 }
 
 @mixin dark-typography(){
-	color: black; 
+	color: rgba(black, 0.87);
 	svg { fill: black; }
-	h1, h2, h3, h4, h5, h6, p { color: black; }
+	h1, h2, h3, h4 { color: black; }
+	h5, h6, p { color: rgba(black, 0.87); }
 }
 
 .bg-pattern {
