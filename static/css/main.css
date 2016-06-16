@@ -829,7 +829,7 @@ They should get you 90% of the look you're after
     border-top-width: 1px; }
 
 .box {
-  padding: 1rem; }
+  padding: 0.625rem; }
   .box--5 {
     padding: 0.3125rem; }
   .box--16 {
@@ -1040,9 +1040,16 @@ They should get you 90% of the look you're after
 
 .text-color--white {
   color: white !important;
-  fill: white; }
+  fill: white;
+  color: rgba(255, 255, 255, 0.87); }
   .text-color--white svg {
     fill: white; }
+  .text-color--white svg {
+    fill: white; }
+  .text-color--white h1, .text-color--white h2, .text-color--white h3, .text-color--white h4 {
+    color: white; }
+  .text-color--white h5, .text-color--white h6, .text-color--white p {
+    color: rgba(255, 255, 255, 0.87); }
 
 .text-color--red {
   color: #F25454 !important; }
@@ -1055,9 +1062,16 @@ They should get you 90% of the look you're after
 
 .text-color--black {
   color: black !important;
-  fill: black; }
+  fill: black;
+  color: rgba(0, 0, 0, 0.87); }
   .text-color--black svg {
     fill: black; }
+  .text-color--black svg {
+    fill: black; }
+  .text-color--black h1, .text-color--black h2, .text-color--black h3, .text-color--black h4 {
+    color: black; }
+  .text-color--black h5, .text-color--black h6, .text-color--black p {
+    color: rgba(0, 0, 0, 0.87); }
 
 .color--black {
   fill: black !important; }
@@ -1123,6 +1137,9 @@ They should get you 90% of the look you're after
 
 .y-scroll {
   overflow-y: auto; }
+
+.screen-height {
+  height: 100vh; }
 
 .bump-up-1 {
   position: relative;
@@ -1196,37 +1213,37 @@ These create the structurs within which components will live
 .row--pad {
   /* Opt-in outside padding */ }
   .row--pad .row-pad {
-    padding: 1rem 0 1rem 1rem; }
+    padding: 0.625rem 0 0.625rem 0.625rem; }
     .row--pad .row-pad [class*='col-']:last-of-type {
-      padding-right: 1rem; }
+      padding-right: 0.625rem; }
 
 .row .row__col--no-padding {
   padding-right: 0;
   padding-left: 0; }
 
 .row.row .row__col--right-padding {
-  padding-right: 1rem; }
+  padding-right: 0.625rem; }
 
 .row.row .row__col--left-padding {
-  padding-left: 1rem; }
+  padding-left: 0.625rem; }
 
 .row__col--1-quarter {
   width: 25%;
   float: left;
-  padding-right: 1rem; }
+  padding-right: 0.625rem; }
   .row__col--1-quarter:last-of-type {
     padding-right: 0; }
   .row__col--1-quarter\@small {
     width: 100%;
     padding-right: 0;
-    padding-bottom: 1rem; }
+    padding-bottom: 0.625rem; }
     .row__col--1-quarter\@small:last-of-type {
       padding-bottom: 0; }
     @media (min-width: 540px) {
       .row__col--1-quarter\@small {
         width: 25%;
         float: left;
-        padding-right: 1rem;
+        padding-right: 0.625rem;
         padding-bottom: 0; }
         .row__col--1-quarter\@small:last-of-type {
           padding-right: 0; } }
@@ -1234,20 +1251,20 @@ These create the structurs within which components will live
 .row__col--1-third {
   width: 33.33%;
   float: left;
-  padding-right: 1rem; }
+  padding-right: 0.625rem; }
   .row__col--1-third:last-of-type {
     padding-right: 0; }
   .row__col--1-third\@small {
     width: 100%;
     padding-right: 0;
-    padding-bottom: 1rem; }
+    padding-bottom: 0.625rem; }
     .row__col--1-third\@small:last-of-type {
       padding-bottom: 0; }
     @media (min-width: 540px) {
       .row__col--1-third\@small {
         width: 33.33%;
         float: left;
-        padding-right: 1rem;
+        padding-right: 0.625rem;
         padding-bottom: 0; }
         .row__col--1-third\@small:last-of-type {
           padding-right: 0; } }
@@ -1255,20 +1272,20 @@ These create the structurs within which components will live
 .row__col--1-half {
   width: 50%;
   float: left;
-  padding-right: 1rem; }
+  padding-right: 0.625rem; }
   .row__col--1-half:last-of-type {
     padding-right: 0; }
   .row__col--1-half\@small {
     width: 100%;
     padding-right: 0;
-    padding-bottom: 1rem; }
+    padding-bottom: 0.625rem; }
     .row__col--1-half\@small:last-of-type {
       padding-bottom: 0; }
     @media (min-width: 540px) {
       .row__col--1-half\@small {
         width: 50%;
         float: left;
-        padding-right: 1rem;
+        padding-right: 0.625rem;
         padding-bottom: 0; }
         .row__col--1-half\@small:last-of-type {
           padding-right: 0; } }
@@ -1276,20 +1293,20 @@ These create the structurs within which components will live
 .row__col--2-third {
   width: 66.66%;
   float: left;
-  padding-right: 1rem; }
+  padding-right: 0.625rem; }
   .row__col--2-third:last-of-type {
     padding-right: 0; }
   .row__col--2-third\@small {
     width: 100%;
     padding-right: 0;
-    padding-bottom: 1rem; }
+    padding-bottom: 0.625rem; }
     .row__col--2-third\@small:last-of-type {
       padding-bottom: 0; }
     @media (min-width: 540px) {
       .row__col--2-third\@small {
         width: 66.66%;
         float: left;
-        padding-right: 1rem;
+        padding-right: 0.625rem;
         padding-bottom: 0; }
         .row__col--2-third\@small:last-of-type {
           padding-right: 0; } }
@@ -1297,26 +1314,25 @@ These create the structurs within which components will live
 .row__col--3-quarter {
   width: 75%;
   float: left;
-  padding-right: 1rem; }
+  padding-right: 0.625rem; }
   .row__col--3-quarter:last-of-type {
     padding-right: 0; }
   .row__col--3-quarter\@small {
     width: 100%;
     padding-right: 0;
-    padding-bottom: 1rem; }
+    padding-bottom: 0.625rem; }
     .row__col--3-quarter\@small:last-of-type {
       padding-bottom: 0; }
     @media (min-width: 540px) {
       .row__col--3-quarter\@small {
         width: 75%;
         float: left;
-        padding-right: 1rem;
+        padding-right: 0.625rem;
         padding-bottom: 0; }
         .row__col--3-quarter\@small:last-of-type {
           padding-right: 0; } }
 
 .header-layout {
-  height: 100vh;
   display: -ms-flexbox;
   display: flex;
   -ms-flex-direction: column;
@@ -1354,12 +1370,6 @@ These create the structurs within which components will live
   .sidebar-layout--right .sidebar-layout__main {
     -ms-flex-order: 1;
         order: 1; }
-  .sidebar-layout--full-height {
-    height: 100vh; }
-    .sidebar-layout--full-height .sidebar-layout__side {
-      overflow-y: auto; }
-    .sidebar-layout--full-height .sidebar-layout__main {
-      overflow-y: auto; }
 
 .splitter {
   font-size: 1rem;
@@ -1612,11 +1622,10 @@ think carefully before adding anything in here.
     color: rgba(255, 255, 255, 0.87); }
   .tabs__tab {
     display: table-cell;
-    padding: 1rem;
+    padding: 0.625rem;
     background: #223856;
     cursor: pointer;
-    border-right: 1px solid #5f9aec;
-    border-bottom: 1px solid #5f9aec; }
+    border-right: 1px solid #5f9aec; }
     .tabs__tab--5 {
       padding: 0.3125rem; }
     .tabs__tab--16 {
@@ -1627,16 +1636,12 @@ think carefully before adding anything in here.
     .tabs__tab--tall {
       padding-top: 0;
       padding-bottom: 0; }
-    .tabs__tab:first-of-type {
-      border-top-left-radius: 5px; }
     .tabs__tab:last-of-type {
-      border-right: 0;
-      border-top-right-radius: 5px; }
+      border-right: 0; }
     .tabs__tab:hover {
       background: #131E2D; }
     .tabs__tab.active {
-      background: #131E2D;
-      border-bottom-color: #131E2D; }
+      background: #131E2D; }
   .tabs--light {
     color: rgba(0, 0, 0, 0.87); }
     .tabs--light svg {
@@ -1650,10 +1655,7 @@ think carefully before adding anything in here.
       .tabs--light .tabs__tab:hover {
         background: white; }
       .tabs--light .tabs__tab.active {
-        background: white;
-        border-bottom-color: white; }
-  .tabs + * {
-    border-top-left-radius: 0; }
+        background: white; }
 
 .toaster {
   background: white;
@@ -1668,7 +1670,7 @@ think carefully before adding anything in here.
   .toaster__bread {
     border-bottom: 1px solid rgba(95, 154, 236, 0);
     transition: border-color 0.3s ease;
-    padding: 1rem;
+    padding: 0.625rem;
     cursor: pointer;
     position: relative; }
     .toaster__bread--5 {
@@ -1686,7 +1688,7 @@ think carefully before adding anything in here.
       right: 1rem;
       top: 1rem; }
   .toaster__toast {
-    padding: 1rem;
+    padding: 0.625rem;
     display: none; }
     .toaster__toast--5 {
       padding: 0.3125rem; }

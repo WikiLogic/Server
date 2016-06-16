@@ -1,5 +1,4 @@
 //took this: https://css-tricks.com/dont-overthink-it-grids/ and tweaked it... a lot
-$pad: rem(16);
 
 .row {
 
@@ -12,9 +11,9 @@ $pad: rem(16);
 	&--pad {
 		/* Opt-in outside padding */
 		.row-pad {
-			padding: $pad 0 $pad $pad;
+			padding: rem($pad) 0 rem($pad) rem($pad);
 			[class*='col-']:last-of-type {
-				padding-right: $pad;
+				padding-right: rem($pad);
 			}
 		}
 	}
@@ -25,8 +24,8 @@ $pad: rem(16);
 	}
 
 	//even more specificity for the same cause
-	&.row { .row__col--right-padding { padding-right: $pad; } }
-	&.row { .row__col--left-padding  { padding-left: $pad; } }
+	&.row { .row__col--right-padding { padding-right: rem($pad); } }
+	&.row { .row__col--left-padding  { padding-left: rem($pad); } }
 
 
 
@@ -35,7 +34,7 @@ $pad: rem(16);
 		//by default - colum width at all widths
 		width: $width;
 		float: left;
-		padding-right: $pad;
+		padding-right: rem($pad);
 
 		&:last-of-type {
 			padding-right: 0;
@@ -47,7 +46,7 @@ $pad: rem(16);
 			width: 100%;
 			padding-right: 0;
 			//make a gap between them
-			padding-bottom: $pad;
+			padding-bottom: rem($pad);
 			//except on the last guy
 			&:last-of-type { padding-bottom: 0; }
 
@@ -56,7 +55,7 @@ $pad: rem(16);
 				//set it all back to normal
 				width: $width;
 				float: left;
-				padding-right: $pad;
+				padding-right: rem($pad);
 				padding-bottom: 0;
 				&:last-of-type {
 					padding-right: 0;

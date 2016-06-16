@@ -2,7 +2,7 @@
 	
 	margin: auto;
 	border-radius: 5px;
-	//border: 1px solid $grey-6;
+	//overflow: hidden; - ugh, hides the shadow
 	position: relative;
 
 	&:before {

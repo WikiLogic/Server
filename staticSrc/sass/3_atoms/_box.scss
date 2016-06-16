@@ -1,5 +1,5 @@
 @mixin box() {
-	padding: rem(16);
+	padding: rem($pad);
 
 	&--5 {
 		padding: rem(5);

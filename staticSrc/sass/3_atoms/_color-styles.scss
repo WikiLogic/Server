@@ -66,11 +66,11 @@
 }
 
 .text-color {
-	&--white { color: white !important; fill: white; svg { fill: white; } }
+	&--white { color: white !important; fill: white; svg { fill: white; } @include light-typography(); }
 	&--red { color: $WL_Red !important; }
 	&--blue { color: $WL_Blue !important; }
 	&--green { color: $WL_Green !important; }
-	&--black { color: black !important; fill: black; svg { fill: black; } }
+	&--black { color: black !important; fill: black; svg { fill: black; } @include dark-typography(); }
 }
 
 .color {
