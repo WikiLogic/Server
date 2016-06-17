@@ -130,6 +130,11 @@ module.exports = function(router, passport) {
 		res.render('editor.hbs', {layout: 'app'});
 	});
 
+	var apiRouter = express.Router({mergeParams: true});
+	router.use('/api', hasAcess, apiRouter);
+		apiRouter.post('/', require('./api/postIndex'));
+		apiRouter.get('/', require('./api/getIndex'));
+
 	router.use('/user', hasAccess, require('./user-route') ); //provides data about the user to the user
 
 	var draftClaimRouter = express.Router({mergeParams: true});
