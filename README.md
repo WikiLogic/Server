@@ -161,6 +161,8 @@ better auth: https://auth0.com/blog/2015/08/20/from-theory-to-practice-adding-tw
 
 Need to build a node map version of this: http://codepen.io/birjolaxew/pen/jrqzrb
 
+cool style idea for the tabs: http://codepen.io/marcobiedermann/pen/aZZQww
+
 ---
 
 other argument maps:
