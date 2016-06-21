@@ -5,6 +5,7 @@ $ = jQuery = require('jquery');
 require('./dom_watchers/search-input').init();
 require('./dom_watchers/tabs').init();
 require('./dom_watchers/toaster').init();
+require('./dom_watchers/claim-input').init();
 
 window.rivets = require('rivets');
 

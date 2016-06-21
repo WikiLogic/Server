@@ -131,7 +131,7 @@ module.exports = function(router, passport) {
 	});
 
 	var apiRouter = express.Router({mergeParams: true});
-	router.use('/api', hasAcess, apiRouter);
+	router.use('/api', hasAccess, apiRouter);
 		apiRouter.post('/', require('./api/postIndex'));
 		apiRouter.get('/', require('./api/getIndex'));
 

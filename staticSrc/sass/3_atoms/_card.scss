@@ -2,7 +2,6 @@
 	
 	margin: auto;
 	border-radius: 5px;
-	//overflow: hidden; - ugh, hides the shadow
 	position: relative;
 
 	&:before {
@@ -29,5 +28,10 @@
 	&--pop {
 		border-bottom-right-radius: 0;
 		border-bottom-left-radius: 0;
+	}
+
+	&--hidden {
+		//only when needed - otherwise this hides the shadow :(
+		overflow: hidden;
 	}
 }
