@@ -5,6 +5,12 @@
 .display-block { display: block; }
 .display-none {	display: none; }
 
+.aria-only {
+	opacity: 0;
+	position: absolute;
+	z-index: -1;
+}
+
 .float-right { float: right; }
 .float-left { float: left; }
 
