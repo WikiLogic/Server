@@ -75,7 +75,8 @@ module.exports = {
 				tabs:[], 
 				tempTab: {
 					name: '',
-					set: false
+					set: false,
+					active: false
 				}
 			};
 		}
@@ -137,12 +138,33 @@ module.exports = {
 		var newTabGroup = objectHelpers.cloneThisObject(WL_STATE.ui.tabs[groupName]);
 
 		for (var t = 0; t < newTabGroup.tabs.length; t++) {
-			//set all the tabs to false (using the array to get the tab's attribute name, eh! see what I did there! nice.)
-			newTabGroup[newTabGroup.tabs[t]] = false;
+			//set the tabs
+			newTabGroup.tabs[t].active = false;
+			if (newTabGroup.tabs[t].name == tabToActivate) {
+				newTabGroup.tabs[t].active = true;
+			}
 		}
 
-		newTabGroup[tabToActivate] = true;	
+		//temp tab will be false
+		newTabGroup.tempTab.active = false;
 
+		//add back to state so rivets can render
+		WL_STATE.ui.tabs[groupName] = newTabGroup;
+	},
+
+	activateTempTab: function(groupName, tabToActivate){
+		//going to assume the creation process above caught any tab bugs so we can run this afap! giggity
+		var newTabGroup = objectHelpers.cloneThisObject(WL_STATE.ui.tabs[groupName]);
+
+		for (var t = 0; t < newTabGroup.tabs.length; t++) {
+			//set all the tabs to false.
+			newTabGroup.tabs[t].active = false;
+		}
+
+		//set the tempTab to true
+		newTabGroup.tempTab.active = true;	
+
+		//and apply to state!
 		WL_STATE.ui.tabs[groupName] = newTabGroup;
 		console.log('WL_STATE.ui.tabs[groupName]: ', WL_STATE.ui.tabs[groupName]);
 	}

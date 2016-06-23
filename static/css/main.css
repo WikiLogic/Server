@@ -1124,6 +1124,11 @@ They should get you 90% of the look you're after
 .display-none {
   display: none; }
 
+.aria-only {
+  opacity: 0;
+  position: absolute;
+  z-index: -1; }
+
 .float-right {
   float: right; }
 

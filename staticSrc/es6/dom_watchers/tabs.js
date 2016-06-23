@@ -14,42 +14,37 @@ var actionStateCtrl = require('../state/actions');
  */
 
 module.exports = {
-	init: function(){
+	init: function(presetTabs){
 
-		$('.js-tab').each(function(){
-			var $thisTab = $(this);
-
-			//get the tab group name
-			var thisTabGroupName = $thisTab.data('tab-group');
-
-			//add it (the state control won't add twice, don't worry! It's worth the extra calls for the flexibility!)
-			tabStateCtrl.createTabGroup(thisTabGroupName);
-
-			//get the tab name
-			var thisTabName = $thisTab.data('tab-name');
-			
-			//TODO check if this tab wants to be initially true, as opposed to the first tab being so
+		for (var t = 0; t < presetTabs.length; t++){
+			console.log('initting tabs');
+			tabStateCtrl.createTabGroup(presetTabs[t].groupName);
+			tabStateCtrl.addTabToTabGroup(presetTabs[t].groupName, presetTabs[t].tabName);
+		}
 
 
-			//add it to the parent group
-			tabStateCtrl.addTabToTabGroup(thisTabGroupName, thisTabName);
+		actionStateCtrl.addAction('activateTab', function(rivet){
 
-			//now watch for click events
-			$thisTab.on('click', function(){
-				var $this = $(this);
-				var thisTabName = $this.data('tab-name');
-				var thisTabGroup = $this.data('tab-group');
-				console.log('click tab!');
-				tabStateCtrl.activateTab(thisTabGroup, thisTabName);
-			});
+			var thsGroupName = rivet.currentTarget.attributes['data-tab-group'].value;
+			var thisTabName = rivet.currentTarget.attributes['data-tab-name'].value;
+
+			tabStateCtrl.activateTab(thsGroupName, thisTabName);
 		});
+
+		actionStateCtrl.addAction('activateTempTab', function(rivet){
+
+			var thsGroupName = rivet.currentTarget.attributes['data-tab-group'].value;
+			var thisTabName = rivet.currentTarget.attributes['data-tab-name'].value;
+
+			tabStateCtrl.activateTempTab(thsGroupName, thisTabName);
+		});
+
+
 
 		
 		actionStateCtrl.addAction('addTab', function(rivet){
-			console.log("rivet: ", rivet);
 
 			var thsGroupName = rivet.currentTarget.attributes['data-tab-group'].value;
-
 			var thisTabName = rivet.currentTarget.attributes['data-tab-name'].value;
 
 			tabStateCtrl.addTempTabToGroup(thsGroupName, thisTabName);

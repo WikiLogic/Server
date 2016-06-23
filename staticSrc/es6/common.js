@@ -3,7 +3,14 @@ window.WL_STATE = require('./state/WL_STATE');
 $ = jQuery = require('jquery');
 
 require('./dom_watchers/search-input').init();
-require('./dom_watchers/tabs').init();
+
+var presetTabs = [
+	{
+		groupName: 'editor',
+		tabName: 'found'
+	}
+]
+require('./dom_watchers/tabs').init(presetTabs);
 require('./dom_watchers/toaster').init();
 require('./dom_watchers/claim-input').init();
 

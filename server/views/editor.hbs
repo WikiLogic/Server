@@ -28,21 +28,17 @@
         <div class="sidebar-layout__main header-layout">
             <div class="header-layout__head">
                 <div class="tabs">
-                    <div class="tabs__tab js-tab" 
-                        data-tab-name="search" 
-                        data-tab-group="editor"
-                        view-class-active="state.ui.tabs.editor.search">
-                        Search Results
-                    </div>
-                    <div class="tabs__tab js-tab"  
+                    <div class="tabs__tab"
                         view-each-tab="state.ui.tabs.editor.tabs"
-                        view-data-tab-name="tab"
+                        view-on-click="state.actions.activateTab"
+                        view-data-tab-name="tab.name"
                         data-tab-group="editor"
                         view-class-active="tab.active">
                         {tab.name}
                     </div>
-                    <div class="tabs__tab js-tab"  
+                    <div class="tabs__tab"  
                         view-show="state.ui.tabs.editor.tempTab.set"
+                        view-on-click="state.actions.activateTempTab"
                         view-data-tab-name="state.ui.tabs.editor.tempTab.name"
                         data-tab-group="editor"
                         view-class-active="state.ui.tabs.editor.tempTab.active">

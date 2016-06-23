@@ -12966,7 +12966,14 @@ window.WL_STATE = require('./state/WL_STATE');
 $ = jQuery = require('jquery');
 
 require('./dom_watchers/search-input').init();
-require('./dom_watchers/tabs').init();
+
+var presetTabs = [
+	{
+		groupName: 'editor',
+		tabName: 'found'
+	}
+]
+require('./dom_watchers/tabs').init(presetTabs);
 require('./dom_watchers/toaster').init();
 require('./dom_watchers/claim-input').init();
 
@@ -13036,42 +13043,37 @@ var actionStateCtrl = require('../state/actions');
  */
 
 module.exports = {
-	init: function(){
+	init: function(presetTabs){
 
-		$('.js-tab').each(function(){
-			var $thisTab = $(this);
-
-			//get the tab group name
-			var thisTabGroupName = $thisTab.data('tab-group');
-
-			//add it (the state control won't add twice, don't worry! It's worth the extra calls for the flexibility!)
-			tabStateCtrl.createTabGroup(thisTabGroupName);
-
-			//get the tab name
-			var thisTabName = $thisTab.data('tab-name');
-			
-			//TODO check if this tab wants to be initially true, as opposed to the first tab being so
+		for (var t = 0; t < presetTabs.length; t++){
+			console.log('initting tabs');
+			tabStateCtrl.createTabGroup(presetTabs[t].groupName);
+			tabStateCtrl.addTabToTabGroup(presetTabs[t].groupName, presetTabs[t].tabName);
+		}
 
 
-			//add it to the parent group
-			tabStateCtrl.addTabToTabGroup(thisTabGroupName, thisTabName);
+		actionStateCtrl.addAction('activateTab', function(rivet){
 
-			//now watch for click events
-			$thisTab.on('click', function(){
-				var $this = $(this);
-				var thisTabName = $this.data('tab-name');
-				var thisTabGroup = $this.data('tab-group');
-				console.log('click tab!');
-				tabStateCtrl.activateTab(thisTabGroup, thisTabName);
-			});
+			var thsGroupName = rivet.currentTarget.attributes['data-tab-group'].value;
+			var thisTabName = rivet.currentTarget.attributes['data-tab-name'].value;
+
+			tabStateCtrl.activateTab(thsGroupName, thisTabName);
 		});
+
+		actionStateCtrl.addAction('activateTempTab', function(rivet){
+
+			var thsGroupName = rivet.currentTarget.attributes['data-tab-group'].value;
+			var thisTabName = rivet.currentTarget.attributes['data-tab-name'].value;
+
+			tabStateCtrl.activateTempTab(thsGroupName, thisTabName);
+		});
+
+
 
 		
 		actionStateCtrl.addAction('addTab', function(rivet){
-			console.log("rivet: ", rivet);
 
 			var thsGroupName = rivet.currentTarget.attributes['data-tab-group'].value;
-
 			var thisTabName = rivet.currentTarget.attributes['data-tab-name'].value;
 
 			tabStateCtrl.addTempTabToGroup(thsGroupName, thisTabName);
@@ -13282,7 +13284,8 @@ module.exports = {
 				tabs:[], 
 				tempTab: {
 					name: '',
-					set: false
+					set: false,
+					active: false
 				}
 			};
 		}
@@ -13344,12 +13347,33 @@ module.exports = {
 		var newTabGroup = objectHelpers.cloneThisObject(WL_STATE.ui.tabs[groupName]);
 
 		for (var t = 0; t < newTabGroup.tabs.length; t++) {
-			//set all the tabs to false (using the array to get the tab's attribute name, eh! see what I did there! nice.)
-			newTabGroup[newTabGroup.tabs[t]] = false;
+			//set the tabs
+			newTabGroup.tabs[t].active = false;
+			if (newTabGroup.tabs[t].name == tabToActivate) {
+				newTabGroup.tabs[t].active = true;
+			}
 		}
 
-		newTabGroup[tabToActivate] = true;	
+		//temp tab will be false
+		newTabGroup.tempTab.active = false;
 
+		//add back to state so rivets can render
+		WL_STATE.ui.tabs[groupName] = newTabGroup;
+	},
+
+	activateTempTab: function(groupName, tabToActivate){
+		//going to assume the creation process above caught any tab bugs so we can run this afap! giggity
+		var newTabGroup = objectHelpers.cloneThisObject(WL_STATE.ui.tabs[groupName]);
+
+		for (var t = 0; t < newTabGroup.tabs.length; t++) {
+			//set all the tabs to false.
+			newTabGroup.tabs[t].active = false;
+		}
+
+		//set the tempTab to true
+		newTabGroup.tempTab.active = true;	
+
+		//and apply to state!
 		WL_STATE.ui.tabs[groupName] = newTabGroup;
 		console.log('WL_STATE.ui.tabs[groupName]: ', WL_STATE.ui.tabs[groupName]);
 	}
