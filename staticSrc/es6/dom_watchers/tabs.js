@@ -42,5 +42,7 @@ module.exports = {
 				tabStateCtrl.activateTab(thisTabGroup, thisTabName);
 			});
 		});
+
+		console.log('WL_State: ', window.WL_State);
 	}
 }

@@ -1167,6 +1167,9 @@ They should get you 90% of the look you're after
   position: relative;
   top: 3px; }
 
+.pull-up-8 {
+  margin-top: -8px; }
+
 /* text helpers */
 .text-right {
   text-align: right; }
@@ -1354,7 +1357,7 @@ These create the structurs within which components will live
   -ms-flex-align: streatch;
       align-items: streatch; }
   .sidebar-layout__side {
-    width: 14.375rem;
+    width: 12.5rem;
     -ms-flex: none;
         flex: none; }
   .sidebar-layout__main {

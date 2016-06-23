@@ -13064,6 +13064,8 @@ module.exports = {
 				tabStateCtrl.activateTab(thisTabGroup, thisTabName);
 			});
 		});
+
+		console.log('WL_State: ', window.WL_State);
 	}
 }
 },{"../state/ui.tabs":13,"jquery":1}],9:[function(require,module,exports){
@@ -13127,6 +13129,10 @@ module.exports = {
 }
 },{}],12:[function(require,module,exports){
 'use strict';
+
+/* This module is required by the common.js file and there is applied to window
+ * It creates the global state object 'WL_STATE'.
+ */
 
 module.exports = {
 	ui: {

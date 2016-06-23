@@ -1,5 +1,9 @@
 'use strict';
 
+/* This module is required by the common.js file and there is applied to window
+ * It creates the global state object 'WL_STATE'.
+ */
+
 module.exports = {
 	ui: {
 		tabs: {}
