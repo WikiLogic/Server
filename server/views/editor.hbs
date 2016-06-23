@@ -16,11 +16,12 @@
                 <p class="no-margins">Working list</p>
                 <button
                     class="button--reset"
-                    view-on-click="state.actions.addTab"
+                    view-each-claim="state.search.results"
+                    view-on-click="state.actions.workingListItemClick"
                     data-tab-name="draft.description"
                     data-tab-group="editor">
                     draft.description</button>
-
+                
             </div>
 
         </div>

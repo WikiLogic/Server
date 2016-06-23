@@ -1,12 +1,20 @@
 'use strict';
 
 var $ = require('jquery');
+var searchApi = require('../api/search');
+var searchStateCtrl = require('../state/search');
+
 
 module.exports = {
+
 	init: function(){
-		console.log('search initted');
-		$('.js-search').on('keypress', function(){
-			console.log('search change!');
+		$('.js-search').on('keypress', function(e){
+			console.log('search change!', e);
+			
+			if (e.keyCode == 13) {
+				searchApi.searchByString($(this).val(), searchStateCtrl.setResults);
+			}
 		});
 	}
+
 }
