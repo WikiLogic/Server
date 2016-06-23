@@ -11,8 +11,12 @@ var objectHelpers = require('../reducers/object_helpers');
 
 module.exports = {
 
-	addAction: function(name, function){
-			
+	state: {
+
+	},
+
+	addAction: function(name, action){
+		window.WL_STATE.actions[name] = action;
 	}
 
 };

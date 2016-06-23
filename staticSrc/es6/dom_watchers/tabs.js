@@ -2,6 +2,7 @@
 
 var $ = require('jquery');
 var tabStateCtrl = require('../state/ui.tabs');
+var actionStateCtrl = require('../state/actions');
 
 /*
  * This module is responsibe for handling any tab interactions
@@ -43,6 +44,15 @@ module.exports = {
 			});
 		});
 
-		console.log('WL_State: ', window.WL_State);
+		
+		actionStateCtrl.addAction('addTab', function(rivet){
+			console.log("rivet: ", rivet);
+
+			var thsGroupName = rivet.currentTarget.attributes['data-tab-group'].value;
+
+			var thisTabName = rivet.currentTarget.attributes['data-tab-name'].value;
+
+			tabStateCtrl.addTempTabToGroup(thsGroupName, thisTabName);
+		});
 	}
 }

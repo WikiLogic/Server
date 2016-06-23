@@ -14,35 +14,19 @@
             <div class="header-layout__body y-scroll">
                 
                 <p class="no-margins">Working list</p>
-                {{> claim_list_item }}
-                {{> claim_list_item }}
-                {{> claim_list_item }}
-                {{> claim_list_item }}
-                {{> claim_list_item }}
-                {{> claim_list_item }}
-                {{> claim_list_item }}
-                {{> claim_list_item }}
-                {{> claim_list_item }}
-                {{> claim_list_item }}
-                {{> claim_list_item }}
-                {{> claim_list_item }}
-                {{> claim_list_item }}
-                {{> claim_list_item }}
-                {{> claim_list_item }}
-                {{> claim_list_item }}
-                {{> claim_list_item }}
-                {{> claim_list_item }}
-                {{> claim_list_item }}
-                {{> claim_list_item }}
-                {{> claim_list_item }}
-                {{> claim_list_item }}
-                {{> claim_list_item }}
+                <button
+                    class="button--reset"
+                    view-on-click="state.actions.addTab"
+                    data-tab-name="draft.description"
+                    data-tab-group="editor">
+                    draft.description</button>
 
             </div>
 
         </div>
 
         <div class="sidebar-layout__main header-layout">
+
             <div class="header-layout__head">
                 <div class="tabs">
                     <div class="tabs__tab js-tab" 
@@ -51,32 +35,23 @@
                         view-class-active="state.ui.tabs.editor.search">
                         Search Results
                     </div>
-                    <div class="tabs__tab js-tab" 
-                        data-tab-name="claim_n" 
+                    <div class="tabs__tab js-tab"  
+                        view-each-tab="state.ui.tabs.editor.tabs"
+                        view-data-tab-name="tab"
                         data-tab-group="editor"
-                        view-class-active="state.ui.tabs.editor.claim_n">
-                        Claim-n
+                        view-class-active="tab.active">
+                        {tab.name}
                     </div>
-                    <div class="tabs__tab js-tab" 
-                        data-tab-name="claim_2" 
+                    <div class="tabs__tab js-tab"  
+                        view-show="state.ui.tabs.editor.tempTab.set"
+                        view-data-tab-name="state.ui.tabs.editor.tempTab.name"
                         data-tab-group="editor"
-                        view-class-active="state.ui.tabs.editor.claim_2">
-                        Claim-2
-                    </div>
-                    <div class="tabs__tab js-tab" 
-                        data-tab-name="claim_3" 
-                        data-tab-group="editor"
-                        view-class-active="state.ui.tabs.editor.claim_3">
-                        Claim-3
-                    </div>
-                    <div class="tabs__tab js-tab" 
-                        data-tab-name="claim_4" 
-                        data-tab-group="editor"
-                        view-class-active="state.ui.tabs.editor.claim_4">
-                        Claim-4
+                        view-class-active="state.ui.tabs.editor.tempTab.active">
+                        <i>{state.ui.tabs.editor.tempTab.name}</i>
                     </div>
                 </div>
             </div>
+
             <div class="header-layout__body y-scroll bg-color--grey-1">
 
                 <div class="box" view-if="state.ui.tabs.editor.search">

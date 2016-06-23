@@ -9828,6 +9828,7 @@ var WL_STATE = require('./state/WL_STATE.js');
  */
 
 module.exports = {
+	actions: {},
 	ui: {
 		tabs: {}
 	},

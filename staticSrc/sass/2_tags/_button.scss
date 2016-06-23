@@ -84,18 +84,17 @@ button
 
 	&--white {}
 
-	&--clear {
+	&--reset {
+		padding: 0;
 		background-image: none;
-		background-color: rgba(white, 0);
-
+		background: none;
 		&:hover {
 			background-image: none;
-			background-color: rgba($WL_Blue, 0.2);
+			background: none;
 		}
 		&:active {
 			background-image: none;
-			background-color: rgba(darken($WL_Blue, 5%), 0.2);
-			box-shadow: inset 0px 0px 10px rgba(black, 0.3);
+			background: none;
 		}
 	}
 

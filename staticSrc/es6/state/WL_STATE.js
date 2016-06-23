@@ -5,6 +5,7 @@
  */
 
 module.exports = {
+	actions: {},
 	ui: {
 		tabs: {}
 	},

@@ -13024,6 +13024,7 @@ module.exports = {
 
 var $ = require('jquery');
 var tabStateCtrl = require('../state/ui.tabs');
+var actionStateCtrl = require('../state/actions');
 
 /*
  * This module is responsibe for handling any tab interactions
@@ -13065,10 +13066,19 @@ module.exports = {
 			});
 		});
 
-		console.log('WL_State: ', window.WL_State);
+		
+		actionStateCtrl.addAction('addTab', function(rivet){
+			console.log("rivet: ", rivet);
+
+			var thsGroupName = rivet.currentTarget.attributes['data-tab-group'].value;
+
+			var thisTabName = rivet.currentTarget.attributes['data-tab-name'].value;
+
+			tabStateCtrl.addTempTabToGroup(thsGroupName, thisTabName);
+		});
 	}
 }
-},{"../state/ui.tabs":13,"jquery":1}],9:[function(require,module,exports){
+},{"../state/actions":13,"../state/ui.tabs":14,"jquery":1}],9:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -13135,6 +13145,7 @@ module.exports = {
  */
 
 module.exports = {
+	actions: {},
 	ui: {
 		tabs: {}
 	},
@@ -13174,6 +13185,29 @@ module.exports = {
 'use strict';
 
 var objectHelpers = require('../reducers/object_helpers');
+
+/*
+ * This module deals with adding actions to the global state object
+ * these are the actions that rivets will call from the DOM,
+ * we do this as we would otherwise have to rerun jQuery every 
+ * time rivets updates.
+ */
+
+module.exports = {
+
+	state: {
+
+	},
+
+	addAction: function(name, action){
+		window.WL_STATE.actions[name] = action;
+	}
+
+};
+},{"../reducers/object_helpers":10}],14:[function(require,module,exports){
+'use strict';
+
+var objectHelpers = require('../reducers/object_helpers');
 var stringHelpers = require('../reducers/string_helpers');
 
 /*
@@ -13190,13 +13224,29 @@ var stringHelpers = require('../reducers/string_helpers');
  * 
  * Example tab group state object: {
 		<tab_group_name>: {
-			tabs: [ <tab_name>, <tab2_name> ],
+			tabs: [ 
+				{name: <tab_name>, active: false}, 
+				{name: <tab2_name>, active: false} 
+			],
+			tempTab: { name: <tab_name>, set: false },
 			<tab_name>: true,
 			<tab2_name>: false
 		]
 	}
 */
 
+var addTabToTabGroup = function(groupName, tabName){
+	//first add the tab to the tab group array
+	WL_STATE.ui.tabs[groupName].tabs.push({name: tabName, active: false});
+
+	//now add the named tab state object for rivets
+	if (WL_STATE.ui.tabs[groupName].tabs.length > 1) {
+		WL_STATE.ui.tabs[groupName][tabName] = false;
+	} else {
+		//by default, the first tab is true
+		WL_STATE.ui.tabs[groupName][tabName] = true;
+	}
+}
 
 module.exports = {
 
@@ -13228,7 +13278,13 @@ module.exports = {
 		if (!checkError) {
 			//yeay! New tab group!
 			console.info('setting new empty tab group');
-			WL_STATE.ui.tabs[groupName] = {tabs:[]};
+			WL_STATE.ui.tabs[groupName] = {
+				tabs:[], 
+				tempTab: {
+					name: '',
+					set: false
+				}
+			};
 		}
 	},
 
@@ -13261,17 +13317,25 @@ module.exports = {
 
 		if (!checkError) {
 			//yeay! new tab :) also don't worry about cloning / mutating / applying to the global state, rivets shouldn't be running yet
+			addTabToTabGroup(groupName, tabName);
+		}
+	},
 
-			//first add the tab to the tab group array
-			WL_STATE.ui.tabs[groupName].tabs.push(tabName);
+	addTempTabToGroup: function(groupName, tabName){
+		/* Recreates the sublime text tab behaviour. One click adds temp tab, two clicks adds it permanently 
+		 */
+		
+		 //if this is already a tempTab, add it to the main group and set it to active
+		 if (WL_STATE.ui.tabs[groupName].tempTab.name == tabName) {
 
-			//now add the named tab state object for rivets
-			if (WL_STATE.ui.tabs[groupName].tabs.length > 1) {
-				WL_STATE.ui.tabs[groupName][tabName] = false;
-			} else {
-				//by default, the first tab is true
-				WL_STATE.ui.tabs[groupName][tabName] = true;
-			}
+		 	addTabToTabGroup(groupName, tabName);
+		 	WL_STATE.ui.tabs[groupName].tempTab.set = false;
+
+		 } else {
+
+			//else, add / replace the old temp tab
+			WL_STATE.ui.tabs[groupName].tempTab.name = tabName;
+			WL_STATE.ui.tabs[groupName].tempTab.set = true;
 		}
 	},
 
