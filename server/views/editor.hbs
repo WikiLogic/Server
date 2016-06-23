@@ -6,12 +6,14 @@
 
         <div class="sidebar-layout__side header-layout box">
         
-            <div class="header-layout__head box">
-                <p>Editor</p>
+            <div class="header-layout__head">
+                <h2 class="no-margins">Editor</h2>
+                <hr>
             </div>
 
             <div class="header-layout__body y-scroll">
-    
+                
+                <p class="no-margins">Working list</p>
                 {{> claim_list_item }}
                 {{> claim_list_item }}
                 {{> claim_list_item }}
@@ -44,6 +46,12 @@
             <div class="header-layout__head">
                 <div class="tabs">
                     <div class="tabs__tab js-tab" 
+                        data-tab-name="search" 
+                        data-tab-group="editor"
+                        view-class-active="state.ui.tabs.editor.search">
+                        Search Results
+                    </div>
+                    <div class="tabs__tab js-tab" 
                         data-tab-name="claim_n" 
                         data-tab-group="editor"
                         view-class-active="state.ui.tabs.editor.claim_n">
@@ -71,12 +79,16 @@
             </div>
             <div class="header-layout__body y-scroll bg-color--grey-1">
 
+                <div class="box" view-if="state.ui.tabs.editor.search">
+                    
+                    
+
+                </div>
+
                 <!-- detail view of claim_n -->
-                <div class="box" 
-                    view-if="state.ui.tabs.editor.claim_n">
+                <div class="box" view-if="state.ui.tabs.editor.claim_n">
                     <p class="text-align-right">
                         <svg class="icon hover-color--blue cursor-pointer"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#cloud-upload"></use></svg>
-                        <svg class="icon hover-color--red cursor-pointer"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#trash"></use></svg>  
                     </p>
 
                     
