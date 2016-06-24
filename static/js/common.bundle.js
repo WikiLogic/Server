@@ -12961,6 +12961,31 @@ jQuery.trumbowyg = {
 })(navigator, window, document, jQuery);
 
 },{}],5:[function(require,module,exports){
+'use strict';
+
+module.exports = {
+
+	searchByString: function(searchTerm, sendResultsHere){
+		var order = 'relevance';
+
+
+		$.get('/api?s=' + searchTerm)
+		 .done(function(data) {
+
+			console.log('The published results are in! ', JSON.stringify(data));
+			sendResultsHere(data);
+
+		 })
+		 .fail(function(err) {
+			console.error('API error', err);
+		 })
+		 .always(function(){
+
+		 });
+	}
+
+}
+},{}],6:[function(require,module,exports){
 //first, init the global state
 window.WL_STATE = require('./state/WL_STATE');
 $ = jQuery = require('jquery');
@@ -12994,7 +13019,7 @@ rivets.configure({
 });
 
 rivets.bind($('#god'), {state: window.WL_STATE});
-},{"./dom_watchers/claim-input":6,"./dom_watchers/search-input":7,"./dom_watchers/tabs":8,"./dom_watchers/toaster":9,"./state/WL_STATE":12,"jquery":1,"rivets":2}],6:[function(require,module,exports){
+},{"./dom_watchers/claim-input":7,"./dom_watchers/search-input":8,"./dom_watchers/tabs":9,"./dom_watchers/toaster":10,"./state/WL_STATE":13,"jquery":1,"rivets":2}],7:[function(require,module,exports){
 'use strict';
 
 var trumbowyg = require('trumbowyg');
@@ -13012,21 +13037,29 @@ module.exports = {
 	}
 }
 
-},{"trumbowyg":4}],7:[function(require,module,exports){
+},{"trumbowyg":4}],8:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
+var searchApi = require('../api/search');
+var searchStateCtrl = require('../state/search');
+
 
 module.exports = {
+
 	init: function(){
-		console.log('search initted');
-		$('.js-search').on('keypress', function(){
-			console.log('search change!');
+		$('.js-search').on('keypress', function(e){
+			console.log('search change!', e);
+			
+			if (e.keyCode == 13) {
+				searchApi.searchByString($(this).val(), searchStateCtrl.setResults);
+			}
 		});
 	}
+
 }
 
-},{"jquery":1}],8:[function(require,module,exports){
+},{"../api/search":5,"../state/search":15,"jquery":1}],9:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -13080,7 +13113,7 @@ module.exports = {
 		});
 	}
 }
-},{"../state/actions":13,"../state/ui.tabs":14,"jquery":1}],9:[function(require,module,exports){
+},{"../state/actions":14,"../state/ui.tabs":16,"jquery":1}],10:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -13112,7 +13145,7 @@ module.exports = {
 		});
 	}
 }
-},{"jquery":1}],10:[function(require,module,exports){
+},{"jquery":1}],11:[function(require,module,exports){
 
 module.exports = {
 	cloneThisObject: function(obj) {
@@ -13126,7 +13159,7 @@ module.exports = {
 		return newObj;
 	}
 }
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -13139,7 +13172,7 @@ module.exports = {
 		return /[A-Z]/.test(s);
 	}
 }
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 'use strict';
 
 /* This module is required by the common.js file and there is applied to window
@@ -13183,7 +13216,7 @@ module.exports = {
 		}
 	}
 };
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 'use strict';
 
 var objectHelpers = require('../reducers/object_helpers');
@@ -13206,7 +13239,17 @@ module.exports = {
 	}
 
 };
-},{"../reducers/object_helpers":10}],14:[function(require,module,exports){
+},{"../reducers/object_helpers":11}],15:[function(require,module,exports){
+'use strict';
+
+module.exports = {
+
+	setResults: function(resultsArray){
+		WL_STATE.search.results = resultsArray;
+	}
+
+};
+},{}],16:[function(require,module,exports){
 'use strict';
 
 var objectHelpers = require('../reducers/object_helpers');
@@ -13378,4 +13421,4 @@ module.exports = {
 		console.log('WL_STATE.ui.tabs[groupName]: ', WL_STATE.ui.tabs[groupName]);
 	}
 };
-},{"../reducers/object_helpers":10,"../reducers/string_helpers":11}]},{},[5]);
+},{"../reducers/object_helpers":11,"../reducers/string_helpers":12}]},{},[6]);

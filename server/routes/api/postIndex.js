@@ -9,5 +9,6 @@ var User = require('../../models/user'),
 	Claim = require('../../models/claim');
 
 module.exports = function(req, res) {
+	console.log("API request: ", req);
 	
 };

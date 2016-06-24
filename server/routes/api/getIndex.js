@@ -5,9 +5,22 @@ var express = require('express'),
 
 /* get the models */
 var User = require('../../models/user'),
-	DraftClaim = require('../../models/draftClaim'),
 	Claim = require('../../models/claim');
 
 module.exports = function(req, res) {
-	
+	if (req.query.s !== undefined){
+		console.log('API Request: Search', req.query.s);
+		var searchTerm = req.query.s;
+
+		Claim.find({ 
+	    		$text : { 
+	    			$search : searchTerm 
+	    		} 
+	    	}).exec(function (err, claims) {
+				if (err) return console.error(err);
+				console.log('text search has run: ', claims);
+				res.send(claims);
+		});
+
+	};
 };
