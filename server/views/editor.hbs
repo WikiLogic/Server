@@ -58,10 +58,12 @@
                     
                     <div class="card box bg-color--grey-2 text-color--black splitter splitter--full-width">
                         <div class="splitter__left">
-                            <textarea name="" id="" cols="30" rows="10">{state.search.term}</textarea>
+                            <textarea name="" id="js-search-term-claim" cols="30" rows="10">{state.search.term}</textarea>
                         </div>
                         <div class="splitter__right">
-                            <button class="display-inline-block button--green">New Claim</button>
+                            <button class="display-inline-block button--green"
+                                view-on-click="state.actions.newClaim"
+                                data-claim-el-id="js-search-term-claim">New Claim</button>
                         </div>
                     </div>
                     

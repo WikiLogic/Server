@@ -9,6 +9,14 @@ var User = require('../../models/user'),
 	Claim = require('../../models/claim');
 
 module.exports = function(req, res) {
-	console.log("API request: ", req);
+	var apiAction = req.body.action;
+	console.log('apiAction: ', apiAction);
+	switch(apiAction){
+		case "newclaim":
+			console.log("Add new claim");
+			break;
+		default:
+			console.log('HANG');
+	}
 	
 };

@@ -12965,6 +12965,40 @@ jQuery.trumbowyg = {
 
 module.exports = {
 
+	getClaimById: function(claimID){
+		/* Takes an ID, 
+		 * asks the server for the claim of that ID
+		 * Returns the claim
+		 */
+
+		$.post("/api/", {
+			"action":"getclaimbyid",
+			"claim":claimID
+		}).done(function(data){
+			console.log('data!', data);
+		}).fail(function(err){
+			console.error('API fail', err)
+		});
+	},
+
+	newClaim: function(claimString){
+		/* Takes a claim string to add as new
+		 * sends it to the API
+		 * Expects a new claim object to be returned
+		 */
+		return $.post("/api/", {
+			action: "newclaim",
+			newClaim: claimString
+		});
+	}
+
+}
+
+},{}],6:[function(require,module,exports){
+'use strict';
+
+module.exports = {
+
 	searchByString: function(searchTerm, sendResultsHere){
 		var order = 'relevance';
 
@@ -12985,7 +13019,7 @@ module.exports = {
 	}
 
 }
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 //first, init the global state
 window.WL_STATE = {};
 
@@ -13021,10 +13055,12 @@ rivets.configure({
 });
 
 rivets.bind($('#god'), {state: window.WL_STATE});
-},{"./dom_watchers/claim-input":7,"./dom_watchers/search-input":8,"./dom_watchers/tabs":9,"./dom_watchers/toaster":10,"./dom_watchers/working-list":11,"jquery":1,"rivets":2}],7:[function(require,module,exports){
+},{"./dom_watchers/claim-input":8,"./dom_watchers/search-input":9,"./dom_watchers/tabs":10,"./dom_watchers/toaster":11,"./dom_watchers/working-list":12,"jquery":1,"rivets":2}],8:[function(require,module,exports){
 'use strict';
 
 var trumbowyg = require('trumbowyg');
+var actionStateCtrl = require('../state/actions');
+var claimApi = require('../api/claim');
 
 module.exports = {
 	init: function(){
@@ -13036,10 +13072,32 @@ module.exports = {
 			autogrow: true,
 			btns: []
 		});
+
+		actionStateCtrl.addAction('newClaim', function(rivet){
+			
+			//who ever called this action better have an id refrence to the text area where this new claim resides
+			var newClaimElId = rivet.currentTarget.attributes['data-claim-el-id'].value;
+
+			//so we can use that id to actually get the claimn
+			var newClaimString = $('#' + newClaimElId).html();
+
+			//send it to the API
+			claimApi.newClaim(newClaimString).done(function(data){
+				console.info('new claim has been added!', data);
+
+				//send it to the working list
+			}).fail(function(err){
+				console.error('new claim api failed', err);
+
+				//send err to the alert system
+			});
+			
+			
+		});
 	}
 }
 
-},{"trumbowyg":4}],8:[function(require,module,exports){
+},{"../api/claim":5,"../state/actions":15,"trumbowyg":4}],9:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -13062,7 +13120,7 @@ module.exports = {
 
 }
 
-},{"../api/search":5,"../state/search":15,"jquery":1}],9:[function(require,module,exports){
+},{"../api/search":6,"../state/search":16,"jquery":1}],10:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -13117,7 +13175,7 @@ module.exports = {
 		});
 	}
 }
-},{"../state/actions":14,"../state/tabs":16,"jquery":1}],10:[function(require,module,exports){
+},{"../state/actions":15,"../state/tabs":17,"jquery":1}],11:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -13149,7 +13207,7 @@ module.exports = {
 		});
 	}
 }
-},{"jquery":1}],11:[function(require,module,exports){
+},{"jquery":1}],12:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -13173,7 +13231,7 @@ module.exports = {
 
 	}
 }
-},{"../state/actions":14,"../state/working_list":17,"jquery":1}],12:[function(require,module,exports){
+},{"../state/actions":15,"../state/working_list":18,"jquery":1}],13:[function(require,module,exports){
 
 module.exports = {
 	cloneThisObject: function(obj) {
@@ -13187,7 +13245,7 @@ module.exports = {
 		return newObj;
 	}
 }
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -13200,7 +13258,7 @@ module.exports = {
 		return /[A-Z]/.test(s);
 	}
 }
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 'use strict';
 
 var objectHelpers = require('../reducers/object_helpers');
@@ -13224,7 +13282,7 @@ module.exports = {
 	}
 
 };
-},{"../reducers/object_helpers":12}],15:[function(require,module,exports){
+},{"../reducers/object_helpers":13}],16:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -13245,7 +13303,7 @@ module.exports = {
 	}
 
 };
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 'use strict';
 
 var objectHelpers = require('../reducers/object_helpers');
@@ -13421,7 +13479,7 @@ module.exports = {
 		console.log('WL_STATE.tabs[groupName]: ', WL_STATE.tabs[groupName]);
 	}
 };
-},{"../reducers/object_helpers":12,"../reducers/string_helpers":13}],17:[function(require,module,exports){
+},{"../reducers/object_helpers":13,"../reducers/string_helpers":14}],18:[function(require,module,exports){
 'use strict';
 
 /* Working_list State controller
@@ -13441,4 +13499,4 @@ module.exports = {
 		
 	}
 }
-},{}]},{},[6]);
+},{}]},{},[7]);
