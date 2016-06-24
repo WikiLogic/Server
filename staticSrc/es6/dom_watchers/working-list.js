@@ -2,6 +2,8 @@
 
 var $ = require('jquery');
 var actionStateCtrl = require('../state/actions');
+var workingListStateCtrl = require('../state/working_list');
+workingListStateCtrl.init();
 
 /* Working-list DOM watcher
  * This module is responsibe for handling the 'working list'

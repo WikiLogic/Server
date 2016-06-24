@@ -8,7 +8,7 @@ require('./dom_watchers/search-input').init();
 var presetTabs = [
 	{
 		groupName: 'editor',
-		tabName: 'found'
+		tabName: 'results'
 	}
 ]
 require('./dom_watchers/tabs').init(presetTabs);

@@ -45,6 +45,22 @@ $trumbowyg-border-color: $grey-3;
         height: 100%;
         fill: $dark-color;
     }
+
+    position: relative;
+    z-index: 1;
+
+    &:before {
+        content: " ";
+        display: block;
+        position: absolute;
+        top: 4px;
+        right: 4px;
+        left: 4px;
+        bottom: 1px;
+        box-shadow: 0 0 10px $grey-1;
+        z-index: -1;
+        border-radius: 5px;
+    }
 }
 
 .trumbowyg-box,
@@ -57,7 +73,7 @@ $trumbowyg-border-color: $grey-3;
 
 .trumbowyg-box .trumbowyg-editor {
     margin: 0 auto;
-    background-color: white;
+    background-color:white;
 }
 
 .trumbowyg-box.trumbowyg-fullscreen {

@@ -1754,15 +1754,28 @@ think carefully before adding anything in here.
     height: 0;
     width: 0; }
 
-.trumbowyg-box *,
-.trumbowyg-box *::before,
-.trumbowyg-box *::after {
-  box-sizing: border-box; }
-
-.trumbowyg-box svg {
-  width: 17px;
-  height: 100%;
-  fill: #131E2D; }
+.trumbowyg-box {
+  position: relative;
+  z-index: 1; }
+  .trumbowyg-box *,
+  .trumbowyg-box *::before,
+  .trumbowyg-box *::after {
+    box-sizing: border-box; }
+  .trumbowyg-box svg {
+    width: 17px;
+    height: 100%;
+    fill: #131E2D; }
+  .trumbowyg-box:before {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    left: 4px;
+    bottom: 1px;
+    box-shadow: 0 0 10px #131E2D;
+    z-index: -1;
+    border-radius: 5px; }
 
 .trumbowyg-box,
 .trumbowyg-editor {

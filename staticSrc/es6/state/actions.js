@@ -11,11 +11,12 @@ var objectHelpers = require('../reducers/object_helpers');
 
 module.exports = {
 
-	state: {
-
-	},
-
 	addAction: function(name, action){
+		
+		if (!WL_STATE.hasOwnProperty('actions')) {
+			WL_STATE.actions = {};
+		}
+
 		window.WL_STATE.actions[name] = action;
 	}
 

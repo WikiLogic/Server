@@ -12987,7 +12987,8 @@ module.exports = {
 }
 },{}],6:[function(require,module,exports){
 //first, init the global state
-window.WL_STATE = require('./state/WL_STATE');
+window.WL_STATE = {};
+
 $ = jQuery = require('jquery');
 
 require('./dom_watchers/search-input').init();
@@ -12995,12 +12996,13 @@ require('./dom_watchers/search-input').init();
 var presetTabs = [
 	{
 		groupName: 'editor',
-		tabName: 'found'
+		tabName: 'results'
 	}
 ]
 require('./dom_watchers/tabs').init(presetTabs);
 require('./dom_watchers/toaster').init();
 require('./dom_watchers/claim-input').init();
+require('./dom_watchers/working-list').init();
 
 window.rivets = require('rivets');
 
@@ -13019,7 +13021,7 @@ rivets.configure({
 });
 
 rivets.bind($('#god'), {state: window.WL_STATE});
-},{"./dom_watchers/claim-input":7,"./dom_watchers/search-input":8,"./dom_watchers/tabs":9,"./dom_watchers/toaster":10,"./state/WL_STATE":13,"jquery":1,"rivets":2}],7:[function(require,module,exports){
+},{"./dom_watchers/claim-input":7,"./dom_watchers/search-input":8,"./dom_watchers/tabs":9,"./dom_watchers/toaster":10,"./dom_watchers/working-list":11,"jquery":1,"rivets":2}],7:[function(require,module,exports){
 'use strict';
 
 var trumbowyg = require('trumbowyg');
@@ -13043,7 +13045,7 @@ module.exports = {
 var $ = require('jquery');
 var searchApi = require('../api/search');
 var searchStateCtrl = require('../state/search');
-
+searchStateCtrl.init();
 
 module.exports = {
 
@@ -13052,6 +13054,7 @@ module.exports = {
 			console.log('search change!', e);
 			
 			if (e.keyCode == 13) {
+				searchStateCtrl.setNewTerm($(this).val());
 				searchApi.searchByString($(this).val(), searchStateCtrl.setResults);
 			}
 		});
@@ -13063,7 +13066,8 @@ module.exports = {
 'use strict';
 
 var $ = require('jquery');
-var tabStateCtrl = require('../state/ui.tabs');
+var tabStateCtrl = require('../state/tabs');
+tabStateCtrl.init();
 var actionStateCtrl = require('../state/actions');
 
 /*
@@ -13113,7 +13117,7 @@ module.exports = {
 		});
 	}
 }
-},{"../state/actions":14,"../state/ui.tabs":16,"jquery":1}],10:[function(require,module,exports){
+},{"../state/actions":14,"../state/tabs":16,"jquery":1}],10:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -13146,6 +13150,30 @@ module.exports = {
 	}
 }
 },{"jquery":1}],11:[function(require,module,exports){
+'use strict';
+
+var $ = require('jquery');
+var actionStateCtrl = require('../state/actions');
+var workingListStateCtrl = require('../state/working_list');
+workingListStateCtrl.init();
+
+/* Working-list DOM watcher
+ * This module is responsibe for handling the 'working list'
+ * This is a list of claims that live in the editor's sidebar
+ * They act like files in Sublime's sidebar - click to add a temp tab
+ * double click to add a permenant tab.
+ */
+
+module.exports = {
+	init: function(){
+		
+		actionStateCtrl.addAction('workingListItemClick', function(rivet){
+			console.log("rivet: ", rivet);
+		});
+
+	}
+}
+},{"../state/actions":14,"../state/working_list":17,"jquery":1}],12:[function(require,module,exports){
 
 module.exports = {
 	cloneThisObject: function(obj) {
@@ -13159,7 +13187,7 @@ module.exports = {
 		return newObj;
 	}
 }
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -13172,50 +13200,6 @@ module.exports = {
 		return /[A-Z]/.test(s);
 	}
 }
-},{}],13:[function(require,module,exports){
-'use strict';
-
-/* This module is required by the common.js file and there is applied to window
- * It creates the global state object 'WL_STATE'.
- */
-
-module.exports = {
-	actions: {},
-	ui: {
-		tabs: {}
-	},
-	user : {
-		gravatar: 'string',
-		drafts_list: {
-			items: []
-		},
-		claim_list: {
-			items: []
-		},
-		trashed_list: {
-			items: []
-		} 
-	},
-	search: {
-		term: 'search term',
-		results: [],
-		order: 'the order',
-		selectedResult: {}
-	},
-	alerts: {
-		settings: {
-			enabled: true,
-			level: 5,
-			duration: 5000
-		},
-		items: []
-	},
-	display: {
-		claim_list: {
-			items: []
-		}
-	}
-};
 },{}],14:[function(require,module,exports){
 'use strict';
 
@@ -13230,19 +13214,31 @@ var objectHelpers = require('../reducers/object_helpers');
 
 module.exports = {
 
-	state: {
-
-	},
-
 	addAction: function(name, action){
+		
+		if (!WL_STATE.hasOwnProperty('actions')) {
+			WL_STATE.actions = {};
+		}
+
 		window.WL_STATE.actions[name] = action;
 	}
 
 };
-},{"../reducers/object_helpers":11}],15:[function(require,module,exports){
+},{"../reducers/object_helpers":12}],15:[function(require,module,exports){
 'use strict';
 
 module.exports = {
+
+	init: function(){
+		WL_STATE.search = {
+			term: "",
+			results: []
+		}
+	},
+
+	setNewTerm: function(newterm){
+		WL_STATE.search.term = newterm;
+	},
 
 	setResults: function(resultsArray){
 		WL_STATE.search.results = resultsArray;
@@ -13256,7 +13252,7 @@ var objectHelpers = require('../reducers/object_helpers');
 var stringHelpers = require('../reducers/string_helpers');
 
 /*
- * This module is responsibe for the state used by tabs: WL_STATE.ui.tabs
+ * This module is responsibe for the state used by tabs: WL_STATE.tabs
  * the tab state is generated by the dom elements which are found by the watcher
  * when the watcher finds a tab, it sends the details here to the guard.
  * There is an array (tabs) within which only one named tab can be true at any time
@@ -13282,18 +13278,22 @@ var stringHelpers = require('../reducers/string_helpers');
 
 var addTabToTabGroup = function(groupName, tabName){
 	//first add the tab to the tab group array
-	WL_STATE.ui.tabs[groupName].tabs.push({name: tabName, active: false});
+	WL_STATE.tabs[groupName].tabs.push({name: tabName, active: false});
 
 	//now add the named tab state object for rivets
-	if (WL_STATE.ui.tabs[groupName].tabs.length > 1) {
-		WL_STATE.ui.tabs[groupName][tabName] = false;
+	if (WL_STATE.tabs[groupName].tabs.length > 1) {
+		WL_STATE.tabs[groupName][tabName] = false;
 	} else {
 		//by default, the first tab is true
-		WL_STATE.ui.tabs[groupName][tabName] = true;
+		WL_STATE.tabs[groupName][tabName] = true;
 	}
 }
 
 module.exports = {
+
+	init: function(){
+		WL_STATE.tabs = {}
+	},
 
 	createTabState: function(){
 		
@@ -13304,7 +13304,7 @@ module.exports = {
 
 		//first check the name we've been passed is all good
 		if (typeof(groupName) != 'string' || groupName == null || groupName == undefined) {
-			console.error("There's someting weird about the tab group you're trying to add that tab to: ", WL_STATE.ui.tabs[groupName]);
+			console.error("There's someting weird about the tab group you're trying to add that tab to: ", WL_STATE.tabs[groupName]);
 			checkError = true;
 		}
 
@@ -13315,7 +13315,7 @@ module.exports = {
 		}
 
 		//now lets check that the group doesn't already exist
-		if (WL_STATE.ui.tabs.hasOwnProperty(groupName)) {
+		if (WL_STATE.tabs.hasOwnProperty(groupName)) {
 			console.warn("Tab group already exists, not adding");
 			checkError = true;
 		}
@@ -13323,7 +13323,7 @@ module.exports = {
 		if (!checkError) {
 			//yeay! New tab group!
 			console.info('setting new empty tab group');
-			WL_STATE.ui.tabs[groupName] = {
+			WL_STATE.tabs[groupName] = {
 				tabs:[], 
 				tempTab: {
 					name: '',
@@ -13351,13 +13351,13 @@ module.exports = {
 
 		//and check the group name
 		if (typeof(groupName) != 'string' || groupName == null || groupName == undefined) {
-			console.error("There's someting weird about the tab group you're trying to add that tab to: ", WL_STATE.ui.tabs[groupName]);
+			console.error("There's someting weird about the tab group you're trying to add that tab to: ", WL_STATE.tabs[groupName]);
 			checkError = true;
 		}
 
 		//and make sure the group exists and is valid
-		if (typeof(WL_STATE.ui.tabs[groupName]) != 'object') {
-			console.error("There's something weird about the tab group you're trying to add your tab to: ", WL_STATE.ui.tabs[groupName]);
+		if (typeof(WL_STATE.tabs[groupName]) != 'object') {
+			console.error("There's something weird about the tab group you're trying to add your tab to: ", WL_STATE.tabs[groupName]);
 			checkError = true;
 		}
 
@@ -13372,22 +13372,22 @@ module.exports = {
 		 */
 		
 		 //if this is already a tempTab, add it to the main group and set it to active
-		 if (WL_STATE.ui.tabs[groupName].tempTab.name == tabName) {
+		 if (WL_STATE.tabs[groupName].tempTab.name == tabName) {
 
 		 	addTabToTabGroup(groupName, tabName);
-		 	WL_STATE.ui.tabs[groupName].tempTab.set = false;
+		 	WL_STATE.tabs[groupName].tempTab.set = false;
 
 		 } else {
 
 			//else, add / replace the old temp tab
-			WL_STATE.ui.tabs[groupName].tempTab.name = tabName;
-			WL_STATE.ui.tabs[groupName].tempTab.set = true;
+			WL_STATE.tabs[groupName].tempTab.name = tabName;
+			WL_STATE.tabs[groupName].tempTab.set = true;
 		}
 	},
 
 	activateTab: function(groupName, tabToActivate){
 		//going to assume the creation process above caught any tab bugs so we can run this afap! giggity
-		var newTabGroup = objectHelpers.cloneThisObject(WL_STATE.ui.tabs[groupName]);
+		var newTabGroup = objectHelpers.cloneThisObject(WL_STATE.tabs[groupName]);
 
 		for (var t = 0; t < newTabGroup.tabs.length; t++) {
 			//set the tabs
@@ -13401,12 +13401,12 @@ module.exports = {
 		newTabGroup.tempTab.active = false;
 
 		//add back to state so rivets can render
-		WL_STATE.ui.tabs[groupName] = newTabGroup;
+		WL_STATE.tabs[groupName] = newTabGroup;
 	},
 
 	activateTempTab: function(groupName, tabToActivate){
 		//going to assume the creation process above caught any tab bugs so we can run this afap! giggity
-		var newTabGroup = objectHelpers.cloneThisObject(WL_STATE.ui.tabs[groupName]);
+		var newTabGroup = objectHelpers.cloneThisObject(WL_STATE.tabs[groupName]);
 
 		for (var t = 0; t < newTabGroup.tabs.length; t++) {
 			//set all the tabs to false.
@@ -13417,8 +13417,28 @@ module.exports = {
 		newTabGroup.tempTab.active = true;	
 
 		//and apply to state!
-		WL_STATE.ui.tabs[groupName] = newTabGroup;
-		console.log('WL_STATE.ui.tabs[groupName]: ', WL_STATE.ui.tabs[groupName]);
+		WL_STATE.tabs[groupName] = newTabGroup;
+		console.log('WL_STATE.tabs[groupName]: ', WL_STATE.tabs[groupName]);
 	}
 };
-},{"../reducers/object_helpers":11,"../reducers/string_helpers":12}]},{},[6]);
+},{"../reducers/object_helpers":12,"../reducers/string_helpers":13}],17:[function(require,module,exports){
+'use strict';
+
+/* Working_list State controller
+ *
+ */
+
+module.exports = {
+	init: function(){
+		WL_STATE.working_list = {
+			items: []
+		}
+	},
+	addClaimToList: function(claimObj){
+
+	},
+	removeClaimFromList: function(claimId){
+		
+	}
+}
+},{}]},{},[6]);

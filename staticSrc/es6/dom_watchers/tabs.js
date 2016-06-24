@@ -1,7 +1,8 @@
 'use strict';
 
 var $ = require('jquery');
-var tabStateCtrl = require('../state/ui.tabs');
+var tabStateCtrl = require('../state/tabs');
+tabStateCtrl.init();
 var actionStateCtrl = require('../state/actions');
 
 /*
