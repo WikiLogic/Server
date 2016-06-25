@@ -33,12 +33,7 @@ var addTabToTabGroup = function(groupName, tabName){
 	WL_STATE.tabs[groupName].tabs.push({name: tabName, active: false});
 
 	//now add the named tab state object for rivets
-	if (WL_STATE.tabs[groupName].tabs.length > 1) {
-		WL_STATE.tabs[groupName][tabName] = false;
-	} else {
-		//by default, the first tab is true
-		WL_STATE.tabs[groupName][tabName] = true;
-	}
+	WL_STATE.tabs[groupName][tabName] = false;
 }
 
 module.exports = {
@@ -116,21 +111,21 @@ module.exports = {
 	},
 
 	addTempTabToGroup: function(groupName, tabName){
-		/* Recreates the sublime text tab behaviour. One click adds temp tab, two clicks adds it permanently 
+		/* Recreates the sublime text tab behaviour(ish). One click adds temp tab, a second adds it permanently 
 		 */
 		
 		 //if this is already a tempTab, add it to the main group and set it to active
 		 if (WL_STATE.tabs[groupName].tempTab.name == tabName) {
 
 		 	addTabToTabGroup(groupName, tabName);
+		 	this.activateTab(groupName, tabName);
+		 	WL_STATE.tabs[groupName].tempTab.active = false;
 		 	WL_STATE.tabs[groupName].tempTab.set = false;
 
 		 } else {
-		 	//clear
-		 	WL_STATE.tabs[groupName].tempTab = {};
-
+			WL_STATE.tabs[groupName].tempTab = {};
 			//else, add / replace the old temp tab
-			WL_STATE.tabs[groupName].tempTab[tabName] = true; //rivets trick
+			WL_STATE.tabs[groupName].tempTab[tabName] = true; //rivets trick for identifying special cases - eg the welcome tab
 			WL_STATE.tabs[groupName].tempTab.name = tabName;
 			WL_STATE.tabs[groupName].tempTab.set = true;
 			this.activateTempTab(groupName);
@@ -142,10 +137,16 @@ module.exports = {
 		var newTabGroup = objectHelpers.cloneThisObject(WL_STATE.tabs[groupName]);
 
 		for (var t = 0; t < newTabGroup.tabs.length; t++) {
-			//set the tabs
+			//set the tabs array item to false
 			newTabGroup.tabs[t].active = false;
+			//and set it's named counterpart to false
+			newTabGroup[newTabGroup.tabs[t].name] = false;
+
 			if (newTabGroup.tabs[t].name == tabToActivate) {
+				//set the tab array item to true - yeay!
 				newTabGroup.tabs[t].active = true;
+				//and it's named counterpart
+				newTabGroup[newTabGroup.tabs[t].name] = true;
 			}
 		}
 
@@ -166,7 +167,10 @@ module.exports = {
 
 		//set all the tabs to false.
 		for (var t = 0; t < newTabGroup.tabs.length; t++) {
+			//tab array item to false
 			newTabGroup.tabs[t].active = false;
+			//and it's named counterpart
+			newTabGroup[newTabGroup.tabs[t].name] = false;
 		}
 
 		//set the tempTab to true

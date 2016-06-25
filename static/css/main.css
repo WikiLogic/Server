@@ -404,7 +404,7 @@ hr {
 input[type='submit'] 
 button
 */
-.button, input[type='submit'], input[type='button'], button {
+.button, input[type='submit'], input[type='button'] {
   padding: 9px 14px 8px;
   color: white;
   fill: white;
@@ -419,14 +419,14 @@ button
   max-width: 100%;
   transition: background-image 0.2s ease;
   background-image: radial-gradient(circle farthest-corner at 50% 20%, #488ce9, #5191ea); }
-  .button svg, input[type='submit'] svg, input[type='button'] svg, button svg {
+  .button svg, input[type='submit'] svg, input[type='button'] svg {
     fill: white; }
   .button--small {
     padding: 1px 5px; }
-  .button:hover, input[type='submit']:hover, input[type='button']:hover, button:hover {
+  .button:hover, input[type='submit']:hover, input[type='button']:hover {
     background-image: radial-gradient(circle farthest-corner at 50% 20%, #649ded, #5191ea);
     color: white; }
-  .button:active, input[type='submit']:active, input[type='button']:active, button:active {
+  .button:active, input[type='submit']:active, input[type='button']:active {
     background-image: radial-gradient(circle farthest-corner at 50% 20%, #3b83e8, #4489e9);
     border: 0;
     outline: 0;
@@ -458,16 +458,18 @@ button
     .button--clear:active {
       background-image: none;
       background: none; }
-  .button:focus, input[type='submit']:focus, input[type='button']:focus, button:focus {
+  .button:focus, input[type='submit']:focus, input[type='button']:focus {
     outline: 0; }
-  .button--reset {
+  .button--reset, button {
     padding: 0;
     background-image: none;
-    background: none; }
-    .button--reset:hover {
+    background: none;
+    border: 0;
+    text-align: left; }
+    .button--reset:hover, button:hover {
       background-image: none;
       background: none; }
-    .button--reset:active {
+    .button--reset:active, button:active {
       background-image: none;
       background: none; }
 
@@ -738,6 +740,9 @@ p.small {
   margin-top: 0;
   margin-left: 0;
   margin-right: 0; }
+
+.line-height--p {
+  line-height: 1.2rem; }
 
 code, pre {
   background: #000;

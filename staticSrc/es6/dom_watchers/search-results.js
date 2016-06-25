@@ -2,17 +2,22 @@
 
 var eventManager = require('../utils/event_manager');
 var tabStateCtrl = require('../state/tabs');
+var actionStateCtrl = require('../state/actions');
+var workingListStateCtrl = require('../state/working_list');
 
 module.exports = {
 	init: function(){
 
-		//whenever the search results are set, set the results temp tab
+		//whenever the search results are set, activate the results tab
 		eventManager.subscribe('search_results_set', function(){
-			console.log('search_results_set subsciber running');
-			//clear temp results tab is it's currently tab so it's not auto set as an actual tab 
-			tabStateCtrl.addTempTabToGroup('editor', '_');
-			//add results as temp tab
-			tabStateCtrl.addTempTabToGroup('editor', 'results');
+			tabStateCtrl.activateTab('editor', 'results');
+		});
+
+		actionStateCtrl.addAction('add_to_working_list', function(rivet){
+			var claimObj = {
+				description: 'todo - get claim object from search results'
+			};
+			workingListStateCtrl.addClaimToList(claimObj);
 		});
 	}
 }

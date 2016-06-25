@@ -15,7 +15,7 @@ module.exports = {
 			btns: []
 		});
 
-		actionStateCtrl.addAction('newClaim', function(rivet){
+		actionStateCtrl.addAction('new_claim', function(rivet){
 			
 			//who ever called this action better have an id refrence to the text area where this new claim resides
 			var newClaimElId = rivet.currentTarget.attributes['data-claim-el-id'].value;

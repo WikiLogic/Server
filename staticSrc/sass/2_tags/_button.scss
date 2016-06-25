@@ -88,6 +88,8 @@ button
 		padding: 0;
 		background-image: none;
 		background: none;
+		border: 0;
+		text-align: left;
 		&:hover {
 			background-image: none;
 			background: none;
@@ -117,4 +119,7 @@ button
 
 input[type='submit'] { @extend .button; }
 input[type='button'] { @extend .button; }
-button { @extend .button; }
+button { 
+	//no default styling on tags, especially buttons, for aria's sake!
+	@extend .button--reset;
+}

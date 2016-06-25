@@ -10,6 +10,11 @@ var presetTabs = [
 		groupName: 'editor',
 		tabName: 'welcome',
 		isTemp: true
+	},
+	{
+		groupName: 'editor',
+		tabName: 'results',
+		isTemp: false
 	}
 ]
 require('./dom_watchers/tabs').init(presetTabs);

@@ -13034,6 +13034,11 @@ var presetTabs = [
 		groupName: 'editor',
 		tabName: 'welcome',
 		isTemp: true
+	},
+	{
+		groupName: 'editor',
+		tabName: 'results',
+		isTemp: false
 	}
 ]
 require('./dom_watchers/tabs').init(presetTabs);
@@ -13077,7 +13082,7 @@ module.exports = {
 			btns: []
 		});
 
-		actionStateCtrl.addAction('newClaim', function(rivet){
+		actionStateCtrl.addAction('new_claim', function(rivet){
 			
 			//who ever called this action better have an id refrence to the text area where this new claim resides
 			var newClaimElId = rivet.currentTarget.attributes['data-claim-el-id'].value;
@@ -13107,7 +13112,20 @@ module.exports = {
 var $ = require('jquery');
 var searchApi = require('../api/search');
 var searchStateCtrl = require('../state/search');
+var actionStateCtrl = require('../state/actions');
 searchStateCtrl.init();
+
+var search = function(term){
+	searchStateCtrl.setNewTerm(term);
+
+	searchApi.searchByString(term).done(function(data){
+		//add to search results
+		searchStateCtrl.setResults(data);
+	}).fail(function(err){
+		console.error('search api error: ', err);
+		//TODO: send to alerts
+	});
+}
 
 module.exports = {
 
@@ -13116,41 +13134,43 @@ module.exports = {
 			console.log('search change!', e);
 			
 			if (e.keyCode == 13) {
-				searchStateCtrl.setNewTerm($(this).val());
-
-				searchApi.searchByString($(this).val()).done(function(data){
-					//add to search results
-					searchStateCtrl.setResults(data);
-				}).fail(function(err){
-					console.error('search api error: ', err);
-					//TODO: send to alerts
-				});
+				search($(this).val());
 			}
 		});
+
+		actionStateCtrl.addAction('search_this', function(rivet){
+			//used by links to help people click to search claims
+			search(rivet.target.innerText);
+		})
 	}
 
 }
 
-},{"../api/search":6,"../state/search":17,"jquery":1}],10:[function(require,module,exports){
+},{"../api/search":6,"../state/actions":16,"../state/search":17,"jquery":1}],10:[function(require,module,exports){
 'use strict';
 
 var eventManager = require('../utils/event_manager');
 var tabStateCtrl = require('../state/tabs');
+var actionStateCtrl = require('../state/actions');
+var workingListStateCtrl = require('../state/working_list');
 
 module.exports = {
 	init: function(){
 
-		//whenever the search results are set, set the results temp tab
+		//whenever the search results are set, activate the results tab
 		eventManager.subscribe('search_results_set', function(){
-			console.log('search_results_set subsciber running');
-			//clear temp results tab is it's currently tab so it's not auto set as an actual tab 
-			tabStateCtrl.addTempTabToGroup('editor', '_');
-			//add results as temp tab
-			tabStateCtrl.addTempTabToGroup('editor', 'results');
+			tabStateCtrl.activateTab('editor', 'results');
+		});
+
+		actionStateCtrl.addAction('add_to_working_list', function(rivet){
+			var claimObj = {
+				description: 'todo - get claim object from search results'
+			};
+			workingListStateCtrl.addClaimToList(claimObj);
 		});
 	}
 }
-},{"../state/tabs":18,"../utils/event_manager":20}],11:[function(require,module,exports){
+},{"../state/actions":16,"../state/tabs":18,"../state/working_list":19,"../utils/event_manager":20}],11:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -13324,6 +13344,13 @@ var eventManager = require('../utils/event_manager');
 
 var setResults = function(resultsArray){
 	WL_STATE.search.results = resultsArray;
+	
+	if (resultsArray.length == 0) {
+		WL_STATE.search.is_empty = true;
+	} else {
+		WL_STATE.search.is_empty = false;
+	}
+	
 	eventManager.fire('search_results_set');
 }
 
@@ -13332,7 +13359,8 @@ module.exports = {
 	init: function(){
 		WL_STATE.search = {
 			term: "",
-			results: []
+			results: [],
+			is_empty: true
 		}
 	},
 
@@ -13381,12 +13409,7 @@ var addTabToTabGroup = function(groupName, tabName){
 	WL_STATE.tabs[groupName].tabs.push({name: tabName, active: false});
 
 	//now add the named tab state object for rivets
-	if (WL_STATE.tabs[groupName].tabs.length > 1) {
-		WL_STATE.tabs[groupName][tabName] = false;
-	} else {
-		//by default, the first tab is true
-		WL_STATE.tabs[groupName][tabName] = true;
-	}
+	WL_STATE.tabs[groupName][tabName] = false;
 }
 
 module.exports = {
@@ -13464,21 +13487,21 @@ module.exports = {
 	},
 
 	addTempTabToGroup: function(groupName, tabName){
-		/* Recreates the sublime text tab behaviour. One click adds temp tab, two clicks adds it permanently 
+		/* Recreates the sublime text tab behaviour(ish). One click adds temp tab, a second adds it permanently 
 		 */
 		
 		 //if this is already a tempTab, add it to the main group and set it to active
 		 if (WL_STATE.tabs[groupName].tempTab.name == tabName) {
 
 		 	addTabToTabGroup(groupName, tabName);
+		 	this.activateTab(groupName, tabName);
+		 	WL_STATE.tabs[groupName].tempTab.active = false;
 		 	WL_STATE.tabs[groupName].tempTab.set = false;
 
 		 } else {
-		 	//clear
-		 	WL_STATE.tabs[groupName].tempTab = {};
-
+			WL_STATE.tabs[groupName].tempTab = {};
 			//else, add / replace the old temp tab
-			WL_STATE.tabs[groupName].tempTab[tabName] = true; //rivets trick
+			WL_STATE.tabs[groupName].tempTab[tabName] = true; //rivets trick for identifying special cases - eg the welcome tab
 			WL_STATE.tabs[groupName].tempTab.name = tabName;
 			WL_STATE.tabs[groupName].tempTab.set = true;
 			this.activateTempTab(groupName);
@@ -13490,10 +13513,16 @@ module.exports = {
 		var newTabGroup = objectHelpers.cloneThisObject(WL_STATE.tabs[groupName]);
 
 		for (var t = 0; t < newTabGroup.tabs.length; t++) {
-			//set the tabs
+			//set the tabs array item to false
 			newTabGroup.tabs[t].active = false;
+			//and set it's named counterpart to false
+			newTabGroup[newTabGroup.tabs[t].name] = false;
+
 			if (newTabGroup.tabs[t].name == tabToActivate) {
+				//set the tab array item to true - yeay!
 				newTabGroup.tabs[t].active = true;
+				//and it's named counterpart
+				newTabGroup[newTabGroup.tabs[t].name] = true;
 			}
 		}
 
@@ -13514,7 +13543,10 @@ module.exports = {
 
 		//set all the tabs to false.
 		for (var t = 0; t < newTabGroup.tabs.length; t++) {
+			//tab array item to false
 			newTabGroup.tabs[t].active = false;
+			//and it's named counterpart
+			newTabGroup[newTabGroup.tabs[t].name] = false;
 		}
 
 		//set the tempTab to true
@@ -13534,11 +13566,13 @@ module.exports = {
 module.exports = {
 	init: function(){
 		WL_STATE.working_list = {
-			items: []
+			claims: [],
+			is_empty: true
 		}
 	},
 	addClaimToList: function(claimObj){
-
+		WL_STATE.working_list.claims.push(claimObj);
+		WL_STATE.working_list.is_empty = false;
 	},
 	removeClaimFromList: function(claimId){
 		
