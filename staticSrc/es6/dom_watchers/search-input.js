@@ -13,7 +13,14 @@ module.exports = {
 			
 			if (e.keyCode == 13) {
 				searchStateCtrl.setNewTerm($(this).val());
-				searchApi.searchByString($(this).val(), searchStateCtrl.setResults);
+
+				searchApi.searchByString($(this).val()).done(function(data){
+					//add to search results
+					searchStateCtrl.setResults(data);
+				}).fail(function(err){
+					console.error('search api error: ', err);
+					//TODO: send to alerts
+				});
 			}
 		});
 	}

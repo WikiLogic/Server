@@ -13003,7 +13003,8 @@ module.exports = {
 		var order = 'relevance';
 
 
-		$.get('/api?s=' + searchTerm)
+		return $.get('/api?s=' + searchTerm);
+		/*
 		 .done(function(data) {
 
 			console.log('The published results are in! ', JSON.stringify(data));
@@ -13016,6 +13017,7 @@ module.exports = {
 		 .always(function(){
 
 		 });
+		 */
 	}
 
 }
@@ -13030,13 +13032,15 @@ require('./dom_watchers/search-input').init();
 var presetTabs = [
 	{
 		groupName: 'editor',
-		tabName: 'results'
+		tabName: 'welcome',
+		isTemp: true
 	}
 ]
 require('./dom_watchers/tabs').init(presetTabs);
 require('./dom_watchers/toaster').init();
 require('./dom_watchers/claim-input').init();
 require('./dom_watchers/working-list').init();
+require('./dom_watchers/search-results').init();
 
 window.rivets = require('rivets');
 
@@ -13055,7 +13059,7 @@ rivets.configure({
 });
 
 rivets.bind($('#god'), {state: window.WL_STATE});
-},{"./dom_watchers/claim-input":8,"./dom_watchers/search-input":9,"./dom_watchers/tabs":10,"./dom_watchers/toaster":11,"./dom_watchers/working-list":12,"jquery":1,"rivets":2}],8:[function(require,module,exports){
+},{"./dom_watchers/claim-input":8,"./dom_watchers/search-input":9,"./dom_watchers/search-results":10,"./dom_watchers/tabs":11,"./dom_watchers/toaster":12,"./dom_watchers/working-list":13,"jquery":1,"rivets":2}],8:[function(require,module,exports){
 'use strict';
 
 var trumbowyg = require('trumbowyg');
@@ -13097,7 +13101,7 @@ module.exports = {
 	}
 }
 
-},{"../api/claim":5,"../state/actions":15,"trumbowyg":4}],9:[function(require,module,exports){
+},{"../api/claim":5,"../state/actions":16,"trumbowyg":4}],9:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -13113,14 +13117,40 @@ module.exports = {
 			
 			if (e.keyCode == 13) {
 				searchStateCtrl.setNewTerm($(this).val());
-				searchApi.searchByString($(this).val(), searchStateCtrl.setResults);
+
+				searchApi.searchByString($(this).val()).done(function(data){
+					//add to search results
+					searchStateCtrl.setResults(data);
+				}).fail(function(err){
+					console.error('search api error: ', err);
+					//TODO: send to alerts
+				});
 			}
 		});
 	}
 
 }
 
-},{"../api/search":6,"../state/search":16,"jquery":1}],10:[function(require,module,exports){
+},{"../api/search":6,"../state/search":17,"jquery":1}],10:[function(require,module,exports){
+'use strict';
+
+var eventManager = require('../utils/event_manager');
+var tabStateCtrl = require('../state/tabs');
+
+module.exports = {
+	init: function(){
+
+		//whenever the search results are set, set the results temp tab
+		eventManager.subscribe('search_results_set', function(){
+			console.log('search_results_set subsciber running');
+			//clear temp results tab is it's currently tab so it's not auto set as an actual tab 
+			tabStateCtrl.addTempTabToGroup('editor', '_');
+			//add results as temp tab
+			tabStateCtrl.addTempTabToGroup('editor', 'results');
+		});
+	}
+}
+},{"../state/tabs":18,"../utils/event_manager":20}],11:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -13142,8 +13172,13 @@ module.exports = {
 
 		for (var t = 0; t < presetTabs.length; t++){
 			console.log('initting tabs');
-			tabStateCtrl.createTabGroup(presetTabs[t].groupName);
-			tabStateCtrl.addTabToTabGroup(presetTabs[t].groupName, presetTabs[t].tabName);
+			if (presetTabs[t].isTemp) {
+				tabStateCtrl.createTabGroup(presetTabs[t].groupName);
+				tabStateCtrl.addTempTabToGroup(presetTabs[t].groupName, presetTabs[t].tabName);
+			} else {
+				tabStateCtrl.createTabGroup(presetTabs[t].groupName);
+				tabStateCtrl.addTabToTabGroup(presetTabs[t].groupName, presetTabs[t].tabName);
+			}
 		}
 
 
@@ -13175,7 +13210,7 @@ module.exports = {
 		});
 	}
 }
-},{"../state/actions":15,"../state/tabs":17,"jquery":1}],11:[function(require,module,exports){
+},{"../state/actions":16,"../state/tabs":18,"jquery":1}],12:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -13207,7 +13242,7 @@ module.exports = {
 		});
 	}
 }
-},{"jquery":1}],12:[function(require,module,exports){
+},{"jquery":1}],13:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -13231,7 +13266,7 @@ module.exports = {
 
 	}
 }
-},{"../state/actions":15,"../state/working_list":18,"jquery":1}],13:[function(require,module,exports){
+},{"../state/actions":16,"../state/working_list":19,"jquery":1}],14:[function(require,module,exports){
 
 module.exports = {
 	cloneThisObject: function(obj) {
@@ -13245,7 +13280,7 @@ module.exports = {
 		return newObj;
 	}
 }
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -13258,7 +13293,7 @@ module.exports = {
 		return /[A-Z]/.test(s);
 	}
 }
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 'use strict';
 
 var objectHelpers = require('../reducers/object_helpers');
@@ -13282,8 +13317,15 @@ module.exports = {
 	}
 
 };
-},{"../reducers/object_helpers":13}],16:[function(require,module,exports){
+},{"../reducers/object_helpers":14}],17:[function(require,module,exports){
 'use strict';
+
+var eventManager = require('../utils/event_manager');
+
+var setResults = function(resultsArray){
+	WL_STATE.search.results = resultsArray;
+	eventManager.fire('search_results_set');
+}
 
 module.exports = {
 
@@ -13299,11 +13341,11 @@ module.exports = {
 	},
 
 	setResults: function(resultsArray){
-		WL_STATE.search.results = resultsArray;
+		setResults(resultsArray);
 	}
 
 };
-},{}],17:[function(require,module,exports){
+},{"../utils/event_manager":20}],18:[function(require,module,exports){
 'use strict';
 
 var objectHelpers = require('../reducers/object_helpers');
@@ -13351,10 +13393,6 @@ module.exports = {
 
 	init: function(){
 		WL_STATE.tabs = {}
-	},
-
-	createTabState: function(){
-		
 	},
 
 	createTabGroup: function(groupName){
@@ -13436,10 +13474,14 @@ module.exports = {
 		 	WL_STATE.tabs[groupName].tempTab.set = false;
 
 		 } else {
+		 	//clear
+		 	WL_STATE.tabs[groupName].tempTab = {};
 
 			//else, add / replace the old temp tab
+			WL_STATE.tabs[groupName].tempTab[tabName] = true; //rivets trick
 			WL_STATE.tabs[groupName].tempTab.name = tabName;
 			WL_STATE.tabs[groupName].tempTab.set = true;
+			this.activateTempTab(groupName);
 		}
 	},
 
@@ -13462,12 +13504,16 @@ module.exports = {
 		WL_STATE.tabs[groupName] = newTabGroup;
 	},
 
-	activateTempTab: function(groupName, tabToActivate){
-		//going to assume the creation process above caught any tab bugs so we can run this afap! giggity
+	activateTempTab: function(groupName){
+		/* Sets the temp tab name to the one passed in
+		 * Activates the temp tab
+		 */
+
+		//clone the tab group state
 		var newTabGroup = objectHelpers.cloneThisObject(WL_STATE.tabs[groupName]);
 
+		//set all the tabs to false.
 		for (var t = 0; t < newTabGroup.tabs.length; t++) {
-			//set all the tabs to false.
 			newTabGroup.tabs[t].active = false;
 		}
 
@@ -13476,10 +13522,9 @@ module.exports = {
 
 		//and apply to state!
 		WL_STATE.tabs[groupName] = newTabGroup;
-		console.log('WL_STATE.tabs[groupName]: ', WL_STATE.tabs[groupName]);
 	}
 };
-},{"../reducers/object_helpers":13,"../reducers/string_helpers":14}],18:[function(require,module,exports){
+},{"../reducers/object_helpers":14,"../reducers/string_helpers":15}],19:[function(require,module,exports){
 'use strict';
 
 /* Working_list State controller
@@ -13499,4 +13544,40 @@ module.exports = {
 		
 	}
 }
+},{}],20:[function(require,module,exports){
+'use strict';
+
+var eventSubscribers = {};
+
+module.exports = {
+
+	subscribe: function(event_name, callback){
+		/* Takes the name of an event to subscribe to
+		 * and a function to run when that event is fired.
+		 * An index number is returned. This will be needed if 
+		 * the subscriber is ever to be removed.
+		 */
+		if (eventSubscribers[event_name]) {
+			eventSubscribers[event_name].push(callback);
+		} else {
+			eventSubscribers[event_name] = [callback];
+		}
+		console.info('Subscriber added to', event_name);
+
+		return eventSubscribers[event_name].length - 1;
+	},
+
+	unsubscribe: function(event_name, index){
+		eventSubscribers[event_name].splice(index, 1);
+	},
+
+	fire: function(event_name){
+		console.info('EVENT: ', event_name);
+		if (eventSubscribers[event_name]) {
+			for (var s = 0; s < eventSubscribers[event_name].length; s++) { //s for subscriber
+				eventSubscribers[event_name][s]();
+			}
+		}
+	}
+};
 },{}]},{},[7]);

@@ -47,10 +47,6 @@ module.exports = {
 		WL_STATE.tabs = {}
 	},
 
-	createTabState: function(){
-		
-	},
-
 	createTabGroup: function(groupName){
 		var checkError = false;
 
@@ -130,10 +126,14 @@ module.exports = {
 		 	WL_STATE.tabs[groupName].tempTab.set = false;
 
 		 } else {
+		 	//clear
+		 	WL_STATE.tabs[groupName].tempTab = {};
 
 			//else, add / replace the old temp tab
+			WL_STATE.tabs[groupName].tempTab[tabName] = true; //rivets trick
 			WL_STATE.tabs[groupName].tempTab.name = tabName;
 			WL_STATE.tabs[groupName].tempTab.set = true;
+			this.activateTempTab(groupName);
 		}
 	},
 
@@ -156,12 +156,16 @@ module.exports = {
 		WL_STATE.tabs[groupName] = newTabGroup;
 	},
 
-	activateTempTab: function(groupName, tabToActivate){
-		//going to assume the creation process above caught any tab bugs so we can run this afap! giggity
+	activateTempTab: function(groupName){
+		/* Sets the temp tab name to the one passed in
+		 * Activates the temp tab
+		 */
+
+		//clone the tab group state
 		var newTabGroup = objectHelpers.cloneThisObject(WL_STATE.tabs[groupName]);
 
+		//set all the tabs to false.
 		for (var t = 0; t < newTabGroup.tabs.length; t++) {
-			//set all the tabs to false.
 			newTabGroup.tabs[t].active = false;
 		}
 
@@ -170,6 +174,5 @@ module.exports = {
 
 		//and apply to state!
 		WL_STATE.tabs[groupName] = newTabGroup;
-		console.log('WL_STATE.tabs[groupName]: ', WL_STATE.tabs[groupName]);
 	}
 };

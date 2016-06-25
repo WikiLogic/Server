@@ -6,7 +6,8 @@ module.exports = {
 		var order = 'relevance';
 
 
-		$.get('/api?s=' + searchTerm)
+		return $.get('/api?s=' + searchTerm);
+		/*
 		 .done(function(data) {
 
 			console.log('The published results are in! ', JSON.stringify(data));
@@ -19,6 +20,7 @@ module.exports = {
 		 .always(function(){
 
 		 });
+		 */
 	}
 
 }

@@ -1,5 +1,12 @@
 'use strict';
 
+var eventManager = require('../utils/event_manager');
+
+var setResults = function(resultsArray){
+	WL_STATE.search.results = resultsArray;
+	eventManager.fire('search_results_set');
+}
+
 module.exports = {
 
 	init: function(){
@@ -14,7 +21,7 @@ module.exports = {
 	},
 
 	setResults: function(resultsArray){
-		WL_STATE.search.results = resultsArray;
+		setResults(resultsArray);
 	}
 
 };

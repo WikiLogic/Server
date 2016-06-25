@@ -19,8 +19,13 @@ module.exports = {
 
 		for (var t = 0; t < presetTabs.length; t++){
 			console.log('initting tabs');
-			tabStateCtrl.createTabGroup(presetTabs[t].groupName);
-			tabStateCtrl.addTabToTabGroup(presetTabs[t].groupName, presetTabs[t].tabName);
+			if (presetTabs[t].isTemp) {
+				tabStateCtrl.createTabGroup(presetTabs[t].groupName);
+				tabStateCtrl.addTempTabToGroup(presetTabs[t].groupName, presetTabs[t].tabName);
+			} else {
+				tabStateCtrl.createTabGroup(presetTabs[t].groupName);
+				tabStateCtrl.addTabToTabGroup(presetTabs[t].groupName, presetTabs[t].tabName);
+			}
 		}
 
 

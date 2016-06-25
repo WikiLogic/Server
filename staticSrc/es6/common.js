@@ -8,13 +8,15 @@ require('./dom_watchers/search-input').init();
 var presetTabs = [
 	{
 		groupName: 'editor',
-		tabName: 'results'
+		tabName: 'welcome',
+		isTemp: true
 	}
 ]
 require('./dom_watchers/tabs').init(presetTabs);
 require('./dom_watchers/toaster').init();
 require('./dom_watchers/claim-input').init();
 require('./dom_watchers/working-list').init();
+require('./dom_watchers/search-results').init();
 
 window.rivets = require('rivets');
 

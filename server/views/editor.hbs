@@ -49,8 +49,14 @@
 
             </div>
             <div class="header-layout__body y-scroll bg-color--grey-1">
+                
+                <div class="box" view-show="state.tabs.editor.tempTab.welcome">
+                    <p>Welcome!<br>
+                    To begin - use the search bar above to find a claim.<br>
+                    The way forward from there will be clear ;)</p>
+                </div>
 
-                <div class="box" view-if="state.tabs.editor.results">
+                <div class="box" view-show="state.tabs.editor.tempTab.results">
                     
                     <!-- if no exact matches, give option to add as new claim -->
                     <h4>No exact match found</h4>
@@ -71,7 +77,7 @@
                 </div>
 
                 <!-- detail view of claim_n -->
-                <div class="box" view-if="state.tabs.editor.claim_n">
+                <div class="box" view-show="state.tabs.editor.claim_n">
                     <p class="text-align-right">
                         <svg class="icon hover-color--blue cursor-pointer"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#cloud-upload"></use></svg>
                     </p>
