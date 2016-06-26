@@ -417,10 +417,17 @@ button
       -ms-user-select: none;
           user-select: none;
   max-width: 100%;
+  color: rgba(255, 255, 255, 0.87);
   transition: background-image 0.2s ease;
   background-image: radial-gradient(circle farthest-corner at 50% 20%, #488ce9, #5191ea); }
   .button svg, input[type='submit'] svg, input[type='button'] svg {
     fill: white; }
+  .button svg, input[type='submit'] svg, input[type='button'] svg {
+    fill: white; }
+  .button h1, input[type='submit'] h1, input[type='button'] h1, .button h2, input[type='submit'] h2, input[type='button'] h2, .button h3, input[type='submit'] h3, input[type='button'] h3, .button h4, input[type='submit'] h4, input[type='button'] h4 {
+    color: white; }
+  .button h5, input[type='submit'] h5, input[type='button'] h5, .button h6, input[type='submit'] h6, input[type='button'] h6, .button p, input[type='submit'] p, input[type='button'] p, .button .p, input[type='submit'] .p, input[type='button'] .p {
+    color: rgba(255, 255, 255, 0.87); }
   .button--small {
     padding: 1px 5px; }
   .button:hover, input[type='submit']:hover, input[type='button']:hover {
@@ -878,7 +885,7 @@ They should get you 90% of the look you're after
     fill: white; }
   .bg-pattern h1, .bg-pattern h2, .bg-pattern h3, .bg-pattern h4 {
     color: white; }
-  .bg-pattern h5, .bg-pattern h6, .bg-pattern p {
+  .bg-pattern h5, .bg-pattern h6, .bg-pattern p, .bg-pattern .p {
     color: rgba(255, 255, 255, 0.87); }
   .bg-pattern--red {
     background-image: repeating-linear-gradient(30deg, rgba(239, 46, 46, 0.5), rgba(239, 46, 46, 0.5) 8px, rgba(237, 22, 22, 0.5) 9px, rgba(239, 46, 46, 0.5) 10px), radial-gradient(circle farthest-corner at 50% 20%, rgba(240, 60, 60, 0.5), rgba(113, 9, 9, 0.5)); }
@@ -892,7 +899,7 @@ They should get you 90% of the look you're after
     fill: white; }
   .bg-color--red h1, .bg-color--red h2, .bg-color--red h3, .bg-color--red h4 {
     color: white; }
-  .bg-color--red h5, .bg-color--red h6, .bg-color--red p {
+  .bg-color--red h5, .bg-color--red h6, .bg-color--red p, .bg-color--red .p {
     color: rgba(255, 255, 255, 0.87); }
 
 .bg-color--blue {
@@ -902,7 +909,7 @@ They should get you 90% of the look you're after
     fill: white; }
   .bg-color--blue h1, .bg-color--blue h2, .bg-color--blue h3, .bg-color--blue h4 {
     color: white; }
-  .bg-color--blue h5, .bg-color--blue h6, .bg-color--blue p {
+  .bg-color--blue h5, .bg-color--blue h6, .bg-color--blue p, .bg-color--blue .p {
     color: rgba(255, 255, 255, 0.87); }
 
 .bg-color--green {
@@ -912,7 +919,7 @@ They should get you 90% of the look you're after
     fill: white; }
   .bg-color--green h1, .bg-color--green h2, .bg-color--green h3, .bg-color--green h4 {
     color: white; }
-  .bg-color--green h5, .bg-color--green h6, .bg-color--green p {
+  .bg-color--green h5, .bg-color--green h6, .bg-color--green p, .bg-color--green .p {
     color: rgba(255, 255, 255, 0.87); }
 
 .bg-color--white {
@@ -982,7 +989,7 @@ They should get you 90% of the look you're after
     fill: white; }
   .bg-color--grey-6 h1, .bg-color--grey-6 h2, .bg-color--grey-6 h3, .bg-color--grey-6 h4 {
     color: white; }
-  .bg-color--grey-6 h5, .bg-color--grey-6 h6, .bg-color--grey-6 p {
+  .bg-color--grey-6 h5, .bg-color--grey-6 h6, .bg-color--grey-6 p, .bg-color--grey-6 .p {
     color: rgba(255, 255, 255, 0.87); }
 
 .bg-color--grey-5 {
@@ -992,7 +999,7 @@ They should get you 90% of the look you're after
     fill: white; }
   .bg-color--grey-5 h1, .bg-color--grey-5 h2, .bg-color--grey-5 h3, .bg-color--grey-5 h4 {
     color: white; }
-  .bg-color--grey-5 h5, .bg-color--grey-5 h6, .bg-color--grey-5 p {
+  .bg-color--grey-5 h5, .bg-color--grey-5 h6, .bg-color--grey-5 p, .bg-color--grey-5 .p {
     color: rgba(255, 255, 255, 0.87); }
 
 .bg-color--grey-4 {
@@ -1002,7 +1009,7 @@ They should get you 90% of the look you're after
     fill: white; }
   .bg-color--grey-4 h1, .bg-color--grey-4 h2, .bg-color--grey-4 h3, .bg-color--grey-4 h4 {
     color: white; }
-  .bg-color--grey-4 h5, .bg-color--grey-4 h6, .bg-color--grey-4 p {
+  .bg-color--grey-4 h5, .bg-color--grey-4 h6, .bg-color--grey-4 p, .bg-color--grey-4 .p {
     color: rgba(255, 255, 255, 0.87); }
 
 .bg-color--grey-3 {
@@ -1012,7 +1019,7 @@ They should get you 90% of the look you're after
     fill: white; }
   .bg-color--grey-3 h1, .bg-color--grey-3 h2, .bg-color--grey-3 h3, .bg-color--grey-3 h4 {
     color: white; }
-  .bg-color--grey-3 h5, .bg-color--grey-3 h6, .bg-color--grey-3 p {
+  .bg-color--grey-3 h5, .bg-color--grey-3 h6, .bg-color--grey-3 p, .bg-color--grey-3 .p {
     color: rgba(255, 255, 255, 0.87); }
 
 .bg-color--grey-2 {
@@ -1022,7 +1029,7 @@ They should get you 90% of the look you're after
     fill: white; }
   .bg-color--grey-2 h1, .bg-color--grey-2 h2, .bg-color--grey-2 h3, .bg-color--grey-2 h4 {
     color: white; }
-  .bg-color--grey-2 h5, .bg-color--grey-2 h6, .bg-color--grey-2 p {
+  .bg-color--grey-2 h5, .bg-color--grey-2 h6, .bg-color--grey-2 p, .bg-color--grey-2 .p {
     color: rgba(255, 255, 255, 0.87); }
 
 .bg-color--grey-1 {
@@ -1032,7 +1039,7 @@ They should get you 90% of the look you're after
     fill: white; }
   .bg-color--grey-1 h1, .bg-color--grey-1 h2, .bg-color--grey-1 h3, .bg-color--grey-1 h4 {
     color: white; }
-  .bg-color--grey-1 h5, .bg-color--grey-1 h6, .bg-color--grey-1 p {
+  .bg-color--grey-1 h5, .bg-color--grey-1 h6, .bg-color--grey-1 p, .bg-color--grey-1 .p {
     color: rgba(255, 255, 255, 0.87); }
 
 .bg-color--black {
@@ -1042,7 +1049,7 @@ They should get you 90% of the look you're after
     fill: white; }
   .bg-color--black h1, .bg-color--black h2, .bg-color--black h3, .bg-color--black h4 {
     color: white; }
-  .bg-color--black h5, .bg-color--black h6, .bg-color--black p {
+  .bg-color--black h5, .bg-color--black h6, .bg-color--black p, .bg-color--black .p {
     color: rgba(255, 255, 255, 0.87); }
 
 .text-color--white {
@@ -1055,7 +1062,7 @@ They should get you 90% of the look you're after
     fill: white; }
   .text-color--white h1, .text-color--white h2, .text-color--white h3, .text-color--white h4 {
     color: white; }
-  .text-color--white h5, .text-color--white h6, .text-color--white p {
+  .text-color--white h5, .text-color--white h6, .text-color--white p, .text-color--white .p {
     color: rgba(255, 255, 255, 0.87); }
 
 .text-color--red {
@@ -1146,6 +1153,9 @@ They should get you 90% of the look you're after
 
 .v-align-top.v-align-top.v-align-top {
   vertical-align: top; }
+
+.v-align-center {
+  vertical-align: center; }
 
 .y-scroll {
   overflow-y: auto; }
@@ -1641,7 +1651,7 @@ think carefully before adding anything in here.
     fill: white; }
   .tabs h1, .tabs h2, .tabs h3, .tabs h4 {
     color: white; }
-  .tabs h5, .tabs h6, .tabs p {
+  .tabs h5, .tabs h6, .tabs p, .tabs .p {
     color: rgba(255, 255, 255, 0.87); }
   .tabs__tab {
     display: table-cell;

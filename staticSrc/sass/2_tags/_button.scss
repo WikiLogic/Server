@@ -14,9 +14,8 @@ button
 	user-select: none; 
 	max-width: 100%;
 
-	svg { 
-		fill:white; 
-	}
+	svg { fill:white; }
+	@include light-typography();
 
 	&--small {
 		padding: 1px 5px;

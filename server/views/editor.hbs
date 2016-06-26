@@ -20,11 +20,11 @@
                 </div>
 
                 <button
-                    class="display-block"
+                    class="display-block full-width box box--wide"
                     view-each-claim="state.working_list.claims"
                     view-on-click="state.actions.set_claim_detail_tab"
                     view-data-index="claim.index">
-                    <p>{claim.description}</p></button>
+                    <p class="no-margins">{claim.description}</p></button>
                 
             </div>
 
@@ -55,8 +55,8 @@
             <div class="header-layout__body y-scroll bg-color--grey-1">
 
                 <!-- The welcome temp tab content -->
-                <div class="box" view-show="state.tabs.editor.tempTab.active">
-                    <div view-show="state.tabs.editor.tempTab.welcome">
+                <div view-show="state.tabs.editor.tempTab.active">
+                    <div class="box" view-show="state.tabs.editor.tempTab.welcome">
                         <h4>Welcome!</h4>
                         <p>To begin - think of something you believe to be true, then type it in the search bar above.
                         For example: <button class="a" view-on-click="state.actions.search_this">the world is flat</button></p>    
