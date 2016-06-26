@@ -5,6 +5,7 @@ var actionStateCtrl = require('../state/actions');
 var workingListStateCtrl = require('../state/working_list');
 workingListStateCtrl.init();
 var tabStateCtrl = require('../state/tabs');
+var editorDetailStateCtrl = require('../state/editor_detail');
 
 /* Working-list DOM watcher
  * This module is responsibe for handling the 'working list'
@@ -22,6 +23,7 @@ module.exports = {
 			//add temp tab
 			tabStateCtrl.addTempTabToGroup('editor', claimObj.description);
 			//set content?
+			editorDetailStateCtrl.setNewClaimDetail(claimObj);
 			console.warn('TODO: how to set tab content?');
 		});
 

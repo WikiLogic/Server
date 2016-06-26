@@ -13046,6 +13046,7 @@ require('./dom_watchers/toaster').init();
 require('./dom_watchers/claim-input').init();
 require('./dom_watchers/working-list').init();
 require('./dom_watchers/search-results').init();
+require('./dom_watchers/editor-detail').init();
 
 window.rivets = require('rivets');
 
@@ -13064,7 +13065,7 @@ rivets.configure({
 });
 
 rivets.bind($('#god'), {state: window.WL_STATE});
-},{"./dom_watchers/claim-input":8,"./dom_watchers/search-input":9,"./dom_watchers/search-results":10,"./dom_watchers/tabs":11,"./dom_watchers/toaster":12,"./dom_watchers/working-list":13,"jquery":1,"rivets":2}],8:[function(require,module,exports){
+},{"./dom_watchers/claim-input":8,"./dom_watchers/editor-detail":9,"./dom_watchers/search-input":10,"./dom_watchers/search-results":11,"./dom_watchers/tabs":12,"./dom_watchers/toaster":13,"./dom_watchers/working-list":14,"jquery":1,"rivets":2}],8:[function(require,module,exports){
 'use strict';
 
 var trumbowyg = require('trumbowyg');
@@ -13106,7 +13107,24 @@ module.exports = {
 	}
 }
 
-},{"../api/claim":5,"../state/actions":16,"trumbowyg":4}],9:[function(require,module,exports){
+},{"../api/claim":5,"../state/actions":17,"trumbowyg":4}],9:[function(require,module,exports){
+'use strict';
+
+/* Current Editor DOM Watcher
+ * This takes care of setting which claim is to be displayed in the body of the editor.
+ * It also deals with the interactions from that claim
+ */
+
+var editorDetailStateCtrl = require('../state/editor_detail');
+
+module.exports = {
+	init: function(){
+		editorDetailStateCtrl.init();
+
+
+	}
+}
+},{"../state/editor_detail":18}],10:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -13146,7 +13164,7 @@ module.exports = {
 
 }
 
-},{"../api/search":6,"../state/actions":16,"../state/search":17,"jquery":1}],10:[function(require,module,exports){
+},{"../api/search":6,"../state/actions":17,"../state/search":19,"jquery":1}],11:[function(require,module,exports){
 'use strict';
 
 var eventManager = require('../utils/event_manager');
@@ -13169,7 +13187,7 @@ module.exports = {
 		});
 	}
 }
-},{"../state/actions":16,"../state/tabs":18,"../state/working_list":19,"../utils/event_manager":20}],11:[function(require,module,exports){
+},{"../state/actions":17,"../state/tabs":20,"../state/working_list":21,"../utils/event_manager":22}],12:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -13229,7 +13247,7 @@ module.exports = {
 		});
 	}
 }
-},{"../state/actions":16,"../state/tabs":18,"jquery":1}],12:[function(require,module,exports){
+},{"../state/actions":17,"../state/tabs":20,"jquery":1}],13:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -13261,7 +13279,7 @@ module.exports = {
 		});
 	}
 }
-},{"jquery":1}],13:[function(require,module,exports){
+},{"jquery":1}],14:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -13269,6 +13287,7 @@ var actionStateCtrl = require('../state/actions');
 var workingListStateCtrl = require('../state/working_list');
 workingListStateCtrl.init();
 var tabStateCtrl = require('../state/tabs');
+var editorDetailStateCtrl = require('../state/editor_detail');
 
 /* Working-list DOM watcher
  * This module is responsibe for handling the 'working list'
@@ -13286,12 +13305,13 @@ module.exports = {
 			//add temp tab
 			tabStateCtrl.addTempTabToGroup('editor', claimObj.description);
 			//set content?
+			editorDetailStateCtrl.setNewClaimDetail(claimObj);
 			console.warn('TODO: how to set tab content?');
 		});
 
 	}
 }
-},{"../state/actions":16,"../state/tabs":18,"../state/working_list":19,"jquery":1}],14:[function(require,module,exports){
+},{"../state/actions":17,"../state/editor_detail":18,"../state/tabs":20,"../state/working_list":21,"jquery":1}],15:[function(require,module,exports){
 
 module.exports = {
 	cloneThisObject: function(obj) {
@@ -13305,7 +13325,7 @@ module.exports = {
 		return newObj;
 	}
 }
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -13318,7 +13338,7 @@ module.exports = {
 		return /[A-Z]/.test(s);
 	}
 }
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 'use strict';
 
 var objectHelpers = require('../reducers/object_helpers');
@@ -13342,7 +13362,30 @@ module.exports = {
 	}
 
 };
-},{"../reducers/object_helpers":14}],17:[function(require,module,exports){
+},{"../reducers/object_helpers":15}],18:[function(require,module,exports){
+'use strict';
+
+var eventManager = require('../utils/event_manager');
+
+/* The Editor Detail state controller
+ *
+ */
+
+module.exports = {
+
+	init: function(){
+		WL_STATE.editor_detail = {
+			claim: {},
+			tab_active: true
+		}
+	},
+
+	setNewClaimDetail: function(claimObj){
+		WL_STATE.editor_detail.claim = claimObj;
+	}
+
+};
+},{"../utils/event_manager":22}],19:[function(require,module,exports){
 'use strict';
 
 var eventManager = require('../utils/event_manager');
@@ -13382,7 +13425,7 @@ module.exports = {
 	}
 
 };
-},{"../utils/event_manager":20}],18:[function(require,module,exports){
+},{"../utils/event_manager":22}],20:[function(require,module,exports){
 'use strict';
 
 var objectHelpers = require('../reducers/object_helpers');
@@ -13589,7 +13632,7 @@ module.exports = {
 		WL_STATE.tabs[groupName] = newTabGroup;
 	}
 };
-},{"../reducers/object_helpers":14,"../reducers/string_helpers":15}],19:[function(require,module,exports){
+},{"../reducers/object_helpers":15,"../reducers/string_helpers":16}],21:[function(require,module,exports){
 'use strict';
 
 var tabStateCtrl = require('./tabs');
@@ -13633,7 +13676,7 @@ module.exports = {
 		
 	}
 }
-},{"./tabs":18}],20:[function(require,module,exports){
+},{"./tabs":20}],22:[function(require,module,exports){
 'use strict';
 
 var eventSubscribers = {};
