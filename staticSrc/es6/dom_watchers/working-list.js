@@ -4,6 +4,7 @@ var $ = require('jquery');
 var actionStateCtrl = require('../state/actions');
 var workingListStateCtrl = require('../state/working_list');
 workingListStateCtrl.init();
+var tabStateCtrl = require('../state/tabs');
 
 /* Working-list DOM watcher
  * This module is responsibe for handling the 'working list'
@@ -15,8 +16,13 @@ workingListStateCtrl.init();
 module.exports = {
 	init: function(){
 		
-		actionStateCtrl.addAction('workingListItemClick', function(rivet){
-			console.log("rivet: ", rivet);
+		actionStateCtrl.addAction('set_claim_detail_tab', function(rivet){
+			var workingListIndex = rivet.currentTarget.attributes['data-index'].value;
+			var claimObj = WL_STATE.working_list.claims[workingListIndex];
+			//add temp tab
+			tabStateCtrl.addTempTabToGroup('editor', claimObj.description);
+			//set content?
+			console.warn('TODO: how to set tab content?');
 		});
 
 	}

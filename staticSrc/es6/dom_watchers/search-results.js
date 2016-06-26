@@ -13,10 +13,9 @@ module.exports = {
 			tabStateCtrl.activateTab('editor', 'results');
 		});
 
-		actionStateCtrl.addAction('add_to_working_list', function(rivet){
-			var claimObj = {
-				description: 'todo - get claim object from search results'
-			};
+		actionStateCtrl.addAction('move_result_to_working_list', function(rivet){
+			var resultIndex = rivet.currentTarget.attributes['data-result-index'].value;
+			var claimObj = WL_STATE.search.results[resultIndex];
 			workingListStateCtrl.addClaimToList(claimObj);
 		});
 	}

@@ -9,6 +9,10 @@ var setResults = function(resultsArray){
 		WL_STATE.search.is_empty = true;
 	} else {
 		WL_STATE.search.is_empty = false;
+		//now set the indexes
+		for (var ri = 0; ri < WL_STATE.search.results.length; ri++) {
+			WL_STATE.search.results[ri].index = ri;
+		}
 	}
 	
 	eventManager.fire('search_results_set');

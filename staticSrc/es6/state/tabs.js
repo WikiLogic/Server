@@ -104,6 +104,17 @@ module.exports = {
 			checkError = true;
 		}
 
+		//and (mainly) check that the tab doesn't already exist in the group
+		console.log('tabName: ', tabName);
+		for (var t = 0; t < WL_STATE.tabs[groupName].tabs.length; t++) {
+			console.log('against: ', WL_STATE.tabs[groupName].tabs[t].name);
+			if (WL_STATE.tabs[groupName].tabs[t].name == tabName) {
+				checkError = true;
+				this.activateTab(groupName, tabName);
+				break;
+			}
+		}
+
 		if (!checkError) {
 			//yeay! new tab :) also don't worry about cloning / mutating / applying to the global state, rivets shouldn't be running yet
 			addTabToTabGroup(groupName, tabName);
@@ -113,22 +124,35 @@ module.exports = {
 	addTempTabToGroup: function(groupName, tabName){
 		/* Recreates the sublime text tab behaviour(ish). One click adds temp tab, a second adds it permanently 
 		 */
+		var checkError = false;
+
+		 //first check there isn't a main tab of this name
+		 for (var t = 0; t < WL_STATE.tabs[groupName].tabs.length; t++) {
+			console.log('against: ', WL_STATE.tabs[groupName].tabs[t].name);
+			if (WL_STATE.tabs[groupName].tabs[t].name == tabName) {
+				checkError = true;
+				this.activateTab(groupName, tabName);
+				break;
+			}
+		}
 		
-		 //if this is already a tempTab, add it to the main group and set it to active
-		 if (WL_STATE.tabs[groupName].tempTab.name == tabName) {
+		if (!checkError) {
+			//if this is already a tempTab, add it to the main group and set it to active
+			if (WL_STATE.tabs[groupName].tempTab.name == tabName) {
 
-		 	addTabToTabGroup(groupName, tabName);
-		 	this.activateTab(groupName, tabName);
-		 	WL_STATE.tabs[groupName].tempTab.active = false;
-		 	WL_STATE.tabs[groupName].tempTab.set = false;
+				addTabToTabGroup(groupName, tabName);
+				this.activateTab(groupName, tabName);
+				WL_STATE.tabs[groupName].tempTab.active = false;
+				WL_STATE.tabs[groupName].tempTab.set = false;
 
-		 } else {
-			WL_STATE.tabs[groupName].tempTab = {};
-			//else, add / replace the old temp tab
-			WL_STATE.tabs[groupName].tempTab[tabName] = true; //rivets trick for identifying special cases - eg the welcome tab
-			WL_STATE.tabs[groupName].tempTab.name = tabName;
-			WL_STATE.tabs[groupName].tempTab.set = true;
-			this.activateTempTab(groupName);
+			} else {
+				WL_STATE.tabs[groupName].tempTab = {};
+				//else, add / replace the old temp tab
+				WL_STATE.tabs[groupName].tempTab[tabName] = true; //rivets trick for identifying special cases - eg the welcome tab
+				WL_STATE.tabs[groupName].tempTab.name = tabName;
+				WL_STATE.tabs[groupName].tempTab.set = true;
+				this.activateTempTab(groupName);
+			}
 		}
 	},
 

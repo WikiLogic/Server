@@ -20,11 +20,10 @@
                 </div>
 
                 <button
-                    class=""
+                    class="display-block"
                     view-each-claim="state.working_list.claims"
-                    view-on-click="state.actions.workingListItemClick"
-                    view-data-tab-name="claim.description"
-                    data-tab-group="editor">
+                    view-on-click="state.actions.set_claim_detail_tab"
+                    view-data-index="claim.index">
                     <p>{claim.description}</p></button>
                 
             </div>
@@ -81,7 +80,9 @@
                         <div class="splitter__left">
                             
                             <button class="splitter box box--wide"
-                                view-on-click="state.actions.add_to_working_list">
+                                view-on-click="state.actions.move_result_to_working_list"
+                                view-data-result-index="claim.index"
+                                view-data-claim-id="claim._id">
                                 <div class="splitter__left">
                                     <svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-left"></use></svg>
                                 </div>
