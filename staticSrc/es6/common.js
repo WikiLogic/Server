@@ -9,11 +9,15 @@ var presetTabs = [
 	{
 		groupName: 'editor',
 		tabName: 'welcome',
+		tabType: '',
+		data: {},
 		isTemp: true
 	},
 	{
 		groupName: 'editor',
 		tabName: 'results',
+		tabType: 'claim_list',
+		data: {},
 		isTemp: false
 	}
 ]

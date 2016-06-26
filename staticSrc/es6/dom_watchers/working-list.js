@@ -21,7 +21,11 @@ module.exports = {
 			var workingListIndex = rivet.currentTarget.attributes['data-index'].value;
 			var claimObj = WL_STATE.working_list.claims[workingListIndex];
 			//add temp tab
-			tabStateCtrl.addTempTabToGroup('editor', claimObj.description);
+			tabStateCtrl.addTempTabToGroup('editor', {
+				tabName: claimObj.description,
+				tabType: 'claim',
+				data: claimObj
+			});
 			//set content?
 			editorDetailStateCtrl.setNewClaimDetail(claimObj);
 			console.warn('TODO: how to set tab content?');

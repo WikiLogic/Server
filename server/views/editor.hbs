@@ -54,141 +54,27 @@
             </div>
             <div class="header-layout__body y-scroll bg-color--grey-1">
 
-                <!-- The search reults tab content -->
-                <div class="box" view-show="state.tabs.editor.results">
-                    
-                    <div view-show="state.search.is_empty">
-                        <!-- if no exact matches, give option to add as new claim -->
-                        <h4>No exact match found</h4>
-                        <p>Would you like to make one?</p>
-                        
-                        <div class="card box bg-color--grey-2 text-color--black splitter splitter--full-width">
-                            <div class="splitter__left">
-                                <textarea name="" id="js-search-term-claim" cols="30" rows="10">{state.search.term}</textarea>
-                            </div>
-                            <div class="splitter__right">
-                                <button class="display-inline-block button button--green"
-                                    view-on-click="state.actions.new_claim"
-                                    data-claim-el-id="js-search-term-claim">New Claim</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- the results! -->
-                    <div view-each-claim="state.search.results"
-                        class="splitter splitter--full-width text-color--white">
-                        <div class="splitter__left">
-                            
-                            <button class="splitter box box--wide"
-                                view-on-click="state.actions.move_result_to_working_list"
-                                view-data-result-index="claim.index"
-                                view-data-claim-id="claim._id">
-                                <div class="splitter__left">
-                                    <svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-left"></use></svg>
-                                </div>
-                                <div class="splitter__right">
-                                    <p>{claim.description}</p>
-                                </div>
-                            </button>
-
-                        </div>
-                        <div class="splitter__right">
-                            
-                            result meta...
-
-                        </div>
-                    </div>                    
-
-                </div>
-
-                <!-- Current claim tab (claim detail) -->
-                <div class="box" view-show="state.editor_detail.tab_active">
-                    <p class="text-align-right">
-                        <svg class="icon hover-color--blue cursor-pointer"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#cloud-upload"></use></svg>
-                    </p>
-
-                    
-                    <div class="row">
-                    
-                        <div class="row__col--1-half">
-                            <div class="card bg-color--white text-color--black box">
-
-                                {{> referencing_claim }}
-                                <hr>
-
-                                {{> referencing_claim }}
-                                <hr>
-                                
-                            </div>
-                            <svg class="align-center icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-top"></use></svg>
-                            <p class="small text-align-center no-margins">Supports</p>
-
-                        </div>
-
-                        <div class="row__col--1-half">
-                            <div class="card bg-color--white text-color--black box">
-
-                                {{> referencing_claim }}
-                                <hr>
-
-                                {{> referencing_claim }}
-                                <hr>
-                                
-                            </div>
-                            <svg class="align-center icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-top"></use></svg>
-                            <p class="small text-align-center no-margins">Opposes</p>
-
-                        </div>
-                    </div>
-
-
-                    <div class="text-color--black">   
-                        <!--<p class="full-width text-align-center">
-                            <svg class="float-left"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>&nbsp;
-                            draft description blah blah blah
-                        </p>-->
-                        <textarea name="" class="trumbowyg-claim-input claim-input display-none" cols="30" rows="10">{state.editor_detail.claim.description}</textarea>
-                    </div>
-                    
-
-                    <div class="row">
-                        <div class="row__col--1-half">
-
-                            <svg class="align-center icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-top"></use></svg>
-                            <p class="small text-align-center no-margins">For</p>
-                            <div class="card bg-color--white text-color--black box">
-
-                                {{> argument_group }}
-                                {{> argument_group }}
-
-                            </div>
-                        </div>
-
-                        <div class="row__col--1-half">
-
-                            <svg class="align-center icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-top"></use></svg>
-                            <p class="small text-align-center no-margins">Against</p>
-                            <div class="card bg-color--white text-color--black box">
-
-                                {{> argument_group }}
-                                {{> argument_group }}
-
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
                 <!-- The welcome temp tab content -->
                 <div class="box" view-show="state.tabs.editor.tempTab.active">
-
-                    <!-- special case -->
                     <div view-show="state.tabs.editor.tempTab.welcome">
                         <h4>Welcome!</h4>
                         <p>To begin - think of something you believe to be true, then type it in the search bar above.
                         For example: <button class="a" view-on-click="state.actions.search_this">the world is flat</button></p>    
                     </div>
                 </div>
+
+
+                <!-- The search reults tab content -->
+                <div class="box" view-show="state.tabs.editor.results">
+                    {{>search_results}}         
+                </div>
+
+                <!-- Current claim tab (claim detail) -->
+                <div class="box" view-show="state.editor_detail.show">
+                    {{>editor_detail}}
+                </div>
+
+                
             </div>
         </div>
     </div>

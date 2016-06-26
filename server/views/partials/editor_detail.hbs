@@ -1,0 +1,73 @@
+<p class="text-align-right">
+    <svg class="icon hover-color--blue cursor-pointer"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#cloud-upload"></use></svg>
+</p>
+
+
+<div class="row">
+
+    <div class="row__col--1-half">
+        <div class="card bg-color--white text-color--black box">
+
+            {{> referencing_claim }}
+            <hr>
+
+            {{> referencing_claim }}
+            <hr>
+            
+        </div>
+        <svg class="align-center icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-top"></use></svg>
+        <p class="small text-align-center no-margins">Supports</p>
+
+    </div>
+
+    <div class="row__col--1-half">
+        <div class="card bg-color--white text-color--black box">
+
+            {{> referencing_claim }}
+            <hr>
+
+            {{> referencing_claim }}
+            <hr>
+            
+        </div>
+        <svg class="align-center icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-top"></use></svg>
+        <p class="small text-align-center no-margins">Opposes</p>
+
+    </div>
+</div>
+
+
+<div class="text-color--black">   
+    <!--<p class="full-width text-align-center">
+        <svg class="float-left"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>&nbsp;
+        draft description blah blah blah
+    </p>-->
+    <textarea name="" class="trumbowyg-claim-input claim-input display-none" cols="30" rows="10">{state.editor_detail.claim.description}</textarea>
+</div>
+
+
+<div class="row">
+    <div class="row__col--1-half">
+
+        <svg class="align-center icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-top"></use></svg>
+        <p class="small text-align-center no-margins">For</p>
+        <div class="card bg-color--white text-color--black box">
+
+            {{> argument_group }}
+            {{> argument_group }}
+
+        </div>
+    </div>
+
+    <div class="row__col--1-half">
+
+        <svg class="align-center icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-top"></use></svg>
+        <p class="small text-align-center no-margins">Against</p>
+        <div class="card bg-color--white text-color--black box">
+
+            {{> argument_group }}
+            {{> argument_group }}
+
+        </div>
+    </div>
+</div>

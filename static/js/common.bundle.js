@@ -13033,11 +13033,15 @@ var presetTabs = [
 	{
 		groupName: 'editor',
 		tabName: 'welcome',
+		tabType: '',
+		data: {},
 		isTemp: true
 	},
 	{
 		groupName: 'editor',
 		tabName: 'results',
+		tabType: 'claim_list',
+		data: {},
 		isTemp: false
 	}
 ]
@@ -13211,10 +13215,18 @@ module.exports = {
 			console.log('initting tabs');
 			if (presetTabs[t].isTemp) {
 				tabStateCtrl.createTabGroup(presetTabs[t].groupName);
-				tabStateCtrl.addTempTabToGroup(presetTabs[t].groupName, presetTabs[t].tabName);
+				tabStateCtrl.addTempTabToGroup(presetTabs[t].groupName, {
+					tabName: presetTabs[t].tabName,
+					tabType: presetTabs[t].tabtype,
+					data: presetTabs[t].data
+				});
 			} else {
 				tabStateCtrl.createTabGroup(presetTabs[t].groupName);
-				tabStateCtrl.addTabToTabGroup(presetTabs[t].groupName, presetTabs[t].tabName);
+				tabStateCtrl.addTabToTabGroup(presetTabs[t].groupName, {
+					tabName: presetTabs[t].tabName,
+					tabType: presetTabs[t].tabtype,
+					data: presetTabs[t].data
+				});
 			}
 		}
 
@@ -13303,7 +13315,11 @@ module.exports = {
 			var workingListIndex = rivet.currentTarget.attributes['data-index'].value;
 			var claimObj = WL_STATE.working_list.claims[workingListIndex];
 			//add temp tab
-			tabStateCtrl.addTempTabToGroup('editor', claimObj.description);
+			tabStateCtrl.addTempTabToGroup('editor', {
+				tabName: claimObj.description,
+				tabType: 'claim',
+				data: claimObj
+			});
 			//set content?
 			editorDetailStateCtrl.setNewClaimDetail(claimObj);
 			console.warn('TODO: how to set tab content?');
@@ -13371,17 +13387,32 @@ var eventManager = require('../utils/event_manager');
  *
  */
 
+var setNewClaimDetail = function(claimObj){
+	WL_STATE.editor_detail.claim = claimObj;
+}
+
 module.exports = {
 
 	init: function(){
 		WL_STATE.editor_detail = {
 			claim: {},
-			tab_active: true
-		}
+			show: false
+		};
+
+		//also, subscribe to tab changes, just in case they decide to open an 'editor' tab, sneeky 
+		eventManager.subscribe('tab_opened', function(tab){
+			if (tab.type == 'claim') {
+				//now send the claim object to the editor, wait, I AM EDITOR
+				setNewClaimDetail(tab.data);
+				WL_STATE.editor_detail.show = true;
+			} else {
+				WL_STATE.editor_detail.show = false;
+			}
+		});
 	},
 
 	setNewClaimDetail: function(claimObj){
-		WL_STATE.editor_detail.claim = claimObj;
+		setNewClaimDetail(claimObj);
 	}
 
 };
@@ -13430,6 +13461,7 @@ module.exports = {
 
 var objectHelpers = require('../reducers/object_helpers');
 var stringHelpers = require('../reducers/string_helpers');
+var eventManager = require('../utils/event_manager');
 
 /*
  * This module is responsibe for the state used by tabs: WL_STATE.tabs
@@ -13446,22 +13478,26 @@ var stringHelpers = require('../reducers/string_helpers');
  * Example tab group state object: {
 		<tab_group_name>: {
 			tabs: [ 
-				{name: <tab_name>, active: false}, 
-				{name: <tab2_name>, active: false} 
+				{name: <tab_name>, active: false, type: 'claim', data: {claimObj}}, 
+				{name: <tab2_name>, active: false, type: 'something', data: {stuff}} 
 			],
 			tempTab: { name: <tab_name>, set: false },
 			<tab_name>: true,
-			<tab2_name>: false
+			<tab2_name>: false,
+			current_tab: { //to hold additional into about the current tab
+				is_claim_editor: false
+			}
 		]
 	}
 */
 
-var addTabToTabGroup = function(groupName, tabName){
+var addTabToTabGroup = function(groupName, newTab){
+	//newTab = { tabName: <string>, tabType: <string>, data: <obj> }
 	//first add the tab to the tab group array
-	WL_STATE.tabs[groupName].tabs.push({name: tabName, active: false});
+	WL_STATE.tabs[groupName].tabs.push({name: newTab.tabName, active: false, type: newTab.tabType, data: newTab.data});
 
 	//now add the named tab state object for rivets
-	WL_STATE.tabs[groupName][tabName] = false;
+	WL_STATE.tabs[groupName][newTab.tabName] = false;
 }
 
 module.exports = {
@@ -13499,23 +13535,25 @@ module.exports = {
 				tempTab: {
 					name: '',
 					set: false,
-					active: false
+					active: false,
+					type: ''
+				},
+				current_tab: {
+					name: '',
+					type: '',
+					data: {}
 				}
 			};
 		}
 	},
 
-	addTabToTabGroup: function(groupName, tabName){
+	addTabToTabGroup: function(groupName, newTab){
+		//newTab = { tabName: <string>, tabType: <string>, data: <obj> }
 		var checkError = false;
 
-		//first check the tab name is good
-		if (typeof(tabName) != 'string' || tabName == undefined || tabName == null) {
-			console.error("There's something weird about the name of the tab you're trying to create: ", tabName);
-			checkError = true;
-		}
 
 		//check if the tab name has any white space or caps, can't do that with rivets	
-		if (stringHelpers.hasWhiteSpace(tabName) || stringHelpers.hasUpperCaseChars(tabName)) {
+		if (stringHelpers.hasWhiteSpace(newTab.tabName) || stringHelpers.hasUpperCaseChars(newTab.tabName)) {
 			console.error("Sorry, tab names cannot have white space or uppercase characters");
 			checkError = true;
 		}
@@ -13533,52 +13571,56 @@ module.exports = {
 		}
 
 		//and (mainly) check that the tab doesn't already exist in the group
-		console.log('tabName: ', tabName);
+		console.log('tabName: ', newTab.tabName);
 		for (var t = 0; t < WL_STATE.tabs[groupName].tabs.length; t++) {
 			console.log('against: ', WL_STATE.tabs[groupName].tabs[t].name);
-			if (WL_STATE.tabs[groupName].tabs[t].name == tabName) {
+			if (WL_STATE.tabs[groupName].tabs[t].name == newTab.tabName) {
 				checkError = true;
-				this.activateTab(groupName, tabName);
+				this.activateTab(groupName, newTab.tabName);
 				break;
 			}
 		}
 
 		if (!checkError) {
 			//yeay! new tab :) also don't worry about cloning / mutating / applying to the global state, rivets shouldn't be running yet
-			addTabToTabGroup(groupName, tabName);
+			addTabToTabGroup(groupName, newTab);
 		}
 	},
 
-	addTempTabToGroup: function(groupName, tabName){
+	addTempTabToGroup: function(groupName, newTab){
+		//newTab = { tabName: <string>, tabType: <string>, data: <obj> }
 		/* Recreates the sublime text tab behaviour(ish). One click adds temp tab, a second adds it permanently 
 		 */
 		var checkError = false;
 
 		 //first check there isn't a main tab of this name
 		 for (var t = 0; t < WL_STATE.tabs[groupName].tabs.length; t++) {
-			console.log('against: ', WL_STATE.tabs[groupName].tabs[t].name);
-			if (WL_STATE.tabs[groupName].tabs[t].name == tabName) {
+			if (WL_STATE.tabs[groupName].tabs[t].name == newTab.tabName) {
 				checkError = true;
-				this.activateTab(groupName, tabName);
+				this.activateTab(groupName, newTab.tabName);
 				break;
 			}
 		}
 		
 		if (!checkError) {
 			//if this is already a tempTab, add it to the main group and set it to active
-			if (WL_STATE.tabs[groupName].tempTab.name == tabName) {
+			if (WL_STATE.tabs[groupName].tempTab.name == newTab.tabName) {
 
-				addTabToTabGroup(groupName, tabName);
-				this.activateTab(groupName, tabName);
+				addTabToTabGroup(groupName, newTab);
+				this.activateTab(groupName, newTab.tabName);
 				WL_STATE.tabs[groupName].tempTab.active = false;
 				WL_STATE.tabs[groupName].tempTab.set = false;
+				WL_STATE.tabs[groupName].tempTab.type = '';
+				WL_STATE.tabs[groupName].tempTab.data = {};
 
 			} else {
 				WL_STATE.tabs[groupName].tempTab = {};
 				//else, add / replace the old temp tab
-				WL_STATE.tabs[groupName].tempTab[tabName] = true; //rivets trick for identifying special cases - eg the welcome tab
-				WL_STATE.tabs[groupName].tempTab.name = tabName;
+				WL_STATE.tabs[groupName].tempTab[newTab.tabName] = true; //rivets trick for identifying special cases - eg the welcome tab
+				WL_STATE.tabs[groupName].tempTab.name = newTab.tabName;
 				WL_STATE.tabs[groupName].tempTab.set = true;
+				WL_STATE.tabs[groupName].tempTab.type = newTab.tabType;
+				WL_STATE.tabs[groupName].tempTab.data = newTab.data;
 				this.activateTempTab(groupName);
 			}
 		}
@@ -13599,6 +13641,8 @@ module.exports = {
 				newTabGroup.tabs[t].active = true;
 				//and it's named counterpart
 				newTabGroup[newTabGroup.tabs[t].name] = true;
+				//now fire the event!
+				eventManager.fire('tab_opened', newTabGroup.tabs[t]);
 			}
 		}
 
@@ -13628,11 +13672,13 @@ module.exports = {
 		//set the tempTab to true
 		newTabGroup.tempTab.active = true;	
 
+		eventManager.fire('tab_opened', newTabGroup.tempTab);
+
 		//and apply to state!
 		WL_STATE.tabs[groupName] = newTabGroup;
 	}
 };
-},{"../reducers/object_helpers":15,"../reducers/string_helpers":16}],21:[function(require,module,exports){
+},{"../reducers/object_helpers":15,"../reducers/string_helpers":16,"../utils/event_manager":22}],21:[function(require,module,exports){
 'use strict';
 
 var tabStateCtrl = require('./tabs');
@@ -13654,20 +13700,30 @@ module.exports = {
 		//first check that it's not already in the working list
 		for (var wli = 0; wli < WL_STATE.working_list.claims.length; wli++) { //wli for Working List Item
 			if (WL_STATE.working_list.claims[wli]._id == claimObj._id) {
-				alreadySet = true;
-				WL_STATE.working_list.is_empty = false;
-				//set temp tab
+
+				//So it's already in the working list! Guess we'll just have to turn it on to show them :)
 				tabStateCtrl.addTempTabToGroup('editor', claimObj.description);
+
+				//and our job is done
+				alreadySet = true;
+
+				//also, just some insurance
+				WL_STATE.working_list.is_empty = false;
+
+				//I'm bored
 				break;
 			}
 		}
 
 		if (!alreadySet) {
-			//add the claim to the working list
+			//Well, we've got to do some work now - add it to the list
 			WL_STATE.working_list.claims.push(claimObj);
-			//and save a refrence to it's new index
+
+			//and let it know where we're putting it (for rivets) - this step can go if you know how to get the index in rivets alone
 			var lastPosition = WL_STATE.working_list.claims.length - 1;
 			WL_STATE.working_list.claims[lastPosition].index = lastPosition;
+
+			//even if it wasn't before, this makes it doubly not so
 			WL_STATE.working_list.is_empty = false;
 		}
 		
@@ -13703,11 +13759,11 @@ module.exports = {
 		eventSubscribers[event_name].splice(index, 1);
 	},
 
-	fire: function(event_name){
-		console.info('EVENT: ', event_name);
+	fire: function(event_name, data){
+		console.info('EVENT: ', event_name, data);
 		if (eventSubscribers[event_name]) {
 			for (var s = 0; s < eventSubscribers[event_name].length; s++) { //s for subscriber
-				eventSubscribers[event_name][s]();
+				eventSubscribers[event_name][s](data);
 			}
 		}
 	}
