@@ -6,7 +6,7 @@
 
 	&__tab {
 		display: table-cell;
-		@include box();
+		
 		background: $grey-2;
 		cursor: pointer;
 		border-right: 1px solid $WL_Blue;
@@ -21,6 +21,21 @@
 
 		&.active {
 			background: $grey-1;	
+		}
+	}
+	
+	&__title {
+		display: inline-block;
+		@include box();
+		padding-right: 0;
+	}
+
+	&__x {
+		display: inline-block;
+		@include box();
+		opacity: 0.5;
+		&:hover {
+			opacity: 1;
 		}
 	}
 

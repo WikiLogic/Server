@@ -1110,6 +1110,9 @@ They should get you 90% of the look you're after
   height: 1em;
   display: inline-block;
   vertical-align: middle; }
+  .icon--10 {
+    width: 0.625rem;
+    height: 0.625rem; }
   .icon--30 {
     width: 1.875rem;
     height: 1.875rem; }
@@ -1655,26 +1658,45 @@ think carefully before adding anything in here.
     color: rgba(255, 255, 255, 0.87); }
   .tabs__tab {
     display: table-cell;
-    padding: 0.625rem;
     background: #223856;
     cursor: pointer;
     border-right: 1px solid #5f9aec; }
-    .tabs__tab--5 {
-      padding: 0.3125rem; }
-    .tabs__tab--16 {
-      padding: 1rem; }
-    .tabs__tab--wide {
-      padding-right: 0;
-      padding-left: 0; }
-    .tabs__tab--tall {
-      padding-top: 0;
-      padding-bottom: 0; }
     .tabs__tab:last-of-type {
       border-right: 0; }
     .tabs__tab:hover {
       background: #131E2D; }
     .tabs__tab.active {
       background: #131E2D; }
+  .tabs__title {
+    display: inline-block;
+    padding: 0.625rem;
+    padding-right: 0; }
+    .tabs__title--5 {
+      padding: 0.3125rem; }
+    .tabs__title--16 {
+      padding: 1rem; }
+    .tabs__title--wide {
+      padding-right: 0;
+      padding-left: 0; }
+    .tabs__title--tall {
+      padding-top: 0;
+      padding-bottom: 0; }
+  .tabs__x {
+    display: inline-block;
+    padding: 0.625rem;
+    opacity: 0.5; }
+    .tabs__x--5 {
+      padding: 0.3125rem; }
+    .tabs__x--16 {
+      padding: 1rem; }
+    .tabs__x--wide {
+      padding-right: 0;
+      padding-left: 0; }
+    .tabs__x--tall {
+      padding-top: 0;
+      padding-bottom: 0; }
+    .tabs__x:hover {
+      opacity: 1; }
   .tabs--light {
     color: rgba(0, 0, 0, 0.87); }
     .tabs--light svg {

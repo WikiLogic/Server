@@ -53,15 +53,27 @@ module.exports = {
 			tabStateCtrl.activateTempTab(thsGroupName, thisTabName);
 		});
 
-
-
-		
 		actionStateCtrl.addAction('addTab', function(rivet){
 
 			var thsGroupName = rivet.currentTarget.attributes['data-tab-group'].value;
 			var thisTabName = rivet.currentTarget.attributes['data-tab-name'].value;
 
 			tabStateCtrl.addTempTabToGroup(thsGroupName, thisTabName);
+		});
+
+		actionStateCtrl.addAction('close_tab', function(rivet){
+
+			var thsGroupName = rivet.currentTarget.attributes['data-tab-group'].value;
+			var thisTabName = rivet.currentTarget.attributes['data-tab-name'].value;
+
+			tabStateCtrl.closeTab(thsGroupName, thisTabName);
+		});
+
+		actionStateCtrl.addAction('close_temp_tab', function(rivet){
+
+			var thsGroupName = rivet.currentTarget.attributes['data-tab-group'].value;
+			
+			tabStateCtrl.closeTab(thsGroupName);
 		});
 	}
 }

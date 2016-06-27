@@ -4,6 +4,11 @@
 	display: inline-block;
 	vertical-align: middle;
 
+	&--10 {
+		width: rem(10);
+		height: rem(10);
+	}
+
 	&--30 {
 		width: rem(30);
 		height: rem(30);

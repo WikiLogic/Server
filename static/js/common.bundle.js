@@ -13247,15 +13247,27 @@ module.exports = {
 			tabStateCtrl.activateTempTab(thsGroupName, thisTabName);
 		});
 
-
-
-		
 		actionStateCtrl.addAction('addTab', function(rivet){
 
 			var thsGroupName = rivet.currentTarget.attributes['data-tab-group'].value;
 			var thisTabName = rivet.currentTarget.attributes['data-tab-name'].value;
 
 			tabStateCtrl.addTempTabToGroup(thsGroupName, thisTabName);
+		});
+
+		actionStateCtrl.addAction('close_tab', function(rivet){
+
+			var thsGroupName = rivet.currentTarget.attributes['data-tab-group'].value;
+			var thisTabName = rivet.currentTarget.attributes['data-tab-name'].value;
+
+			tabStateCtrl.closeTab(thsGroupName, thisTabName);
+		});
+
+		actionStateCtrl.addAction('close_temp_tab', function(rivet){
+
+			var thsGroupName = rivet.currentTarget.attributes['data-tab-group'].value;
+			
+			tabStateCtrl.closeTab(thsGroupName);
 		});
 	}
 }
@@ -13676,6 +13688,51 @@ module.exports = {
 
 		//and apply to state!
 		WL_STATE.tabs[groupName] = newTabGroup;
+	},
+
+	closeTab: function(groupName, tabName){
+		console.log('closing tab');
+		//clone the tab group state
+		var newTabGroup = objectHelpers.cloneThisObject(WL_STATE.tabs[groupName]);
+
+		//we may have to move them to a new tab, that's what this is for
+		var newActiveTab = -1;
+
+		//most probable situation - they're closing a tab that is currently open
+		if (newTabGroup[tabName]) {
+			//yep, they are. We're going to have to move them to another tab
+			console.log('closing active tab');
+			//case 1 - there's only one tab left open and that's the one they're closing
+			if (newTabGroup.tabs.length == 1 ) {
+
+			}
+
+			//case 2 - they're on the last tab of the array, and that's the one we're closing
+			if (newTabGroup.tabs[newTabGroup.tabs.lenght - 1].name == tabName) {
+
+			}
+
+			//default case - thay're on any tab that has another further along in the array
+		} else {
+			//nope, I guess they're just tidying up! Easy case
+			console.log('closing non active tab', tabName);
+			//find the tab to close in the array
+			for (var t = 0; t < newTabGroup.tabs.length; t++) {
+				if (newTabGroup.tabs[t].name == tabName){
+					//splice it out that tabs array
+					newTabGroup.tabs.splice(t, 1);
+					//delete the named property
+					delete newTabGroup[tabName];
+				}
+			}
+		}
+
+		//and apply to state!
+		WL_STATE.tabs[groupName] = newTabGroup;
+	},
+
+	closeTempTab: function(groupName){
+		console.log('closing temp tab');
 	}
 };
 },{"../reducers/object_helpers":15,"../reducers/string_helpers":16,"../utils/event_manager":22}],21:[function(require,module,exports){

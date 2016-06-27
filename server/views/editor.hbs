@@ -33,22 +33,40 @@
         <div class="sidebar-layout__main header-layout">
             <div class="header-layout__head">
                 <div class="tabs">
+
+                    <!-- repeating for normal tabs -->
                     <div class="tabs__tab"
                         view-each-tab="state.tabs.editor.tabs"
-                        view-on-click="state.actions.activateTab"
-                        view-data-tab-name="tab.name"
-                        data-tab-group="editor"
                         view-class-active="tab.active">
-                        {tab.name}
+                        <span class="tabs__title"
+                            view-on-click="state.actions.activateTab"
+                            view-data-tab-name="tab.name"
+                            data-tab-group="editor">{tab.name}</span>
+                        <span class="tabs__x"
+                            view-on-click="state.actions.close_tab"
+                            view-data-tab-name="tab.name"
+                            data-tab-group="editor">
+                            <svg class="icon icon--10"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>
+                        </span>
                     </div>
+
+                    <!-- AAAnd the temp tab -->
                     <div class="tabs__tab"  
                         view-show="state.tabs.editor.tempTab.set"
-                        view-on-click="state.actions.activateTempTab"
-                        view-data-tab-name="state.tabs.editor.tempTab.name"
-                        data-tab-group="editor"
                         view-class-active="state.tabs.editor.tempTab.active">
-                        <i>{state.tabs.editor.tempTab.name}</i>
+                        <span class="tabs__title"
+                            view-on-click="state.actions.activateTempTab"
+                            view-data-tab-name="state.tabs.editor.tempTab.name"
+                            data-tab-group="editor">
+                            <i>{state.tabs.editor.tempTab.name}</i>
+                        </span>
+                        <span class="tabs__x"
+                            view-on-click="state.actions.close_temp_tab"
+                            data-tab-group="editor">
+                            <svg class="icon icon--10"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>
+                        </span>
                     </div>
+
                 </div>
 
             </div>
