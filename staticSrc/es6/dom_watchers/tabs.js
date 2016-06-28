@@ -73,7 +73,7 @@ module.exports = {
 
 			var thsGroupName = rivet.currentTarget.attributes['data-tab-group'].value;
 			
-			tabStateCtrl.removeTab(thsGroupName);
+			tabStateCtrl.closeTempTab(thsGroupName);
 		});
 	}
 }

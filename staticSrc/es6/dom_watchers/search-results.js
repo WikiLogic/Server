@@ -15,10 +15,12 @@ module.exports = {
 		});
 
 		actionStateCtrl.addAction('move_result_to_working_list', function(rivet){
-			console.log('action function: sending claim to working list');
+			console.group('action function: sending claim to working list');
 			var resultIndex = rivet.currentTarget.attributes['data-result-index'].value;
+			console.log('resultIndex: ', resultIndex);
 			var claimObj = WL_STATE.search.results[resultIndex];
 			workingListStateCtrl.addClaimToList(claimObj);
+			console.groupEnd();
 		});
 	}
 }
