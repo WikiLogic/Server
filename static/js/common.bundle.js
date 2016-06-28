@@ -13384,13 +13384,13 @@ module.exports = {
 			//set the tabs array item to false
 			groupState.tabs[t].active = false;
 			//and set it's named counterpart to false
-			groupState[groupState.tabs[t].name] = false;
+			groupState[groupState.tabs[t].name].set = false;
 
 			if (groupState.tabs[t].name == tabNameToActivate) {
 				//set the tab array item to true - yeay!
 				groupState.tabs[t].active = true;
 				//and it's named counterpart
-				groupState[groupState.tabs[t].name] = true;
+				groupState[groupState.tabs[t].name].set = true;
 			}
 		}
 
@@ -13592,7 +13592,7 @@ var activateTab = function(groupName, tabToActivate){
 	WL_STATE.tabs[groupName] = newTabGroup;	
 
 	//fire the event and pass the tab data!
-	eventManager.fire('tab_opened', WL_STATE.tabs[groupName][tabToActivate].data);
+	eventManager.fire('tab_opened', WL_STATE.tabs[groupName][tabToActivate]);
 }
 
 var removeTab = function(groupName, tabName){
@@ -13619,7 +13619,7 @@ var activateTempTab = function(groupName){
 	//set the tempTab to true
 	newTabGroup.tempTab.active = true;	
 
-	eventManager.fire('tab_opened', newTabGroup.tempTab.data);
+	eventManager.fire('tab_opened', newTabGroup.tempTab);
 
 	//and apply to state!
 	WL_STATE.tabs[groupName] = newTabGroup;
@@ -13645,6 +13645,8 @@ module.exports = {
 	},
 
 	removeTab: function(groupName, tabName){
+		console.group('removing "' + tabName + '" from "' + groupName);
+		console.log('WL_STATE.tabs[groupName]: ', WL_STATE.tabs[groupName]);
 		//first check if this is the tab they're currently on
 		if (WL_STATE.tabs[groupName][tabName].set) {
 			//yep, they are. We're going to have to move them to another tab
@@ -13676,6 +13678,7 @@ module.exports = {
 			//now we've done what we can, remove it
 			removeTab(groupName, tabName);
 		}
+		console.groupEnd();
 	},
 
 	addTempTabToGroup: function(groupName, newTab){
