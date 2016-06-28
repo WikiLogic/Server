@@ -8,8 +8,9 @@ var workingListStateCtrl = require('../state/working_list');
 module.exports = {
 	init: function(){
 
-		//whenever the search results are set, activate the results tab
+		//whenever the search results are set, activate the results tab (which is what this guy is watching)
 		eventManager.subscribe('search_results_set', function(){
+			console.log('search result set sub, requesting "results tab"');
 			tabStateCtrl.activateTab('editor', 'results');
 		});
 

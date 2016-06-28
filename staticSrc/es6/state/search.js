@@ -15,7 +15,7 @@ var setResults = function(resultsArray){
 		}
 	}
 	
-	eventManager.fire('search_results_set');
+	eventManager.fire('search_results_set', WL_STATE.search.results);
 }
 
 module.exports = {

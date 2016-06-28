@@ -25,7 +25,7 @@ module.exports = {
 	},
 
 	fire: function(event_name, data){
-		console.info('EVENT: ', event_name, data);
+		console.log('EVENT: ', event_name, data);
 		if (eventSubscribers[event_name]) {
 			for (var s = 0; s < eventSubscribers[event_name].length; s++) { //s for subscriber
 				eventSubscribers[event_name][s](data);

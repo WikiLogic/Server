@@ -15,7 +15,7 @@ module.exports = {
 	},
 	addClaimToList: function(claimObj){
 		var alreadySet = false;
-		//console.log('claimObj: ', claimObj._id);
+
 		//first check that it's not already in the working list
 		for (var wli = 0; wli < WL_STATE.working_list.claims.length; wli++) { //wli for Working List Item
 			if (WL_STATE.working_list.claims[wli]._id == claimObj._id) {
@@ -23,7 +23,7 @@ module.exports = {
 				//So it's already in the working list! Guess we'll just have to turn it on to show them :)
 				tabStateCtrl.addTempTabToGroup('editor', {
 					tabName: claimObj.description,
-					tabtype: 'claim',
+					tabType: 'claim',
 					data: claimObj
 				});
 

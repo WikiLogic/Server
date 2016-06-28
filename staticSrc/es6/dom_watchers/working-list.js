@@ -4,13 +4,11 @@ var actionStateCtrl = require('../state/actions');
 var workingListStateCtrl = require('../state/working_list');
 workingListStateCtrl.init();
 var tabStateCtrl = require('../state/tabs');
-var editorDetailStateCtrl = require('../state/editor_detail');
 
 /* Working-list DOM watcher
  * This module is responsibe for handling the 'working list'
  * This is a list of claims that live in the editor's sidebar
- * They act like files in Sublime's sidebar - click to add a temp tab
- * double click to add a permenant tab.
+ * They act like files in Sublime's sidebar - click them to set them as tabs
  */
 
 module.exports = {
@@ -26,9 +24,6 @@ module.exports = {
 				tabType: 'claim',
 				data: claimObj
 			});
-
-			//set content
-			editorDetailStateCtrl.setNewClaimDetail(claimObj);
 		});
 
 	}

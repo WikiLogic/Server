@@ -4,6 +4,7 @@
  * The array is for rivets to loop through in the DOM
  * The named attributes are for ease - if we know the name, there's no need to loop.
  * the array object also holds any kind of data that might need to be attached to a tab
+ * When the event is fired, the tab object is passed along with the event so subscribers can see any details
  * 
  * Example tab group state object: {
 		<tab_group_name>: {
@@ -49,27 +50,36 @@ var addTabToTabGroup = function(groupName, newTab){
 	WL_STATE.tabs[groupName].tabs.push({
 		name: newTab.tabName, 
 		active: false, 
-		type: newTab.tabType
+		type: newTab.tabType,
+		data: newTab.data
 	});
 
 	//now add the named tab state object for rivets
 	WL_STATE.tabs[groupName][newTab.tabName] = {
 		set: false,
-		data: newTab.data,
 		tabIndex: WL_STATE.tabs[groupName].tabs.length - 1
 	};
 }
 
 var activateTab = function(groupName, tabToActivate){
-
+	console.group('activating tab');
+	console.log('1: ', groupName, tabToActivate);
+	
 	//get the new group state
 	var newTabGroup = tabGroupReducer.activateTab(WL_STATE.tabs[groupName], tabToActivate);
-
+	console.log('2: ', newTabGroup);
+	
 	//add back to state so rivets can render
 	WL_STATE.tabs[groupName] = newTabGroup;	
-
+	console.log('3: ', WL_STATE.tabs[groupName]);
+	
+	//get the tab object that was set
+	var openedTab = WL_STATE.tabs[groupName].tabs[WL_STATE.tabs[groupName][tabToActivate].tabIndex];
+	console.log('4: ', openedTab);
+	
 	//fire the event and pass the tab data!
-	eventManager.fire('tab_opened', WL_STATE.tabs[groupName][tabToActivate]);
+	console.groupEnd(); //END activating tab
+	eventManager.fire('tab_opened', openedTab);
 }
 
 var removeTab = function(groupName, tabName){
@@ -96,10 +106,10 @@ var activateTempTab = function(groupName){
 	//set the tempTab to true
 	newTabGroup.tempTab.active = true;	
 
-	eventManager.fire('tab_opened', newTabGroup.tempTab);
-
 	//and apply to state!
 	WL_STATE.tabs[groupName] = newTabGroup;
+
+	eventManager.fire('tab_opened', newTabGroup.tempTab);
 }
 
 //the 'public' interface
@@ -175,6 +185,7 @@ module.exports = {
 			//cool - they want it that bad, lets make it an actual tab!
 			addTabToTabGroup(groupName, newTab);
 			activateTab(groupName, newTab.tabName);
+			//clear out the temp tab
 			WL_STATE.tabs[groupName].tempTab.active = false;
 			WL_STATE.tabs[groupName].tempTab.set = false;
 			WL_STATE.tabs[groupName].tempTab.type = '';
