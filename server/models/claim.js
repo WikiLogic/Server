@@ -92,6 +92,8 @@ var claimSchema = mongoose.Schema({
         viewCount: Number
 
     }
+}).index({
+    description: 'text'
 });
 
 /* Evaluation methods 
