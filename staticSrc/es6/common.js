@@ -38,7 +38,7 @@ rivets.configure({
 	templateDelimiters: ['{', '}'],
 	handler: function(target, event, binding) {
 		//Nothing hapening in this hook other than logging for development
-		console.info('->> user interaction: ', binding.keypath);
+		console.log('->> user interaction: ', binding.keypath);
 		//this is required to continue the chain of events
 		this.call(target, event, binding.view.models);
 	}

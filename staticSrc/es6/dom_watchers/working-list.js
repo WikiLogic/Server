@@ -1,6 +1,5 @@
 'use strict';
 
-var $ = require('jquery');
 var actionStateCtrl = require('../state/actions');
 var workingListStateCtrl = require('../state/working_list');
 workingListStateCtrl.init();
@@ -20,15 +19,16 @@ module.exports = {
 		actionStateCtrl.addAction('set_claim_detail_tab', function(rivet){
 			var workingListIndex = rivet.currentTarget.attributes['data-index'].value;
 			var claimObj = WL_STATE.working_list.claims[workingListIndex];
+			
 			//add temp tab
 			tabStateCtrl.addTempTabToGroup('editor', {
 				tabName: claimObj.description,
 				tabType: 'claim',
 				data: claimObj
 			});
-			//set content?
+
+			//set content
 			editorDetailStateCtrl.setNewClaimDetail(claimObj);
-			console.warn('TODO: how to set tab content?');
 		});
 
 	}
