@@ -55,7 +55,8 @@ var addTabToTabGroup = function(groupName, newTab){
 	//now add the named tab state object for rivets
 	WL_STATE.tabs[groupName][newTab.tabName] = {
 		set: false,
-		data: newTab.data
+		data: newTab.data,
+		tabIndex: WL_STATE.tabs[groupName].tabs.length - 1
 	};
 }
 
@@ -135,19 +136,19 @@ module.exports = {
 				//meh, nothing we can do
 
 			//second - are they on the very last tab?
-			} else if (WL_STATE.tabs[groupName][tabName].index == (WL_STATE.tabs[groupName].tabs.length - 1) ) {
+			} else if (Number(WL_STATE.tabs[groupName][tabName].tabIndex) == (WL_STATE.tabs[groupName].tabs.length - 1) ) {
 				console.log('last tab of many');
 				//ugh, we'll move them back one
-				var moveToIndex = WL_STATE.tabs[groupName][tabName].index - 1;
-				var moveToName = WL_STATE.tabs[groupName][moveToIndex].name;
+				var moveToIndex = WL_STATE.tabs[groupName][tabName].tabIndex - 1;
+				var moveToName = WL_STATE.tabs[groupName].tabs[moveToIndex].name;
 				activateTab(groupName, moveToName);
 				
 			//third - they must be any where from the first to the second from last
 			} else {
-				console.log('not the last');
+				console.log('not the last', WL_STATE.tabs[groupName][tabName]);
 				//so... we'll move them forward one
-				var moveToIndex = WL_STATE.tabs[groupName][tabName].index + 1;
-				var moveToName = WL_STATE.tabs[groupName][moveToIndex].name;
+				var moveToIndex = WL_STATE.tabs[groupName][tabName].tabIndex + 1;
+				var moveToName = WL_STATE.tabs[groupName].tabs[moveToIndex].name;
 				activateTab(groupName, moveToName);
 			}
 

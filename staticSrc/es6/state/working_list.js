@@ -21,7 +21,11 @@ module.exports = {
 			if (WL_STATE.working_list.claims[wli]._id == claimObj._id) {
 
 				//So it's already in the working list! Guess we'll just have to turn it on to show them :)
-				tabStateCtrl.addTempTabToGroup('editor', claimObj.description);
+				tabStateCtrl.addTempTabToGroup('editor', {
+					tabName: claimObj.description,
+					tabtype: 'claim',
+					data: claimObj
+				});
 
 				//and our job is done
 				alreadySet = true;
