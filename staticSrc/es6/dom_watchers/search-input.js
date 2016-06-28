@@ -7,6 +7,7 @@ var actionStateCtrl = require('../state/actions');
 searchStateCtrl.init();
 
 var search = function(term){
+	console.log('search input DOM watcher: requesting search from server');
 	searchStateCtrl.setNewTerm(term);
 
 	searchApi.searchByString(term).done(function(data){
@@ -15,7 +16,6 @@ var search = function(term){
 	}).fail(function(err){
 		console.error('search api error: ', err);
 		//TODO: send to alerts
-		searchStateCtrl.noResult();
 	});
 }
 

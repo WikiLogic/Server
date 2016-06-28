@@ -13124,6 +13124,7 @@ var actionStateCtrl = require('../state/actions');
 searchStateCtrl.init();
 
 var search = function(term){
+	console.log('search input DOM watcher: requesting search from server');
 	searchStateCtrl.setNewTerm(term);
 
 	searchApi.searchByString(term).done(function(data){
@@ -13132,7 +13133,6 @@ var search = function(term){
 	}).fail(function(err){
 		console.error('search api error: ', err);
 		//TODO: send to alerts
-		searchStateCtrl.noResult();
 	});
 }
 
@@ -13168,11 +13168,12 @@ module.exports = {
 
 		//whenever the search results are set, activate the results tab (which is what this guy is watching)
 		eventManager.subscribe('search_results_set', function(){
-			console.log('search result set sub, requesting "results tab"');
+			console.log('search_results_set subscriber (search results dom watcher), requesting "results tab"');
 			tabStateCtrl.activateTab('editor', 'results');
 		});
 
 		actionStateCtrl.addAction('move_result_to_working_list', function(rivet){
+			console.log('action function: sending claim to working list');
 			var resultIndex = rivet.currentTarget.attributes['data-result-index'].value;
 			var claimObj = WL_STATE.search.results[resultIndex];
 			workingListStateCtrl.addClaimToList(claimObj);
@@ -13367,13 +13368,13 @@ module.exports = {
 			//set the tabs array item to false
 			groupState.tabs[t].active = false;
 			//and set it's named counterpart to false
-			groupState[groupState.tabs[t].name].set = false;
+			groupState[groupState.tabs[t].name].active = false;
 
 			if (groupState.tabs[t].name == tabNameToActivate) {
 				//set the tab array item to true - yeay!
 				groupState.tabs[t].active = true;
 				//and it's named counterpart
-				groupState[groupState.tabs[t].name].set = true;
+				groupState[groupState.tabs[t].name].active = true;
 			}
 		}
 
@@ -13395,7 +13396,7 @@ module.exports = {
 			tabs:[], 
 			tempTab: {
 				name: '',
-				set: false,
+				has_content: false,
 				active: false,
 				type: ''
 			}
@@ -13470,6 +13471,7 @@ module.exports = {
 var eventManager = require('../utils/event_manager');
 
 var setResults = function(resultsArray){
+	console.log('search state Ctrl, setting results: ', resultsArray);
 	WL_STATE.search.results = resultsArray;
 	
 	if (resultsArray.length == 0) {
@@ -13501,12 +13503,6 @@ module.exports = {
 
 	setResults: function(resultsArray){
 		setResults(resultsArray);
-	},
-
-	noResult: function(){
-		WL_STATE.search.results = [];
-		WL_STATE.search.is_empty = true;
-		eventManager.fire('search_results_set');
 	}
 
 };
@@ -13569,26 +13565,27 @@ var addTabToTabGroup = function(groupName, newTab){
 
 	//now add the named tab state object for rivets
 	WL_STATE.tabs[groupName][newTab.tabName] = {
-		set: false,
+		active: false,
 		tabIndex: WL_STATE.tabs[groupName].tabs.length - 1
 	};
 }
 
 var activateTab = function(groupName, tabToActivate){
 	console.group('activating tab');
-	console.log('1: ', groupName, tabToActivate);
+	console.log('Tab group: ', groupName);
+	console.log('Tab name: ', tabToActivate);
 	
 	//get the new group state
 	var newTabGroup = tabGroupReducer.activateTab(WL_STATE.tabs[groupName], tabToActivate);
-	console.log('2: ', newTabGroup);
+	console.log('reducer result: ', newTabGroup);
 	
 	//add back to state so rivets can render
 	WL_STATE.tabs[groupName] = newTabGroup;	
-	console.log('3: ', WL_STATE.tabs[groupName]);
 	
 	//get the tab object that was set
-	var openedTab = WL_STATE.tabs[groupName].tabs[WL_STATE.tabs[groupName][tabToActivate].tabIndex];
-	console.log('4: ', openedTab);
+	var tabIndex = WL_STATE.tabs[groupName][tabToActivate].tabIndex;
+	var openedTab = WL_STATE.tabs[groupName].tabs[tabIndex];
+	console.log('The tab object: ', openedTab, tabIndex);
 	
 	//fire the event and pass the tab data!
 	console.groupEnd(); //END activating tab
@@ -13597,7 +13594,7 @@ var activateTab = function(groupName, tabToActivate){
 
 var removeTab = function(groupName, tabName){
 	//remove from array
-	var tabIndex = WL_STATE.tabs[groupName][tabName].index;
+	var tabIndex = WL_STATE.tabs[groupName][tabName].tabIndex;
 	WL_STATE.tabs[groupName].tabs.splice(tabIndex, 1);
 	
 	//and remove the names attribute
@@ -13613,7 +13610,7 @@ var activateTempTab = function(groupName){
 		//tab array item to false
 		newTabGroup.tabs[t].active = false;
 		//and it's named counterpart
-		newTabGroup[newTabGroup.tabs[t].name] = false;
+		newTabGroup[newTabGroup.tabs[t].name].active = false;
 	}
 
 	//set the tempTab to true
@@ -13648,7 +13645,7 @@ module.exports = {
 		console.group('removing "' + tabName + '" from "' + groupName);
 		console.log('WL_STATE.tabs[groupName]: ', WL_STATE.tabs[groupName]);
 		//first check if this is the tab they're currently on
-		if (WL_STATE.tabs[groupName][tabName].set) {
+		if (WL_STATE.tabs[groupName][tabName].active) {
 			//yep, they are. We're going to have to move them to another tab
 			console.log('current tab');
 			var moveToIndex = -1;
@@ -13676,8 +13673,9 @@ module.exports = {
 			}
 
 			//now we've done what we can, remove it
-			removeTab(groupName, tabName);
 		}
+		removeTab(groupName, tabName);
+		
 		console.groupEnd();
 	},
 
@@ -13694,13 +13692,13 @@ module.exports = {
 		}
 
 		//second, check if the requested temp tab is already the temp tab. and it's active
-		if (WL_STATE.tabs[groupName].tempTab.name == newTab.tabName && WL_STATE.tabs[groupName].tempTab.set) {
+		if (WL_STATE.tabs[groupName].tempTab.name == newTab.tabName && WL_STATE.tabs[groupName].tempTab.has_content) {
 			//cool - they want it that bad, lets make it an actual tab!
 			addTabToTabGroup(groupName, newTab);
 			activateTab(groupName, newTab.tabName);
 			//clear out the temp tab
 			WL_STATE.tabs[groupName].tempTab.active = false;
-			WL_STATE.tabs[groupName].tempTab.set = false;
+			WL_STATE.tabs[groupName].tempTab.has_content = false;
 			WL_STATE.tabs[groupName].tempTab.type = '';
 			WL_STATE.tabs[groupName].tempTab.data = {};
 			return;
@@ -13710,7 +13708,7 @@ module.exports = {
 		WL_STATE.tabs[groupName].tempTab = {}; //cleared
 		WL_STATE.tabs[groupName].tempTab[newTab.tabName] = true; //rivets trick for identifying special cases - eg the welcome tab
 		WL_STATE.tabs[groupName].tempTab.name = newTab.tabName;
-		WL_STATE.tabs[groupName].tempTab.set = true;
+		WL_STATE.tabs[groupName].tempTab.has_content = true;
 		WL_STATE.tabs[groupName].tempTab.type = newTab.tabType;
 		WL_STATE.tabs[groupName].tempTab.data = newTab.data;
 		activateTempTab(groupName);

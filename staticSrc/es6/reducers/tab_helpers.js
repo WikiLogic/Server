@@ -15,13 +15,13 @@ module.exports = {
 			//set the tabs array item to false
 			groupState.tabs[t].active = false;
 			//and set it's named counterpart to false
-			groupState[groupState.tabs[t].name].set = false;
+			groupState[groupState.tabs[t].name].active = false;
 
 			if (groupState.tabs[t].name == tabNameToActivate) {
 				//set the tab array item to true - yeay!
 				groupState.tabs[t].active = true;
 				//and it's named counterpart
-				groupState[groupState.tabs[t].name].set = true;
+				groupState[groupState.tabs[t].name].active = true;
 			}
 		}
 
@@ -43,7 +43,7 @@ module.exports = {
 			tabs:[], 
 			tempTab: {
 				name: '',
-				set: false,
+				has_content: false,
 				active: false,
 				type: ''
 			}

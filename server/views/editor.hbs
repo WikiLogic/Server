@@ -52,7 +52,7 @@
 
                     <!-- AAAnd the temp tab -->
                     <div class="tabs__tab"  
-                        view-show="state.tabs.editor.tempTab.set"
+                        view-show="state.tabs.editor.tempTab.has_content"
                         view-class-active="state.tabs.editor.tempTab.active">
                         <span class="tabs__title"
                             view-on-click="state.actions.activateTempTab"
@@ -83,7 +83,7 @@
 
 
                 <!-- The search reults tab content -->
-                <div class="box" view-show="state.tabs.editor.results.set">
+                <div class="box" view-show="state.tabs.editor.results.active">
                     {{>search_results}}         
                 </div>
 

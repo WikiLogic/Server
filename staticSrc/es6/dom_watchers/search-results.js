@@ -10,11 +10,12 @@ module.exports = {
 
 		//whenever the search results are set, activate the results tab (which is what this guy is watching)
 		eventManager.subscribe('search_results_set', function(){
-			console.log('search result set sub, requesting "results tab"');
+			console.log('search_results_set subscriber (search results dom watcher), requesting "results tab"');
 			tabStateCtrl.activateTab('editor', 'results');
 		});
 
 		actionStateCtrl.addAction('move_result_to_working_list', function(rivet){
+			console.log('action function: sending claim to working list');
 			var resultIndex = rivet.currentTarget.attributes['data-result-index'].value;
 			var claimObj = WL_STATE.search.results[resultIndex];
 			workingListStateCtrl.addClaimToList(claimObj);
