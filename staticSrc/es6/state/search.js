@@ -34,6 +34,12 @@ module.exports = {
 
 	setResults: function(resultsArray){
 		setResults(resultsArray);
+	},
+
+	noResult: function(){
+		WL_STATE.search.results = [];
+		WL_STATE.search.is_empty = true;
+		eventManager.fire('search_results_set');
 	}
 
 };

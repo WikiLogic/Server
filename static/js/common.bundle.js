@@ -13004,20 +13004,6 @@ module.exports = {
 
 
 		return $.get('/api?s=' + searchTerm);
-		/*
-		 .done(function(data) {
-
-			console.log('The published results are in! ', JSON.stringify(data));
-			sendResultsHere(data);
-
-		 })
-		 .fail(function(err) {
-			console.error('API error', err);
-		 })
-		 .always(function(){
-
-		 });
-		 */
 	}
 
 }
@@ -13146,6 +13132,7 @@ var search = function(term){
 	}).fail(function(err){
 		console.error('search api error: ', err);
 		//TODO: send to alerts
+		searchStateCtrl.noResult();
 	});
 }
 
@@ -13518,6 +13505,12 @@ module.exports = {
 
 	setResults: function(resultsArray){
 		setResults(resultsArray);
+	},
+
+	noResult: function(){
+		WL_STATE.search.results = [];
+		WL_STATE.search.is_empty = true;
+		eventManager.fire('search_results_set');
 	}
 
 };

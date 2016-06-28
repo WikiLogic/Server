@@ -17,9 +17,13 @@ module.exports = function(req, res) {
 	    			$search : searchTerm 
 	    		} 
 	    	}).exec(function (err, claims) {
-				if (err) return console.error(err);
-				console.log('text search has run: ', claims);
-				res.send(claims);
+				if (err) {
+					console.error(err);
+					res.status(500).send(err);
+				} else {
+					console.log('text search has run: ', claims);
+					res.send(claims);
+				}
 		});
 
 	};

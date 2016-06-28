@@ -15,6 +15,7 @@ var search = function(term){
 	}).fail(function(err){
 		console.error('search api error: ', err);
 		//TODO: send to alerts
+		searchStateCtrl.noResult();
 	});
 }
 
