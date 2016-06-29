@@ -13575,7 +13575,7 @@ var addTabToTabGroup = function(groupName, newTab){
 var activateTab = function(groupName, tabToActivate){
 	console.group('activating tab');
 	console.log('Tab group: ', groupName);
-	console.log('Tab name: ', tabToActivate);
+	console.log('tabToActivate: ', tabToActivate);
 	
 	//get the new group state
 	var newTabGroup = tabGroupReducer.activateTab(WL_STATE.tabs[groupName], tabToActivate);
@@ -13723,6 +13723,13 @@ module.exports = {
 
 	closeTempTab: function(groupName){
 		console.log('closing temp tab');
+		//if it's open and there is a tab available to move the user to, move the user there
+		if (WL_STATE.tabs[groupName].tempTab.active && WL_STATE.tabs[groupName].tabs.length > 0) {
+			console.log('temp tab is open, moving the user to another tab');
+			var lastTabInArray = WL_STATE.tabs[groupName].tabs[WL_STATE.tabs[groupName].tabs.length - 1];
+			activateTab(groupName, lastTabInArray.name);
+		} 
+		WL_STATE.tabs[groupName].tempTab = {};
 	}
 };
 },{"../reducers/object_helpers":15,"../reducers/string_helpers":16,"../reducers/tab_helpers":17,"../utils/event_manager":23}],22:[function(require,module,exports){
