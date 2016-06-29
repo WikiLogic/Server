@@ -84,12 +84,25 @@ var activateTab = function(groupName, tabToActivate){
 }
 
 var removeTab = function(groupName, tabName){
+	
+	var newTabGroup = objectHelpers.cloneThisObject(WL_STATE.tabs[groupName]);
+
 	//remove from array
-	var tabIndex = WL_STATE.tabs[groupName][tabName].tabIndex;
-	WL_STATE.tabs[groupName].tabs.splice(tabIndex, 1);
+	var tabIndex = newTabGroup[tabName].tabIndex;
+	newTabGroup.tabs.splice(tabIndex, 1);
 	
 	//and remove the names attribute
-	delete WL_STATE.tabs[groupName][tabName];
+	delete newTabGroup[tabName];
+
+	//now we have to update the indexes listed on the named objects. Loop through remaining tabs from the one closed
+	for (var t = 0; t < (newTabGroup.tabs.length - tabIndex); t++ ) { //t for tab
+		//loop will run for the number of tabs that were shifted over
+		//to start from the first shifted tab, just use the tabindex!
+		var nameToUpdateIndex = newTabGroup.tabs[tabIndex + t].name;
+		newTabGroup[nameToUpdateIndex].tabIndex = tabIndex + t;
+	}
+
+	WL_STATE.tabs[groupName] = newTabGroup;
 }
 
 var activateTempTab = function(groupName){
