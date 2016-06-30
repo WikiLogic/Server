@@ -13022,13 +13022,6 @@ var presetTabs = [
 		tabType: '',
 		data: {},
 		isTemp: true
-	},
-	{
-		groupName: 'editor',
-		tabName: 'results',
-		tabType: 'claim_list',
-		data: {},
-		isTemp: false
 	}
 ]
 require('./dom_watchers/tabs').init(presetTabs);
