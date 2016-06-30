@@ -5,8 +5,9 @@
 
 module.exports = {
 	init: function(){
+		console.log('initting editor list state controller');
 		WL_STATE.editor_list = {
-			claims: []
+			claim_tabs: []
 		};
 	},
 	addClaimToList: function(claimObj){
@@ -14,9 +15,10 @@ module.exports = {
 		var alreadySet = false;
 
 		//first check that it's not already in the editor list
-		for (var c = 0; c < WL_STATE.editor_list.claims.length; c++) { //c for claim
-			if (WL_STATE.editor_list.claims[c]._id == claimObj._id) {
+		for (var c = 0; c < WL_STATE.editor_list.claim_tabs.length; c++) { //c for claim
+			if (WL_STATE.editor_list.claim_tabs[c].claim._id == claimObj._id) {
 				//it is, our job is done
+				console.log('That claim is already in the editor list');
 				alreadySet = true;
 				break;
 			}
@@ -24,24 +26,42 @@ module.exports = {
 
 		if (!alreadySet) {
 			//Yesy! new claim to work with!
-			WL_STATE.editor_list.claims.push(claimObj);
-
-			//and let it know where we're putting it (for rivets) - 
-			//this step can go if you know how to get the index in rivets alone
-			var lastPosition = WL_STATE.working_list.claims.length - 1;
-			WL_STATE.working_list.claims[lastPosition].editorIndex = lastPosition;
-
-			//even if it wasn't before, this makes it doubly not so
-			WL_STATE.working_list.is_empty = false;
+			console.log('pushing new claim ref to the editor list');
+			var newClaimTabObj = {
+				open: false,
+				claim: claimObj
+			}
+			WL_STATE.editor_list.claim_tabs.push(newClaimTabObj);
 		}
 		console.groupEnd(); //END Adding claim to editor list
 	},
-	removeClaimFromList: function(indexToRemove){
-		console.group('Removing claim from working list', indexToRemove);
-		WL_STATE.working_list.claims.slice(indexToRemove, 1);
-		//now update the editor indexes 
-		for (var c = indexToRemove; c < WL_STATE.working_list.claims.length; c++){ //c for claim
-			WL_STATE.working_list.claims[c].editorIndex = c;
+	openClaimTab: function(claimId){
+		console.log('opening claim tab id: ', claimId);
+		//loop through all the claim tabs, set them to false unless they match
+		for (var c = 0; c < WL_STATE.editor_list.claim_tabs.length; c++) {
+			if (WL_STATE.editor_list.claim_tabs[c].claim._id == claimId) {
+				console.log('open!');
+				WL_STATE.editor_list.claim_tabs[c].open = true;
+			} else {
+				console.log('close');
+				WL_STATE.editor_list.claim_tabs[c].open = false;
+			}
+		}
+	},
+	removeClaimFromList: function(claimId){
+		console.group('Removing claim from editor list', claimId);
+		var claimTabRemoved = false;
+		//loop through to find the relevant claim obj
+		for (var c = 0; c < WL_STATE.editor_list.claim_tabs.length; c++) {
+			if (WL_STATE.editor_list.claim_tabs[c].claim._id == claimId) {
+				console.log('removing claim tab from array');
+				WL_STATE.editor_list.claim_tabs.splice(c,1);
+				claimTabRemoved = true;
+				break;
+			}
+		}
+		if (!claimTabRemoved) {
+			console.warn('Claim tab to remove not found');
 		}
 		console.groupEnd(); //ENd Removing claim from working list
 	}

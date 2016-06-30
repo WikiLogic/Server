@@ -14,41 +14,28 @@ module.exports = {
 		}
 	},
 	addClaimToList: function(claimObj){
+		console.group('Adding claim to working list', claimObj);
 		var alreadySet = false;
 
-		//first check that it's not already in the working list
-		for (var wli = 0; wli < WL_STATE.working_list.claims.length; wli++) { //wli for Working List Item
-			if (WL_STATE.working_list.claims[wli]._id == claimObj._id) {
-
-				//So it's already in the working list! Guess we'll just have to turn it on to show them :)
-				tabStateCtrl.addTempTabToGroup('editor', {
-					tabName: claimObj.description,
-					tabType: 'claim',
-					data: claimObj
-				});
-
-				//and our job is done
+		//first check that it's not already in the editor list
+		for (var c = 0; c < WL_STATE.working_list.claims.length; c++) { //c for claim
+			if (WL_STATE.working_list.claims[c]._id == claimObj._id) {
+				//it is, our job is done
+				console.warn('That claim is already in the working list');
 				alreadySet = true;
-
-				//also, just some insurance
-				WL_STATE.working_list.is_empty = false;
-
-				//I'm bored
 				break;
 			}
 		}
 
 		if (!alreadySet) {
-			//Well, we've got to do some work now - add it to the list
+			console.log('pushing new claim ref to working list');
+			//Yesy! new claim to work with!
 			WL_STATE.working_list.claims.push(claimObj);
-
-			//and let it know where we're putting it (for rivets) - this step can go if you know how to get the index in rivets alone
-			var lastPosition = WL_STATE.working_list.claims.length - 1;
-			WL_STATE.working_list.claims[lastPosition].index = lastPosition;
 
 			//even if it wasn't before, this makes it doubly not so
 			WL_STATE.working_list.is_empty = false;
 		}
+		console.groupEnd(); //END Adding claim to editor list
 		
 	},
 	removeClaimFromList: function(claimId){

@@ -13031,6 +13031,7 @@ require('./dom_watchers/toaster').init();
 require('./dom_watchers/claim-input').init();
 require('./dom_watchers/working-list').init();
 require('./dom_watchers/search-results').init();
+require('./dom_watchers/editor-list').init();
 require('./dom_watchers/editor-detail').init();
 
 window.rivets = require('rivets');
@@ -13050,7 +13051,7 @@ rivets.configure({
 });
 
 rivets.bind($('#god'), {state: window.WL_STATE});
-},{"./dom_watchers/claim-input":8,"./dom_watchers/editor-detail":9,"./dom_watchers/search-input":10,"./dom_watchers/search-results":11,"./dom_watchers/tabs":12,"./dom_watchers/toaster":13,"./dom_watchers/welcome-tab":14,"./dom_watchers/working-list":15,"jquery":1,"rivets":2}],8:[function(require,module,exports){
+},{"./dom_watchers/claim-input":8,"./dom_watchers/editor-detail":9,"./dom_watchers/editor-list":10,"./dom_watchers/search-input":11,"./dom_watchers/search-results":12,"./dom_watchers/tabs":13,"./dom_watchers/toaster":14,"./dom_watchers/welcome-tab":15,"./dom_watchers/working-list":16,"jquery":1,"rivets":2}],8:[function(require,module,exports){
 'use strict';
 
 var trumbowyg = require('trumbowyg');
@@ -13092,7 +13093,7 @@ module.exports = {
 	}
 }
 
-},{"../api/claim":5,"../state/actions":19,"trumbowyg":4}],9:[function(require,module,exports){
+},{"../api/claim":5,"../state/actions":20,"trumbowyg":4}],9:[function(require,module,exports){
 'use strict';
 
 /* Current Editor DOM Watcher
@@ -13109,7 +13110,64 @@ module.exports = {
 		
 	}
 }
-},{"../state/editor_detail":20}],10:[function(require,module,exports){
+},{"../state/editor_detail":21}],10:[function(require,module,exports){
+'use strict';
+
+var editorListStateCtrl = require('../state/editor_list'); editorListStateCtrl.init();
+var actionStateCtrl = require('../state/actions');
+
+/*
+ * This module is responsibe for the editor's claim tabs
+ */
+
+module.exports = {
+	init: function(presetTabs){
+		console.log('initting editor list DOM watcher');
+
+		actionStateCtrl.addAction('editor_tab_open', function(rivet){
+		console.group('open editor tab');
+			var claimId = rivet.currentTarget.attributes['data-claimtab-id'].value;
+			editorListStateCtrl.openClaimTab(claimId);
+		console.groupEnd();
+		});
+
+		actionStateCtrl.addAction('editor_tab_close', function(rivet){
+		console.group('close editor tab');
+			var claimId =  rivet.currentTarget.attributes['data-claimtab-id'].value;
+			editorListStateCtrl.removeClaimFromList(claimId);
+		console.groupEnd();
+		});
+
+		actionStateCtrl.addAction('add_claim_to_editor_list', function(rivet){
+		console.groupCollapsed('adding claim to editor list');
+			var claimFound = false;
+			//first we need to get a refrence of the claim object
+			//Which list is it in?
+			var location = rivet.currentTarget.attributes['data-from-list'].value;
+			var claimId =  rivet.currentTarget.attributes['data-claim-id'].value;
+			if (location == 'working_list') {
+				for (var c = 0; c < WL_STATE.working_list.claims.length; c++) { //c for claim
+					if (WL_STATE.working_list.claims[c]._id == claimId) {
+						var claimRef = WL_STATE.working_list.claims[c];
+						claimFound = true;
+						break;
+					}
+				}
+			} else {
+				console.error('not set up to pull claims from', location);
+			}
+
+			if (claimFound) {
+				editorListStateCtrl.addClaimToList(claimRef);
+			} else {
+				console.warn(claimId, ' not found in ', location);
+			}
+		console.groupEnd();
+		});
+
+	}
+}
+},{"../state/actions":20,"../state/editor_list":22}],11:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -13150,7 +13208,7 @@ module.exports = {
 
 }
 
-},{"../api/search":6,"../state/actions":19,"../state/search_input":21,"../state/search_results":22,"jquery":1}],11:[function(require,module,exports){
+},{"../api/search":6,"../state/actions":20,"../state/search_input":23,"../state/search_results":24,"jquery":1}],12:[function(require,module,exports){
 'use strict';
 
 /* Search results tab and content DOM watcher
@@ -13176,7 +13234,7 @@ module.exports = {
 
 	}
 }
-},{"../state/actions":19,"../state/search_results":22}],12:[function(require,module,exports){
+},{"../state/actions":20,"../state/search_results":24}],13:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -13256,7 +13314,7 @@ module.exports = {
 		});
 	}
 }
-},{"../state/actions":19,"../state/tabs":23,"jquery":1}],13:[function(require,module,exports){
+},{"../state/actions":20,"../state/tabs":25,"jquery":1}],14:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -13288,7 +13346,7 @@ module.exports = {
 		});
 	}
 }
-},{"jquery":1}],14:[function(require,module,exports){
+},{"jquery":1}],15:[function(require,module,exports){
 'use strict';
 
 /*
@@ -13312,7 +13370,7 @@ module.exports = {
 
 	}
 }
-},{"../state/actions":19,"../state/welcome_tab":24}],15:[function(require,module,exports){
+},{"../state/actions":20,"../state/welcome_tab":26}],16:[function(require,module,exports){
 'use strict';
 
 var actionStateCtrl = require('../state/actions');
@@ -13359,7 +13417,7 @@ module.exports = {
 
 	}
 }
-},{"../state/actions":19,"../state/tabs":23,"../state/working_list":25}],16:[function(require,module,exports){
+},{"../state/actions":20,"../state/tabs":25,"../state/working_list":27}],17:[function(require,module,exports){
 
 module.exports = {
 	cloneThisObject: function(obj) {
@@ -13373,7 +13431,7 @@ module.exports = {
 		return newObj;
 	}
 }
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -13386,7 +13444,7 @@ module.exports = {
 		return /[A-Z]/.test(s);
 	}
 }
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 /* Takes tab group state
  * modifies it
  * Returns tab group state
@@ -13439,7 +13497,7 @@ module.exports = {
 		};
 	}
 }
-},{"../reducers/string_helpers":17,"./object_helpers":16}],19:[function(require,module,exports){
+},{"../reducers/string_helpers":18,"./object_helpers":17}],20:[function(require,module,exports){
 'use strict';
 
 var objectHelpers = require('../reducers/object_helpers');
@@ -13463,7 +13521,7 @@ module.exports = {
 	}
 
 };
-},{"../reducers/object_helpers":16}],20:[function(require,module,exports){
+},{"../reducers/object_helpers":17}],21:[function(require,module,exports){
 'use strict';
 
 var eventManager = require('../utils/event_manager');
@@ -13501,7 +13559,76 @@ module.exports = {
 	}
 
 };
-},{"../utils/event_manager":26}],21:[function(require,module,exports){
+},{"../utils/event_manager":28}],22:[function(require,module,exports){
+'use strict';
+/* The Editor List State Controller
+ * This state drives the editor's tabs and sends the correct content to the editor detail
+ */
+
+module.exports = {
+	init: function(){
+		console.log('initting editor list state controller');
+		WL_STATE.editor_list = {
+			claim_tabs: []
+		};
+	},
+	addClaimToList: function(claimObj){
+		console.group('Adding claim to editor list', claimObj);
+		var alreadySet = false;
+
+		//first check that it's not already in the editor list
+		for (var c = 0; c < WL_STATE.editor_list.claim_tabs.length; c++) { //c for claim
+			if (WL_STATE.editor_list.claim_tabs[c].claim._id == claimObj._id) {
+				//it is, our job is done
+				console.log('That claim is already in the editor list');
+				alreadySet = true;
+				break;
+			}
+		}
+
+		if (!alreadySet) {
+			//Yesy! new claim to work with!
+			console.log('pushing new claim ref to the editor list');
+			var newClaimTabObj = {
+				open: false,
+				claim: claimObj
+			}
+			WL_STATE.editor_list.claim_tabs.push(newClaimTabObj);
+		}
+		console.groupEnd(); //END Adding claim to editor list
+	},
+	openClaimTab: function(claimId){
+		console.log('opening claim tab id: ', claimId);
+		//loop through all the claim tabs, set them to false unless they match
+		for (var c = 0; c < WL_STATE.editor_list.claim_tabs.length; c++) {
+			if (WL_STATE.editor_list.claim_tabs[c].claim._id == claimId) {
+				console.log('open!');
+				WL_STATE.editor_list.claim_tabs[c].open = true;
+			} else {
+				console.log('close');
+				WL_STATE.editor_list.claim_tabs[c].open = false;
+			}
+		}
+	},
+	removeClaimFromList: function(claimId){
+		console.group('Removing claim from editor list', claimId);
+		var claimTabRemoved = false;
+		//loop through to find the relevant claim obj
+		for (var c = 0; c < WL_STATE.editor_list.claim_tabs.length; c++) {
+			if (WL_STATE.editor_list.claim_tabs[c].claim._id == claimId) {
+				console.log('removing claim tab from array');
+				WL_STATE.editor_list.claim_tabs.splice(c,1);
+				claimTabRemoved = true;
+				break;
+			}
+		}
+		if (!claimTabRemoved) {
+			console.warn('Claim tab to remove not found');
+		}
+		console.groupEnd(); //ENd Removing claim from working list
+	}
+}
+},{}],23:[function(require,module,exports){
 'use strict';
 
 /* The Search Input state controller
@@ -13524,7 +13651,7 @@ module.exports = {
 	}
 
 };
-},{"../utils/event_manager":26}],22:[function(require,module,exports){
+},{"../utils/event_manager":28}],24:[function(require,module,exports){
 'use strict';
 
 var eventManager = require('../utils/event_manager');
@@ -13588,7 +13715,7 @@ module.exports = {
 	}
 
 };
-},{"../utils/event_manager":26}],23:[function(require,module,exports){
+},{"../utils/event_manager":28}],25:[function(require,module,exports){
 'use strict';
 
 /* Everyting aout handling tab state!
@@ -13843,7 +13970,7 @@ module.exports = {
 		WL_STATE.tabs[groupName].tempTab = null;
 	}
 };
-},{"../reducers/object_helpers":16,"../reducers/string_helpers":17,"../reducers/tab_helpers":18,"../utils/event_manager":26}],24:[function(require,module,exports){
+},{"../reducers/object_helpers":17,"../reducers/string_helpers":18,"../reducers/tab_helpers":19,"../utils/event_manager":28}],26:[function(require,module,exports){
 'use strict';
 /* The Temp Tab State Controller
  * 
@@ -13867,7 +13994,7 @@ module.exports = {
 		WL_STATE.welcome_tab.show = false;
 	}
 }
-},{}],25:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 'use strict';
 
 var tabStateCtrl = require('./tabs');
@@ -13884,48 +14011,35 @@ module.exports = {
 		}
 	},
 	addClaimToList: function(claimObj){
+		console.group('Adding claim to working list', claimObj);
 		var alreadySet = false;
 
-		//first check that it's not already in the working list
-		for (var wli = 0; wli < WL_STATE.working_list.claims.length; wli++) { //wli for Working List Item
-			if (WL_STATE.working_list.claims[wli]._id == claimObj._id) {
-
-				//So it's already in the working list! Guess we'll just have to turn it on to show them :)
-				tabStateCtrl.addTempTabToGroup('editor', {
-					tabName: claimObj.description,
-					tabType: 'claim',
-					data: claimObj
-				});
-
-				//and our job is done
+		//first check that it's not already in the editor list
+		for (var c = 0; c < WL_STATE.working_list.claims.length; c++) { //c for claim
+			if (WL_STATE.working_list.claims[c]._id == claimObj._id) {
+				//it is, our job is done
+				console.warn('That claim is already in the working list');
 				alreadySet = true;
-
-				//also, just some insurance
-				WL_STATE.working_list.is_empty = false;
-
-				//I'm bored
 				break;
 			}
 		}
 
 		if (!alreadySet) {
-			//Well, we've got to do some work now - add it to the list
+			console.log('pushing new claim ref to working list');
+			//Yesy! new claim to work with!
 			WL_STATE.working_list.claims.push(claimObj);
-
-			//and let it know where we're putting it (for rivets) - this step can go if you know how to get the index in rivets alone
-			var lastPosition = WL_STATE.working_list.claims.length - 1;
-			WL_STATE.working_list.claims[lastPosition].index = lastPosition;
 
 			//even if it wasn't before, this makes it doubly not so
 			WL_STATE.working_list.is_empty = false;
 		}
+		console.groupEnd(); //END Adding claim to editor list
 		
 	},
 	removeClaimFromList: function(claimId){
 		
 	}
 }
-},{"./tabs":23}],26:[function(require,module,exports){
+},{"./tabs":25}],28:[function(require,module,exports){
 'use strict';
 
 var eventSubscribers = {};

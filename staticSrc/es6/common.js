@@ -21,6 +21,7 @@ require('./dom_watchers/toaster').init();
 require('./dom_watchers/claim-input').init();
 require('./dom_watchers/working-list').init();
 require('./dom_watchers/search-results').init();
+require('./dom_watchers/editor-list').init();
 require('./dom_watchers/editor-detail').init();
 
 window.rivets = require('rivets');

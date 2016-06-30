@@ -22,8 +22,9 @@
                 <button
                     class="display-block full-width box box--wide"
                     view-each-claim="state.working_list.claims"
-                    view-on-click="state.actions.set_claim_detail_tab"
-                    view-data-index="claim.index">
+                    view-on-click="state.actions.add_claim_to_editor_list"
+                    view-data-claim-id="claim._id"
+                    data-from-list="working_list">
                     <p class="no-margins">{claim.description}</p></button>
                 
             </div>
@@ -64,16 +65,15 @@
 
                     <!-- editor list tabs -->
                     <div class="tabs__tab"
-                        view-each-tab="state.tabs.editor.tabs"
-                        view-class-active="tab.active">
+                        view-each-claimtab="state.editor_list.claim_tabs"
+                        view-class-active="claimtab.open">
                         <span class="tabs__title"
-                            view-on-click="state.actions.activateTab"
-                            view-data-tab-name="tab.name"
-                            data-tab-group="editor">{tab.name}</span>
+                            view-on-click="state.actions.editor_tab_open"
+                            view-data-claimtab-id="claimtab.claim._id"
+                            data-tab-group="editor">{claimtab.claim.description}</span>
                         <span class="tabs__x"
-                            view-on-click="state.actions.close_tab"
-                            view-data-tab-name="tab.name"
-                            data-tab-group="editor">
+                            view-on-click="state.actions.editor_tab_close"
+                            view-data-claimtab-id="claimtab.claim._id">
                             <svg class="icon icon--10"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>
                         </span>
                     </div>
