@@ -1,23 +1,24 @@
 'use strict';
 
 var $ = require('jquery');
+var searchInputStateCtrl = require('../state/search_input'); searchInputStateCtrl.init();
 var searchApi = require('../api/search');
-var searchStateCtrl = require('../state/search');
+var searchResultsStateCtrl = require('../state/search_results');
 var actionStateCtrl = require('../state/actions');
-searchStateCtrl.init();
+
 
 var search = function(term){
-	console.group('search submitted');
-	searchStateCtrl.setNewTerm(term);
+	console.group('search submitted:', term);
+	searchInputStateCtrl.setNewTerm(term);
 
 	searchApi.searchByString(term).done(function(data){
 		//add to search results
-		searchStateCtrl.setResults(data);
+		searchResultsStateCtrl.setResults(data);
 	}).fail(function(err){
 		console.error('search api error: ', err);
 		//TODO: send to alerts
 	});
-	console.groupEnd();
+	console.groupEnd(); //END search submitted
 }
 
 module.exports = {

@@ -4,32 +4,22 @@
  *
  */
 
-var eventManager = require('../utils/event_manager');
-var tabStateCtrl = require('../state/tabs');
+var searchResultsStateCtrl = require('../state/search_results'); searchResultsStateCtrl.init();
 var actionStateCtrl = require('../state/actions');
-var workingListStateCtrl = require('../state/working_list');
+
 
 module.exports = {
 	init: function(){
+		console.log('initting search results DOM watcher');
+		
 
-		//whenever the search results are set, activate the results tab (which is what this guy is watching)
-		eventManager.subscribe('search_results_set', function(){
-			console.log('search_results_set subscriber (search results dom watcher), requesting "results tab"');
-			tabStateCtrl.addTabToTabGroup('editor', {
-				tabName: 'results',
-				tabType: '',
-				data: {}
-			});
+		actionStateCtrl.addAction('close_results_tab', function(rivet){
+			searchResultsStateCtrl.hideResultsTab();
 		});
 
-		actionStateCtrl.addAction('move_result_to_working_list', function(rivet){
-			console.groupCollapsed('Sending claim to working list');
-			var resultIndex = rivet.currentTarget.attributes['data-result-index'].value;
-			console.log('resultIndex: ', resultIndex);
-			var claimObj = WL_STATE.search.results[resultIndex];
-			console.log('claimObj: ', claimObj)
-			workingListStateCtrl.addClaimToList(claimObj);
-			console.groupEnd();
+		actionStateCtrl.addAction('open_results_tab', function(rivet){
+			searchResultsStateCtrl.openResultsTab();
 		});
+
 	}
 }

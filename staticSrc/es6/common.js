@@ -4,6 +4,8 @@ window.WL_STATE = {};
 $ = jQuery = require('jquery');
 
 require('./dom_watchers/search-input').init();
+require('./dom_watchers/search-results').init();
+require('./dom_watchers/welcome-tab').init();
 
 var presetTabs = [
 	{

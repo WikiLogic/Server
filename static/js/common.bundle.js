@@ -13014,6 +13014,8 @@ window.WL_STATE = {};
 $ = jQuery = require('jquery');
 
 require('./dom_watchers/search-input').init();
+require('./dom_watchers/search-results').init();
+require('./dom_watchers/welcome-tab').init();
 
 var presetTabs = [
 	{
@@ -13048,7 +13050,7 @@ rivets.configure({
 });
 
 rivets.bind($('#god'), {state: window.WL_STATE});
-},{"./dom_watchers/claim-input":8,"./dom_watchers/editor-detail":9,"./dom_watchers/search-input":10,"./dom_watchers/search-results":11,"./dom_watchers/tabs":12,"./dom_watchers/toaster":13,"./dom_watchers/working-list":14,"jquery":1,"rivets":2}],8:[function(require,module,exports){
+},{"./dom_watchers/claim-input":8,"./dom_watchers/editor-detail":9,"./dom_watchers/search-input":10,"./dom_watchers/search-results":11,"./dom_watchers/tabs":12,"./dom_watchers/toaster":13,"./dom_watchers/welcome-tab":14,"./dom_watchers/working-list":15,"jquery":1,"rivets":2}],8:[function(require,module,exports){
 'use strict';
 
 var trumbowyg = require('trumbowyg');
@@ -13090,7 +13092,7 @@ module.exports = {
 	}
 }
 
-},{"../api/claim":5,"../state/actions":18,"trumbowyg":4}],9:[function(require,module,exports){
+},{"../api/claim":5,"../state/actions":19,"trumbowyg":4}],9:[function(require,module,exports){
 'use strict';
 
 /* Current Editor DOM Watcher
@@ -13104,30 +13106,31 @@ module.exports = {
 	init: function(){
 		editorDetailStateCtrl.init();
 
-
+		
 	}
 }
-},{"../state/editor_detail":19}],10:[function(require,module,exports){
+},{"../state/editor_detail":20}],10:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
+var searchInputStateCtrl = require('../state/search_input'); searchInputStateCtrl.init();
 var searchApi = require('../api/search');
-var searchStateCtrl = require('../state/search');
+var searchResultsStateCtrl = require('../state/search_results');
 var actionStateCtrl = require('../state/actions');
-searchStateCtrl.init();
+
 
 var search = function(term){
-	console.group('search submitted');
-	searchStateCtrl.setNewTerm(term);
+	console.group('search submitted:', term);
+	searchInputStateCtrl.setNewTerm(term);
 
 	searchApi.searchByString(term).done(function(data){
 		//add to search results
-		searchStateCtrl.setResults(data);
+		searchResultsStateCtrl.setResults(data);
 	}).fail(function(err){
 		console.error('search api error: ', err);
 		//TODO: send to alerts
 	});
-	console.groupEnd();
+	console.groupEnd(); //END search submitted
 }
 
 module.exports = {
@@ -13147,43 +13150,33 @@ module.exports = {
 
 }
 
-},{"../api/search":6,"../state/actions":18,"../state/search":20,"jquery":1}],11:[function(require,module,exports){
+},{"../api/search":6,"../state/actions":19,"../state/search_input":21,"../state/search_results":22,"jquery":1}],11:[function(require,module,exports){
 'use strict';
 
 /* Search results tab and content DOM watcher
  *
  */
 
-var eventManager = require('../utils/event_manager');
-var tabStateCtrl = require('../state/tabs');
+var searchResultsStateCtrl = require('../state/search_results'); searchResultsStateCtrl.init();
 var actionStateCtrl = require('../state/actions');
-var workingListStateCtrl = require('../state/working_list');
+
 
 module.exports = {
 	init: function(){
+		console.log('initting search results DOM watcher');
+		
 
-		//whenever the search results are set, activate the results tab (which is what this guy is watching)
-		eventManager.subscribe('search_results_set', function(){
-			console.log('search_results_set subscriber (search results dom watcher), requesting "results tab"');
-			tabStateCtrl.addTabToTabGroup('editor', {
-				tabName: 'results',
-				tabType: '',
-				data: {}
-			});
+		actionStateCtrl.addAction('close_results_tab', function(rivet){
+			searchResultsStateCtrl.hideResultsTab();
 		});
 
-		actionStateCtrl.addAction('move_result_to_working_list', function(rivet){
-			console.groupCollapsed('Sending claim to working list');
-			var resultIndex = rivet.currentTarget.attributes['data-result-index'].value;
-			console.log('resultIndex: ', resultIndex);
-			var claimObj = WL_STATE.search.results[resultIndex];
-			console.log('claimObj: ', claimObj)
-			workingListStateCtrl.addClaimToList(claimObj);
-			console.groupEnd();
+		actionStateCtrl.addAction('open_results_tab', function(rivet){
+			searchResultsStateCtrl.openResultsTab();
 		});
+
 	}
 }
-},{"../state/actions":18,"../state/tabs":21,"../state/working_list":22,"../utils/event_manager":23}],12:[function(require,module,exports){
+},{"../state/actions":19,"../state/search_results":22}],12:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -13263,7 +13256,7 @@ module.exports = {
 		});
 	}
 }
-},{"../state/actions":18,"../state/tabs":21,"jquery":1}],13:[function(require,module,exports){
+},{"../state/actions":19,"../state/tabs":23,"jquery":1}],13:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -13298,6 +13291,30 @@ module.exports = {
 },{"jquery":1}],14:[function(require,module,exports){
 'use strict';
 
+/*
+ * This module is responsibe for the welcome tab
+ */
+
+var welcomeTabStateCtrl = require('../state/welcome_tab'); welcomeTabStateCtrl.init();
+var actionStateCtrl = require('../state/actions');
+
+
+module.exports = {
+	init: function(){
+
+		actionStateCtrl.addAction('close_welcome_tab', function(rivet){
+			welcomeTabStateCtrl.hideWelcomeTab();
+		});
+
+		actionStateCtrl.addAction('open_welcome_tab', function(rivet){
+			welcomeTabStateCtrl.openWelcomeTab();
+		});
+
+	}
+}
+},{"../state/actions":19,"../state/welcome_tab":24}],15:[function(require,module,exports){
+'use strict';
+
 var actionStateCtrl = require('../state/actions');
 var workingListStateCtrl = require('../state/working_list');
 workingListStateCtrl.init();
@@ -13312,21 +13329,37 @@ var tabStateCtrl = require('../state/tabs');
 module.exports = {
 	init: function(){
 		
-		actionStateCtrl.addAction('set_claim_detail_tab', function(rivet){
-			var workingListIndex = rivet.currentTarget.attributes['data-index'].value;
-			var claimObj = WL_STATE.working_list.claims[workingListIndex];
-			
-			//add temp tab
-			tabStateCtrl.addTempTabToGroup('editor', {
-				tabName: claimObj.description,
-				tabType: 'claim',
-				data: claimObj
-			});
+
+		actionStateCtrl.addAction('add_claim_to_working_list', function(rivet){
+			console.groupCollapsed('adding claim to working list');
+			var claimFound = false;
+			//first we need to get a refrence of the claim object
+			//Which list is it in?
+			var location = rivet.currentTarget.attributes['data-from-list'].value;
+			var claimId =  rivet.currentTarget.attributes['data-claim-id'].value;
+			if (location == 'search_results') {
+				for (var c = 0; c < WL_STATE.search_results.results.length; c++) { //c for claim
+					if (WL_STATE.search_results.results[c]._id == claimId) {
+						var claimRef = WL_STATE.search_results.results[c];
+						claimFound = true;
+						break;
+					}
+				}
+			} else {
+				console.error('not set up to pull claims from', location);
+			}
+
+			if (claimFound) {
+				workingListStateCtrl.addClaimToList(claimRef);
+			} else {
+				console.warn(claimId, ' not found in ', location);
+			}
+			console.groupEnd();
 		});
 
 	}
 }
-},{"../state/actions":18,"../state/tabs":21,"../state/working_list":22}],15:[function(require,module,exports){
+},{"../state/actions":19,"../state/tabs":23,"../state/working_list":25}],16:[function(require,module,exports){
 
 module.exports = {
 	cloneThisObject: function(obj) {
@@ -13340,7 +13373,7 @@ module.exports = {
 		return newObj;
 	}
 }
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -13353,7 +13386,7 @@ module.exports = {
 		return /[A-Z]/.test(s);
 	}
 }
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 /* Takes tab group state
  * modifies it
  * Returns tab group state
@@ -13406,7 +13439,7 @@ module.exports = {
 		};
 	}
 }
-},{"../reducers/string_helpers":16,"./object_helpers":15}],18:[function(require,module,exports){
+},{"../reducers/string_helpers":17,"./object_helpers":16}],19:[function(require,module,exports){
 'use strict';
 
 var objectHelpers = require('../reducers/object_helpers');
@@ -13430,7 +13463,7 @@ module.exports = {
 	}
 
 };
-},{"../reducers/object_helpers":15}],19:[function(require,module,exports){
+},{"../reducers/object_helpers":16}],20:[function(require,module,exports){
 'use strict';
 
 var eventManager = require('../utils/event_manager');
@@ -13468,34 +13501,70 @@ module.exports = {
 	}
 
 };
-},{"../utils/event_manager":23}],20:[function(require,module,exports){
+},{"../utils/event_manager":26}],21:[function(require,module,exports){
+'use strict';
+
+/* The Search Input state controller
+ * This holds onto the search details (not the results!)
+ */
+
+var eventManager = require('../utils/event_manager');
+
+
+module.exports = {
+
+	init: function(){
+		WL_STATE.search_input = {
+			term: ""
+		}
+	},
+
+	setNewTerm: function(newterm){
+		WL_STATE.search_input.term = newterm;
+	}
+
+};
+},{"../utils/event_manager":26}],22:[function(require,module,exports){
 'use strict';
 
 var eventManager = require('../utils/event_manager');
 
 var setResults = function(resultsArray){
 	console.groupCollapsed('Setting search results: ', resultsArray);
-	WL_STATE.search.results = resultsArray;
+	WL_STATE.search_results.results = resultsArray;
 	
 	if (resultsArray.length == 0) {
-		WL_STATE.search.is_empty = true;
+		closeResultsTab();
 	} else {
-		WL_STATE.search.is_empty = false;
-		//now set the indexes
-		for (var ri = 0; ri < WL_STATE.search.results.length; ri++) {
-			WL_STATE.search.results[ri].index = ri;
-		}
+		openResultsTab();
 	}
 	console.groupEnd(); //ENd Setting search results
-	eventManager.fire('search_results_set', WL_STATE.search.results);
+	eventManager.fire('search_results_set', WL_STATE.search_results.results);
 }
+
+var openResultsTab = function(){
+	WL_STATE.search_results.open_tab = true;
+	WL_STATE.search_results.show_tab = true;
+}
+
+var closeResultsTab = function(){
+	WL_STATE.search_results.open_tab = false;
+}
+
+var hideResultsTab = function(){
+	WL_STATE.search_results.show_tab = false;
+}
+
 
 module.exports = {
 
 	init: function(){
-		WL_STATE.search = {
+		console.log('initting search results state controller');
+		WL_STATE.search_results = {
 			term: "",
 			results: [],
+			show_tab: false,
+			open_tab: false,
 			is_empty: true
 		}
 	},
@@ -13506,10 +13575,20 @@ module.exports = {
 
 	setResults: function(resultsArray){
 		setResults(resultsArray);
+	},
+
+	openResultsTab: function(){
+		openResultsTab();
+	},
+	closeResultsTab: function(){
+		closeResultsTab();
+	},
+	hideResultsTab: function(){
+		hideResultsTab90;
 	}
 
 };
-},{"../utils/event_manager":23}],21:[function(require,module,exports){
+},{"../utils/event_manager":26}],23:[function(require,module,exports){
 'use strict';
 
 /* Everyting aout handling tab state!
@@ -13764,7 +13843,31 @@ module.exports = {
 		WL_STATE.tabs[groupName].tempTab = null;
 	}
 };
-},{"../reducers/object_helpers":15,"../reducers/string_helpers":16,"../reducers/tab_helpers":17,"../utils/event_manager":23}],22:[function(require,module,exports){
+},{"../reducers/object_helpers":16,"../reducers/string_helpers":17,"../reducers/tab_helpers":18,"../utils/event_manager":26}],24:[function(require,module,exports){
+'use strict';
+/* The Temp Tab State Controller
+ * 
+ */
+
+module.exports = {
+	init: function(){
+		WL_STATE.welcome_tab = {
+			show: true,
+			open: true
+		};
+	},
+	openWelcomeTab: function(claimObj){
+		WL_STATE.welcome_tab.open = true;
+		WL_STATE.welcome_tab.show = true;
+	},
+	closeWelcomeTab: function(indexToRemove){
+		WL_STATE.welcome_tab.open = false;
+	},
+	hideWelcomeTab: function(){
+		WL_STATE.welcome_tab.show = false;
+	}
+}
+},{}],25:[function(require,module,exports){
 'use strict';
 
 var tabStateCtrl = require('./tabs');
@@ -13822,7 +13925,7 @@ module.exports = {
 		
 	}
 }
-},{"./tabs":21}],23:[function(require,module,exports){
+},{"./tabs":23}],26:[function(require,module,exports){
 'use strict';
 
 var eventSubscribers = {};

@@ -17,5 +17,17 @@ module.exports = {
 			console.log('close editor tab');
 		});
 
+		actionStateCtrl.addAction('add_claim_to_editor_list', function(rivet){
+			var workingListIndex = rivet.currentTarget.attributes['data-index'].value;
+			var claimObj = WL_STATE.working_list.claims[workingListIndex];
+			
+			//add temp tab
+			tabStateCtrl.addTempTabToGroup('editor', {
+				tabName: claimObj.description,
+				tabType: 'claim',
+				data: claimObj
+			});
+		});
+
 	}
 }

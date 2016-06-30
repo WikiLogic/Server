@@ -14,16 +14,32 @@ var tabStateCtrl = require('../state/tabs');
 module.exports = {
 	init: function(){
 		
-		actionStateCtrl.addAction('set_claim_detail_tab', function(rivet){
-			var workingListIndex = rivet.currentTarget.attributes['data-index'].value;
-			var claimObj = WL_STATE.working_list.claims[workingListIndex];
-			
-			//add temp tab
-			tabStateCtrl.addTempTabToGroup('editor', {
-				tabName: claimObj.description,
-				tabType: 'claim',
-				data: claimObj
-			});
+
+		actionStateCtrl.addAction('add_claim_to_working_list', function(rivet){
+			console.groupCollapsed('adding claim to working list');
+			var claimFound = false;
+			//first we need to get a refrence of the claim object
+			//Which list is it in?
+			var location = rivet.currentTarget.attributes['data-from-list'].value;
+			var claimId =  rivet.currentTarget.attributes['data-claim-id'].value;
+			if (location == 'search_results') {
+				for (var c = 0; c < WL_STATE.search_results.results.length; c++) { //c for claim
+					if (WL_STATE.search_results.results[c]._id == claimId) {
+						var claimRef = WL_STATE.search_results.results[c];
+						claimFound = true;
+						break;
+					}
+				}
+			} else {
+				console.error('not set up to pull claims from', location);
+			}
+
+			if (claimFound) {
+				workingListStateCtrl.addClaimToList(claimRef);
+			} else {
+				console.warn(claimId, ' not found in ', location);
+			}
+			console.groupEnd();
 		});
 
 	}

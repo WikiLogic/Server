@@ -40,7 +40,7 @@
                         view-class-active="state.welcome_tab.open">
                         <span class="tabs__title"
                             view-on-click="state.actions.open_welcome_tab">
-                            Welcome
+                            Helper :)
                         </span>
                         <span class="tabs__x"
                             view-on-click="state.actions.close_welcome_tab">
@@ -50,8 +50,8 @@
 
                     <!-- the results tab -->
                     <div class="tabs__tab"  
-                        view-show="state.results_tab.show"
-                        view-class-active="state.results_tab.open">
+                        view-show="state.search_results.show_tab"
+                        view-class-active="state.search_results.open_tab">
                         <span class="tabs__title"
                             view-on-click="state.actions.open_results_tab">
                             Results
@@ -102,13 +102,17 @@
                     <div class="box">
                         <h4>Welcome!</h4>
                         <p>To begin - think of something you believe to be true, then type it in the search bar above.
-                        For example: <button class="a" view-on-click="state.actions.search_this">the world is flat</button></p>    
+                        For example: <button class="a" view-on-click="state.actions.search_this">the world is flat</button></p>   
+                        <br>
+                        <div view-show="state.search_results.show_tab">
+                            <p>Nice. Below you can see a list of claims that have been found, double click/tap to open it. (a single click/tap will add it to your 'working list' on the left)</p>
+                        </div> 
                     </div>
                 </div>
 
 
                 <!-- The search reults tab content -->
-                <div view-show="state.results_tab.show">
+                <div view-show="state.search_results.show_tab">
                     <div class="box">
                         {{>search_results}}         
                     </div>
