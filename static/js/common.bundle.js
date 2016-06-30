@@ -13150,6 +13150,10 @@ module.exports = {
 },{"../api/search":6,"../state/actions":18,"../state/search":20,"jquery":1}],11:[function(require,module,exports){
 'use strict';
 
+/* Search results tab and content DOM watcher
+ *
+ */
+
 var eventManager = require('../utils/event_manager');
 var tabStateCtrl = require('../state/tabs');
 var actionStateCtrl = require('../state/actions');

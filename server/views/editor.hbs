@@ -34,7 +34,35 @@
             <div class="header-layout__head">
                 <div class="tabs">
 
-                    <!-- repeating for normal tabs -->
+                    <!-- the welcome tab -->
+                    <div class="tabs__tab"  
+                        view-show="state.welcome_tab.show"
+                        view-class-active="state.welcome_tab.open">
+                        <span class="tabs__title"
+                            view-on-click="state.actions.open_welcome_tab">
+                            Welcome
+                        </span>
+                        <span class="tabs__x"
+                            view-on-click="state.actions.close_welcome_tab">
+                            <svg class="icon icon--10"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>
+                        </span>
+                    </div>
+
+                    <!-- the results tab -->
+                    <div class="tabs__tab"  
+                        view-show="state.results_tab.show"
+                        view-class-active="state.results_tab.open">
+                        <span class="tabs__title"
+                            view-on-click="state.actions.open_results_tab">
+                            Results
+                        </span>
+                        <span class="tabs__x"
+                            view-on-click="state.actions.close_results_tab">
+                            <svg class="icon icon--10"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>
+                        </span>
+                    </div>
+
+                    <!-- editor list tabs -->
                     <div class="tabs__tab"
                         view-each-tab="state.tabs.editor.tabs"
                         view-class-active="tab.active">
@@ -52,17 +80,14 @@
 
                     <!-- AAAnd the temp tab -->
                     <div class="tabs__tab"  
-                        view-show="state.tabs.editor.tempTab.has_content"
-                        view-class-active="state.tabs.editor.tempTab.active">
+                        view-show="state.temp_tab.show"
+                        view-class-active="state.temp_tab.open">
                         <span class="tabs__title"
-                            view-on-click="state.actions.activateTempTab"
-                            view-data-tab-name="state.tabs.editor.tempTab.name"
-                            data-tab-group="editor">
-                            <i>{state.tabs.editor.tempTab.name}</i>
+                            view-on-click="state.actions.openTempTab">
+                            <i>{state.temp_tab.name}</i>
                         </span>
                         <span class="tabs__x"
-                            view-on-click="state.actions.close_temp_tab"
-                            data-tab-group="editor">
+                            view-on-click="state.temp_tab.closeTempTab">
                             <svg class="icon icon--10"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>
                         </span>
                     </div>
@@ -73,8 +98,8 @@
             <div class="header-layout__body y-scroll bg-color--grey-1">
 
                 <!-- The welcome temp tab content -->
-                <div view-show="state.tabs.editor.tempTab.active">
-                    <div class="box" view-show="state.tabs.editor.tempTab.welcome">
+                <div view-show="state.welcome_tab.show">
+                    <div class="box">
                         <h4>Welcome!</h4>
                         <p>To begin - think of something you believe to be true, then type it in the search bar above.
                         For example: <button class="a" view-on-click="state.actions.search_this">the world is flat</button></p>    
@@ -83,13 +108,24 @@
 
 
                 <!-- The search reults tab content -->
-                <div class="box" view-show="state.tabs.editor.results.active">
-                    {{>search_results}}         
+                <div view-show="state.results_tab.show">
+                    <div class="box">
+                        {{>search_results}}         
+                    </div>
                 </div>
 
                 <!-- Current claim tab (claim detail) -->
-                <div class="box" view-show="state.editor_detail.show">
-                    {{>editor_detail}}
+                <div view-show="state.editor_detail.show">
+                    <div class="box">
+                        {{>editor_detail}}
+                    </div>
+                </div>
+
+                <!-- temp tab (claim detail) -->
+                <div view-show="state.temp_tab.show">
+                    <div class="box">
+                        {{>editor_detail}}
+                    </div>
                 </div>
 
                 

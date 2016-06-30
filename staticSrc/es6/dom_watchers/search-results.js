@@ -1,5 +1,9 @@
 'use strict';
 
+/* Search results tab and content DOM watcher
+ *
+ */
+
 var eventManager = require('../utils/event_manager');
 var tabStateCtrl = require('../state/tabs');
 var actionStateCtrl = require('../state/actions');
