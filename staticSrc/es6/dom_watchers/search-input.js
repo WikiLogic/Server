@@ -7,7 +7,7 @@ var actionStateCtrl = require('../state/actions');
 searchStateCtrl.init();
 
 var search = function(term){
-	console.log('search input DOM watcher: requesting search from server');
+	console.group('search submitted');
 	searchStateCtrl.setNewTerm(term);
 
 	searchApi.searchByString(term).done(function(data){
@@ -17,14 +17,13 @@ var search = function(term){
 		console.error('search api error: ', err);
 		//TODO: send to alerts
 	});
+	console.groupEnd();
 }
 
 module.exports = {
 
 	init: function(){
 		$('.js-search').on('keypress', function(e){
-			console.log('search change!', e);
-			
 			if (e.keyCode == 13) {
 				search($(this).val());
 			}

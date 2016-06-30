@@ -3,7 +3,7 @@
 var eventManager = require('../utils/event_manager');
 
 var setResults = function(resultsArray){
-	console.log('search state Ctrl, setting results: ', resultsArray);
+	console.groupCollapsed('Setting search results: ', resultsArray);
 	WL_STATE.search.results = resultsArray;
 	
 	if (resultsArray.length == 0) {
@@ -15,7 +15,7 @@ var setResults = function(resultsArray){
 			WL_STATE.search.results[ri].index = ri;
 		}
 	}
-	
+	console.groupEnd(); //ENd Setting search results
 	eventManager.fire('search_results_set', WL_STATE.search.results);
 }
 

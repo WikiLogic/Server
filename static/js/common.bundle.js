@@ -13124,7 +13124,7 @@ var actionStateCtrl = require('../state/actions');
 searchStateCtrl.init();
 
 var search = function(term){
-	console.log('search input DOM watcher: requesting search from server');
+	console.group('search submitted');
 	searchStateCtrl.setNewTerm(term);
 
 	searchApi.searchByString(term).done(function(data){
@@ -13134,14 +13134,13 @@ var search = function(term){
 		console.error('search api error: ', err);
 		//TODO: send to alerts
 	});
+	console.groupEnd();
 }
 
 module.exports = {
 
 	init: function(){
 		$('.js-search').on('keypress', function(e){
-			console.log('search change!', e);
-			
 			if (e.keyCode == 13) {
 				search($(this).val());
 			}
@@ -13169,14 +13168,19 @@ module.exports = {
 		//whenever the search results are set, activate the results tab (which is what this guy is watching)
 		eventManager.subscribe('search_results_set', function(){
 			console.log('search_results_set subscriber (search results dom watcher), requesting "results tab"');
-			tabStateCtrl.activateTab('editor', 'results');
+			tabStateCtrl.addTabToTabGroup('editor', {
+				tabName: 'results',
+				tabType: '',
+				data: {}
+			});
 		});
 
 		actionStateCtrl.addAction('move_result_to_working_list', function(rivet){
-			console.group('action function: sending claim to working list');
+			console.groupCollapsed('Sending claim to working list');
 			var resultIndex = rivet.currentTarget.attributes['data-result-index'].value;
 			console.log('resultIndex: ', resultIndex);
 			var claimObj = WL_STATE.search.results[resultIndex];
+			console.log('claimObj: ', claimObj)
 			workingListStateCtrl.addClaimToList(claimObj);
 			console.groupEnd();
 		});
@@ -13473,7 +13477,7 @@ module.exports = {
 var eventManager = require('../utils/event_manager');
 
 var setResults = function(resultsArray){
-	console.log('search state Ctrl, setting results: ', resultsArray);
+	console.groupCollapsed('Setting search results: ', resultsArray);
 	WL_STATE.search.results = resultsArray;
 	
 	if (resultsArray.length == 0) {
@@ -13485,7 +13489,7 @@ var setResults = function(resultsArray){
 			WL_STATE.search.results[ri].index = ri;
 		}
 	}
-	
+	console.groupEnd(); //ENd Setting search results
 	eventManager.fire('search_results_set', WL_STATE.search.results);
 }
 
@@ -13548,15 +13552,18 @@ var createTabGroup = function(groupName){
 }
 
 var addTabToTabGroup = function(groupName, newTab){
-
+	console.groupCollapsed('Adding tab', newTab, 'to group', groupName);
+	console.log(typeof WL_STATE.tabs[groupName][newTab.tabName]);
 	//check that tab doesn't already exist
-	if (WL_STATE.tabs[groupName].hasOwnProperty(newTab.tabName)) {
+	if (typeof WL_STATE.tabs[groupName][newTab.tabName] == 'object') {
 		console.warn('A tab of that name already exists in this tab group: ', WL_STATE.tabs[groupName]);
+		activateTab(groupName, newTab.tabName);
+		console.groupEnd(); //END Adding tab to group
 		return;
 	} 
 
 	//yeay! New tab!
-	
+	console.log('pushing to tabs array');
 	//first add the tab to the tab group array
 	WL_STATE.tabs[groupName].tabs.push({
 		name: newTab.tabName, 
@@ -13565,15 +13572,19 @@ var addTabToTabGroup = function(groupName, newTab){
 		data: newTab.data
 	});
 
+	console.log('setting named object')
 	//now add the named tab state object for rivets
 	WL_STATE.tabs[groupName][newTab.tabName] = {
 		active: false,
 		tabIndex: WL_STATE.tabs[groupName].tabs.length - 1
 	};
+
+	activateTab(groupName, newTab.tabName);
+	console.groupEnd(); //END Adding tab to group
 }
 
 var activateTab = function(groupName, tabToActivate){
-	console.group('activating tab');
+	console.groupCollapsed('activating tab');
 	console.log('Tab group: ', groupName);
 	console.log('tabToActivate: ', tabToActivate);
 	
@@ -13601,9 +13612,10 @@ var removeTab = function(groupName, tabName){
 	//remove from array
 	var tabIndex = newTabGroup[tabName].tabIndex;
 	newTabGroup.tabs.splice(tabIndex, 1);
-	
+	console.log('newTabGroup.results', newTabGroup.results);
 	//and remove the names attribute
 	delete newTabGroup[tabName];
+	console.log('newTabGroup.results', newTabGroup.results);
 
 	//now we have to update the indexes listed on the named objects. Loop through remaining tabs from the one closed
 	for (var t = 0; t < (newTabGroup.tabs.length - tabIndex); t++ ) { //t for tab
@@ -13657,8 +13669,7 @@ module.exports = {
 	},
 
 	removeTab: function(groupName, tabName){
-		console.group('removing "' + tabName + '" from "' + groupName);
-		console.log('WL_STATE.tabs[groupName]: ', WL_STATE.tabs[groupName]);
+		console.groupCollapsed('removing "' + tabName + '" from "' + groupName);
 		//first check if this is the tab they're currently on
 		if (WL_STATE.tabs[groupName][tabName].active) {
 			//yep, they are. We're going to have to move them to another tab
@@ -13669,6 +13680,10 @@ module.exports = {
 			if (WL_STATE.tabs[groupName].tabs.length == 1 ) {
 				console.log('only tab');
 				//meh, nothing we can do
+				if (typeof WL_STATE.tabs[groupName].tempTab !== 'null') {
+					console.log('but there is a temp tab, opening that');
+					activateTempTab(groupName);
+				}
 
 			//second - are they on the very last tab?
 			} else if (Number(WL_STATE.tabs[groupName][tabName].tabIndex) == (WL_STATE.tabs[groupName].tabs.length - 1) ) {
@@ -13695,19 +13710,23 @@ module.exports = {
 	},
 
 	addTempTabToGroup: function(groupName, newTab){
+		console.groupCollapsed('Adding Temp Tab: ', newTab, 'to Group:', groupName);
 		//Recreates the sublime text tab behaviour(ish). One click adds temp tab, a second adds it permanently 
 		//newTab = { tabName: <string>, tabType: <string>, data: <obj> }
 
 
 		 //first check there isn't a main tab of this name
-		if (WL_STATE.tabs[groupName].hasOwnProperty(newTab.tabName)) {
+		if (typeof WL_STATE.tabs[groupName][newTab.tabName] == 'object') {
+			console.log('There is already a main tab of this name.');
 			//there is, turn it on
 			activateTab(groupName, newTab.tabName);
+			console.groupEnd();//END Adding Temp Tab
 			return;
 		}
 
 		//second, check if the requested temp tab is already the temp tab. and it's active
 		if (WL_STATE.tabs[groupName].tempTab.name == newTab.tabName && WL_STATE.tabs[groupName].tempTab.has_content) {
+			console.log('Second request for the currently open temp tab');
 			//cool - they want it that bad, lets make it an actual tab!
 			addTabToTabGroup(groupName, newTab);
 			activateTab(groupName, newTab.tabName);
@@ -13716,9 +13735,11 @@ module.exports = {
 			WL_STATE.tabs[groupName].tempTab.has_content = false;
 			WL_STATE.tabs[groupName].tempTab.type = '';
 			WL_STATE.tabs[groupName].tempTab.data = {};
+			console.groupEnd();//END Adding Temp Tab
 			return;
 		}
 		
+		console.log('setting new temp tab');
 		//Well - we've got this far, that only means we have a new temp tab!
 		WL_STATE.tabs[groupName].tempTab = {}; //cleared
 		WL_STATE.tabs[groupName].tempTab[newTab.tabName] = true; //rivets trick for identifying special cases - eg the welcome tab
@@ -13727,6 +13748,7 @@ module.exports = {
 		WL_STATE.tabs[groupName].tempTab.type = newTab.tabType;
 		WL_STATE.tabs[groupName].tempTab.data = newTab.data;
 		activateTempTab(groupName);
+		console.groupEnd();//END Adding Temp Tab
 
 	},
 
@@ -13742,7 +13764,7 @@ module.exports = {
 			var lastTabInArray = WL_STATE.tabs[groupName].tabs[WL_STATE.tabs[groupName].tabs.length - 1];
 			activateTab(groupName, lastTabInArray.name);
 		} 
-		WL_STATE.tabs[groupName].tempTab = {};
+		WL_STATE.tabs[groupName].tempTab = null;
 	}
 };
 },{"../reducers/object_helpers":15,"../reducers/string_helpers":16,"../reducers/tab_helpers":17,"../utils/event_manager":23}],22:[function(require,module,exports){
