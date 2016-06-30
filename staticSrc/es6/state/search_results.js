@@ -57,7 +57,7 @@ module.exports = {
 		closeResultsTab();
 	},
 	hideResultsTab: function(){
-		hideResultsTab90;
+		hideResultsTab();
 	}
 
 };

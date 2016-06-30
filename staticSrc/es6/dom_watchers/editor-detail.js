@@ -5,10 +5,11 @@
  * It also deals with the interactions from that claim
  */
 
-var editorDetailStateCtrl = require('../state/editor_detail');
+var editorDetailStateCtrl = require('../state/editor_detail'); editorDetailStateCtrl.init();
 
 module.exports = {
 	init: function(){
+		console.log('initting editor detail DOM watcher');
 		editorDetailStateCtrl.init();
 
 		

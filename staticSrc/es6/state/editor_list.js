@@ -1,7 +1,47 @@
 'use strict';
+
 /* The Editor List State Controller
  * This state drives the editor's tabs and sends the correct content to the editor detail
  */
+
+var eventManager = require('../utils/event_manager');
+
+
+var openClaimTab = function(claimId){
+	console.log('opening claim tab id: ', claimId);
+	var claimObjRef = {};
+	//loop through all the claim tabs, set them to false unless they match
+	for (var c = 0; c < WL_STATE.editor_list.claim_tabs.length; c++) {
+		if (WL_STATE.editor_list.claim_tabs[c].claim._id == claimId) {
+			console.log('open!');
+			WL_STATE.editor_list.claim_tabs[c].open = true;
+			claimObjRef = WL_STATE.editor_list.claim_tabs[c].claim;
+		} else {
+			console.log('close');
+			WL_STATE.editor_list.claim_tabs[c].open = false;
+		}
+	}
+	eventManager.fire('claim_tab_opened', claimObjRef);
+}
+
+var removeClaimFromList = function(claimId){
+	console.group('Removing claim from editor list', claimId);
+	var claimTabRemoved = false;
+	//loop through to find the relevant claim obj
+	for (var c = 0; c < WL_STATE.editor_list.claim_tabs.length; c++) {
+		if (WL_STATE.editor_list.claim_tabs[c].claim._id == claimId) {
+			console.log('removing claim tab from array');
+			WL_STATE.editor_list.claim_tabs.splice(c,1);
+			claimTabRemoved = true;
+			break;
+		}
+	}
+	if (!claimTabRemoved) {
+		console.warn('Claim tab to remove not found');
+	}
+	console.groupEnd(); //ENd Removing claim from working list
+}
+
 
 module.exports = {
 	init: function(){
@@ -34,35 +74,12 @@ module.exports = {
 			WL_STATE.editor_list.claim_tabs.push(newClaimTabObj);
 		}
 		console.groupEnd(); //END Adding claim to editor list
+		openClaimTab(claimObj._id);
 	},
 	openClaimTab: function(claimId){
-		console.log('opening claim tab id: ', claimId);
-		//loop through all the claim tabs, set them to false unless they match
-		for (var c = 0; c < WL_STATE.editor_list.claim_tabs.length; c++) {
-			if (WL_STATE.editor_list.claim_tabs[c].claim._id == claimId) {
-				console.log('open!');
-				WL_STATE.editor_list.claim_tabs[c].open = true;
-			} else {
-				console.log('close');
-				WL_STATE.editor_list.claim_tabs[c].open = false;
-			}
-		}
+		openClaimTab(claimId);
 	},
 	removeClaimFromList: function(claimId){
-		console.group('Removing claim from editor list', claimId);
-		var claimTabRemoved = false;
-		//loop through to find the relevant claim obj
-		for (var c = 0; c < WL_STATE.editor_list.claim_tabs.length; c++) {
-			if (WL_STATE.editor_list.claim_tabs[c].claim._id == claimId) {
-				console.log('removing claim tab from array');
-				WL_STATE.editor_list.claim_tabs.splice(c,1);
-				claimTabRemoved = true;
-				break;
-			}
-		}
-		if (!claimTabRemoved) {
-			console.warn('Claim tab to remove not found');
-		}
-		console.groupEnd(); //ENd Removing claim from working list
+		removeClaimFromList(claimId);
 	}
 }
