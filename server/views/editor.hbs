@@ -118,18 +118,17 @@
                     </div>
                 </div>
 
+                <!-- Current claim tab (claim detail) -->
+                <div view-show="state.editor_detail.show">
+                    <div class="box">
+                        {{>editor_detail}}
+                    </div>
+                </div>
 
                 <!-- The search reults tab content -->
                 <div view-show="state.search_results.show_tab">
                     <div class="box">
                         {{>search_results}}         
-                    </div>
-                </div>
-
-                <!-- Current claim tab (claim detail) -->
-                <div view-show="state.editor_detail.show">
-                    <div class="box">
-                        {{>editor_detail}}
                     </div>
                 </div>
 

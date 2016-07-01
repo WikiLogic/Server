@@ -2,7 +2,7 @@
 window.WL_STATE = {};
 
 $ = jQuery = require('jquery');
-
+console.groupCollapsed('Initting');
 require('./dom_watchers/search-input').init();
 require('./dom_watchers/search-results').init();
 require('./dom_watchers/helper-tab').init();
@@ -22,6 +22,7 @@ require('./dom_watchers/working-list').init();
 require('./dom_watchers/search-results').init();
 require('./dom_watchers/editor-list').init();
 require('./dom_watchers/editor-detail').init();
+require('./dom_watchers/new-argument').init();
 
 window.rivets = require('rivets');
 
@@ -40,3 +41,4 @@ rivets.configure({
 });
 
 rivets.bind($('#god'), {state: window.WL_STATE});
+console.groupEnd(); //END Initting

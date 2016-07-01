@@ -51,14 +51,21 @@
 
         <svg class="align-center icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-top"></use></svg>
         <p class="small text-align-center no-margins">For</p>
+
+        <!-- The New Argument form -->
         <div class="card bg-color--white text-color--black box">
-            <input view-each-reason="state.editor_detail.new_for.reasons" type="text" class="full-width" placeholder="Add a reason...">
+            <input view-each-reason="state.new_arguments.editor_detail_for.reasons" 
+                type="text" 
+                class="full-width js-new-reason"
+                data-argumentId="editor_detail_for"
+                view-on-keypress="state.actions.new_reason_keypress" 
+                placeholder="Add a reason...">
             <br>
             <button class="button button--grey full-width text-align-center"
                 view-hide="state.editor_detail.new_for.is_valid">
                 Not yet valid argument</button>
             <button class="button full-width text-align-center"
-                view-on-click="state.actions.add_new_argument"
+                view-on-click="state.actions.save_new_argument"
                 view-show="state.editor_detail.new_for.is_valid"
                 data-to="editor_detial_for">
                 save argument</button>
