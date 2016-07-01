@@ -19,6 +19,10 @@ module.exports = {
 			show: false
 		};
 
+		eventManager.subscribe('claim_tab_closed', function(claimObj){
+			WL_STATE.editor_detail.show = false;
+		});
+
 		eventManager.subscribe('claim_tab_opened', function(claimObj){
 			setNewClaimDetail(claimObj);
 			WL_STATE.editor_detail.show = true;

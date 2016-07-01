@@ -13544,6 +13544,10 @@ module.exports = {
 			show: false
 		};
 
+		eventManager.subscribe('claim_tab_closed', function(claimObj){
+			WL_STATE.editor_detail.show = false;
+		});
+
 		eventManager.subscribe('claim_tab_opened', function(claimObj){
 			setNewClaimDetail(claimObj);
 			WL_STATE.editor_detail.show = true;
@@ -13585,19 +13589,39 @@ var openClaimTab = function(claimId){
 var removeClaimFromList = function(claimId){
 	console.group('Removing claim from editor list', claimId);
 	var claimTabRemoved = false;
+	var claimObjRef = {};
 	//loop through to find the relevant claim obj
 	for (var c = 0; c < WL_STATE.editor_list.claim_tabs.length; c++) {
 		if (WL_STATE.editor_list.claim_tabs[c].claim._id == claimId) {
 			console.log('removing claim tab from array');
+			claimObjRef = WL_STATE.editor_list.claim_tabs[c].claim;
 			WL_STATE.editor_list.claim_tabs.splice(c,1);
 			claimTabRemoved = true;
+			eventManager.fire('claim_tab_closed', claimObjRef);
+
+			//now check if there are any other claims tabs to open instead
+			if (WL_STATE.editor_list.claim_tabs.length > 0) {
+				console.log('there are other claim tabs to open');
+				if (typeof WL_STATE.editor_list.claim_tabs[c] !== 'undefined') {
+					//if a tab fell into the place that was just spliced, open it
+					console.log('opening the tab that is now in the place of the one removed: ', WL_STATE.editor_list.claim_tabs[c]);
+					openClaimTab(WL_STATE.editor_list.claim_tabs[c].claim._id);	
+				} else {
+					//otherwise open the one before it
+					console.log('opening the tab that\'s one back: ', WL_STATE.editor_list.claim_tabs[c-1]);
+					openClaimTab(WL_STATE.editor_list.claim_tabs[c-1].claim._id);
+				}
+			} 
 			break;
 		}
 	}
+
 	if (!claimTabRemoved) {
-		console.warn('Claim tab to remove not found');
+		console.warn('Claim tab to remove not found');	
 	}
+
 	console.groupEnd(); //ENd Removing claim from working list
+
 }
 
 
