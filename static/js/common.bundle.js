@@ -13015,15 +13015,14 @@ $ = jQuery = require('jquery');
 
 require('./dom_watchers/search-input').init();
 require('./dom_watchers/search-results').init();
-require('./dom_watchers/welcome-tab').init();
+require('./dom_watchers/helper-tab').init();
 
 var presetTabs = [
 	{
 		groupName: 'editor',
-		tabName: 'welcome',
+		tabName: 'helper',
 		tabType: '',
-		data: {},
-		isTemp: true
+		data: {}
 	}
 ]
 require('./dom_watchers/tabs').init(presetTabs);
@@ -13051,7 +13050,7 @@ rivets.configure({
 });
 
 rivets.bind($('#god'), {state: window.WL_STATE});
-},{"./dom_watchers/claim-input":8,"./dom_watchers/editor-detail":9,"./dom_watchers/editor-list":10,"./dom_watchers/search-input":11,"./dom_watchers/search-results":12,"./dom_watchers/tabs":13,"./dom_watchers/toaster":14,"./dom_watchers/welcome-tab":15,"./dom_watchers/working-list":16,"jquery":1,"rivets":2}],8:[function(require,module,exports){
+},{"./dom_watchers/claim-input":8,"./dom_watchers/editor-detail":9,"./dom_watchers/editor-list":10,"./dom_watchers/helper-tab":11,"./dom_watchers/search-input":12,"./dom_watchers/search-results":13,"./dom_watchers/tabs":14,"./dom_watchers/toaster":15,"./dom_watchers/working-list":16,"jquery":1,"rivets":2}],8:[function(require,module,exports){
 'use strict';
 
 var trumbowyg = require('trumbowyg');
@@ -13171,6 +13170,31 @@ module.exports = {
 },{"../state/actions":20,"../state/editor_list":22}],11:[function(require,module,exports){
 'use strict';
 
+/*
+ * This module is responsibe for the welcome tab
+ */
+
+var helperTabStateCtrl = require('../state/helper_tab'); helperTabStateCtrl.init();
+var actionStateCtrl = require('../state/actions');
+
+
+module.exports = {
+	init: function(){
+		console.log('initting helper tab DOM watcher');
+
+		actionStateCtrl.addAction('close_helper_tab', function(rivet){
+			helperTabStateCtrl.hideHelperTab();
+		});
+
+		actionStateCtrl.addAction('open_helper_tab', function(rivet){
+			helperTabStateCtrl.openHelperTab();
+		});
+
+	}
+}
+},{"../state/actions":20,"../state/helper_tab":23}],12:[function(require,module,exports){
+'use strict';
+
 var $ = require('jquery');
 var searchInputStateCtrl = require('../state/search_input'); searchInputStateCtrl.init();
 var searchApi = require('../api/search');
@@ -13209,7 +13233,7 @@ module.exports = {
 
 }
 
-},{"../api/search":6,"../state/actions":20,"../state/search_input":23,"../state/search_results":24,"jquery":1}],12:[function(require,module,exports){
+},{"../api/search":6,"../state/actions":20,"../state/search_input":24,"../state/search_results":25,"jquery":1}],13:[function(require,module,exports){
 'use strict';
 
 /* Search results tab and content DOM watcher
@@ -13235,7 +13259,7 @@ module.exports = {
 
 	}
 }
-},{"../state/actions":20,"../state/search_results":24}],13:[function(require,module,exports){
+},{"../state/actions":20,"../state/search_results":25}],14:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -13315,7 +13339,7 @@ module.exports = {
 		});
 	}
 }
-},{"../state/actions":20,"../state/tabs":25,"jquery":1}],14:[function(require,module,exports){
+},{"../state/actions":20,"../state/tabs":26,"jquery":1}],15:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -13347,31 +13371,7 @@ module.exports = {
 		});
 	}
 }
-},{"jquery":1}],15:[function(require,module,exports){
-'use strict';
-
-/*
- * This module is responsibe for the welcome tab
- */
-
-var welcomeTabStateCtrl = require('../state/welcome_tab'); welcomeTabStateCtrl.init();
-var actionStateCtrl = require('../state/actions');
-
-
-module.exports = {
-	init: function(){
-
-		actionStateCtrl.addAction('close_welcome_tab', function(rivet){
-			welcomeTabStateCtrl.hideWelcomeTab();
-		});
-
-		actionStateCtrl.addAction('open_welcome_tab', function(rivet){
-			welcomeTabStateCtrl.openWelcomeTab();
-		});
-
-	}
-}
-},{"../state/actions":20,"../state/welcome_tab":26}],16:[function(require,module,exports){
+},{"jquery":1}],16:[function(require,module,exports){
 'use strict';
 
 var actionStateCtrl = require('../state/actions');
@@ -13418,7 +13418,7 @@ module.exports = {
 
 	}
 }
-},{"../state/actions":20,"../state/tabs":25,"../state/working_list":27}],17:[function(require,module,exports){
+},{"../state/actions":20,"../state/tabs":26,"../state/working_list":27}],17:[function(require,module,exports){
 
 module.exports = {
 	cloneThisObject: function(obj) {
@@ -13667,6 +13667,36 @@ module.exports = {
 }
 },{"../utils/event_manager":28}],23:[function(require,module,exports){
 'use strict';
+/* The Temp Tab State Controller
+ * 
+ */
+
+module.exports = {
+	init: function(){
+		console.log('initting helper tab state control');
+		WL_STATE.helper_tab = {
+			show: true,
+			open: true,
+			show_welcome: true,
+			show_results: false,
+			show_new_claim: false,
+			show_working_list: false,
+			show_editor_detail: false
+		};
+	},
+	openHelperTab: function(){
+		WL_STATE.helper_tab.open = true;
+		WL_STATE.helper_tab.show = true;
+	},
+	closeHelperTab: function(){
+		WL_STATE.helper_tab.open = false;
+	},
+	hideHelperTab: function(){
+		WL_STATE.helper_tab.show = false;
+	}
+}
+},{}],24:[function(require,module,exports){
+'use strict';
 
 /* The Search Input state controller
  * This holds onto the search details (not the results!)
@@ -13688,7 +13718,7 @@ module.exports = {
 	}
 
 };
-},{"../utils/event_manager":28}],24:[function(require,module,exports){
+},{"../utils/event_manager":28}],25:[function(require,module,exports){
 'use strict';
 
 var eventManager = require('../utils/event_manager');
@@ -13752,7 +13782,7 @@ module.exports = {
 	}
 
 };
-},{"../utils/event_manager":28}],25:[function(require,module,exports){
+},{"../utils/event_manager":28}],26:[function(require,module,exports){
 'use strict';
 
 /* Everyting aout handling tab state!
@@ -14007,31 +14037,7 @@ module.exports = {
 		WL_STATE.tabs[groupName].tempTab = null;
 	}
 };
-},{"../reducers/object_helpers":17,"../reducers/string_helpers":18,"../reducers/tab_helpers":19,"../utils/event_manager":28}],26:[function(require,module,exports){
-'use strict';
-/* The Temp Tab State Controller
- * 
- */
-
-module.exports = {
-	init: function(){
-		WL_STATE.welcome_tab = {
-			show: true,
-			open: true
-		};
-	},
-	openWelcomeTab: function(claimObj){
-		WL_STATE.welcome_tab.open = true;
-		WL_STATE.welcome_tab.show = true;
-	},
-	closeWelcomeTab: function(indexToRemove){
-		WL_STATE.welcome_tab.open = false;
-	},
-	hideWelcomeTab: function(){
-		WL_STATE.welcome_tab.show = false;
-	}
-}
-},{}],27:[function(require,module,exports){
+},{"../reducers/object_helpers":17,"../reducers/string_helpers":18,"../reducers/tab_helpers":19,"../utils/event_manager":28}],27:[function(require,module,exports){
 'use strict';
 
 var tabStateCtrl = require('./tabs');
@@ -14076,7 +14082,7 @@ module.exports = {
 		
 	}
 }
-},{"./tabs":25}],28:[function(require,module,exports){
+},{"./tabs":26}],28:[function(require,module,exports){
 'use strict';
 
 var eventSubscribers = {};

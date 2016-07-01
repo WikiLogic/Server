@@ -5,15 +5,14 @@ $ = jQuery = require('jquery');
 
 require('./dom_watchers/search-input').init();
 require('./dom_watchers/search-results').init();
-require('./dom_watchers/welcome-tab').init();
+require('./dom_watchers/helper-tab').init();
 
 var presetTabs = [
 	{
 		groupName: 'editor',
-		tabName: 'welcome',
+		tabName: 'helper',
 		tabType: '',
-		data: {},
-		isTemp: true
+		data: {}
 	}
 ]
 require('./dom_watchers/tabs').init(presetTabs);

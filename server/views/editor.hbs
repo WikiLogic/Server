@@ -37,14 +37,14 @@
 
                     <!-- the welcome tab -->
                     <div class="tabs__tab"  
-                        view-show="state.welcome_tab.show"
-                        view-class-active="state.welcome_tab.open">
+                        view-show="state.helper_tab.show"
+                        view-class-active="state.helper_tab.open">
                         <span class="tabs__title"
-                            view-on-click="state.actions.open_welcome_tab">
+                            view-on-click="state.actions.open_helper_tab">
                             Helper :)
                         </span>
                         <span class="tabs__x"
-                            view-on-click="state.actions.close_welcome_tab">
+                            view-on-click="state.actions.close_helper_tab">
                             <svg class="icon icon--10"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>
                         </span>
                     </div>
@@ -98,15 +98,23 @@
             <div class="header-layout__body y-scroll bg-color--grey-1">
 
                 <!-- The welcome temp tab content -->
-                <div view-show="state.welcome_tab.show">
-                    <div class="box">
-                        <h4>Welcome!</h4>
-                        <p>To begin - think of something you believe to be true, then type it in the search bar above.
-                        For example: <button class="a" view-on-click="state.actions.search_this">the world is flat</button></p>   
+                <div view-show="state.helper_tab.show">
+                    <div class="box text-align-center">
                         <br>
-                        <div view-show="state.search_results.show_tab">
+
+                        <div view-show="state.helper_tab.show_welcome">
+                            <h4>Welcome!</h4>
+                            <p>To begin - think of something you believe to be true, <br>
+                            then type it in the search bar above.<br>
+                            Or just click this fun example<br>
+                            <button class="button button--green display-inline-block" view-on-click="state.actions.search_this">the world is flat</button></p>   
+                        </div>
+                        <br>
+                        <div view-show="state.helper_tab.show_results">
                             <p>Nice. Below you can see a list of claims that have been found, double click/tap to open it. (a single click/tap will add it to your 'working list' on the left)</p>
                         </div> 
+
+
                     </div>
                 </div>
 
