@@ -35,8 +35,9 @@
 <div class="text-color--black">   
     <div class="box card bg-color--white">
         <p class="full-width text-align-center no-margins">
-            <svg class="float-left"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>&nbsp;
-            {state.editor_detail.claim.description}
+            <svg class="float-left" view-show="state.editor_detail.claim.status"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#check"></use></svg>
+            <svg class="float-left" view-hide="state.editor_detail.claim.status"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>
+            &nbsp;{state.editor_detail.claim.description}
         </p>
     </div>
     <!--
@@ -51,8 +52,24 @@
         <svg class="align-center icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-top"></use></svg>
         <p class="small text-align-center no-margins">For</p>
         <div class="card bg-color--white text-color--black box">
+            <input view-each-reason="state.editor_detail.new_for.reasons" type="text" class="full-width" placeholder="Add a reason...">
+            <br>
+            <button class="button button--grey full-width text-align-center"
+                view-hide="state.editor_detail.new_for.is_valid">
+                Not yet valid argument</button>
+            <button class="button full-width text-align-center"
+                view-on-click="state.actions.add_new_argument"
+                view-show="state.editor_detail.new_for.is_valid"
+                data-to="editor_detial_for">
+                save argument</button>
+        </div>
 
-            {{> argument_group }}
+        <br>
+
+        <div class="card bg-color--white text-color--black box">
+
+            <hr>
+            <div view-each-argument="state.editor_detail.claim.supporting">{{> argument_group }}</div>
             {{> argument_group }}
 
         </div>
@@ -62,9 +79,13 @@
 
         <svg class="align-center icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-top"></use></svg>
         <p class="small text-align-center no-margins">Against</p>
+
+
+        
         <div class="card bg-color--white text-color--black box">
 
-            {{> argument_group }}
+            <hr>
+            <div view-each-argument="state.editor_detail.claim.opposing">{{> argument_group }}</div>
             {{> argument_group }}
 
         </div>

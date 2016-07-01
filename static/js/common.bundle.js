@@ -13101,6 +13101,7 @@ module.exports = {
  */
 
 var editorDetailStateCtrl = require('../state/editor_detail'); editorDetailStateCtrl.init();
+var actionStateCtrl = require('../state/actions');
 
 module.exports = {
 	init: function(){
@@ -13108,9 +13109,22 @@ module.exports = {
 		editorDetailStateCtrl.init();
 
 		
+		actionStateCtrl.addAction('add_new_argument', function(rivet){
+		console.group('adding argument group');
+			var to = rivet.currentTarget.attributes['data-to'].value;
+			
+			if (to == "editor_detial_for") {
+				editorDetailStateCtrl.addSupportingArgument();
+			} else if (to == "editor_detial_against") {
+				editorDetailStateCtrl.addOpposingArgument();
+			}
+			
+		console.groupEnd();
+		});
+		
 	}
 }
-},{"../state/editor_detail":21}],10:[function(require,module,exports){
+},{"../state/actions":20,"../state/editor_detail":21}],10:[function(require,module,exports){
 'use strict';
 
 var editorListStateCtrl = require('../state/editor_list'); editorListStateCtrl.init();
@@ -13540,8 +13554,20 @@ module.exports = {
 	init: function(){
 		console.log('initting editor detail state controller');
 		WL_STATE.editor_detail = {
+			show: false,
 			claim: {},
-			show: false
+			new_for: {
+				is_valid: false,
+				reasons: [
+					{
+
+					}
+				]
+			},
+			new_against: {
+				is_valid: false,
+				reasons: [{}]
+			}
 		};
 
 		eventManager.subscribe('claim_tab_closed', function(claimObj){
@@ -13556,6 +13582,21 @@ module.exports = {
 
 	setNewClaimDetail: function(claimObj){
 		setNewClaimDetail(claimObj);
+	},
+
+	addSupportingArgument: function(){
+		console.log('stubbing new supporting argument group');
+		WL_STATE.editor_detail.claim.supporting.push({
+			status:false,
+			reasons: []
+		});
+	},
+	addOpposingArgument: function(){
+		console.log('stubbing new opposing argument group');
+		WL_STATE.editor_detail.claim.opposing.push({
+			status:false,
+			reasons: []
+		});
 	}
 
 };

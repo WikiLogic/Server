@@ -77,6 +77,20 @@ button
 		}
 	}
 
+	&--grey {
+		background-image: radial-gradient(circle farthest-corner at 50% 20%, darken($grey-a, 5%), darken($grey-a, 3%));
+	
+		&:hover {
+			background-image: radial-gradient(circle farthest-corner at 50% 20%, lighten($grey-a, 1%), darken($grey-a, 3%));
+		}
+		&:active {
+			background-image: radial-gradient(circle farthest-corner at 50% 20%, darken($grey-a, 8%), darken($grey-a, 6%));
+			border: 0;
+			outline: 0;
+			box-shadow: inset 0px 0px 5px rgba(darken($grey-a, 20%), 0.5);
+		}
+	}
+
 	&:focus {
 		outline: 0;
 	}

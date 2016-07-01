@@ -465,6 +465,15 @@ button
     .button--clear:active {
       background-image: none;
       background: none; }
+  .button--grey {
+    background-image: radial-gradient(circle farthest-corner at 50% 20%, #9d9d9d, #a2a2a2); }
+    .button--grey:hover {
+      background-image: radial-gradient(circle farthest-corner at 50% 20%, #adadad, #a2a2a2); }
+    .button--grey:active {
+      background-image: radial-gradient(circle farthest-corner at 50% 20%, #969696, #9b9b9b);
+      border: 0;
+      outline: 0;
+      box-shadow: inset 0px 0px 5px rgba(119, 119, 119, 0.5); }
   .button:focus, input[type='submit']:focus, input[type='button']:focus {
     outline: 0; }
   .button--reset, button {
