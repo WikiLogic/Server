@@ -1,0 +1,21 @@
+/* <svg class="logo" */
+svg.logo {
+	width: 100%;
+	max-width: 100%;
+	fill: black;
+	path { fill: black; }
+
+	&--white {
+		fill: white;
+		path { fill: white; }
+	}
+
+	&--100 {
+		height: 100px;
+	}
+	&--200 {
+		width: 200px;
+		height: 100%;
+		
+	}
+}

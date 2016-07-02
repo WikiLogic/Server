@@ -1,0 +1,13 @@
+.claim-list-item {
+	$block: &;
+
+	&__hover-show {
+		opacity: 0;
+	}
+	&:hover {
+		#{$block}__hover-show {
+			opacity: 1;
+		
+		}
+	}
+}
