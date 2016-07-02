@@ -13205,38 +13205,56 @@ module.exports = {
 var newArgumentStateCtrl = require('../state/new_argument'); newArgumentStateCtrl.init();
 var actionStateCtrl = require('../state/actions');
 var searchApi = require('../api/search');
+var claimApi = require('../api/claim');
 
 module.exports = {
 	init: function(){
 		console.log('initting new argument DOM watcher');
 		
-		//This action will run the reason / argument validator
 		actionStateCtrl.addAction('new_reason_keypress', function(rivet, e){
+			//this fires with every keypress of the input for the new reason
 			var argumentId = rivet.currentTarget.attributes['data-argument-id'].value;
 
 			if (rivet.key == "Enter"){
-				newArgumentStateCtrl.addSupportingArgument(argumentId);
-
-			} else {
-				console.log('rivet: ', rivet);
+				//when the user presses enter, run the search. Only let them add a new claim if it doesn't already exist
 				var term = rivet.currentTarget.value;
 				
 				//they're just typing, run the search and send the results to the new argument controller
 				searchApi.searchByString(term).done(function(data){
 					//add to search results
-					newArgumentStateCtrl.setResults(argumentId, data);
+					newArgumentStateCtrl.setResults(argumentId, term, data);
 				}).fail(function(err){
 					console.error('search api error: ', err);
 					//TODO: send to alerts
 				});
 
+			} else {
+				//not the enter key - we could start pre fetching results...
+
 			}
+		});
+
+		//if a new reason has been typed up & the search has returned no exact matches, the user can add that reason as a new claim
+		actionStateCtrl.addAction('save_reason_as_claim', function(rivet){
+			console.group('Saving reason as new claim');
+			var argumentId = rivet.currentTarget.attributes['data-argument-id'].value;
+			var newClaimString = newArgumentStateCtrl.getSearchTerm(argumentId);
+			claimApi.newClaim(newClaimString).done(function(data){
+				console.info('new claim has been added!', data);
+				newArgumentStateCtrl.addReason(argumentId, data);
+				//add it to this new argument
+			}).fail(function(err){
+				console.error('new claim api failed', err);
+
+				//send err to the alert system
+			});
+			console.groupEnd();//END Saving reason as new claim
 		});
 
 		actionStateCtrl.addAction('add_reason_to_argument', function(rivet){
 			console.group('Adding reason to argument');
 			//get the claim ref & argument id
-			
+
 			//send it to the argument state controller
 			console.groupEnd(); //END Adding reason to argument
 		});
@@ -13252,7 +13270,7 @@ module.exports = {
 
 	}
 }
-},{"../api/search":6,"../state/actions":21,"../state/new_argument":25}],13:[function(require,module,exports){
+},{"../api/claim":5,"../api/search":6,"../state/actions":21,"../state/new_argument":25}],13:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -13832,7 +13850,9 @@ var newArgumet = {
 		//if we've made it this far, it's passed all our checks!
 		this.isValid = true;
 	},
+	show_new_claim_button: false,
 	show_results: false,
+	search_term: '',
 	search_results: []
 }
 
@@ -13850,12 +13870,27 @@ module.exports = {
 			editor_detail_against: Object.create(newArgumet)
 		};
 	},
-	setResults: function(argumentName, resultsArray){
+	setResults: function(argumentName, searchTerm, resultsArray){
 		console.log('setting search results for argument group:', argumentName, resultsArray);
 		WL_STATE.new_arguments[argumentName].search_results = resultsArray;
+		WL_STATE.new_arguments[argumentName].search_term = searchTerm;
 		if (resultsArray.length > 0) {
 			WL_STATE.new_arguments[argumentName].show_results = true;
+			var exactMatchFound = false;
+			for (var r = 0; r < resultsArray.length; r++) {
+				if (resultsArray[r].description == searchTerm) {
+					exactMatchFound = true;
+					break;
+				}
+			}
+			WL_STATE.new_arguments[argumentName].show_new_claim_button = !exactMatchFound;
+		} else {
+			WL_STATE.new_arguments[argumentName].show_new_claim_button = true;
+			WL_STATE.new_arguments[argumentName].show_results = false;
 		}
+	},
+	getSearchTerm: function(argumentName){
+		return WL_STATE.new_arguments[argumentName].search_term;
 	},
 	addReason: function(argumentName, claimObj){
 		console.log('adding reason to argument group:', argumentName);

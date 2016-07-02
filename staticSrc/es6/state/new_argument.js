@@ -47,7 +47,9 @@ var newArgumet = {
 		//if we've made it this far, it's passed all our checks!
 		this.isValid = true;
 	},
+	show_new_claim_button: false,
 	show_results: false,
+	search_term: '',
 	search_results: []
 }
 
@@ -65,12 +67,27 @@ module.exports = {
 			editor_detail_against: Object.create(newArgumet)
 		};
 	},
-	setResults: function(argumentName, resultsArray){
+	setResults: function(argumentName, searchTerm, resultsArray){
 		console.log('setting search results for argument group:', argumentName, resultsArray);
 		WL_STATE.new_arguments[argumentName].search_results = resultsArray;
+		WL_STATE.new_arguments[argumentName].search_term = searchTerm;
 		if (resultsArray.length > 0) {
 			WL_STATE.new_arguments[argumentName].show_results = true;
+			var exactMatchFound = false;
+			for (var r = 0; r < resultsArray.length; r++) {
+				if (resultsArray[r].description == searchTerm) {
+					exactMatchFound = true;
+					break;
+				}
+			}
+			WL_STATE.new_arguments[argumentName].show_new_claim_button = !exactMatchFound;
+		} else {
+			WL_STATE.new_arguments[argumentName].show_new_claim_button = true;
+			WL_STATE.new_arguments[argumentName].show_results = false;
 		}
+	},
+	getSearchTerm: function(argumentName){
+		return WL_STATE.new_arguments[argumentName].search_term;
 	},
 	addReason: function(argumentName, claimObj){
 		console.log('adding reason to argument group:', argumentName);

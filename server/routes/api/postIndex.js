@@ -45,7 +45,7 @@ var newClaim = function(req, res){
 			console.log('saving claim error: ', err);
 			res.status(500).send(JSON.stringify(err));
 		} else {
-			res.status(200).send(claimresultObj);
+			res.status(200).send(result);
 		}
 		
 	});
