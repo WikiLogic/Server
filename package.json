@@ -15,7 +15,8 @@
     "database": "mongod",
     "server": "nodemon ./server/server.js",
     "gulp": "gulp",
-    "test": "npm run mocha -- --watch -R min",
+    "test": "npm run mocha",
+    "test_watcher": "npm run mocha -- --watch -R min",
     "mocha": "mocha ./test -u bdd -R spec"
   },
   "jshintConfig": {
