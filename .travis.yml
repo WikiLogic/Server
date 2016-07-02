@@ -1,8 +1,8 @@
+deploy:
+  on:
+    branch: develop
 before_install:
 - export DISPLAY=:99.0
 - sh -e /etc/init.d/xvfb start
-before_script:
-- npm install -g gulp
-script: gulp test
 language: node_js
-node_js: '0.12'
+node_js: 'node'

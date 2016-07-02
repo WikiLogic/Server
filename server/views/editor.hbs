@@ -1,0 +1,145 @@
+<!-- This is the 'drafts' view. Everything to do with looking at you rlist of drafts, changing them and making new ones is held here -->
+
+<main id="main" class="box text-color--white">
+
+    <div class="sidebar-layout card bg-color--grey-2">
+
+        <div class="sidebar-layout__side header-layout box">
+        
+            <div class="header-layout__head">
+                <h2 class="line-height--p">Editor</h2>
+                <hr>
+            </div>
+
+            <div class="header-layout__body y-scroll">
+                <div view-hide="state.search.is_empty">
+                    <div view-if="state.working_list.is_empty">
+                        <h4>Working list</h4>
+                        <p>This is a place to keep a refrence to the claims you're interested in. Add them here from the search results.</p>
+                    </div>
+                </div>
+
+                <button
+                    class="display-block full-width box box--wide"
+                    view-each-claim="state.working_list.claims"
+                    view-on-click="state.actions.add_claim_to_editor_list"
+                    view-data-claim-id="claim._id"
+                    data-from-list="working_list">
+                    <p class="no-margins">{claim.description}</p></button>
+                
+            </div>
+
+        </div>
+
+        <div class="sidebar-layout__main header-layout">
+            <div class="header-layout__head">
+                <div class="tabs">
+
+                    <!-- the welcome tab -->
+                    <div class="tabs__tab"  
+                        view-class-active="state.helper_tab.open">
+                        <span class="tabs__title"
+                            view-on-click="state.actions.open_helper_tab">
+                            <span view-show="state.helper_tab.show">Helper</span> :)
+                        </span>
+                        <span class="tabs__x"
+                            view-on-click="state.actions.close_helper_tab">
+                            <svg class="icon icon--10"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>
+                        </span>
+                    </div>
+
+                    <!-- the results tab -->
+                    <div class="tabs__tab"  
+                        view-show="state.search_results.show_tab"
+                        view-class-active="state.search_results.open_tab">
+                        <span class="tabs__title"
+                            view-on-click="state.actions.open_results_tab">
+                            Results
+                        </span>
+                        <span class="tabs__x"
+                            view-on-click="state.actions.close_results_tab">
+                            <svg class="icon icon--10"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>
+                        </span>
+                    </div>
+
+                    <!-- editor list tabs -->
+                    <div class="tabs__tab"
+                        view-each-claimtab="state.editor_list.claim_tabs"
+                        view-class-active="claimtab.open">
+                        <span class="tabs__title"
+                            view-on-click="state.actions.editor_tab_open"
+                            view-data-claimtab-id="claimtab.claim._id"
+                            data-tab-group="editor">{claimtab.claim.description}</span>
+                        <span class="tabs__x"
+                            view-on-click="state.actions.editor_tab_close"
+                            view-data-claimtab-id="claimtab.claim._id">
+                            <svg class="icon icon--10"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>
+                        </span>
+                    </div>
+
+                    <!-- AAAnd the temp tab -->
+                    <div class="tabs__tab"  
+                        view-show="state.temp_tab.show"
+                        view-class-active="state.temp_tab.open">
+                        <span class="tabs__title"
+                            view-on-click="state.actions.openTempTab">
+                            <i>{state.temp_tab.name}</i>
+                        </span>
+                        <span class="tabs__x"
+                            view-on-click="state.temp_tab.closeTempTab">
+                            <svg class="icon icon--10"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>
+                        </span>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="header-layout__body y-scroll bg-color--grey-1">
+
+                <!-- The welcome temp tab content -->
+                <div view-show="state.helper_tab.show">
+                    <div class="box text-align-center">
+                        <br>
+
+                        <div view-show="state.helper_tab.show_welcome">
+                            <h4>Welcome!</h4>
+                            <p>To begin - think of something you believe to be true, <br>
+                            then type it in the search bar above.<br>
+                            Or just click this fun example<br>
+                            <button class="button button--green display-inline-block" view-on-click="state.actions.search_this">the world is flat</button></p>   
+                        </div>
+                        <br>
+                        <div view-show="state.helper_tab.show_results">
+                            <p>Nice. Below you can see a list of claims that have been found, double click/tap to open it. (a single click/tap will add it to your 'working list' on the left)</p>
+                        </div> 
+
+
+                    </div>
+                </div>
+
+                <!-- Current claim tab (claim detail) -->
+                <div view-show="state.editor_detail.show">
+                    <div class="box">
+                        {{>editor_detail}}
+                    </div>
+                </div>
+
+                <!-- The search reults tab content -->
+                <div view-show="state.search_results.show_tab">
+                    <div class="box">
+                        {{>search_results}}         
+                    </div>
+                </div>
+
+                <!-- temp tab (claim detail) -->
+                <div view-show="state.temp_tab.show">
+                    <div class="box">
+                        {{>editor_detail}}
+                    </div>
+                </div>
+
+                
+            </div>
+        </div>
+    </div>
+</main>

@@ -1,0 +1,17 @@
+.border {
+	border-width: 1px;
+	border-color: rgba($WL_Blue, 0.5);
+	border-style: dashed;
+
+	&--white { border-color: rgba(white, 0.5); }	
+	&--red { border-color: rgba($WL_Red, 0.5); }
+	&--green { border-color: rgba($WL_Green, 0.5); }
+	
+	&--solid { border-style: solid; }
+
+	&--top {
+		border-width: 0;
+		border-top-width: 1px;
+	}
+}
+

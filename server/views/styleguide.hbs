@@ -1,0 +1,257 @@
+
+<div class="box">
+
+	<h1 class="text-color--white">WikiLogic Styleguide</h1>
+	<p class="text-color--white">These are the classes you are looking for</p>
+
+	<div class="tabs">
+		<div class="tabs__tab js-tab active" 
+			data-tab-name="basic" 
+			data-tab-group="guide"
+			view-class-active="state.tabs.guide.basic">
+			Basic Styles
+		</div>
+		<div class="tabs__tab js-tab" 
+			data-tab-name="components" 
+			data-tab-group="guide"
+			view-class-active="state.tabs.guide.components">
+			Components
+		</div>
+		<div class="tabs__tab js-tab" 
+			data-tab-name="tab" 
+			data-tab-group="guide"
+			view-class-active="state.tabs.guide.tab">
+			And these are tabs!
+		</div>
+	</div>
+
+	<div view-show="state.tabs.guide.tab">
+		<br>
+
+		<div class="tabs tabs--light">
+			<div class="tabs__tab js-tab active" 
+				data-tab-name="basic" 
+				data-tab-group="light"
+				view-class-active="state.tabs.light.basic">
+				These
+			</div>
+			<div class="tabs__tab js-tab" 
+				data-tab-name="components" 
+				data-tab-group="light"
+				view-class-active="state.tabs.light.components">
+				are 
+			</div>
+			<div class="tabs__tab js-tab" 
+				data-tab-name="tab" 
+				data-tab-group="light"
+				view-class-active="state.tabs.light.tab">
+				light tabs
+			</div>
+		</div>
+	</div>
+	
+	<div view-show="state.tabs.guide.components">
+		<br>
+
+		<div class="toaster js-toaster">
+			<div class="toaster__bread">
+				This is a toaster (you might call it an accordion, but we dont).
+				<svg class="toaster__bread__icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#plus"></use></svg>
+			</div>
+			<div class="toaster__toast">
+				Here is the toast! Yes - it's upside down, but that's relative.
+			</div>
+		</div>
+
+		<br>
+
+		<div class="card bg-color--white box">
+			<p>claim list item</p>
+			<div class="claim-list-item splitter splitter--full-width box box--5 box--wide">
+	            
+	            <a class="splitter__left">
+	                <svg class="bump-up-1 color--black"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#check"></use></svg>
+	                draft.description
+	            </a>
+	            
+	            <div class="claim-list-item__hover-show splitter__right text-color--black">
+	            
+	                <svg class="icon hover-color--blue cursor-pointer"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#pencil"></use></svg>
+	                <svg class="icon hover-color--blue cursor-pointer"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#cloud-upload"></use></svg>
+	                <svg class="icon hover-color--red cursor-pointer"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#trash"></use></svg>
+	                
+	            </div>
+	        </div>
+	    </div>
+	</div>
+
+	<div view-show="state.tabs.guide.basic">
+		<br>
+		<hr class="hr--white">
+
+		<p>Here are the colors we use, and our column classes:</p>
+
+		<div class="row">
+			<div class="row__col--1-third">
+				<div class="box bg-color--red">$WL_Red</div> 
+			</div>
+			<div class="row__col--1-third">
+				<div class="box bg-color--blue">$WL_Blue</div>
+			</div>
+			<div class="row__col--1-third">
+				<div class="box bg-color--green">$WL_Green</div>
+			</div>
+		</div>
+
+		<br>
+
+		<div class="row">
+			<div class="row__col--1-half">
+				<div class="box bg-color--grey-1">$grey-1</div>
+			</div>
+			<div class="row__col--1-half">
+				<div class="box bg-color--white">white</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="row__col--1-half">
+				<div class="box bg-color--grey-2">$grey-2</div>
+			</div>
+			<div class="row__col--1-half">
+				<div class="box bg-color--grey-e">$grey-e</div>
+			</div>
+		</div>
+
+		<br>
+
+		<div class="row">
+			<div class="box bg-pattern--red">bg-pattern--red</div>
+		</div>
+		<div class="row">
+			<div class="box bg-pattern">bg-pattern</div>
+		</div>
+		<div class="row">
+			<div class="box bg-pattern--green">bg-pattern--green</div>
+		</div>
+
+		<br>
+
+		
+		<br>
+
+		<div class="card box bg-color--white">
+			<p>This is a card! And here's one of my favorite layout helpers:</p>
+			<div class="splitter">
+				<div class="splitter__left box border"><p>I call it a "splitter"</p></div>
+				<div class="splitter__right box border"><p>The borders are just showing the structure</p></div>
+			</div>
+			<br>
+			<div class="splitter splitter--full-width">
+				<div class="splitter__left box border"><p>It pushes things left</p></div>
+				<div class="splitter__right box border"><p>and right,<br>in line with each other! <br>This one's also a full width variant</p></div>
+			</div>
+
+			<br>
+			<div class="box bg-color--grey-1">
+				Also
+				<div class="box bg-color--white">
+					you might have noticed
+					<div class="box bg-color--grey-1">
+						everything has the same padding!
+						<div class="box bg-color--white">
+							That's because <i>all</i> the padding is handled by a little class called
+							<div class="box bg-color--grey-1">.box</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+		<br>
+		<hr class="hr--white">
+
+		<div class="row">
+
+			<div class="row__col--1-half">
+				<div class="card box bg-color--white">
+					<h1>Page Heading, h1</h1>
+					<h2>Section Heading, h2</h2>
+					<h3>Heading 3</h3>
+					<h4>Heading 4</h4>
+					<h5>Heading 5</h5>
+					<h6>Heading 6</h6>
+					<p>Paragraph text. Et mazim tamquam eligendi usu. Justo etiam impetus ne mea, te mel epicuri platonem, cum dico scripserit ea. Malis assum sapientem id eum, id mei aliquip labitur cotidieque. Sonet vivendum torquatos vix ex. Cibo neglegentur eu nec. Ius solet graeci ut. Ad sale inciderint his.</p>
+					<p>plain, <a href="#">link</a>, <i>italic</i>, <b>bold</b>, <i><b>bold italic</b></i></p>
+					<p><small>plain, <a href="#">link</a>, <i>italic</i>, <b>bold</b>, <i><b>bold italic</b></i></small></p>
+					<ul>
+						<li>Default list</li>
+						<li>Default list</li>
+						<li>Default list</li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="row__col--1-half">
+				<div class="card box bg-color--grey-1">
+					<h1>Page Heading, h1</h1>
+					<h2>Section Heading, h2</h2>
+					<h3>Heading 3</h3>
+					<h4>Heading 4</h4>
+					<h5>Heading 5</h5>
+					<h6>Heading 6</h6>
+					<p>Paragraph text. Et mazim tamquam eligendi usu. Justo etiam impetus ne mea, te mel epicuri platonem, cum dico scripserit ea. Malis assum sapientem id eum, id mei aliquip labitur cotidieque. Sonet vivendum torquatos vix ex. Cibo neglegentur eu nec. Ius solet graeci ut. Ad sale inciderint his.</p>
+					<p>plain, <a href="#">link</a>, <i>italic</i>, <b>bold</b>, <i><b>bold italic</b></i></p>
+					<p><small>plain, <a href="#">link</a>, <i>italic</i>, <b>bold</b>, <i><b>bold italic</b></i></small></p>
+					<ul>
+						<li>Default list</li>
+						<li>Default list</li>
+						<li>Default list</li>
+					</ul>
+				</div>
+			</div>
+
+		</div>
+
+		
+
+		<br>
+
+
+
+		<div class="card box bg-color--white">
+			<div class="row">
+				<div class="row__col--1-third box">
+					<p><input type="text" value="input"></p>
+					<p><select name="select">
+						<option value="select">Select</option>
+						<option value="One">One</option>
+						<option value="Two">Two</option>
+						<option value="Three">Three</option>
+						<option value="Four">Four</option>
+					</select></p>
+					<textarea name="" id="" cols="30" rows="10">Textarea!</textarea>
+				</div>
+				<div class="row__col--1-third box">
+					<button>button tag</button>
+					<br>
+					<input type="button" value="input[type=button]">
+					<br>
+					<input type="submit" value="input[type=submit]">
+					<br>
+					<a href="#" class="button">a.button</a>
+					<br>
+				</div>
+				<div class="row__col--1-third box">
+					<button class="button--green">.button--green</button>
+					<br>
+					<button class="button--red">.button--red</button>
+					<br>
+					<button class="button--small">.button--small</button>
+				</div>
+			</div>
+			
+
+		</div>
+	</div>
+</div>

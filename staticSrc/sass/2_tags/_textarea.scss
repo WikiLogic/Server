@@ -1,0 +1,19 @@
+.textarea {
+	background-color:white;
+	padding: rem(16);
+	border: 1px solid $grey-1;
+	outline: none;
+	color: black;
+	resize:vertical;
+	max-width: 100%;
+	
+	&--red { &:focus { border-color: darken($WL_Red, 20%); } }
+	&--green { &:focus { border-color: darken($WL_Green, 20%); } }
+
+	&:focus { box-shadow: inset 0 0 5px $WL_Blue; }
+}
+
+textarea { @extend .textarea; }
+
+.bg-pattern--red { .textarea, textarea { border-color: darken($WL_Red, 20%); } }
+.bg-pattern--green { .textarea, textarea { border-color: darken($WL_Green, 20%); } }

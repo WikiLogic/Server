@@ -1,0 +1,45 @@
+<!-- Should probably use WP for this - hook into the REST API for content -->
+
+<div class="box">
+	<div class="card bg-color--white">
+
+		<div class="tabs tabs--light">
+			<div class="tabs__tab js-tab active" 
+				data-tab-name="overview" 
+				data-tab-group="manual"
+				view-class-active="state.tabs.manual.overview">
+				Overview
+			</div>
+			<div class="tabs__tab js-tab" 
+				data-tab-name="tags" 
+				data-tab-group="manual"
+				view-class-active="state.tabs.manual.tags">
+				Tags
+			</div>
+			<div class="tabs__tab js-tab" 
+				data-tab-name="syntax" 
+				data-tab-group="manual"
+				view-class-active="state.tabs.manual.syntax">
+				Syntax
+			</div>
+		</div>
+
+	</div>
+	
+	<br>
+
+	<div class="card bg-color--white box"
+		view-show="state.tabs.manual.overview">
+		<h2>An Overview of WikiLogic.</h2>
+	</div>
+
+	<div class="card bg-color--white box"
+		view-show="state.tabs.manual.tags">
+		<h2>What are Tags and how to use them.</h2>
+	</div>
+
+	<div class="card bg-color--white box"
+		view-show="state.tabs.manual.syntax">
+		<h2>What do all the text colors indicate?</h2>
+	</div>
+</div>
