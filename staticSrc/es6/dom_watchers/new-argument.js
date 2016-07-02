@@ -20,17 +20,27 @@ module.exports = {
 				newArgumentStateCtrl.addSupportingArgument(argumentId);
 
 			} else {
+				console.log('rivet: ', rivet);
+				var term = rivet.currentTarget.value;
 				
 				//they're just typing, run the search and send the results to the new argument controller
 				searchApi.searchByString(term).done(function(data){
 					//add to search results
-					newArgumentStateCtrl.setSupportingResults(argumentId, data);
+					newArgumentStateCtrl.setResults(argumentId, data);
 				}).fail(function(err){
 					console.error('search api error: ', err);
 					//TODO: send to alerts
 				});
 
 			}
+		});
+
+		actionStateCtrl.addAction('add_reason_to_argument', function(rivet){
+			console.group('Adding reason to argument');
+			//get the claim ref & argument id
+			
+			//send it to the argument state controller
+			console.groupEnd(); //END Adding reason to argument
 		});
 
 		//This action will add the argument group to a claim

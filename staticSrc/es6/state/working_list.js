@@ -1,6 +1,6 @@
 'use strict';
 
-var tabStateCtrl = require('./tabs');
+var editorListStateCtrl = require('./editor_list');
 
 /* Working_list State controller
  *
@@ -23,6 +23,8 @@ module.exports = {
 				//it is, our job is done
 				console.warn('That claim is already in the working list');
 				alreadySet = true;
+				//open a tab
+				editorListStateCtrl.addClaimToList(claimObj);
 				break;
 			}
 		}

@@ -13218,17 +13218,27 @@ module.exports = {
 				newArgumentStateCtrl.addSupportingArgument(argumentId);
 
 			} else {
+				console.log('rivet: ', rivet);
+				var term = rivet.currentTarget.value;
 				
 				//they're just typing, run the search and send the results to the new argument controller
 				searchApi.searchByString(term).done(function(data){
 					//add to search results
-					newArgumentStateCtrl.setSupportingResults(argumentId, data);
+					newArgumentStateCtrl.setResults(argumentId, data);
 				}).fail(function(err){
 					console.error('search api error: ', err);
 					//TODO: send to alerts
 				});
 
 			}
+		});
+
+		actionStateCtrl.addAction('add_reason_to_argument', function(rivet){
+			console.group('Adding reason to argument');
+			//get the claim ref & argument id
+			
+			//send it to the argument state controller
+			console.groupEnd(); //END Adding reason to argument
 		});
 
 		//This action will add the argument group to a claim
@@ -13779,8 +13789,13 @@ module.exports = {
  * That would be distracting and might entice people to warp their reasoning to respond to the state
  */
 
-newArgumet = {
-	reasons: [],
+var newReason = {
+	description: "",
+	claimObj: {}
+}
+
+var newArgumet = {
+	reasons: [Object.create(newReason)],
 	addReason: function(claimObj){
 		var reasonIsValid = true;
 		//first check if this reason already exists in the argument
@@ -13804,7 +13819,7 @@ newArgumet = {
 			}
 		}
 	},
-	isValid: false,
+	is_valid: false,
 	checkArgument: function(){
 		//there should be more than one reason
 		if (this.reasons.length < 2) {
@@ -13817,7 +13832,8 @@ newArgumet = {
 		//if we've made it this far, it's passed all our checks!
 		this.isValid = true;
 	},
-	searchResults: []
+	show_results: false,
+	search_results: []
 }
 
 /* There could be many many places a new argument group is authored (thinking of the node map)
@@ -13829,12 +13845,17 @@ module.exports = {
 	init: function(){
 		console.log('initting new argument state controller');
 		//Here we're just manually creating the new arguments
-		WL_STATE.new_arguments.editor_detail_for = Object.create(newArgumet);
-		WL_STATE.new_arguments.editor_detail_against = Object.create(newArgumet);
+		WL_STATE.new_arguments = {
+			editor_detail_for: Object.create(newArgumet),
+			editor_detail_against: Object.create(newArgumet)
+		};
 	},
 	setResults: function(argumentName, resultsArray){
-		console.log('setting search results for argument group:', argumentName);
-		WL_STATE.new_arguments[argumentName].searchResults = resultsArray;
+		console.log('setting search results for argument group:', argumentName, resultsArray);
+		WL_STATE.new_arguments[argumentName].search_results = resultsArray;
+		if (resultsArray.length > 0) {
+			WL_STATE.new_arguments[argumentName].show_results = true;
+		}
 	},
 	addReason: function(argumentName, claimObj){
 		console.log('adding reason to argument group:', argumentName);
@@ -14202,7 +14223,7 @@ module.exports = {
 },{"../reducers/object_helpers":18,"../reducers/string_helpers":19,"../reducers/tab_helpers":20,"../utils/event_manager":30}],29:[function(require,module,exports){
 'use strict';
 
-var tabStateCtrl = require('./tabs');
+var editorListStateCtrl = require('./editor_list');
 
 /* Working_list State controller
  *
@@ -14225,6 +14246,8 @@ module.exports = {
 				//it is, our job is done
 				console.warn('That claim is already in the working list');
 				alreadySet = true;
+				//open a tab
+				editorListStateCtrl.addClaimToList(claimObj);
 				break;
 			}
 		}
@@ -14244,7 +14267,7 @@ module.exports = {
 		
 	}
 }
-},{"./tabs":28}],30:[function(require,module,exports){
+},{"./editor_list":23}],30:[function(require,module,exports){
 'use strict';
 
 var eventSubscribers = {};

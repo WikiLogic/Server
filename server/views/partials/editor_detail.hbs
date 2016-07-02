@@ -54,21 +54,48 @@
 
         <!-- The New Argument form -->
         <div class="card bg-color--white text-color--black box">
-            <input view-each-reason="state.new_arguments.editor_detail_for.reasons" 
-                type="text" 
-                class="full-width js-new-reason"
-                data-argumentId="editor_detail_for"
-                view-on-keypress="state.actions.new_reason_keypress" 
-                placeholder="Add a reason...">
-            <br>
-            <button class="button button--grey full-width text-align-center"
-                view-hide="state.editor_detail.new_for.is_valid">
-                Not yet valid argument</button>
-            <button class="button full-width text-align-center"
-                view-on-click="state.actions.save_new_argument"
-                view-show="state.editor_detail.new_for.is_valid"
-                data-to="editor_detial_for">
-                save argument</button>
+            <div class="splitter splitter--full-width">
+                <div class="splitter__left">
+                    <svg class="float-left"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#pencil"></use></svg>
+                </div>
+                <div class="splitter__right full-width text-align-left">
+
+                    <input view-each-reason="state.new_arguments.editor_detail_for.reasons" 
+                        type="text" 
+                        class="full-width js-new-reason"
+                        data-argument-id="editor_detail_for"
+                        view-on-keypress="state.actions.new_reason_keypress" 
+                        placeholder="Add a reason...">
+
+                    <!-- When typing a reason search results will fill in here -->
+                    <div view-show="state.new_arguments.editor_detail_for.show_results">
+                        <button class="splitter box box--wide splitter--full-width"
+                            view-each-result="state.new_arguments.editor_detail_for.search_results"
+                            view-on-click="state.actions.add_reason_to_argument"
+                            data-argument-id="editor_detail_for"
+                            view-data-claim-id="result._id">
+                            <div class="splitter__left">
+                                <svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#plus"></use></svg>
+                            </div>
+                            <div class="splitter__right">
+                                <p>{result.description}</p>
+                            </div>
+                        </button>
+                    </div>
+
+                    <!-- When the argument group is valid, then show this to save -->
+                    <div view-show="state.editor_detail.new_for.is_valid">
+                        <br>
+                        <button class="button full-width text-align-center"
+                            view-on-click="state.actions.save_new_argument"
+                            data-to="editor_detial_for">
+                            save argument</button>
+                    </div>
+                </div>
+            </div>
+
+
+           
         </div>
 
         <br>

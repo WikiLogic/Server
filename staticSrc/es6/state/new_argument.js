@@ -4,8 +4,13 @@
  * That would be distracting and might entice people to warp their reasoning to respond to the state
  */
 
-newArgumet = {
-	reasons: [],
+var newReason = {
+	description: "",
+	claimObj: {}
+}
+
+var newArgumet = {
+	reasons: [Object.create(newReason)],
 	addReason: function(claimObj){
 		var reasonIsValid = true;
 		//first check if this reason already exists in the argument
@@ -29,7 +34,7 @@ newArgumet = {
 			}
 		}
 	},
-	isValid: false,
+	is_valid: false,
 	checkArgument: function(){
 		//there should be more than one reason
 		if (this.reasons.length < 2) {
@@ -42,7 +47,8 @@ newArgumet = {
 		//if we've made it this far, it's passed all our checks!
 		this.isValid = true;
 	},
-	searchResults: []
+	show_results: false,
+	search_results: []
 }
 
 /* There could be many many places a new argument group is authored (thinking of the node map)
@@ -54,12 +60,17 @@ module.exports = {
 	init: function(){
 		console.log('initting new argument state controller');
 		//Here we're just manually creating the new arguments
-		WL_STATE.new_arguments.editor_detail_for = Object.create(newArgumet);
-		WL_STATE.new_arguments.editor_detail_against = Object.create(newArgumet);
+		WL_STATE.new_arguments = {
+			editor_detail_for: Object.create(newArgumet),
+			editor_detail_against: Object.create(newArgumet)
+		};
 	},
 	setResults: function(argumentName, resultsArray){
-		console.log('setting search results for argument group:', argumentName);
-		WL_STATE.new_arguments[argumentName].searchResults = resultsArray;
+		console.log('setting search results for argument group:', argumentName, resultsArray);
+		WL_STATE.new_arguments[argumentName].search_results = resultsArray;
+		if (resultsArray.length > 0) {
+			WL_STATE.new_arguments[argumentName].show_results = true;
+		}
 	},
 	addReason: function(argumentName, claimObj){
 		console.log('adding reason to argument group:', argumentName);
