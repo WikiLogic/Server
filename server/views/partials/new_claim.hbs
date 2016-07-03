@@ -1,0 +1,14 @@
+<div class="splitter splitter--full-width">
+    <div class="splitter__left">
+        <input type="text" 
+        	class="full-width" 
+        	view-on-keypress="state.actions.new_claim_keypress" 
+        	placeholder="Write up a new claim..."
+        	view-value="state.new_claim.description">
+    </div>
+    <div class="splitter__right">
+        <button class="display-inline-block button button--green"
+            view-on-click="state.actions.save_new_claim"">
+            <p class="p no-margins bump-up-1">Save new claim</p></button>
+    </div>
+</div>

@@ -4,6 +4,7 @@ window.WL_STATE = {};
 $ = jQuery = require('jquery');
 console.groupCollapsed('Initting');
 require('./dom_watchers/search-input').init();
+require('./dom_watchers/new-claim').init();
 require('./dom_watchers/search-results').init();
 require('./dom_watchers/helper-tab').init();
 

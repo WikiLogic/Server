@@ -17,6 +17,7 @@ module.exports = {
 
 	setNewTerm: function(newterm){
 		WL_STATE.search_input.term = newterm;
+		eventManager.fire('search_term_set', newterm);
 	}
 
 };

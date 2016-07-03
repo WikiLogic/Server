@@ -13014,6 +13014,7 @@ window.WL_STATE = {};
 $ = jQuery = require('jquery');
 console.groupCollapsed('Initting');
 require('./dom_watchers/search-input').init();
+require('./dom_watchers/new-claim').init();
 require('./dom_watchers/search-results').init();
 require('./dom_watchers/helper-tab').init();
 
@@ -13052,7 +13053,7 @@ rivets.configure({
 
 rivets.bind($('#god'), {state: window.WL_STATE});
 console.groupEnd(); //END Initting
-},{"./dom_watchers/claim-input":8,"./dom_watchers/editor-detail":9,"./dom_watchers/editor-list":10,"./dom_watchers/helper-tab":11,"./dom_watchers/new-argument":12,"./dom_watchers/search-input":13,"./dom_watchers/search-results":14,"./dom_watchers/tabs":15,"./dom_watchers/toaster":16,"./dom_watchers/working-list":17,"jquery":1,"rivets":2}],8:[function(require,module,exports){
+},{"./dom_watchers/claim-input":8,"./dom_watchers/editor-detail":9,"./dom_watchers/editor-list":10,"./dom_watchers/helper-tab":11,"./dom_watchers/new-argument":12,"./dom_watchers/new-claim":13,"./dom_watchers/search-input":14,"./dom_watchers/search-results":15,"./dom_watchers/tabs":16,"./dom_watchers/toaster":17,"./dom_watchers/working-list":18,"jquery":1,"rivets":2}],8:[function(require,module,exports){
 'use strict';
 
 var trumbowyg = require('trumbowyg');
@@ -13086,6 +13087,7 @@ module.exports = {
 			}).fail(function(err){
 				console.error('new claim api failed', err);
 
+				//open 'new claim' tab
 				//send err to the alert system
 			});
 			
@@ -13094,7 +13096,7 @@ module.exports = {
 	}
 }
 
-},{"../api/claim":5,"../state/actions":21,"trumbowyg":4}],9:[function(require,module,exports){
+},{"../api/claim":5,"../state/actions":22,"trumbowyg":4}],9:[function(require,module,exports){
 'use strict';
 
 /* Current Editor DOM Watcher
@@ -13113,7 +13115,7 @@ module.exports = {
 		
 	}
 }
-},{"../state/actions":21,"../state/editor_detail":22}],10:[function(require,module,exports){
+},{"../state/actions":22,"../state/editor_detail":23}],10:[function(require,module,exports){
 'use strict';
 
 var editorListStateCtrl = require('../state/editor_list'); editorListStateCtrl.init();
@@ -13170,7 +13172,7 @@ module.exports = {
 
 	}
 }
-},{"../state/actions":21,"../state/editor_list":23}],11:[function(require,module,exports){
+},{"../state/actions":22,"../state/editor_list":24}],11:[function(require,module,exports){
 'use strict';
 
 /*
@@ -13195,7 +13197,7 @@ module.exports = {
 
 	}
 }
-},{"../state/actions":21,"../state/helper_tab":24}],12:[function(require,module,exports){
+},{"../state/actions":22,"../state/helper_tab":25}],12:[function(require,module,exports){
 'use strict';
 
 /*
@@ -13270,7 +13272,67 @@ module.exports = {
 
 	}
 }
-},{"../api/claim":5,"../api/search":6,"../state/actions":21,"../state/new_argument":25}],13:[function(require,module,exports){
+},{"../api/claim":5,"../api/search":6,"../state/actions":22,"../state/new_argument":26}],13:[function(require,module,exports){
+'use strict';
+
+/*
+ * This module is responsibe for the new claim
+ */
+
+var newClaimStateCtrl = require('../state/new_claim'); newClaimStateCtrl.init();
+var actionStateCtrl = require('../state/actions');
+var searchApi = require('../api/search');
+var searchResultsStateCtrl = require('../state/search_results');
+var workingListStateCtrl = require('../state/working_list');
+var claimApi = require('../api/claim');
+
+module.exports = {
+	init: function(){
+		console.log('initting new claim DOM watcher');
+		
+		actionStateCtrl.addAction('new_claim_keypress', function(rivet, e){
+			//this fires with every keypress of the input for the new reason
+			var term = rivet.currentTarget.value;
+			newClaimStateCtrl.setDescription(term);
+
+			if (rivet.key == "Enter"){
+				console.group('New Claim Form Enter: ', term);
+				//when the user presses enter, run the search. Only let them add a new claim if it doesn't already exist
+				searchApi.searchByString(term).done(function(data){
+					//add to search results
+					searchResultsStateCtrl.setResults(data);
+				}).fail(function(err){
+					console.error('search api error: ', err);
+					//TODO: send to alerts
+				});
+				console.groupEnd();//END New Claim Form Enter
+
+			} else {
+				//not the enter key - we could start pre fetching results...
+
+			}
+		});
+
+		//if a new reason has been typed up & the search has returned no exact matches, the user can add that reason as a new claim
+		actionStateCtrl.addAction('save_new_claim', function(rivet){
+			var newClaimString = newClaimStateCtrl.getDescription();
+			console.group('Saving new claim: ', newClaimString);
+			claimApi.newClaim(newClaimString).done(function(data){
+				console.info('new claim has been added!', data);
+				//add it to the working list and open in detail (add it to the workin glist twice hehe!)
+				workingListStateCtrl.addClaimToList(data); //first time adds it to the working list
+				workingListStateCtrl.addClaimToList(data); //Second time, the working list will pop in into the detail and open the tab for us. EASy WIN :D
+			}).fail(function(err){
+				console.error('new claim api failed', err);
+
+				//send err to the alert system
+			});
+			console.groupEnd();//END Saving reason as new claim
+		});
+
+	}
+}
+},{"../api/claim":5,"../api/search":6,"../state/actions":22,"../state/new_claim":27,"../state/search_results":29,"../state/working_list":31}],14:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -13311,7 +13373,7 @@ module.exports = {
 
 }
 
-},{"../api/search":6,"../state/actions":21,"../state/search_input":26,"../state/search_results":27,"jquery":1}],14:[function(require,module,exports){
+},{"../api/search":6,"../state/actions":22,"../state/search_input":28,"../state/search_results":29,"jquery":1}],15:[function(require,module,exports){
 'use strict';
 
 /* Search results tab and content DOM watcher
@@ -13337,7 +13399,7 @@ module.exports = {
 
 	}
 }
-},{"../state/actions":21,"../state/search_results":27}],15:[function(require,module,exports){
+},{"../state/actions":22,"../state/search_results":29}],16:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -13417,7 +13479,7 @@ module.exports = {
 		});
 	}
 }
-},{"../state/actions":21,"../state/tabs":28,"jquery":1}],16:[function(require,module,exports){
+},{"../state/actions":22,"../state/tabs":30,"jquery":1}],17:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -13449,7 +13511,7 @@ module.exports = {
 		});
 	}
 }
-},{"jquery":1}],17:[function(require,module,exports){
+},{"jquery":1}],18:[function(require,module,exports){
 'use strict';
 
 var actionStateCtrl = require('../state/actions');
@@ -13496,7 +13558,7 @@ module.exports = {
 
 	}
 }
-},{"../state/actions":21,"../state/tabs":28,"../state/working_list":29}],18:[function(require,module,exports){
+},{"../state/actions":22,"../state/tabs":30,"../state/working_list":31}],19:[function(require,module,exports){
 
 module.exports = {
 	cloneThisObject: function(obj) {
@@ -13510,7 +13572,7 @@ module.exports = {
 		return newObj;
 	}
 }
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -13523,7 +13585,7 @@ module.exports = {
 		return /[A-Z]/.test(s);
 	}
 }
-},{}],20:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 /* Takes tab group state
  * modifies it
  * Returns tab group state
@@ -13576,7 +13638,7 @@ module.exports = {
 		};
 	}
 }
-},{"../reducers/string_helpers":19,"./object_helpers":18}],21:[function(require,module,exports){
+},{"../reducers/string_helpers":20,"./object_helpers":19}],22:[function(require,module,exports){
 'use strict';
 
 var objectHelpers = require('../reducers/object_helpers');
@@ -13600,7 +13662,7 @@ module.exports = {
 	}
 
 };
-},{"../reducers/object_helpers":18}],22:[function(require,module,exports){
+},{"../reducers/object_helpers":19}],23:[function(require,module,exports){
 'use strict';
 
 var eventManager = require('../utils/event_manager');
@@ -13664,7 +13726,7 @@ module.exports = {
 	}
 
 };
-},{"../utils/event_manager":30}],23:[function(require,module,exports){
+},{"../utils/event_manager":32}],24:[function(require,module,exports){
 'use strict';
 
 /* The Editor List State Controller
@@ -13770,7 +13832,7 @@ module.exports = {
 		removeClaimFromList(claimId);
 	}
 }
-},{"../utils/event_manager":30}],24:[function(require,module,exports){
+},{"../utils/event_manager":32}],25:[function(require,module,exports){
 'use strict';
 /* The Temp Tab State Controller
  * 
@@ -13800,7 +13862,7 @@ module.exports = {
 		WL_STATE.helper_tab.show = false;
 	}
 }
-},{}],25:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 'use strict';
 
 /* New arguments do not check state wile they are being authored
@@ -13913,7 +13975,62 @@ module.exports = {
 	}
 
 };
-},{}],26:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
+'use strict';
+
+/* New Claim State Ctrl
+ */
+
+var eventManager = require('../utils/event_manager');
+
+module.exports = {
+
+	init: function(){
+		console.log('initting new claim state controller');
+
+		WL_STATE.new_claim = {
+			description: '',
+			show: false
+		};
+
+		//listen for a new search term being set, if they don't find it they'll probably want to make a new one
+		eventManager.subscribe('search_term_set', function(searchTerm){
+			WL_STATE.new_claim.description = searchTerm;
+		});
+
+		//listen to the search results. If non are set, open me!!!
+		eventManager.subscribe('search_results_set', function(resultsArray){
+			var searchTerm = WL_STATE.search_input.term;
+			//show if there are no results
+			if (resultsArray.length < 1) {
+				WL_STATE.new_claim.show = true;
+			} else {
+				//also show if no results match
+				var hasExactMatch = false;
+				for (var r = 0; r < resultsArray.length; r++){
+					if (resultsArray[r].description == searchTerm) { //TODO - remove this cheekyness
+						hasExactMatch = true;
+						WL_STATE.new_claim.show = false;
+						break;
+					}
+				}
+
+				if (!hasExactMatch) {
+					WL_STATE.new_claim.show = true;
+				}	
+			}
+			
+		});
+	},
+	setDescription: function(newDescription){
+		WL_STATE.new_claim.description = newDescription;
+	},
+	getDescription: function(){
+		return WL_STATE.new_claim.description;
+	}
+
+};
+},{"../utils/event_manager":32}],28:[function(require,module,exports){
 'use strict';
 
 /* The Search Input state controller
@@ -13933,10 +14050,11 @@ module.exports = {
 
 	setNewTerm: function(newterm){
 		WL_STATE.search_input.term = newterm;
+		eventManager.fire('search_term_set', newterm);
 	}
 
 };
-},{"../utils/event_manager":30}],27:[function(require,module,exports){
+},{"../utils/event_manager":32}],29:[function(require,module,exports){
 'use strict';
 
 var eventManager = require('../utils/event_manager');
@@ -14000,7 +14118,7 @@ module.exports = {
 	}
 
 };
-},{"../utils/event_manager":30}],28:[function(require,module,exports){
+},{"../utils/event_manager":32}],30:[function(require,module,exports){
 'use strict';
 
 /* Everyting aout handling tab state!
@@ -14255,7 +14373,7 @@ module.exports = {
 		WL_STATE.tabs[groupName].tempTab = null;
 	}
 };
-},{"../reducers/object_helpers":18,"../reducers/string_helpers":19,"../reducers/tab_helpers":20,"../utils/event_manager":30}],29:[function(require,module,exports){
+},{"../reducers/object_helpers":19,"../reducers/string_helpers":20,"../reducers/tab_helpers":21,"../utils/event_manager":32}],31:[function(require,module,exports){
 'use strict';
 
 var editorListStateCtrl = require('./editor_list');
@@ -14302,7 +14420,7 @@ module.exports = {
 		
 	}
 }
-},{"./editor_list":23}],30:[function(require,module,exports){
+},{"./editor_list":24}],32:[function(require,module,exports){
 'use strict';
 
 var eventSubscribers = {};

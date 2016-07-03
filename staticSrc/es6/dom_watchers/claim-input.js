@@ -31,6 +31,7 @@ module.exports = {
 			}).fail(function(err){
 				console.error('new claim api failed', err);
 
+				//open 'new claim' tab
 				//send err to the alert system
 			});
 			

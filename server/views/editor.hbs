@@ -40,9 +40,10 @@
                         view-class-active="state.helper_tab.open">
                         <span class="tabs__title"
                             view-on-click="state.actions.open_helper_tab">
-                            <span view-show="state.helper_tab.show">Helper</span> :)
+                            <span view-show="state.helper_tab.show">Helper</span><span view-hide="state.helper_tab.show">?&nbsp;&nbsp;</span>
                         </span>
                         <span class="tabs__x"
+                            view-show="state.helper_tab.show"
                             view-on-click="state.actions.close_helper_tab">
                             <svg class="icon icon--10"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>
                         </span>
@@ -121,6 +122,15 @@
                 <div view-show="state.editor_detail.show">
                     <div class="box">
                         {{>editor_detail}}
+                    </div>
+                </div>
+
+                <!-- the new claim form -->
+                <div view-show="state.new_claim.show">
+                    <div class="box">
+                        <h4>No exact match found</h4>
+                        <p>Would you like to make one?</p>
+                        {{>new_claim}}
                     </div>
                 </div>
 
