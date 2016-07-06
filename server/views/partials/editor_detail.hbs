@@ -1,4 +1,6 @@
-<div class="row">
+
+<!-- confusing section, even for Douglas -->
+<div class="row" style="display:none;">
 
     <div class="row__col--1-half">
         <div class="card bg-color--white text-color--black box">
@@ -60,6 +62,8 @@
                 </div>
                 <div class="splitter__right full-width text-align-left">
 
+                    
+
                     <!-- This is the input for a new reason. It's essentially a mini search bar -->
                     <input view-each-reason="state.new_arguments.editor_detail_for.reasons" 
                         type="text" 
@@ -117,6 +121,40 @@
 
         <div class="card bg-color--white text-color--black box">
 
+            <div class="splitter splitter--full-width">
+                <div class="splitter__left">
+                    <!-- The sorting / filtering icons -->
+                    <svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#sort-ascending"></use></svg>
+                    <svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#sort-descending"></use></svg>
+                    <!-- Capricious -->
+                    <svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#fire"></use></svg>
+                    <!-- popular -->
+                    <svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#star"></use></svg>
+                    <!-- critical -->
+                    <svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#warning"></use></svg>
+                </div>
+                <div class="splitter__right">
+                    <svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#menu"></use></svg>
+                </div>
+            </div>
+
+            <br>
+            <div class="splitter splitter--full-width">
+                <div class="splitter__left">
+                    <p>Show the </p>
+                </div>
+                <div class="splitter__right full-width">
+                    <select name="" id="" class="splitter__left full-width">
+                        <option value="criticality">Most Critical</option>
+                        <option value="criticality">Least Critical</option>
+                        <option value="capriciousness">Most Capricious</option>
+                        <option value="capriciousness">Lease Capricious</option>
+                        <option value="popularity">Most Popular</option>
+                        <option value="popularity">Least Popular</option>
+                    </select>
+                </div>
+            </div>
+            <br>
             <hr>
             <div view-each-argument="state.editor_detail.claim.supporting">{{> argument_group }}</div>
             {{> argument_group }}

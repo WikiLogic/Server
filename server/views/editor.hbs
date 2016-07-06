@@ -40,7 +40,11 @@
                         view-class-active="state.helper_tab.open">
                         <span class="tabs__title"
                             view-on-click="state.actions.open_helper_tab">
-                            <span view-show="state.helper_tab.show">Helper</span><span view-hide="state.helper_tab.show">?&nbsp;&nbsp;</span>
+                            <span view-show="state.helper_tab.show">Helper</span>
+                            <span view-hide="state.helper_tab.show">
+                                <svg class="icon icon--10"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#info"></use></svg>
+                                &nbsp;&nbsp;
+                            </span>
                         </span>
                         <span class="tabs__x"
                             view-show="state.helper_tab.show"
@@ -51,13 +55,17 @@
 
                     <!-- the results tab -->
                     <div class="tabs__tab"  
-                        view-show="state.search_results.show_tab"
                         view-class-active="state.search_results.open_tab">
                         <span class="tabs__title"
                             view-on-click="state.actions.open_results_tab">
-                            Results
+                            <span view-show="state.search_results.show_tab">Results</span>
+                            <span view-hide="state.search_results.show_tab">
+                                <svg class="icon icon--10"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#magnifying-glass"></use></svg>
+                                &nbsp;&nbsp;
+                            </span>
                         </span>
                         <span class="tabs__x"
+                            view-show="state.search_results.show_tab"
                             view-on-click="state.actions.close_results_tab">
                             <svg class="icon icon--10"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>
                         </span>
