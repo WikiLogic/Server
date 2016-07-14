@@ -1,0 +1,8 @@
+.sections-wrap {
+	section {
+		border-top: 1px dashed $WL_Blue;
+		&:first-of-type {
+			border-top: 0;
+		}
+	}
+}

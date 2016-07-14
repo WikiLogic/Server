@@ -566,6 +566,11 @@ svg.logo {
 ::-webkit-scrollbar-thumb:window-inactive {
   background: #375073; }
 
+.sections-wrap section {
+  border-top: 1px dashed #5f9aec; }
+  .sections-wrap section:first-of-type {
+    border-top: 0; }
+
 select {
   background-color: white;
   padding: 0.3125rem 0.625rem;
@@ -1096,8 +1101,11 @@ They should get you 90% of the look you're after
   .text-color--black h5, .text-color--black h6, .text-color--black p {
     color: rgba(0, 0, 0, 0.87); }
 
-.color--black {
+.color-black {
   fill: black !important; }
+
+.color-white {
+  fill: white !important; }
 
 .hover-color--grey-2:hover {
   color: #223856;

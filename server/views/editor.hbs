@@ -103,10 +103,10 @@
                 </div>
 
             </div>
-            <div class="header-layout__body y-scroll bg-color--grey-1">
+            <div class="header-layout__body y-scroll bg-color--grey-1 sections-wrap">
 
                 <!-- The welcome temp tab content -->
-                <div view-show="state.helper_tab.show">
+                <section view-show="state.helper_tab.show">
                     <div class="box text-align-center">
                         <br>
 
@@ -124,37 +124,37 @@
 
 
                     </div>
-                </div>
+                </section>
 
                 <!-- Current claim tab (claim detail) -->
-                <div view-show="state.editor_detail.show">
+                <section view-show="state.editor_detail.show">
                     <div class="box">
                         {{>editor_detail}}
                     </div>
-                </div>
+                </section>
 
                 <!-- the new claim form -->
-                <div view-show="state.new_claim.show">
+                <section view-show="state.new_claim.show">
                     <div class="box">
                         <h4>No exact match found</h4>
                         <p>Would you like to make one?</p>
                         {{>new_claim}}
                     </div>
-                </div>
+                </section>
 
                 <!-- The search reults tab content -->
-                <div view-show="state.search_results.show_tab">
+                <section view-show="state.search_results.show_tab">
                     <div class="box">
                         {{>search_results}}         
                     </div>
-                </div>
+                </section>
 
                 <!-- temp tab (claim detail) -->
-                <div view-show="state.temp_tab.show">
+                <section view-show="state.temp_tab.show">
                     <div class="box">
                         {{>editor_detail}}
                     </div>
-                </div>
+                </section>
 
                 
             </div>
