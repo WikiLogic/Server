@@ -13,6 +13,10 @@ var tabStateCtrl = require('../state/tabs');
 
 module.exports = {
 	init: function(){
+
+		$('.js-working-list').each(function(){
+			console.warn('todo: bind working list');
+		});
 		
 
 		actionStateCtrl.addAction('add_claim_to_working_list', function(rivet){

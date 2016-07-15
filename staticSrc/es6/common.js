@@ -41,5 +41,5 @@ require('./dom_watchers/editor-list').init();
 require('./dom_watchers/editor-detail').init();
 require('./dom_watchers/new-argument').init();
 
-rivets.bind($('#god'), {state: window.WL_STATE});
+//rivets.bind($('#god'), {state: window.WL_STATE});
 console.groupEnd(); //END Initting

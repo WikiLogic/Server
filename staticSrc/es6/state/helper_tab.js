@@ -1,6 +1,8 @@
 'use strict';
-/* The Temp Tab State Controller
- * 
+/* The Helper Tab State Controller
+ * I'm thinking helpful text could be placed throughout the DOM and hide/show based on 
+ * the help_tab state & whatever the relevant containing state is. 
+ * The main body of the help tab could itself be tabbed content with more in depth help
  */
 
 module.exports = {
