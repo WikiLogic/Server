@@ -4,7 +4,7 @@
  * This module is responsibe for the new arguments form
  */
 
-var newArgumentStateCtrl = require('../state/new_argument'); newArgumentStateCtrl.init();
+var newArgumentStateCtrl = require('../state/new_argument');
 var actionStateCtrl = require('../state/actions');
 var searchApi = require('../api/search');
 var claimApi = require('../api/claim');
@@ -15,10 +15,12 @@ module.exports = {
 
 
 		//for each argument creation form, bind a new argument state object
-		$('.argument-creation-form').each(function(){
+		$('.js-argument-creation-form').each(function(){
+			//first get a newly generated argument creation state
+			var newArgumentState = newArgumentStateCtrl.getNewArgument();
 			window.rivets.bind(
 				$(this),
-				{ new_argument: newArgumentStateCtrl }
+				{ new_argument: newArgumentState }
 			);
 		});
 		

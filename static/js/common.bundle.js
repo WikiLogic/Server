@@ -13204,7 +13204,7 @@ module.exports = {
  * This module is responsibe for the new arguments form
  */
 
-var newArgumentStateCtrl = require('../state/new_argument'); newArgumentStateCtrl.init();
+var newArgumentStateCtrl = require('../state/new_argument');
 var actionStateCtrl = require('../state/actions');
 var searchApi = require('../api/search');
 var claimApi = require('../api/claim');
@@ -13215,10 +13215,12 @@ module.exports = {
 
 
 		//for each argument creation form, bind a new argument state object
-		$('.argument-creation-form').each(function(){
+		$('.js-argument-creation-form').each(function(){
+			//first get a newly generated argument creation state
+			var newArgumentState = newArgumentStateCtrl.getNewArgument();
 			window.rivets.bind(
 				$(this),
-				{ new_argument: newArgumentStateCtrl }
+				{ new_argument: newArgumentState }
 			);
 		});
 		
@@ -13878,12 +13880,17 @@ module.exports = {
  * That would be distracting and might entice people to warp their reasoning to respond to the state
  */
 
+//keep a refrence to all the arguments we create
+var newArguments = {};
+
+var argIdIterator = 0;
+
 var newReason = {
 	description: "",
 	claimObj: {}
 }
 
-var newArgumet = {
+var newArgument = {
 	reasons: [Object.create(newReason)],
 	addReason: function(claimObj){
 		var reasonIsValid = true;
@@ -13934,35 +13941,49 @@ var newArgumet = {
  */
 module.exports = {
 
-	init: function(){
-		console.log('initting new argument state controller');
-		//Here we're just manually creating the new arguments
-		WL_STATE.new_arguments = {
-			editor_detail_for: Object.create(newArgumet),
-			editor_detail_against: Object.create(newArgumet)
-		};
+	getNewArgument: function(){
+		//new instance of an argument creation form
+		var returnArgument = Object.create(newArgument);
+		//new id
+		var returnArgumentID = "newarg" + argIdIterator;
+		//set the id on the argument
+		returnArgument._id = "newarg" + argIdIterator;
+		//save a refrence to the argument
+		newArguments[returnArgumentID] = returnArgument;
+		//iterate the ID generator for next time
+		argIdIterator ++;
+		//return the newly created argument
+		return returnArgument;
 	},
-	setResults: function(argumentName, searchTerm, resultsArray){
+	setResults: function(argumentID, searchTerm, resultsArray){
 		console.log('setting search results for argument group:', argumentName, resultsArray);
-		WL_STATE.new_arguments[argumentName].search_results = resultsArray;
-		WL_STATE.new_arguments[argumentName].search_term = searchTerm;
-		if (resultsArray.length > 0) {
-			WL_STATE.new_arguments[argumentName].show_results = true;
-			var exactMatchFound = false;
-			for (var r = 0; r < resultsArray.length; r++) {
-				if (resultsArray[r].description == searchTerm) {
-					exactMatchFound = true;
-					break;
+		if (newArguments.hasOwnProperty(argumentID)) {
+			newArguments[argumentID].search_results = resultsArray;
+			newArguments[argumentID].search_term = searchTerm;
+
+			if (resultsArray.length > 0) {
+				newArguments[argumentID].show_results = true;
+				var exactMatchFound = false;
+				for (var r = 0; r < resultsArray.length; r++) {
+					if (resultsArray[r].description == searchTerm) {
+						exactMatchFound = true;
+						break;
+					}
 				}
+				newArguments[argumentID].show_new_claim_button = !exactMatchFound;
+			} else {
+				newArguments[argumentID].show_new_claim_button = true;
+				newArguments[argumentID].show_results = false;
 			}
-			WL_STATE.new_arguments[argumentName].show_new_claim_button = !exactMatchFound;
 		} else {
-			WL_STATE.new_arguments[argumentName].show_new_claim_button = true;
-			WL_STATE.new_arguments[argumentName].show_results = false;
+			console.warn('That argument creation form doesn\'t have any state :(');
 		}
 	},
-	getSearchTerm: function(argumentName){
-		return WL_STATE.new_arguments[argumentName].search_term;
+	getSearchTerm: function(argumentID){
+		if (newArguments.hasOwnProperty(argumentID)) {
+			return newArguments[argumentID].search_term;
+		}
+		console.warn('That argument creation form has no state :(');
 	},
 	addReason: function(argumentName, claimObj){
 		console.log('adding reason to argument group:', argumentName);
@@ -13983,9 +14004,6 @@ module.exports = {
 	clearArgument: function(argumentName){
 		console.log('clearing argument group:', argumentName);
 	},
-	getNewArgument: function(){
-		return Object.create(newArgument);
-	}
 
 };
 },{}],27:[function(require,module,exports){
