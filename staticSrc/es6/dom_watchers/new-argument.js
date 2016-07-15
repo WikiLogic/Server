@@ -22,6 +22,8 @@ module.exports = {
 				$(this),
 				{ new_argument: newArgumentState }
 			);
+
+			//TODO - add the actions to this specific object. I wonder how 'this' will behave.
 		});
 		
 		actionStateCtrl.addAction('new_reason_keypress', function(rivet, e){
