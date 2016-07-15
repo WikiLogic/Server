@@ -13008,10 +13008,12 @@ module.exports = {
 
 }
 },{}],7:[function(require,module,exports){
-//first, init the global state
-window.WL_STATE = {};
+console.groupCollapsed('Initting');
 
+//first, init the global state
 window.rivets = require('rivets');
+$ = jQuery = require('jquery');
+window.WL_STATE = {};
 
 //init rivets to drive the dom
 rivets.configure({
@@ -13027,11 +13029,12 @@ rivets.configure({
 	}
 });
 
-$ = jQuery = require('jquery');
-console.groupCollapsed('Initting');
-require('./dom_watchers/search-input').init();
+//init the globals - these are the perminant bits of state that everyone can see
+require('./dom_watchers_global/search-results-tab').init();
+require('./dom_watchers_global/search-input').init();
+
+//now init the modular elements - there can be any number of these anywhere so we can't attach them to WL_STATE
 require('./dom_watchers/new-claim').init();
-require('./dom_watchers/search-results').init();
 require('./dom_watchers/helper-tab').init();
 
 var presetTabs = [
@@ -13046,14 +13049,12 @@ require('./dom_watchers/tabs').init(presetTabs);
 require('./dom_watchers/toaster').init();
 require('./dom_watchers/claim-input').init();
 require('./dom_watchers/working-list').init();
-require('./dom_watchers/search-results').init();
 require('./dom_watchers/editor-list').init();
 require('./dom_watchers/editor-detail').init();
 require('./dom_watchers/new-argument').init();
 
-//rivets.bind($('#god'), {state: window.WL_STATE});
 console.groupEnd(); //END Initting
-},{"./dom_watchers/claim-input":8,"./dom_watchers/editor-detail":9,"./dom_watchers/editor-list":10,"./dom_watchers/helper-tab":11,"./dom_watchers/new-argument":12,"./dom_watchers/new-claim":13,"./dom_watchers/search-input":14,"./dom_watchers/search-results":15,"./dom_watchers/tabs":16,"./dom_watchers/toaster":17,"./dom_watchers/working-list":18,"jquery":1,"rivets":2}],8:[function(require,module,exports){
+},{"./dom_watchers/claim-input":8,"./dom_watchers/editor-detail":9,"./dom_watchers/editor-list":10,"./dom_watchers/helper-tab":11,"./dom_watchers/new-argument":12,"./dom_watchers/new-claim":13,"./dom_watchers/tabs":14,"./dom_watchers/toaster":15,"./dom_watchers/working-list":16,"./dom_watchers_global/search-input":17,"./dom_watchers_global/search-results-tab":18,"jquery":1,"rivets":2}],8:[function(require,module,exports){
 'use strict';
 
 var trumbowyg = require('trumbowyg');
@@ -13354,74 +13355,7 @@ module.exports = {
 
 	}
 }
-},{"../api/claim":5,"../api/search":6,"../state/actions":22,"../state/new_claim":27,"../state/search_results":29,"../state/working_list":31}],14:[function(require,module,exports){
-'use strict';
-
-var $ = require('jquery');
-var searchInputStateCtrl = require('../state/search_input'); searchInputStateCtrl.init();
-var searchApi = require('../api/search');
-var searchResultsStateCtrl = require('../state/search_results');
-var actionStateCtrl = require('../state/actions');
-
-
-var search = function(term){
-	console.group('search submitted:', term);
-	searchInputStateCtrl.setNewTerm(term);
-
-	searchApi.searchByString(term).done(function(data){
-		//add to search results
-		searchResultsStateCtrl.setResults(data);
-	}).fail(function(err){
-		console.error('search api error: ', err);
-		//TODO: send to alerts
-	});
-	console.groupEnd(); //END search submitted
-}
-
-module.exports = {
-
-	init: function(){
-		$('.js-search').on('keypress', function(e){
-			if (e.keyCode == 13) {
-				search($(this).val());
-			}
-		});
-
-		actionStateCtrl.addAction('search_this', function(rivet){
-			//used by links to help people click to search claims
-			search(rivet.target.innerText);
-		})
-	}
-
-}
-
-},{"../api/search":6,"../state/actions":22,"../state/search_input":28,"../state/search_results":29,"jquery":1}],15:[function(require,module,exports){
-'use strict';
-
-/* Search results tab and content DOM watcher
- *
- */
-
-var searchResultsStateCtrl = require('../state/search_results'); searchResultsStateCtrl.init();
-var actionStateCtrl = require('../state/actions');
-
-
-module.exports = {
-	init: function(){
-		console.log('initting search results DOM watcher');
-		
-
-		actionStateCtrl.addAction('close_results_tab', function(rivet){
-			searchResultsStateCtrl.hideResultsTab();
-		});
-
-		actionStateCtrl.addAction('open_results_tab', function(rivet){
-			searchResultsStateCtrl.openResultsTab();
-		});
-
-	}
-}
-},{"../state/actions":22,"../state/search_results":29}],16:[function(require,module,exports){
+},{"../api/claim":5,"../api/search":6,"../state/actions":22,"../state/new_claim":27,"../state/search_results":28,"../state/working_list":30}],14:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -13501,7 +13435,7 @@ module.exports = {
 		});
 	}
 }
-},{"../state/actions":22,"../state/tabs":30,"jquery":1}],17:[function(require,module,exports){
+},{"../state/actions":22,"../state/tabs":29,"jquery":1}],15:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -13533,7 +13467,7 @@ module.exports = {
 		});
 	}
 }
-},{"jquery":1}],18:[function(require,module,exports){
+},{"jquery":1}],16:[function(require,module,exports){
 'use strict';
 
 var actionStateCtrl = require('../state/actions');
@@ -13584,7 +13518,82 @@ module.exports = {
 
 	}
 }
-},{"../state/actions":22,"../state/tabs":30,"../state/working_list":31}],19:[function(require,module,exports){
+},{"../state/actions":22,"../state/tabs":29,"../state/working_list":30}],17:[function(require,module,exports){
+'use strict';
+
+var searchApi = require('../api/search');
+var searchResultsStateCtrl = require('../state/search_results');
+var actionStateCtrl = require('../state/actions');
+
+
+var search = function(searchTerm, resultStateId){
+	console.log('search submitted:', searchTerm);
+
+	WL_STATE.search_input = searchTerm;
+
+	searchApi.searchByString(searchTerm).done(function(data){
+		//send to the search results
+		searchResultsStateCtrl.setResults(data, resultStateId);
+	}).fail(function(err){
+		console.error('search api error: ', err);
+		//TODO: send to alerts
+	});
+}
+
+module.exports = {
+
+	init: function(){
+		//so simple it doesn't need a state ctrl
+		WL_STATE.search_input = {term:''};
+
+		$('.js-main-search').on('keypress', function(e){
+			if (e.keyCode == 13) {
+				//get the term to be searched
+				var searchTerm = $(this).val();
+				//get the id of the search reaults object and pass it through
+				var resultStateId = $(this).data('result-state-id');
+				//search!
+				search(searchTerm, resultStateId);
+			}
+		});
+
+		actionStateCtrl.addAction('search_this', function(rivet){
+			//used by links to help people click to search claims
+			search(rivet.target.innerText);
+		})
+	}
+
+}
+
+},{"../api/search":6,"../state/actions":22,"../state/search_results":28}],18:[function(require,module,exports){
+'use strict';
+
+/* Search results tab and content DOM watcher
+ *
+ */
+
+var searchResultsStateCtrl = require('../state/search_results');
+var actionStateCtrl = require('../state/actions');
+
+module.exports = {
+	init: function(){
+		console.log('initting search results DOM watcher');
+		//this state is so simple it doesn't need a state ctrl
+		WL_STATE.search_results_tab = {
+			open: false,
+			results: searchResultsStateCtrl.getNewState('main_results')
+		}
+
+		actionStateCtrl.addAction('close_results_tab', function(rivet){
+			WL_STATE.search_results_tab.open = false;
+		});
+
+		actionStateCtrl.addAction('open_results_tab', function(rivet){
+			WL_STATE.search_results_tab.open = true;
+		});
+	}
+}
+},{"../state/actions":22,"../state/search_results":28}],19:[function(require,module,exports){
 
 module.exports = {
 	cloneThisObject: function(obj) {
@@ -13752,7 +13761,7 @@ module.exports = {
 	}
 
 };
-},{"../utils/event_manager":32}],24:[function(require,module,exports){
+},{"../utils/event_manager":31}],24:[function(require,module,exports){
 'use strict';
 
 /* The Editor List State Controller
@@ -13858,7 +13867,7 @@ module.exports = {
 		removeClaimFromList(claimId);
 	}
 }
-},{"../utils/event_manager":32}],25:[function(require,module,exports){
+},{"../utils/event_manager":31}],25:[function(require,module,exports){
 'use strict';
 /* The Helper Tab State Controller
  * I'm thinking helpful text could be placed throughout the DOM and hide/show based on 
@@ -14078,95 +14087,44 @@ module.exports = {
 	}
 
 };
-},{"../utils/event_manager":32}],28:[function(require,module,exports){
-'use strict';
-
-/* The Search Input state controller
- * This holds onto the search details (not the results!)
- */
-
-var eventManager = require('../utils/event_manager');
-
-
-module.exports = {
-
-	init: function(){
-		WL_STATE.search_input = {
-			term: ""
-		}
-	},
-
-	setNewTerm: function(newterm){
-		WL_STATE.search_input.term = newterm;
-		eventManager.fire('search_term_set', newterm);
-	}
-
-};
-},{"../utils/event_manager":32}],29:[function(require,module,exports){
+},{"../utils/event_manager":31}],28:[function(require,module,exports){
 'use strict';
 
 var eventManager = require('../utils/event_manager');
 
-var setResults = function(resultsArray){
-	console.groupCollapsed('Setting search results: ', resultsArray);
-	WL_STATE.search_results.results = resultsArray;
-	
-	if (resultsArray.length == 0) {
-		closeResultsTab();
-	} else {
-		openResultsTab();
-	}
-	console.groupEnd(); //ENd Setting search results
-	eventManager.fire('search_results_set', WL_STATE.search_results.results);
+var resultStates = {}; //holds on to every instance of the search reults state object that we create 
+var newSearchResultsState = {
+	_id: 'anon',
+	term: '',
+	results: []
 }
-
-var openResultsTab = function(){
-	WL_STATE.search_results.open_tab = true;
-	WL_STATE.search_results.show_tab = true;
-}
-
-var closeResultsTab = function(){
-	WL_STATE.search_results.open_tab = false;
-}
-
-var hideResultsTab = function(){
-	WL_STATE.search_results.show_tab = false;
-}
-
 
 module.exports = {
-
-	init: function(){
-		console.log('initting search results state controller');
-		WL_STATE.search_results = {
-			term: "",
-			results: [],
-			show_tab: false,
-			open_tab: false,
-			is_empty: true
-		}
+	getNewState: function(resultsId){
+		//make a new state object
+		var returnState = Object.create(newSearchResultsState);
+		//set the id on the new state
+		returnState._id = resultsId;
+		//save a refrence to the argument
+		resultStates[resultsId] = returnState;
+		//return the newly created argument
+		return returnState;
 	},
 
-	setNewTerm: function(newterm){
-		WL_STATE.search.term = newterm;
+	setTerm: function(newTerm, resultStateId){
+		resultStates[resultStateId].term = newTerm;
 	},
 
-	setResults: function(resultsArray){
-		setResults(resultsArray);
-	},
-
-	openResultsTab: function(){
-		openResultsTab();
-	},
-	closeResultsTab: function(){
-		closeResultsTab();
-	},
-	hideResultsTab: function(){
-		hideResultsTab();
+	setResults: function(resultsArray, resultStateId){
+		resultStates[resultStateId].results = resultsArray;
+		eventManager.fire('search_results_set', {
+			resultArray: resultsArray,
+			resultStateId: resultStateId
+		});
 	}
 
 };
-},{"../utils/event_manager":32}],30:[function(require,module,exports){
+},{"../utils/event_manager":31}],29:[function(require,module,exports){
 'use strict';
 
 /* Everyting aout handling tab state!
@@ -14421,7 +14379,7 @@ module.exports = {
 		WL_STATE.tabs[groupName].tempTab = null;
 	}
 };
-},{"../reducers/object_helpers":19,"../reducers/string_helpers":20,"../reducers/tab_helpers":21,"../utils/event_manager":32}],31:[function(require,module,exports){
+},{"../reducers/object_helpers":19,"../reducers/string_helpers":20,"../reducers/tab_helpers":21,"../utils/event_manager":31}],30:[function(require,module,exports){
 'use strict';
 
 var editorListStateCtrl = require('./editor_list');
@@ -14468,7 +14426,7 @@ module.exports = {
 		
 	}
 }
-},{"./editor_list":24}],32:[function(require,module,exports){
+},{"./editor_list":24}],31:[function(require,module,exports){
 'use strict';
 
 var eventSubscribers = {};
