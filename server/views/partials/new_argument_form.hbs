@@ -7,8 +7,7 @@
         <div class="splitter__right full-width text-align-left">
 
             <!-- This is the input for a new reason. It's essentially a mini search bar -->
-            <input view-each-reason="state.new_arguments.editor_detail_for.reasons" 
-                type="text" 
+            <input type="text" 
                 class="full-width js-new-reason"
                 data-argument-id="editor_detail_for"
                 view-on-keypress="state.actions.new_reason_keypress" 
@@ -17,7 +16,7 @@
             <!-- When the user submits their input above, it'll run a search -->
 
             <!-- If there are no exact matches, this button gives them the option to add it as a new claim -->
-            <div view-show="state.new_arguments.editor_detail_for.show_new_claim_button"
+            <div view-show="new_argument.show_new_claim_button"
                  class="splitter bump-up-3">
                 <div class="splitter__left">
                     <p><i><small>No exact matches found, add <b>"{state.search_input.term}"</b> as a new claim:</small></i></p>
@@ -33,14 +32,14 @@
         </div>
     </section>
 
-    <section class="splitter splitter--full-width">
+    <section view-show="new_argument.show_results" 
+             class="splitter splitter--full-width">
         <div class="splitter__left">
             <svg class="icon color-black float-left"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#magnifying-glass"></use></svg>
         </div>
         <div class="splitter__right full-width text-align-left">
             <!-- These are the results -->
-            <div view-show="state.new_arguments.editor_detail_for.show_results"
-                 view-each-result="state.new_arguments.editor_detail_for.search_results"
+            <div view-each-result="new_argument.search_results"
                  class="splitter box box--wide splitter--full-width">
                 <div class="splitter__left">
                     <button class="button text-align-center"
@@ -57,15 +56,15 @@
         </div>
     </section>
     
-    <section>
+    <section view-show="new_argument.has_reasons">
         <!-- These are the reasons that have been added to the argument group -->
-        <div view-each-reason="state.editor_detail.new_for.reasons">
+        <div view-each-reason="new_argument.reasons">
             <p>reason.description</p>
             <p>{reason.description}</p>
         </div>
 
         <!-- When the argument group is valid, then show this to save -->
-        <div view-show="state.editor_detail.new_for.is_valid">
+        <div view-show="new_argument.is_valid">
             <br>
             <button class="button full-width text-align-center"
                 view-on-click="state.actions.save_new_argument"

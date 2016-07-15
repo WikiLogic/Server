@@ -49,6 +49,7 @@ var newArgumet = {
 	},
 	show_new_claim_button: false,
 	show_results: false,
+	has_reasons: false,
 	search_term: '',
 	search_results: []
 }
@@ -59,6 +60,10 @@ var newArgumet = {
  */
 module.exports = {
 
+	getNewArgument: function(){
+		var returnArgument = Object.create(newArgument);
+		return returnArgument;
+	}
 	init: function(){
 		console.log('initting new argument state controller');
 		//Here we're just manually creating the new arguments
@@ -107,6 +112,6 @@ module.exports = {
 	},
 	clearArgument: function(argumentName){
 		console.log('clearing argument group:', argumentName);
-	}
+	},
 
 };

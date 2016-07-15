@@ -12,6 +12,15 @@ var claimApi = require('../api/claim');
 module.exports = {
 	init: function(){
 		console.log('initting new argument DOM watcher');
+
+
+		//for each argument creation form, bind a new argument state object
+		$('.argument-creation-form').each(function(){
+			window.rivets.bind(
+				$(this),
+				{ new_argument: newArgumentStateCtrl }
+			);
+		});
 		
 		actionStateCtrl.addAction('new_reason_keypress', function(rivet, e){
 			//this fires with every keypress of the input for the new reason

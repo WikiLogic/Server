@@ -13011,6 +13011,22 @@ module.exports = {
 //first, init the global state
 window.WL_STATE = {};
 
+window.rivets = require('rivets');
+
+//init rivets to drive the dom
+rivets.configure({
+	prefix: 'view',
+	preloadData: true,
+	rootInterface: '.',
+	templateDelimiters: ['{', '}'],
+	handler: function(target, event, binding) {
+		//Nothing hapening in this hook other than logging for development
+		console.log('->> user interaction: ', binding.keypath);
+		//this is required to continue the chain of events
+		this.call(target, event, binding.view.models);
+	}
+});
+
 $ = jQuery = require('jquery');
 console.groupCollapsed('Initting');
 require('./dom_watchers/search-input').init();
@@ -13034,22 +13050,6 @@ require('./dom_watchers/search-results').init();
 require('./dom_watchers/editor-list').init();
 require('./dom_watchers/editor-detail').init();
 require('./dom_watchers/new-argument').init();
-
-window.rivets = require('rivets');
-
-//init rivets to drive the dom
-rivets.configure({
-	prefix: 'view',
-	preloadData: true,
-	rootInterface: '.',
-	templateDelimiters: ['{', '}'],
-	handler: function(target, event, binding) {
-		//Nothing hapening in this hook other than logging for development
-		console.log('->> user interaction: ', binding.keypath);
-		//this is required to continue the chain of events
-		this.call(target, event, binding.view.models);
-	}
-});
 
 rivets.bind($('#god'), {state: window.WL_STATE});
 console.groupEnd(); //END Initting
@@ -13212,6 +13212,15 @@ var claimApi = require('../api/claim');
 module.exports = {
 	init: function(){
 		console.log('initting new argument DOM watcher');
+
+
+		//for each argument creation form, bind a new argument state object
+		$('.argument-creation-form').each(function(){
+			window.rivets.bind(
+				$(this),
+				{ new_argument: newArgumentStateCtrl }
+			);
+		});
 		
 		actionStateCtrl.addAction('new_reason_keypress', function(rivet, e){
 			//this fires with every keypress of the input for the new reason
@@ -13914,6 +13923,7 @@ var newArgumet = {
 	},
 	show_new_claim_button: false,
 	show_results: false,
+	has_reasons: false,
 	search_term: '',
 	search_results: []
 }
@@ -13972,6 +13982,9 @@ module.exports = {
 	},
 	clearArgument: function(argumentName){
 		console.log('clearing argument group:', argumentName);
+	},
+	getNewArgument: function(){
+		return Object.create(newArgument);
 	}
 
 };
