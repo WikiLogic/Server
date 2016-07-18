@@ -84,20 +84,6 @@
                         </span>
                     </div>
 
-                    <!-- AAAnd the temp tab -->
-                    <div class="tabs__tab"  
-                        view-show="state.temp_tab.show"
-                        view-class-active="state.temp_tab.open">
-                        <span class="tabs__title"
-                            view-on-click="state.actions.openTempTab">
-                            <i>{state.temp_tab.name}</i>
-                        </span>
-                        <span class="tabs__x"
-                            view-on-click="state.temp_tab.closeTempTab">
-                            <svg class="icon icon--10"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>
-                        </span>
-                    </div>
-
                 </div>
 
             </div>
@@ -146,13 +132,6 @@
                 <section view-show="state.search_results.show_tab">
                     <div class="box">
                         {{>search_results}}         
-                    </div>
-                </section>
-
-                <!-- temp tab (claim detail) -->
-                <section view-show="state.temp_tab.show">
-                    <div class="box">
-                        {{>editor_detail}}
                     </div>
                 </section>
 
