@@ -13029,11 +13029,8 @@ rivets.configure({
 	}
 });
 
-//init the globals - these are the perminant bits of state that everyone can see
-require('./dom_watchers_global/search-results-tab').init();
-require('./dom_watchers_global/search-input').init();
-
 //now init the modular elements - there can be any number of these anywhere so we can't attach them to WL_STATE
+require('./dom_watchers/search-input').init();
 require('./dom_watchers/new-claim').init();
 require('./dom_watchers/toggles').init();
 
@@ -13054,7 +13051,7 @@ require('./dom_watchers/editor-detail').init();
 require('./dom_watchers/new-argument').init();
 
 console.groupEnd(); //END Initting
-},{"./dom_watchers/claim-input":8,"./dom_watchers/editor-detail":9,"./dom_watchers/editor-list":10,"./dom_watchers/new-argument":11,"./dom_watchers/new-claim":12,"./dom_watchers/tabs":13,"./dom_watchers/toaster":14,"./dom_watchers/toggles":15,"./dom_watchers/working-list":16,"./dom_watchers_global/search-input":17,"./dom_watchers_global/search-results-tab":18,"jquery":1,"rivets":2}],8:[function(require,module,exports){
+},{"./dom_watchers/claim-input":8,"./dom_watchers/editor-detail":9,"./dom_watchers/editor-list":10,"./dom_watchers/new-argument":11,"./dom_watchers/new-claim":12,"./dom_watchers/search-input":13,"./dom_watchers/tabs":14,"./dom_watchers/toaster":15,"./dom_watchers/toggles":16,"./dom_watchers/working-list":17,"jquery":1,"rivets":2}],8:[function(require,module,exports){
 'use strict';
 
 var trumbowyg = require('trumbowyg');
@@ -13097,7 +13094,7 @@ module.exports = {
 	}
 }
 
-},{"../api/claim":5,"../state/actions":22,"trumbowyg":4}],9:[function(require,module,exports){
+},{"../api/claim":5,"../state/actions":21,"trumbowyg":4}],9:[function(require,module,exports){
 'use strict';
 
 /* Current Editor DOM Watcher
@@ -13116,7 +13113,7 @@ module.exports = {
 		
 	}
 }
-},{"../state/actions":22,"../state/editor_detail":23}],10:[function(require,module,exports){
+},{"../state/actions":21,"../state/editor_detail":22}],10:[function(require,module,exports){
 'use strict';
 
 var editorListStateCtrl = require('../state/editor_list'); editorListStateCtrl.init();
@@ -13173,7 +13170,7 @@ module.exports = {
 
 	}
 }
-},{"../state/actions":22,"../state/editor_list":24}],11:[function(require,module,exports){
+},{"../state/actions":21,"../state/editor_list":23}],11:[function(require,module,exports){
 'use strict';
 
 /*
@@ -13260,7 +13257,7 @@ module.exports = {
 		
 	}
 }
-},{"../api/claim":5,"../api/search":6,"../state/actions":22,"../state/new_argument":25,"rivets":2}],12:[function(require,module,exports){
+},{"../api/claim":5,"../api/search":6,"../state/actions":21,"../state/new_argument":24,"rivets":2}],12:[function(require,module,exports){
 'use strict';
 
 /*
@@ -13320,7 +13317,61 @@ module.exports = {
 
 	}
 }
-},{"../api/claim":5,"../api/search":6,"../state/actions":22,"../state/new_claim":26,"../state/search_results":27,"../state/working_list":30}],13:[function(require,module,exports){
+},{"../api/claim":5,"../api/search":6,"../state/actions":21,"../state/new_claim":25,"../state/search_results":27,"../state/working_list":30}],13:[function(require,module,exports){
+'use strict';
+
+var searchApi = require('../api/search');
+var searchStateCtrl = require('../state/search');
+var actionStateCtrl = require('../state/actions');
+
+
+var domActions = {
+	search_this: function(rivet){
+		//get the search id
+		//send the search
+	}
+}
+
+module.exports = {
+
+	init: function(){
+
+		$('.js-search').each(function(){
+			//bind the state
+			var searchId = $(this).data('search-id');
+			var searchState = searchStateCtrl.getNewState(searchId);
+			rivets.bind(
+				$(this),
+				{ search: searchState, actions: domActions }
+			);
+
+			//now watch for keypresses:
+			$(this).on('keypress', function(e){
+				var searchTerm = $(this).val();
+				var searchId = $(this).data('search-id');
+
+				if (e.keyCode == 13) {
+					searchStateCtrl.setTerm(searchId, searchTerm);
+					searchStateCtrl.runSearch(searchId, searchTerm);
+				} else {
+					searchStateCtrl.setTerm(searchId, searchTerm);
+				}
+			});
+		});
+
+		$('.js-search-suggestion').each(function(){
+			$(this).on('click', function(){
+				var searchId = $(this).data('search-id');
+				var searchTerm = $(this).html();
+				searchStateCtrl.setTerm(searchId, searchTerm);
+				searchStateCtrl.runSearch(searchId, searchTerm);
+			});
+		});
+	}
+
+}
+
+},{"../api/search":6,"../state/actions":21,"../state/search":26}],14:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -13400,7 +13451,7 @@ module.exports = {
 		});
 	}
 }
-},{"../state/actions":22,"../state/tabs":28,"jquery":1}],14:[function(require,module,exports){
+},{"../state/actions":21,"../state/tabs":28,"jquery":1}],15:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -13432,7 +13483,7 @@ module.exports = {
 		});
 	}
 }
-},{"jquery":1}],15:[function(require,module,exports){
+},{"jquery":1}],16:[function(require,module,exports){
 'use strict';
 
 /*
@@ -13482,7 +13533,7 @@ module.exports = {
 
 	}
 }
-},{"../state/actions":22,"../state/toggles":29}],16:[function(require,module,exports){
+},{"../state/actions":21,"../state/toggles":29}],17:[function(require,module,exports){
 'use strict';
 
 var actionStateCtrl = require('../state/actions');
@@ -13533,82 +13584,7 @@ module.exports = {
 
 	}
 }
-},{"../state/actions":22,"../state/tabs":28,"../state/working_list":30}],17:[function(require,module,exports){
-'use strict';
-
-var searchApi = require('../api/search');
-var searchResultsStateCtrl = require('../state/search_results');
-var actionStateCtrl = require('../state/actions');
-
-
-var search = function(searchTerm, resultStateId){
-	console.log('search submitted:', searchTerm);
-
-	WL_STATE.search_input = searchTerm;
-
-	searchApi.searchByString(searchTerm).done(function(data){
-		//send to the search results
-		searchResultsStateCtrl.setResults(data, resultStateId);
-	}).fail(function(err){
-		console.error('search api error: ', err);
-		//TODO: send to alerts
-	});
-}
-
-module.exports = {
-
-	init: function(){
-		//so simple it doesn't need a state ctrl
-		WL_STATE.search_input = {term:''};
-
-		$('.js-main-search').on('keypress', function(e){
-			if (e.keyCode == 13) {
-				//get the term to be searched
-				var searchTerm = $(this).val();
-				//get the id of the search reaults object and pass it through
-				var resultStateId = $(this).data('result-state-id');
-				//search!
-				search(searchTerm, resultStateId);
-			}
-		});
-
-		actionStateCtrl.addAction('search_this', function(rivet){
-			//used by links to help people click to search claims
-			search(rivet.target.innerText);
-		})
-	}
-
-}
-
-},{"../api/search":6,"../state/actions":22,"../state/search_results":27}],18:[function(require,module,exports){
-'use strict';
-
-/* Search results tab and content DOM watcher
- *
- */
-
-var searchResultsStateCtrl = require('../state/search_results');
-var actionStateCtrl = require('../state/actions');
-
-module.exports = {
-	init: function(){
-		console.log('initting search results DOM watcher');
-		//this state is so simple it doesn't need a state ctrl
-		WL_STATE.search_results_tab = {
-			open: false,
-			results: searchResultsStateCtrl.getNewState('main_results')
-		}
-
-		actionStateCtrl.addAction('close_results_tab', function(rivet){
-			WL_STATE.search_results_tab.open = false;
-		});
-
-		actionStateCtrl.addAction('open_results_tab', function(rivet){
-			WL_STATE.search_results_tab.open = true;
-		});
-	}
-}
-},{"../state/actions":22,"../state/search_results":27}],19:[function(require,module,exports){
+},{"../state/actions":21,"../state/tabs":28,"../state/working_list":30}],18:[function(require,module,exports){
 
 module.exports = {
 	cloneThisObject: function(obj) {
@@ -13622,7 +13598,7 @@ module.exports = {
 		return newObj;
 	}
 }
-},{}],20:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -13635,7 +13611,7 @@ module.exports = {
 		return /[A-Z]/.test(s);
 	}
 }
-},{}],21:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 /* Takes tab group state
  * modifies it
  * Returns tab group state
@@ -13688,7 +13664,7 @@ module.exports = {
 		};
 	}
 }
-},{"../reducers/string_helpers":20,"./object_helpers":19}],22:[function(require,module,exports){
+},{"../reducers/string_helpers":19,"./object_helpers":18}],21:[function(require,module,exports){
 'use strict';
 
 var objectHelpers = require('../reducers/object_helpers');
@@ -13712,7 +13688,7 @@ module.exports = {
 	}
 
 };
-},{"../reducers/object_helpers":19}],23:[function(require,module,exports){
+},{"../reducers/object_helpers":18}],22:[function(require,module,exports){
 'use strict';
 
 var eventManager = require('../utils/event_manager');
@@ -13776,7 +13752,7 @@ module.exports = {
 	}
 
 };
-},{"../utils/event_manager":31}],24:[function(require,module,exports){
+},{"../utils/event_manager":31}],23:[function(require,module,exports){
 'use strict';
 
 /* The Editor List State Controller
@@ -13882,7 +13858,7 @@ module.exports = {
 		removeClaimFromList(claimId);
 	}
 }
-},{"../utils/event_manager":31}],25:[function(require,module,exports){
+},{"../utils/event_manager":31}],24:[function(require,module,exports){
 'use strict';
 
 /* New arguments do not check state wile they are being authored
@@ -14015,7 +13991,7 @@ module.exports = {
 	},
 
 };
-},{}],26:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 'use strict';
 
 /* New Claim State Ctrl
@@ -14070,7 +14046,55 @@ module.exports = {
 	}
 
 };
-},{"../utils/event_manager":31}],27:[function(require,module,exports){
+},{"../utils/event_manager":31}],26:[function(require,module,exports){
+'use strict';
+
+/* The Search Input state controller
+ * This holds onto the search details (not the results!)
+ */
+
+var eventManager = require('../utils/event_manager');
+var searchApi = require('../api/search');
+
+var searchState = {
+	_id: 'anon',
+	term: '',
+	results: []
+}
+
+var searchStateRef = {}
+
+module.exports = {
+	getNewState: function(searchId){
+		var returnSearchState = Object.create(searchState);
+		returnSearchState._id = searchId;
+		searchStateRef[searchId] = returnSearchState;
+		return returnSearchState;
+	},
+	getExistingState: function(searchId){
+		return searchStateRef[searchId];
+	},
+	setTerm: function(searchId, newterm){
+		searchStateRef[searchId].term = newterm;
+		eventManager.fire('search_term_set', {
+			search: searchStateRef[searchId]
+		});
+	},
+	runSearch: function(searchId){
+		searchApi.searchByString(searchStateRef[searchId].term).done(function(data){
+			//send to the search results
+			searchStateRef[searchId].results = data;
+			eventManager.fire('search_results_set', {
+				search: searchStateRef[searchId]
+			});
+		}).fail(function(err){
+			console.error('search api error: ', err);
+			//TODO: send to alerts
+		});		
+	}
+
+};
+},{"../api/search":6,"../utils/event_manager":31}],27:[function(require,module,exports){
 'use strict';
 
 var eventManager = require('../utils/event_manager');
@@ -14362,7 +14386,7 @@ module.exports = {
 		WL_STATE.tabs[groupName].tempTab = null;
 	}
 };
-},{"../reducers/object_helpers":19,"../reducers/string_helpers":20,"../reducers/tab_helpers":21,"../utils/event_manager":31}],29:[function(require,module,exports){
+},{"../reducers/object_helpers":18,"../reducers/string_helpers":19,"../reducers/tab_helpers":20,"../utils/event_manager":31}],29:[function(require,module,exports){
 'use strict';
 /* The Toggle State Controller
  * Thoughts from when this was just a help tab:
@@ -14442,7 +14466,7 @@ module.exports = {
 		
 	}
 }
-},{"./editor_list":24}],31:[function(require,module,exports){
+},{"./editor_list":23}],31:[function(require,module,exports){
 'use strict';
 
 var eventSubscribers = {};

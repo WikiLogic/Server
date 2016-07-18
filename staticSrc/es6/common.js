@@ -19,10 +19,8 @@ rivets.configure({
 	}
 });
 
-//init the globals - these are the perminant bits of state that everyone can see
-require('./dom_watchers_global/search-input').init();
-
 //now init the modular elements - there can be any number of these anywhere so we can't attach them to WL_STATE
+require('./dom_watchers/search-input').init();
 require('./dom_watchers/new-claim').init();
 require('./dom_watchers/toggles').init();
 
