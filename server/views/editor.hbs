@@ -126,23 +126,24 @@
                     </div>
                 </section>
 
-                <!-- the new claim form -->
-                <section view-show="state.new_claim.show">
-                    <div class="box">
-                        <h4>No exact match found</h4>
-                        <p>Would you like to make one?</p>
-                        {{>new_claim}}
-                    </div>
-                </section>
 
-                <!-- The search reults content -->
+                <!-- The main search reults -->
                 <section class="js-toggle-content "
                     data-toggle-id="main_results"
                     view-show="toggle.open">
+
+                    <div class="js-new-claim box"
+                        data-new-claim-id="main_results"
+                        data-search-id="main_reaults">
+                        <small><i>No exact match was found, click the button to publish this as a new claim.</i></small>
+                        {{>new_claim}}
+                    </div>
+
                     <div class="js-search-results box"
                         data-search-id="main_results">
                         {{>search_results}}         
                     </div>
+
                 </section>
 
                 

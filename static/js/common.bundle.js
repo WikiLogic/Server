@@ -13269,9 +13269,43 @@ var newClaimStateCtrl = require('../state/new_claim');
 var claimApi = require('../api/claim');
 var eventManager = require('../utils/event_manager');
 
+var domActions = {
+
+}
+
 module.exports = {
 	init: function(){
+
+		$('.js-new-claim').each(function(){
+			var newClaimId = $(this).data('new-claim-id');
+			var newClaimState = newClaimStateCtrl.getNewState(newClaimId);
+			rivets.bind(
+				$(this),
+				{ new_claim: newClaimState, actions: domActions }
+			);
+		});
 		
+		//watch for search results being set, then check if there are any exact matches. If not, barge in!
+		eventManager.subscribe('search_results_set', function(searchState){
+
+			var exactMatchFound = false;
+
+			for (var r = 0; r < searchState.results.length; r++){
+				if (searchState.results[r].description == searchState.term) {
+					exactMatchFound = true;
+					break;
+				}
+			}
+
+			if (!exactMatchFound){
+				//turn on the relevant new claim form!!
+				console.warn('TODO: turn on the new claim form with the search term');
+				var newClaimId = searchState._id; //this is deliberate
+				newClaimStateCtrl.setDescription(newClaimId, searchState.term);
+			}
+
+		});
+
 
 	}
 }
@@ -14010,7 +14044,6 @@ module.exports = {
 	},
 	setDescription: function(newClaimId, newDescription){
 		newClaimRefs[newClaimId].description = newDescription;
-		//run search
 	},
 	getDescription: function(newClaimId){
 		return newClaimRefs[newClaimId].description;
@@ -14050,6 +14083,7 @@ module.exports = {
 		return searchStateRef[searchId];
 	},
 	setTerm: function(searchId, newterm){
+		console.warn('TODO: trim whitespace etc');
 		searchStateRef[searchId].term = newterm;
 		eventManager.fire('search_term_set', { search: searchStateRef[searchId] });
 	},
@@ -14059,7 +14093,7 @@ module.exports = {
 		searchApi.searchByString(searchStateRef[searchId].term).done(function(data){
 			//send to the search results
 			searchStateRef[searchId].results = data;
-			eventManager.fire('search_results_set', { search: searchStateRef[searchId] });
+			eventManager.fire('search_results_set', searchStateRef[searchId]);
 		}).fail(function(err){
 			console.error('search api error: ', err);
 			//TODO: send to alerts

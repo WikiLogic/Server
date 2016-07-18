@@ -27,6 +27,7 @@ module.exports = {
 		return searchStateRef[searchId];
 	},
 	setTerm: function(searchId, newterm){
+		console.warn('TODO: trim whitespace etc');
 		searchStateRef[searchId].term = newterm;
 		eventManager.fire('search_term_set', { search: searchStateRef[searchId] });
 	},
@@ -36,7 +37,7 @@ module.exports = {
 		searchApi.searchByString(searchStateRef[searchId].term).done(function(data){
 			//send to the search results
 			searchStateRef[searchId].results = data;
-			eventManager.fire('search_results_set', { search: searchStateRef[searchId] });
+			eventManager.fire('search_results_set', searchStateRef[searchId]);
 		}).fail(function(err){
 			console.error('search api error: ', err);
 			//TODO: send to alerts

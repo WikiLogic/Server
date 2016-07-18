@@ -1,21 +1,3 @@
-                
-<div view-show="state.search.is_empty">
-    <!-- if no exact matches, give option to add as new claim -->
-    <h4>No exact match found</h4>
-    <p>Would you like to make one?</p>
-    
-    <div class="card box bg-color--grey-2 text-color--black splitter splitter--full-width">
-        <div class="splitter__left">
-            <textarea name="" id="js-search-term-claim" cols="30" rows="10">{state.search.term}</textarea>
-        </div>
-        <div class="splitter__right">
-            <button class="display-inline-block button button--green"
-                view-on-click="state.actions.new_claim"
-                data-claim-el-id="js-search-term-claim"><p class="p no-margins bump-up-1">New Claim</p></button>
-        </div>
-    </div>
-</div>
-
 <!-- the results! -->
 <div view-each-claim="search.results"
     class="splitter splitter--full-width text-color--white">

@@ -25,7 +25,6 @@ module.exports = {
 	},
 	setDescription: function(newClaimId, newDescription){
 		newClaimRefs[newClaimId].description = newDescription;
-		//run search
 	},
 	getDescription: function(newClaimId){
 		return newClaimRefs[newClaimId].description;
