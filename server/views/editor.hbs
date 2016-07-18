@@ -51,20 +51,22 @@
                     </div>
 
                     <!-- the results tab -->
-                    <div class="tabs__tab js-results-tab"  
-                        data-tab-id="main_results"
-                        view-class-active="state.search_results.open_tab">
+                    <div class="tabs__tab js-toggle-controller"  
+                        data-toggle-id="main_results"
+                        view-class-active="toggle.open">
                         <span class="tabs__title"
-                            view-on-click="state.actions.open_results_tab">
-                            <span view-show="state.search_results.show_tab">Results</span>
-                            <span view-hide="state.search_results.show_tab">
+                            view-on-click="actions.open_toggle"
+                            data-toggle-id="main_results">
+                            <span view-show="toggle.open">Results</span>
+                            <span view-hide="toggle.open">
                                 <svg class="icon icon--10"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#magnifying-glass"></use></svg>
                                 &nbsp;&nbsp;
                             </span>
                         </span>
                         <span class="tabs__x"
-                            view-show="state.search_results.show_tab"
-                            view-on-click="state.actions.close_results_tab">
+                            view-show="toggle.open"
+                            view-on-click="actions.close_toggle"
+                            data-toggle-id="main_results">
                             <svg class="icon icon--10"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>
                         </span>
                     </div>
@@ -128,8 +130,10 @@
                     </div>
                 </section>
 
-                <!-- The search reults tab content -->
-                <section view-show="state.search_results.show_tab">
+                <!-- The search reults content -->
+                <section class="js-toggle-content"
+                    data-toggle-id="main_results"
+                    view-show="toggle.open">
                     <div class="box">
                         {{>search_results}}         
                     </div>
