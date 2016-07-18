@@ -23,21 +23,20 @@ module.exports = {
 		return returnSearchState;
 	},
 	getExistingState: function(searchId){
+		console.log('searchStateRef[searchId]: ', searchStateRef[searchId]);
 		return searchStateRef[searchId];
 	},
 	setTerm: function(searchId, newterm){
 		searchStateRef[searchId].term = newterm;
-		eventManager.fire('search_term_set', {
-			search: searchStateRef[searchId]
-		});
+		eventManager.fire('search_term_set', { search: searchStateRef[searchId] });
 	},
 	runSearch: function(searchId){
+		eventManager.fire('search_requested', {	search: searchStateRef[searchId] });
+
 		searchApi.searchByString(searchStateRef[searchId].term).done(function(data){
 			//send to the search results
 			searchStateRef[searchId].results = data;
-			eventManager.fire('search_results_set', {
-				search: searchStateRef[searchId]
-			});
+			eventManager.fire('search_results_set', { search: searchStateRef[searchId] });
 		}).fail(function(err){
 			console.error('search api error: ', err);
 			//TODO: send to alerts

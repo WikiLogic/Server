@@ -13031,6 +13031,7 @@ rivets.configure({
 
 //now init the modular elements - there can be any number of these anywhere so we can't attach them to WL_STATE
 require('./dom_watchers/search-input').init();
+require('./dom_watchers/search-results').init();
 require('./dom_watchers/new-claim').init();
 require('./dom_watchers/toggles').init();
 
@@ -13051,7 +13052,7 @@ require('./dom_watchers/editor-detail').init();
 require('./dom_watchers/new-argument').init();
 
 console.groupEnd(); //END Initting
-},{"./dom_watchers/claim-input":8,"./dom_watchers/editor-detail":9,"./dom_watchers/editor-list":10,"./dom_watchers/new-argument":11,"./dom_watchers/new-claim":12,"./dom_watchers/search-input":13,"./dom_watchers/tabs":14,"./dom_watchers/toaster":15,"./dom_watchers/toggles":16,"./dom_watchers/working-list":17,"jquery":1,"rivets":2}],8:[function(require,module,exports){
+},{"./dom_watchers/claim-input":8,"./dom_watchers/editor-detail":9,"./dom_watchers/editor-list":10,"./dom_watchers/new-argument":11,"./dom_watchers/new-claim":12,"./dom_watchers/search-input":13,"./dom_watchers/search-results":14,"./dom_watchers/tabs":15,"./dom_watchers/toaster":16,"./dom_watchers/toggles":17,"./dom_watchers/working-list":18,"jquery":1,"rivets":2}],8:[function(require,module,exports){
 'use strict';
 
 var trumbowyg = require('trumbowyg');
@@ -13094,7 +13095,7 @@ module.exports = {
 	}
 }
 
-},{"../api/claim":5,"../state/actions":21,"trumbowyg":4}],9:[function(require,module,exports){
+},{"../api/claim":5,"../state/actions":22,"trumbowyg":4}],9:[function(require,module,exports){
 'use strict';
 
 /* Current Editor DOM Watcher
@@ -13113,7 +13114,7 @@ module.exports = {
 		
 	}
 }
-},{"../state/actions":21,"../state/editor_detail":22}],10:[function(require,module,exports){
+},{"../state/actions":22,"../state/editor_detail":23}],10:[function(require,module,exports){
 'use strict';
 
 var editorListStateCtrl = require('../state/editor_list'); editorListStateCtrl.init();
@@ -13170,7 +13171,7 @@ module.exports = {
 
 	}
 }
-},{"../state/actions":21,"../state/editor_list":23}],11:[function(require,module,exports){
+},{"../state/actions":22,"../state/editor_list":24}],11:[function(require,module,exports){
 'use strict';
 
 /*
@@ -13257,67 +13258,24 @@ module.exports = {
 		
 	}
 }
-},{"../api/claim":5,"../api/search":6,"../state/actions":21,"../state/new_argument":24,"rivets":2}],12:[function(require,module,exports){
+},{"../api/claim":5,"../api/search":6,"../state/actions":22,"../state/new_argument":25,"rivets":2}],12:[function(require,module,exports){
 'use strict';
 
 /*
  * This module is responsibe for the new claim
  */
 
-var newClaimStateCtrl = require('../state/new_claim'); newClaimStateCtrl.init();
-var actionStateCtrl = require('../state/actions');
-var searchApi = require('../api/search');
-var searchResultsStateCtrl = require('../state/search_results');
-var workingListStateCtrl = require('../state/working_list');
+var newClaimStateCtrl = require('../state/new_claim');
 var claimApi = require('../api/claim');
+var eventManager = require('../utils/event_manager');
 
 module.exports = {
 	init: function(){
-		console.log('initting new claim DOM watcher');
 		
-		actionStateCtrl.addAction('new_claim_keypress', function(rivet, e){
-			//this fires with every keypress of the input for the new reason
-			var term = rivet.currentTarget.value;
-			newClaimStateCtrl.setDescription(term);
-
-			if (rivet.key == "Enter"){
-				console.group('New Claim Form Enter: ', term);
-				//when the user presses enter, run the search. Only let them add a new claim if it doesn't already exist
-				searchApi.searchByString(term).done(function(data){
-					//add to search results
-					searchResultsStateCtrl.setResults(data);
-				}).fail(function(err){
-					console.error('search api error: ', err);
-					//TODO: send to alerts
-				});
-				console.groupEnd();//END New Claim Form Enter
-
-			} else {
-				//not the enter key - we could start pre fetching results...
-
-			}
-		});
-
-		//if a new reason has been typed up & the search has returned no exact matches, the user can add that reason as a new claim
-		actionStateCtrl.addAction('save_new_claim', function(rivet){
-			var newClaimString = newClaimStateCtrl.getDescription();
-			console.group('Saving new claim: ', newClaimString);
-			claimApi.newClaim(newClaimString).done(function(data){
-				console.info('new claim has been added!', data);
-				//add it to the working list and open in detail (add it to the workin glist twice hehe!)
-				workingListStateCtrl.addClaimToList(data); //first time adds it to the working list
-				workingListStateCtrl.addClaimToList(data); //Second time, the working list will pop in into the detail and open the tab for us. EASy WIN :D
-			}).fail(function(err){
-				console.error('new claim api failed', err);
-
-				//send err to the alert system
-			});
-			console.groupEnd();//END Saving reason as new claim
-		});
 
 	}
 }
-},{"../api/claim":5,"../api/search":6,"../state/actions":21,"../state/new_claim":25,"../state/search_results":27,"../state/working_list":30}],13:[function(require,module,exports){
+},{"../api/claim":5,"../state/new_claim":26,"../utils/event_manager":31}],13:[function(require,module,exports){
 'use strict';
 
 var searchApi = require('../api/search');
@@ -13371,7 +13329,40 @@ module.exports = {
 
 }
 
-},{"../api/search":6,"../state/actions":21,"../state/search":26}],14:[function(require,module,exports){
+},{"../api/search":6,"../state/actions":22,"../state/search":27}],14:[function(require,module,exports){
+'use strict';
+
+var searchApi = require('../api/search');
+var searchStateCtrl = require('../state/search');
+var actionStateCtrl = require('../state/actions');
+
+
+var domActions = {
+	search_this: function(rivet){
+		//get the search id
+		//send the search
+	}
+}
+
+module.exports = {
+
+	init: function(){
+
+		$('.js-search-results').each(function(){
+			//bind the state (don't make a new one for results, only the search input should do that);
+			var searchId = $(this).data('search-id');
+			var searchState = searchStateCtrl.getExistingState(searchId);
+			rivets.bind(
+				$(this),
+				{ search: searchState, actions: domActions }
+			);
+
+		});
+	}
+
+}
+
+},{"../api/search":6,"../state/actions":22,"../state/search":27}],15:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -13451,7 +13442,7 @@ module.exports = {
 		});
 	}
 }
-},{"../state/actions":21,"../state/tabs":28,"jquery":1}],15:[function(require,module,exports){
+},{"../state/actions":22,"../state/tabs":28,"jquery":1}],16:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -13483,7 +13474,7 @@ module.exports = {
 		});
 	}
 }
-},{"jquery":1}],16:[function(require,module,exports){
+},{"jquery":1}],17:[function(require,module,exports){
 'use strict';
 
 /*
@@ -13533,7 +13524,7 @@ module.exports = {
 
 	}
 }
-},{"../state/actions":21,"../state/toggles":29}],17:[function(require,module,exports){
+},{"../state/actions":22,"../state/toggles":29}],18:[function(require,module,exports){
 'use strict';
 
 var actionStateCtrl = require('../state/actions');
@@ -13584,7 +13575,7 @@ module.exports = {
 
 	}
 }
-},{"../state/actions":21,"../state/tabs":28,"../state/working_list":30}],18:[function(require,module,exports){
+},{"../state/actions":22,"../state/tabs":28,"../state/working_list":30}],19:[function(require,module,exports){
 
 module.exports = {
 	cloneThisObject: function(obj) {
@@ -13598,7 +13589,7 @@ module.exports = {
 		return newObj;
 	}
 }
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -13611,7 +13602,7 @@ module.exports = {
 		return /[A-Z]/.test(s);
 	}
 }
-},{}],20:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 /* Takes tab group state
  * modifies it
  * Returns tab group state
@@ -13664,7 +13655,7 @@ module.exports = {
 		};
 	}
 }
-},{"../reducers/string_helpers":19,"./object_helpers":18}],21:[function(require,module,exports){
+},{"../reducers/string_helpers":20,"./object_helpers":19}],22:[function(require,module,exports){
 'use strict';
 
 var objectHelpers = require('../reducers/object_helpers');
@@ -13688,7 +13679,7 @@ module.exports = {
 	}
 
 };
-},{"../reducers/object_helpers":18}],22:[function(require,module,exports){
+},{"../reducers/object_helpers":19}],23:[function(require,module,exports){
 'use strict';
 
 var eventManager = require('../utils/event_manager');
@@ -13752,7 +13743,7 @@ module.exports = {
 	}
 
 };
-},{"../utils/event_manager":31}],23:[function(require,module,exports){
+},{"../utils/event_manager":31}],24:[function(require,module,exports){
 'use strict';
 
 /* The Editor List State Controller
@@ -13858,7 +13849,7 @@ module.exports = {
 		removeClaimFromList(claimId);
 	}
 }
-},{"../utils/event_manager":31}],24:[function(require,module,exports){
+},{"../utils/event_manager":31}],25:[function(require,module,exports){
 'use strict';
 
 /* New arguments do not check state wile they are being authored
@@ -13991,7 +13982,7 @@ module.exports = {
 	},
 
 };
-},{}],25:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 'use strict';
 
 /* New Claim State Ctrl
@@ -13999,54 +13990,37 @@ module.exports = {
 
 var eventManager = require('../utils/event_manager');
 
+var newClaimState = {
+	description: '',
+	valid: true
+}
+
+var newClaimRefs = {};
+
 module.exports = {
 
-	init: function(){
-		console.log('initting new claim state controller');
-
-		WL_STATE.new_claim = {
-			description: '',
-			show: false
-		};
-
-		//listen for a new search term being set, if they don't find it they'll probably want to make a new one
-		eventManager.subscribe('search_term_set', function(searchTerm){
-			WL_STATE.new_claim.description = searchTerm;
-		});
-
-		//listen to the search results. If non are set, open me!!!
-		eventManager.subscribe('search_results_set', function(resultsArray){
-			var searchTerm = WL_STATE.search_input.term;
-			//show if there are no results
-			if (resultsArray.length < 1) {
-				WL_STATE.new_claim.show = true;
-			} else {
-				//also show if no results match
-				var hasExactMatch = false;
-				for (var r = 0; r < resultsArray.length; r++){
-					if (resultsArray[r].description == searchTerm) { //TODO - remove this cheekyness
-						hasExactMatch = true;
-						WL_STATE.new_claim.show = false;
-						break;
-					}
-				}
-
-				if (!hasExactMatch) {
-					WL_STATE.new_claim.show = true;
-				}	
-			}
-			
-		});
+	getNewState: function(newClaimId){
+		var returnState = Object.create(newClaimState);
+		returnState._id = newClaimId;
+		newClaimRefs[newClaimId] = returnState;
+		return returnState;
 	},
-	setDescription: function(newDescription){
-		WL_STATE.new_claim.description = newDescription;
+	getExistingState(newClaimId){
+		return newClaimRefs[newClaimId];
 	},
-	getDescription: function(){
-		return WL_STATE.new_claim.description;
+	setDescription: function(newClaimId, newDescription){
+		newClaimRefs[newClaimId].description = newDescription;
+		//run search
+	},
+	getDescription: function(newClaimId){
+		return newClaimRefs[newClaimId].description;
+	},
+	publishClaim: function(newClaimId){
+		console.warn('TODO: publish new claim');
 	}
 
 };
-},{"../utils/event_manager":31}],26:[function(require,module,exports){
+},{"../utils/event_manager":31}],27:[function(require,module,exports){
 'use strict';
 
 /* The Search Input state controller
@@ -14072,21 +14046,20 @@ module.exports = {
 		return returnSearchState;
 	},
 	getExistingState: function(searchId){
+		console.log('searchStateRef[searchId]: ', searchStateRef[searchId]);
 		return searchStateRef[searchId];
 	},
 	setTerm: function(searchId, newterm){
 		searchStateRef[searchId].term = newterm;
-		eventManager.fire('search_term_set', {
-			search: searchStateRef[searchId]
-		});
+		eventManager.fire('search_term_set', { search: searchStateRef[searchId] });
 	},
 	runSearch: function(searchId){
+		eventManager.fire('search_requested', {	search: searchStateRef[searchId] });
+
 		searchApi.searchByString(searchStateRef[searchId].term).done(function(data){
 			//send to the search results
 			searchStateRef[searchId].results = data;
-			eventManager.fire('search_results_set', {
-				search: searchStateRef[searchId]
-			});
+			eventManager.fire('search_results_set', { search: searchStateRef[searchId] });
 		}).fail(function(err){
 			console.error('search api error: ', err);
 			//TODO: send to alerts
@@ -14094,44 +14067,7 @@ module.exports = {
 	}
 
 };
-},{"../api/search":6,"../utils/event_manager":31}],27:[function(require,module,exports){
-'use strict';
-
-var eventManager = require('../utils/event_manager');
-
-var resultStates = {}; //holds on to every instance of the search reults state object that we create 
-var newSearchResultsState = {
-	_id: 'anon',
-	term: '',
-	results: []
-}
-
-module.exports = {
-	getNewState: function(resultsId){
-		//make a new state object
-		var returnState = Object.create(newSearchResultsState);
-		//set the id on the new state
-		returnState._id = resultsId;
-		//save a refrence to the argument
-		resultStates[resultsId] = returnState;
-		//return the newly created argument
-		return returnState;
-	},
-
-	setTerm: function(newTerm, resultStateId){
-		resultStates[resultStateId].term = newTerm;
-	},
-
-	setResults: function(resultsArray, resultStateId){
-		resultStates[resultStateId].results = resultsArray;
-		eventManager.fire('search_results_set', {
-			resultArray: resultsArray,
-			resultStateId: resultStateId
-		});
-	}
-
-};
-},{"../utils/event_manager":31}],28:[function(require,module,exports){
+},{"../api/search":6,"../utils/event_manager":31}],28:[function(require,module,exports){
 'use strict';
 
 /* Everyting aout handling tab state!
@@ -14386,7 +14322,7 @@ module.exports = {
 		WL_STATE.tabs[groupName].tempTab = null;
 	}
 };
-},{"../reducers/object_helpers":18,"../reducers/string_helpers":19,"../reducers/tab_helpers":20,"../utils/event_manager":31}],29:[function(require,module,exports){
+},{"../reducers/object_helpers":19,"../reducers/string_helpers":20,"../reducers/tab_helpers":21,"../utils/event_manager":31}],29:[function(require,module,exports){
 'use strict';
 /* The Toggle State Controller
  * Thoughts from when this was just a help tab:
@@ -14466,7 +14402,7 @@ module.exports = {
 		
 	}
 }
-},{"./editor_list":23}],31:[function(require,module,exports){
+},{"./editor_list":24}],31:[function(require,module,exports){
 'use strict';
 
 var eventSubscribers = {};

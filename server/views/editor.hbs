@@ -104,7 +104,7 @@
                                 To begin - think of something you believe to be true, <br>
                                 then type it in the search bar above.<br>
                                 Or just click this fun example<br>
-                                <button class="button button--green display-inline-block js-search-suggestion" 
+                                <button class="button button--green display-inline-block js-search-suggestion"  
                                         data-search-id="main_results">
                                     the world is flat
                                 </button>
@@ -136,10 +136,11 @@
                 </section>
 
                 <!-- The search reults content -->
-                <section class="js-toggle-content"
+                <section class="js-toggle-content "
                     data-toggle-id="main_results"
                     view-show="toggle.open">
-                    <div class="box">
+                    <div class="js-search-results box"
+                        data-search-id="main_results">
                         {{>search_results}}         
                     </div>
                 </section>
