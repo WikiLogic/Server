@@ -115,6 +115,8 @@ Need to build a node map version of this: http://codepen.io/birjolaxew/pen/jrqzr
 
 cool style idea for the tabs: http://codepen.io/marcobiedermann/pen/aZZQww
 
+this may be needed: https://github.com/paulmillr/es6-shim/ needs more looking into!
+
 ---
 
 other argument maps:
