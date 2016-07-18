@@ -30,19 +30,22 @@
                 <div class="tabs">
 
                     <!-- the help tab -->
-                    <div class="tabs__tab js-help-tab"
-                        view-class-active="helper_tab.open">
+                    <div class="tabs__tab js-toggle-controller"
+                        data-toggle-id="main_help"
+                        view-class-active="toggle.open">
                         <span class="tabs__title"
-                            view-on-click="actions.open_helper_tab">
-                            <span view-show="helper_tab.show">Helper</span>
-                            <span view-hide="helper_tab.show">
+                            view-on-click="actions.open_toggle"
+                            data-toggle-id="main_help">
+                            <span view-show="toggle.open">Help</span>
+                            <span view-hide="toggle.open">
                                 <svg class="icon icon--10"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#info"></use></svg>
                                 &nbsp;&nbsp;
                             </span>
                         </span>
                         <span class="tabs__x"
-                            view-show="helper_tab.show"
-                            view-on-click="actions.close_helper_tab">
+                            view-show="toggle.open"
+                            view-on-click="actions.close_toggle"
+                            data-toggle-id="main_help">
                             <svg class="icon icon--10"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>
                         </span>
                     </div>
@@ -100,13 +103,14 @@
             </div>
             <div class="header-layout__body y-scroll bg-color--grey-1 sections-wrap">
 
-                <!-- The welcome temp tab content -->
-                <section class="js-helper-tab"
-                    view-show="helper_tab.show">
+                <!-- The main help tab content -->
+                <section class="js-toggle-content"
+                    data-toggle-id="main_help"
+                    view-show="toggle.open">
                     <div class="box text-align-center">
                         <br>
 
-                        <div view-show="helper_tab.show_welcome">
+                        <div>
                             <h4>Welcome!</h4>
                             <p>To begin - think of something you believe to be true, <br>
                             then type it in the search bar above.<br>
@@ -114,7 +118,7 @@
                             <button class="button button--green display-inline-block" view-on-click="state.actions.search_this">the world is flat</button></p>   
                         </div>
                         <br>
-                        <div view-show="helper_tab.show_results">
+                        <div>
                             <p>Nice. Below you can see a list of claims that have been found, double click/tap to open it. (a single click/tap will add it to your 'working list' on the left)</p>
                         </div> 
 

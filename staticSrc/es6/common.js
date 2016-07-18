@@ -25,7 +25,7 @@ require('./dom_watchers_global/search-input').init();
 
 //now init the modular elements - there can be any number of these anywhere so we can't attach them to WL_STATE
 require('./dom_watchers/new-claim').init();
-require('./dom_watchers/helper-tab').init();
+require('./dom_watchers/toggles').init();
 
 var presetTabs = [
 	{

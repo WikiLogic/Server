@@ -13035,7 +13035,7 @@ require('./dom_watchers_global/search-input').init();
 
 //now init the modular elements - there can be any number of these anywhere so we can't attach them to WL_STATE
 require('./dom_watchers/new-claim').init();
-require('./dom_watchers/helper-tab').init();
+require('./dom_watchers/toggles').init();
 
 var presetTabs = [
 	{
@@ -13054,7 +13054,7 @@ require('./dom_watchers/editor-detail').init();
 require('./dom_watchers/new-argument').init();
 
 console.groupEnd(); //END Initting
-},{"./dom_watchers/claim-input":8,"./dom_watchers/editor-detail":9,"./dom_watchers/editor-list":10,"./dom_watchers/helper-tab":11,"./dom_watchers/new-argument":12,"./dom_watchers/new-claim":13,"./dom_watchers/tabs":14,"./dom_watchers/toaster":15,"./dom_watchers/working-list":16,"./dom_watchers_global/search-input":17,"./dom_watchers_global/search-results-tab":18,"jquery":1,"rivets":2}],8:[function(require,module,exports){
+},{"./dom_watchers/claim-input":8,"./dom_watchers/editor-detail":9,"./dom_watchers/editor-list":10,"./dom_watchers/new-argument":11,"./dom_watchers/new-claim":12,"./dom_watchers/tabs":13,"./dom_watchers/toaster":14,"./dom_watchers/toggles":15,"./dom_watchers/working-list":16,"./dom_watchers_global/search-input":17,"./dom_watchers_global/search-results-tab":18,"jquery":1,"rivets":2}],8:[function(require,module,exports){
 'use strict';
 
 var trumbowyg = require('trumbowyg');
@@ -13177,41 +13177,6 @@ module.exports = {
 'use strict';
 
 /*
- * This module is responsibe for the helper tab
- * For now this si a single global state option. 
- * Help is either on or off
- * It's like setting WL to "easy mode"
- */
-
-var helperTabStateCtrl = require('../state/helper_tab'); helperTabStateCtrl.init();
-var actionStateCtrl = require('../state/actions');
-
-var domActions = {
-	close_helper_tab: function(){
-		helperTabStateCtrl.hideHelperTab();
-	},
-	open_helper_tab: function(){
-		helperTabStateCtrl.openHelperTab();
-	}
-}
-
-module.exports = {
-	init: function(){
-		console.log('initting helper tab DOM watcher');
-
-		$('.js-help-tab').each(function(){
-			rivets.bind(
-				$(this),
-				{ helper_tab: WL_STATE.helper_tab, actions: domActions }
-			);
-		});
-
-	}
-}
-},{"../state/actions":22,"../state/helper_tab":25}],12:[function(require,module,exports){
-'use strict';
-
-/*
  * This module is responsibe for the new arguments form
  */
 
@@ -13295,7 +13260,7 @@ module.exports = {
 		
 	}
 }
-},{"../api/claim":5,"../api/search":6,"../state/actions":22,"../state/new_argument":26,"rivets":2}],13:[function(require,module,exports){
+},{"../api/claim":5,"../api/search":6,"../state/actions":22,"../state/new_argument":25,"rivets":2}],12:[function(require,module,exports){
 'use strict';
 
 /*
@@ -13355,7 +13320,7 @@ module.exports = {
 
 	}
 }
-},{"../api/claim":5,"../api/search":6,"../state/actions":22,"../state/new_claim":27,"../state/search_results":28,"../state/working_list":30}],14:[function(require,module,exports){
+},{"../api/claim":5,"../api/search":6,"../state/actions":22,"../state/new_claim":26,"../state/search_results":27,"../state/working_list":30}],13:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -13435,7 +13400,7 @@ module.exports = {
 		});
 	}
 }
-},{"../state/actions":22,"../state/tabs":29,"jquery":1}],15:[function(require,module,exports){
+},{"../state/actions":22,"../state/tabs":28,"jquery":1}],14:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -13467,7 +13432,57 @@ module.exports = {
 		});
 	}
 }
-},{"jquery":1}],16:[function(require,module,exports){
+},{"jquery":1}],15:[function(require,module,exports){
+'use strict';
+
+/*
+ * This module is responsibe for the help
+ * For now this si a single global state option. 
+ * Help is either on or off
+ * It's like setting WL to "easy mode"
+ */
+
+var toggleStateCtrl = require('../state/toggles');
+var actionStateCtrl = require('../state/actions');
+
+var domActions = {
+	close_toggle: function(rivet){
+		var toggleId =  rivet.currentTarget.attributes['data-toggle-id'].value;
+		toggleStateCtrl.close(toggleId);
+	},
+	open_toggle: function(rivet){
+		var toggleId =  rivet.currentTarget.attributes['data-toggle-id'].value;
+		toggleStateCtrl.open(toggleId);
+	}
+}
+
+module.exports = {
+	init: function(){
+		console.log('initting toggle DOM watcher');
+
+		//the controllers (turning help on/off)
+		$('.js-toggle-controller').each(function(){
+			var toggleId = $(this).data('toggle-id');
+			var toggleState = toggleStateCtrl.getNewState(toggleId);
+			rivets.bind(
+				$(this),
+				{ toggle: toggleState, actions: domActions }
+			);
+		});
+
+		//the views (showing content based on help state settings)
+		$('.js-toggle-content').each(function(){
+			var toggleId = $(this).data('toggle-id');
+			var toggleState = toggleStateCtrl.getExistingState(toggleId);
+			rivets.bind(
+				$(this),
+				{ toggle: toggleState }
+			);
+		})
+
+	}
+}
+},{"../state/actions":22,"../state/toggles":29}],16:[function(require,module,exports){
 'use strict';
 
 var actionStateCtrl = require('../state/actions');
@@ -13518,7 +13533,7 @@ module.exports = {
 
 	}
 }
-},{"../state/actions":22,"../state/tabs":29,"../state/working_list":30}],17:[function(require,module,exports){
+},{"../state/actions":22,"../state/tabs":28,"../state/working_list":30}],17:[function(require,module,exports){
 'use strict';
 
 var searchApi = require('../api/search');
@@ -13565,7 +13580,7 @@ module.exports = {
 
 }
 
-},{"../api/search":6,"../state/actions":22,"../state/search_results":28}],18:[function(require,module,exports){
+},{"../api/search":6,"../state/actions":22,"../state/search_results":27}],18:[function(require,module,exports){
 'use strict';
 
 /* Search results tab and content DOM watcher
@@ -13593,7 +13608,7 @@ module.exports = {
 		});
 	}
 }
-},{"../state/actions":22,"../state/search_results":28}],19:[function(require,module,exports){
+},{"../state/actions":22,"../state/search_results":27}],19:[function(require,module,exports){
 
 module.exports = {
 	cloneThisObject: function(obj) {
@@ -13869,38 +13884,6 @@ module.exports = {
 }
 },{"../utils/event_manager":31}],25:[function(require,module,exports){
 'use strict';
-/* The Helper Tab State Controller
- * I'm thinking helpful text could be placed throughout the DOM and hide/show based on 
- * the help_tab state & whatever the relevant containing state is. 
- * The main body of the help tab could itself be tabbed content with more in depth help
- */
-
-module.exports = {
-	init: function(){
-		console.log('initting helper tab state control');
-		WL_STATE.helper_tab = {
-			show: true,
-			open: true,
-			show_welcome: true,
-			show_results: false,
-			show_new_claim: false,
-			show_working_list: false,
-			show_editor_detail: false
-		};
-	},
-	openHelperTab: function(){
-		WL_STATE.helper_tab.open = true;
-		WL_STATE.helper_tab.show = true;
-	},
-	closeHelperTab: function(){
-		WL_STATE.helper_tab.open = false;
-	},
-	hideHelperTab: function(){
-		WL_STATE.helper_tab.show = false;
-	}
-}
-},{}],26:[function(require,module,exports){
-'use strict';
 
 /* New arguments do not check state wile they are being authored
  * That would be distracting and might entice people to warp their reasoning to respond to the state
@@ -14032,7 +14015,7 @@ module.exports = {
 	},
 
 };
-},{}],27:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 'use strict';
 
 /* New Claim State Ctrl
@@ -14087,7 +14070,7 @@ module.exports = {
 	}
 
 };
-},{"../utils/event_manager":31}],28:[function(require,module,exports){
+},{"../utils/event_manager":31}],27:[function(require,module,exports){
 'use strict';
 
 var eventManager = require('../utils/event_manager');
@@ -14124,7 +14107,7 @@ module.exports = {
 	}
 
 };
-},{"../utils/event_manager":31}],29:[function(require,module,exports){
+},{"../utils/event_manager":31}],28:[function(require,module,exports){
 'use strict';
 
 /* Everyting aout handling tab state!
@@ -14379,7 +14362,40 @@ module.exports = {
 		WL_STATE.tabs[groupName].tempTab = null;
 	}
 };
-},{"../reducers/object_helpers":19,"../reducers/string_helpers":20,"../reducers/tab_helpers":21,"../utils/event_manager":31}],30:[function(require,module,exports){
+},{"../reducers/object_helpers":19,"../reducers/string_helpers":20,"../reducers/tab_helpers":21,"../utils/event_manager":31}],29:[function(require,module,exports){
+'use strict';
+/* The Toggle State Controller
+ * Thoughts from when this was just a help tab:
+ * I'm thinking helpful text could be placed throughout the DOM and hide/show based on 
+ * the help state & whatever the relevant containing state is. 
+ * The main body of the help tab could itself be tabbed content with more in depth help
+ */
+
+ var toggleState = {
+ 	_id: 'anon',
+ 	open: true
+ }
+
+ var toggleStateRef = {};
+
+module.exports = {
+	getNewState: function(toggleId){
+		var returnToggleState = Object.create(toggleState);
+		returnToggleState._id = toggleId;
+		toggleStateRef[toggleId] = returnToggleState;
+		return returnToggleState;
+	},
+	getExistingState: function(toggleId){
+		return toggleStateRef[toggleId];
+	},
+	open: function(toggleId){
+		toggleStateRef[toggleId].open = true;
+	},
+	close: function(toggleId){
+		toggleStateRef[toggleId].open = false;
+	}
+}
+},{}],30:[function(require,module,exports){
 'use strict';
 
 var editorListStateCtrl = require('./editor_list');
