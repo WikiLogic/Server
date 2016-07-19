@@ -1,15 +1,22 @@
 'use strict';
-
-var editorTabsStateCtrl = require('../state/editor_tabs');
-var actionStateCtrl = require('../state/actions');
-var eventManager = require('../utils/event_manager');
-
 /*
  * This module is responsibe for the editor's claim tabs
  */
 
-var domActions = {
+var editorTabsStateCtrl = require('../state/editor_tabs');
+var eventManager = require('../utils/event_manager');
 
+var domActions = {
+	editor_tab_open: function(rivet){
+		var editorTabsId = rivet.currentTarget.attributes['data-editor-tabs-id'].value;
+		var claimId = rivet.currentTarget.attributes['data-claimtab-id'].value;
+		editorTabsStateCtrl.openClaimTab(editorTabsId, claimId);
+	},
+	editor_tab_close: function(rivet){
+		var editorTabsId = rivet.currentTarget.attributes['data-editor-tabs-id'].value;
+		var claimId = rivet.currentTarget.attributes['data-claimtab-id'].value;
+		editorTabsStateCtrl.removeClaimFromList(editorTabsId, claimId);
+	}
 }
 
 module.exports = {
@@ -30,19 +37,7 @@ module.exports = {
 			}
 		});
 
-		actionStateCtrl.addAction('editor_tab_open', function(rivet){
-		console.group('open editor tab');
-			var claimId = rivet.currentTarget.attributes['data-claimtab-id'].value;
-			editorListStateCtrl.openClaimTab(claimId);
-		console.groupEnd();
-		});
-
-		actionStateCtrl.addAction('editor_tab_close', function(rivet){
-		console.group('close editor tab');
-			var claimId =  rivet.currentTarget.attributes['data-claimtab-id'].value;
-			editorListStateCtrl.removeClaimFromList(claimId);
-		console.groupEnd();
-		});
+/*
 
 		actionStateCtrl.addAction('add_claim_to_editor_list', function(rivet){
 		console.groupCollapsed('adding claim to editor list');
@@ -70,6 +65,6 @@ module.exports = {
 			}
 		console.groupEnd();
 		});
-
+*/
 	}
 }

@@ -13112,17 +13112,24 @@ module.exports = {
 }
 },{"../state/actions":22,"../state/editor_detail":23}],10:[function(require,module,exports){
 'use strict';
-
-var editorTabsStateCtrl = require('../state/editor_tabs');
-var actionStateCtrl = require('../state/actions');
-var eventManager = require('../utils/event_manager');
-
 /*
  * This module is responsibe for the editor's claim tabs
  */
 
-var domActions = {
+var editorTabsStateCtrl = require('../state/editor_tabs');
+var eventManager = require('../utils/event_manager');
 
+var domActions = {
+	editor_tab_open: function(rivet){
+		var editorTabsId = rivet.currentTarget.attributes['data-editor-tabs-id'].value;
+		var claimId = rivet.currentTarget.attributes['data-claimtab-id'].value;
+		editorTabsStateCtrl.openClaimTab(editorTabsId, claimId);
+	},
+	editor_tab_close: function(rivet){
+		var editorTabsId = rivet.currentTarget.attributes['data-editor-tabs-id'].value;
+		var claimId = rivet.currentTarget.attributes['data-claimtab-id'].value;
+		editorTabsStateCtrl.removeClaimFromList(editorTabsId, claimId);
+	}
 }
 
 module.exports = {
@@ -13143,19 +13150,7 @@ module.exports = {
 			}
 		});
 
-		actionStateCtrl.addAction('editor_tab_open', function(rivet){
-		console.group('open editor tab');
-			var claimId = rivet.currentTarget.attributes['data-claimtab-id'].value;
-			editorListStateCtrl.openClaimTab(claimId);
-		console.groupEnd();
-		});
-
-		actionStateCtrl.addAction('editor_tab_close', function(rivet){
-		console.group('close editor tab');
-			var claimId =  rivet.currentTarget.attributes['data-claimtab-id'].value;
-			editorListStateCtrl.removeClaimFromList(claimId);
-		console.groupEnd();
-		});
+/*
 
 		actionStateCtrl.addAction('add_claim_to_editor_list', function(rivet){
 		console.groupCollapsed('adding claim to editor list');
@@ -13183,10 +13178,10 @@ module.exports = {
 			}
 		console.groupEnd();
 		});
-
+*/
 	}
 }
-},{"../state/actions":22,"../state/editor_tabs":24,"../utils/event_manager":31}],11:[function(require,module,exports){
+},{"../state/editor_tabs":24,"../utils/event_manager":31}],11:[function(require,module,exports){
 'use strict';
 
 /*
@@ -13773,47 +13768,47 @@ module.exports = {
 var eventManager = require('../utils/event_manager');
 
 
-var openClaimTab = function(claimId){
+var openClaimTab = function(editorTabsId, claimId){
 	console.log('opening claim tab id: ', claimId);
 	var claimObjRef = {};
 	//loop through all the claim tabs, set them to false unless they match
-	for (var c = 0; c < WL_STATE.editor_list.claim_tabs.length; c++) {
-		if (WL_STATE.editor_list.claim_tabs[c].claim._id == claimId) {
+	for (var c = 0; c < newEditorTabsRefs[editorTabsId].claim_tabs.length; c++) {
+		if (newEditorTabsRefs[editorTabsId].claim_tabs[c].claim._id == claimId) {
 			console.log('open!');
-			WL_STATE.editor_list.claim_tabs[c].open = true;
-			claimObjRef = WL_STATE.editor_list.claim_tabs[c].claim;
+			newEditorTabsRefs[editorTabsId].claim_tabs[c].open = true;
+			claimObjRef = newEditorTabsRefs[editorTabsId].claim_tabs[c].claim;
 		} else {
 			console.log('close');
-			WL_STATE.editor_list.claim_tabs[c].open = false;
+			newEditorTabsRefs[editorTabsId].claim_tabs[c].open = false;
 		}
 	}
 	eventManager.fire('claim_tab_opened', claimObjRef);
 }
 
-var removeClaimFromList = function(claimId){
+var removeClaimFromList = function(editorTabsId, claimId){
 	console.group('Removing claim from editor list', claimId);
 	var claimTabRemoved = false;
 	var claimObjRef = {};
 	//loop through to find the relevant claim obj
-	for (var c = 0; c < WL_STATE.editor_list.claim_tabs.length; c++) {
-		if (WL_STATE.editor_list.claim_tabs[c].claim._id == claimId) {
+	for (var c = 0; c < newEditorTabsRefs[editorTabsId].claim_tabs.length; c++) {
+		if (newEditorTabsRefs[editorTabsId].claim_tabs[c].claim._id == claimId) {
 			console.log('removing claim tab from array');
-			claimObjRef = WL_STATE.editor_list.claim_tabs[c].claim;
-			WL_STATE.editor_list.claim_tabs.splice(c,1);
+			claimObjRef = newEditorTabsRefs[editorTabsId].claim_tabs[c].claim;
+			newEditorTabsRefs[editorTabsId].claim_tabs.splice(c,1);
 			claimTabRemoved = true;
 			eventManager.fire('claim_tab_closed', claimObjRef);
 
 			//now check if there are any other claims tabs to open instead
-			if (WL_STATE.editor_list.claim_tabs.length > 0) {
+			if (newEditorTabsRefs[editorTabsId].claim_tabs.length > 0) {
 				console.log('there are other claim tabs to open');
-				if (typeof WL_STATE.editor_list.claim_tabs[c] !== 'undefined') {
+				if (typeof newEditorTabsRefs[editorTabsId].claim_tabs[c] !== 'undefined') {
 					//if a tab fell into the place that was just spliced, open it
-					console.log('opening the tab that is now in the place of the one removed: ', WL_STATE.editor_list.claim_tabs[c]);
-					openClaimTab(WL_STATE.editor_list.claim_tabs[c].claim._id);	
+					console.log('opening the tab that is now in the place of the one removed: ', newEditorTabsRefs[editorTabsId].claim_tabs[c]);
+					openClaimTab(editorTabsId, newEditorTabsRefs[editorTabsId].claim_tabs[c].claim._id);	
 				} else {
 					//otherwise open the one before it
-					console.log('opening the tab that\'s one back: ', WL_STATE.editor_list.claim_tabs[c-1]);
-					openClaimTab(WL_STATE.editor_list.claim_tabs[c-1].claim._id);
+					console.log('opening the tab that\'s one back: ', newEditorTabsRefs[editorTabsId].claim_tabs[c-1]);
+					openClaimTab(editorTabsId, newEditorTabsRefs[editorTabsId].claim_tabs[c-1].claim._id);
 				}
 			} 
 			break;
@@ -13847,7 +13842,8 @@ module.exports = {
 		return newEditorTabsRefs[editorTabsId];
 	},
 	addClaim: function(editorTabsId, claimObj){
-		console.group('Adding claim to editor list', claimObj);
+		console.group('Adding claim to editor list');
+		console.log('claim:', claimObj);
 		var alreadySet = false;
 
 		//first check that it's not already in the editor list
@@ -13870,13 +13866,13 @@ module.exports = {
 			newEditorTabsRefs[editorTabsId].claim_tabs.push(newClaimTabObj);
 		}
 		console.groupEnd(); //END Adding claim to editor list
-		openClaimTab(claimObj._id);
+		openClaimTab(editorTabsId, claimObj._id);
 	},
-	openClaimTab: function(claimId){
-		openClaimTab(claimId);
+	openClaimTab: function(editorTabsId, claimId){
+		openClaimTab(editorTabsId, claimId);
 	},
-	removeClaimFromList: function(claimId){
-		removeClaimFromList(claimId);
+	removeClaimFromList: function(editorTabsId, claimId){
+		removeClaimFromList(editorTabsId, claimId);
 	}
 }
 },{"../utils/event_manager":31}],25:[function(require,module,exports){

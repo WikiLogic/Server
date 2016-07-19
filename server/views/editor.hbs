@@ -77,14 +77,19 @@
                         data-editor-tabs-id="main_tabs"
                         view-each-claimtab="tabs.claim_tabs"
                         view-class-active="claimtab.open">
+
                         <span class="tabs__title"
                             view-on-click="actions.editor_tab_open"
+                            data-editor-tabs-id="main_tabs"
                             view-data-claimtab-id="claimtab.claim._id"
                             data-tab-group="editor">{claimtab.claim.description}</span>
+
                         <span class="tabs__x"
                             view-on-click="actions.editor_tab_close"
+                            data-editor-tabs-id="main_tabs"
                             view-data-claimtab-id="claimtab.claim._id">
                             <svg class="icon icon--10"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>
+
                         </span>
                     </div>
 
