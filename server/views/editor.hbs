@@ -73,15 +73,16 @@
                     </div>
 
                     <!-- editor list tabs -->
-                    <div class="tabs__tab"
-                        view-each-claimtab="state.editor_list.claim_tabs"
+                    <div class="tabs__tab js-editor-tabs"
+                        data-editor-tabs-id="main_tabs"
+                        view-each-claimtab="tabs.claim_tabs"
                         view-class-active="claimtab.open">
                         <span class="tabs__title"
-                            view-on-click="state.actions.editor_tab_open"
+                            view-on-click="actions.editor_tab_open"
                             view-data-claimtab-id="claimtab.claim._id"
                             data-tab-group="editor">{claimtab.claim.description}</span>
                         <span class="tabs__x"
-                            view-on-click="state.actions.editor_tab_close"
+                            view-on-click="actions.editor_tab_close"
                             view-data-claimtab-id="claimtab.claim._id">
                             <svg class="icon icon--10"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>
                         </span>

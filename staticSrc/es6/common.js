@@ -24,20 +24,16 @@ require('./dom_watchers/search-input').init();
 require('./dom_watchers/search-results').init();
 require('./dom_watchers/new-claim').init();
 require('./dom_watchers/toggles').init();
+require('./dom_watchers/editor-tabs').init();
 
-var presetTabs = [
-	{
-		groupName: 'editor',
-		tabName: 'helper',
-		tabType: '',
-		data: {}
-	}
-]
-require('./dom_watchers/tabs').init(presetTabs);
+
+
+
+
+require('./dom_watchers/tabs').init();
 require('./dom_watchers/toaster').init();
 require('./dom_watchers/claim-input').init();
 require('./dom_watchers/working-list').init();
-require('./dom_watchers/editor-list').init();
 require('./dom_watchers/editor-detail').init();
 require('./dom_watchers/new-argument').init();
 

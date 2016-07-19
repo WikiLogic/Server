@@ -62,21 +62,31 @@ var removeClaimFromList = function(claimId){
 
 }
 
+var editorTabsState = {
+	_id: 'anon',
+	claim_tabs: []
+}
+
+var newEditorTabsRefs = {};
+
 
 module.exports = {
-	init: function(){
-		console.log('initting editor list state controller');
-		WL_STATE.editor_list = {
-			claim_tabs: []
-		};
+	getNewState: function(editorTabsId){
+		var returnState = Object.create(editorTabsState);
+		returnState._id = editorTabsId;
+		newEditorTabsRefs[editorTabsId] = returnState;
+		return returnState;
 	},
-	addClaimToList: function(claimObj){
+	getExistingState: function(editorTabsId){
+		return newEditorTabsRefs[editorTabsId];
+	},
+	addClaim: function(editorTabsId, claimObj){
 		console.group('Adding claim to editor list', claimObj);
 		var alreadySet = false;
 
 		//first check that it's not already in the editor list
-		for (var c = 0; c < WL_STATE.editor_list.claim_tabs.length; c++) { //c for claim
-			if (WL_STATE.editor_list.claim_tabs[c].claim._id == claimObj._id) {
+		for (var c = 0; c < newEditorTabsRefs[editorTabsId].claim_tabs.length; c++) { //c for claim
+			if (newEditorTabsRefs[editorTabsId].claim_tabs[c].claim._id == claimObj._id) {
 				//it is, our job is done
 				console.log('That claim is already in the editor list');
 				alreadySet = true;
@@ -91,7 +101,7 @@ module.exports = {
 				open: false,
 				claim: claimObj
 			}
-			WL_STATE.editor_list.claim_tabs.push(newClaimTabObj);
+			newEditorTabsRefs[editorTabsId].claim_tabs.push(newClaimTabObj);
 		}
 		console.groupEnd(); //END Adding claim to editor list
 		openClaimTab(claimObj._id);

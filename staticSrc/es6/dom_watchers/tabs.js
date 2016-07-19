@@ -15,27 +15,7 @@ var actionStateCtrl = require('../state/actions');
  */
 
 module.exports = {
-	init: function(presetTabs){
-
-		for (var t = 0; t < presetTabs.length; t++){
-			console.log('initting tabs');
-			if (presetTabs[t].isTemp) {
-				tabStateCtrl.createTabGroup(presetTabs[t].groupName);
-				tabStateCtrl.addTempTabToGroup(presetTabs[t].groupName, {
-					tabName: presetTabs[t].tabName,
-					tabType: presetTabs[t].tabtype,
-					data: presetTabs[t].data
-				});
-			} else {
-				tabStateCtrl.createTabGroup(presetTabs[t].groupName);
-				tabStateCtrl.addTabToTabGroup(presetTabs[t].groupName, {
-					tabName: presetTabs[t].tabName,
-					tabType: presetTabs[t].tabtype,
-					data: presetTabs[t].data
-				});
-			}
-		}
-
+	init: function(){
 
 		actionStateCtrl.addAction('activateTab', function(rivet){
 

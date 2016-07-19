@@ -1,6 +1,5 @@
 'use strict';
 
-var editorListStateCtrl = require('./editor_list');
 var eventManager = require('../utils/event_manager');
 /* Working_list State controller
  *
@@ -49,9 +48,9 @@ module.exports = {
 		//get the claim object, fire it with an event
 		for (var i = 0; i < workingListStateRefs[workingListId].claims.length; i++) {
 			if (workingListStateRefs[workingListId].claims[i]._id == claimId) {
-				eventManager.fire('working_list_item_clicked', {
+				eventManager.fire('working_list_claim_clicked', {
 					workingListId: workingListId,
-					itemObj: workingListStateRefs[workingListId].claims[i]
+					claim: workingListStateRefs[workingListId].claims[i]
 				});
 				break;
 			}

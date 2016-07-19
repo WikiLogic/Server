@@ -13034,25 +13034,21 @@ require('./dom_watchers/search-input').init();
 require('./dom_watchers/search-results').init();
 require('./dom_watchers/new-claim').init();
 require('./dom_watchers/toggles').init();
+require('./dom_watchers/editor-tabs').init();
 
-var presetTabs = [
-	{
-		groupName: 'editor',
-		tabName: 'helper',
-		tabType: '',
-		data: {}
-	}
-]
-require('./dom_watchers/tabs').init(presetTabs);
+
+
+
+
+require('./dom_watchers/tabs').init();
 require('./dom_watchers/toaster').init();
 require('./dom_watchers/claim-input').init();
 require('./dom_watchers/working-list').init();
-require('./dom_watchers/editor-list').init();
 require('./dom_watchers/editor-detail').init();
 require('./dom_watchers/new-argument').init();
 
 console.groupEnd(); //END Initting
-},{"./dom_watchers/claim-input":8,"./dom_watchers/editor-detail":9,"./dom_watchers/editor-list":10,"./dom_watchers/new-argument":11,"./dom_watchers/new-claim":12,"./dom_watchers/search-input":13,"./dom_watchers/search-results":14,"./dom_watchers/tabs":15,"./dom_watchers/toaster":16,"./dom_watchers/toggles":17,"./dom_watchers/working-list":18,"jquery":1,"rivets":2}],8:[function(require,module,exports){
+},{"./dom_watchers/claim-input":8,"./dom_watchers/editor-detail":9,"./dom_watchers/editor-tabs":10,"./dom_watchers/new-argument":11,"./dom_watchers/new-claim":12,"./dom_watchers/search-input":13,"./dom_watchers/search-results":14,"./dom_watchers/tabs":15,"./dom_watchers/toaster":16,"./dom_watchers/toggles":17,"./dom_watchers/working-list":18,"jquery":1,"rivets":2}],8:[function(require,module,exports){
 'use strict';
 
 var trumbowyg = require('trumbowyg');
@@ -13117,16 +13113,35 @@ module.exports = {
 },{"../state/actions":22,"../state/editor_detail":23}],10:[function(require,module,exports){
 'use strict';
 
-var editorListStateCtrl = require('../state/editor_list'); editorListStateCtrl.init();
+var editorTabsStateCtrl = require('../state/editor_tabs');
 var actionStateCtrl = require('../state/actions');
+var eventManager = require('../utils/event_manager');
 
 /*
  * This module is responsibe for the editor's claim tabs
  */
 
+var domActions = {
+
+}
+
 module.exports = {
 	init: function(presetTabs){
-		console.log('initting editor list DOM watcher');
+
+		$('.js-editor-tabs').each(function(){
+			var editorTabsId = $(this).data('editor-tabs-id');
+			var newEditorTabs = editorTabsStateCtrl.getNewState(editorTabsId);
+			rivets.bind(
+				$(this),
+				{ tabs: newEditorTabs, actions: domActions }
+			);
+		});
+
+		eventManager.subscribe('working_list_claim_clicked', function(event){
+			if (event.workingListId == "main_list") {
+				editorTabsStateCtrl.addClaim("main_tabs", event.claim);
+			}
+		});
 
 		actionStateCtrl.addAction('editor_tab_open', function(rivet){
 		console.group('open editor tab');
@@ -13171,7 +13186,7 @@ module.exports = {
 
 	}
 }
-},{"../state/actions":22,"../state/editor_list":24}],11:[function(require,module,exports){
+},{"../state/actions":22,"../state/editor_tabs":24,"../utils/event_manager":31}],11:[function(require,module,exports){
 'use strict';
 
 /*
@@ -13417,27 +13432,7 @@ var actionStateCtrl = require('../state/actions');
  */
 
 module.exports = {
-	init: function(presetTabs){
-
-		for (var t = 0; t < presetTabs.length; t++){
-			console.log('initting tabs');
-			if (presetTabs[t].isTemp) {
-				tabStateCtrl.createTabGroup(presetTabs[t].groupName);
-				tabStateCtrl.addTempTabToGroup(presetTabs[t].groupName, {
-					tabName: presetTabs[t].tabName,
-					tabType: presetTabs[t].tabtype,
-					data: presetTabs[t].data
-				});
-			} else {
-				tabStateCtrl.createTabGroup(presetTabs[t].groupName);
-				tabStateCtrl.addTabToTabGroup(presetTabs[t].groupName, {
-					tabName: presetTabs[t].tabName,
-					tabType: presetTabs[t].tabtype,
-					data: presetTabs[t].data
-				});
-			}
-		}
-
+	init: function(){
 
 		actionStateCtrl.addAction('activateTab', function(rivet){
 
@@ -13833,21 +13828,31 @@ var removeClaimFromList = function(claimId){
 
 }
 
+var editorTabsState = {
+	_id: 'anon',
+	claim_tabs: []
+}
+
+var newEditorTabsRefs = {};
+
 
 module.exports = {
-	init: function(){
-		console.log('initting editor list state controller');
-		WL_STATE.editor_list = {
-			claim_tabs: []
-		};
+	getNewState: function(editorTabsId){
+		var returnState = Object.create(editorTabsState);
+		returnState._id = editorTabsId;
+		newEditorTabsRefs[editorTabsId] = returnState;
+		return returnState;
 	},
-	addClaimToList: function(claimObj){
+	getExistingState: function(editorTabsId){
+		return newEditorTabsRefs[editorTabsId];
+	},
+	addClaim: function(editorTabsId, claimObj){
 		console.group('Adding claim to editor list', claimObj);
 		var alreadySet = false;
 
 		//first check that it's not already in the editor list
-		for (var c = 0; c < WL_STATE.editor_list.claim_tabs.length; c++) { //c for claim
-			if (WL_STATE.editor_list.claim_tabs[c].claim._id == claimObj._id) {
+		for (var c = 0; c < newEditorTabsRefs[editorTabsId].claim_tabs.length; c++) { //c for claim
+			if (newEditorTabsRefs[editorTabsId].claim_tabs[c].claim._id == claimObj._id) {
 				//it is, our job is done
 				console.log('That claim is already in the editor list');
 				alreadySet = true;
@@ -13862,7 +13867,7 @@ module.exports = {
 				open: false,
 				claim: claimObj
 			}
-			WL_STATE.editor_list.claim_tabs.push(newClaimTabObj);
+			newEditorTabsRefs[editorTabsId].claim_tabs.push(newClaimTabObj);
 		}
 		console.groupEnd(); //END Adding claim to editor list
 		openClaimTab(claimObj._id);
@@ -14397,7 +14402,6 @@ module.exports = {
 },{}],30:[function(require,module,exports){
 'use strict';
 
-var editorListStateCtrl = require('./editor_list');
 var eventManager = require('../utils/event_manager');
 /* Working_list State controller
  *
@@ -14446,9 +14450,9 @@ module.exports = {
 		//get the claim object, fire it with an event
 		for (var i = 0; i < workingListStateRefs[workingListId].claims.length; i++) {
 			if (workingListStateRefs[workingListId].claims[i]._id == claimId) {
-				eventManager.fire('working_list_item_clicked', {
+				eventManager.fire('working_list_claim_clicked', {
 					workingListId: workingListId,
-					itemObj: workingListStateRefs[workingListId].claims[i]
+					claim: workingListStateRefs[workingListId].claims[i]
 				});
 				break;
 			}
@@ -14458,7 +14462,7 @@ module.exports = {
 		
 	}
 }
-},{"../utils/event_manager":31,"./editor_list":24}],31:[function(require,module,exports){
+},{"../utils/event_manager":31}],31:[function(require,module,exports){
 'use strict';
 
 var eventSubscribers = {};
