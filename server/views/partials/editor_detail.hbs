@@ -37,13 +37,13 @@
 <div class="text-color--black">   
     <div class="box card bg-color--white">
         <p class="full-width text-align-center no-margins">
-            <svg class="float-left" view-show="state.editor_detail.claim.status"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#check"></use></svg>
-            <svg class="float-left" view-hide="state.editor_detail.claim.status"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>
-            &nbsp;{state.editor_detail.claim.description}
+            <svg class="float-left" view-show="editor_detail.claim.status"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#check"></use></svg>
+            <svg class="float-left" view-hide="editor_detail.claim.status"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>
+            &nbsp;{editor_detail.claim.description}
         </p>
     </div>
     <!--
-    <textarea name="" class="trumbowyg-claim-input claim-input display-none" cols="30" rows="10">{state.editor_detail.claim.description}</textarea>
+    <textarea name="" class="trumbowyg-claim-input claim-input display-none" cols="30" rows="10">{editor_detail.claim.description}</textarea>
     -->
 </div>
 
@@ -97,7 +97,7 @@
             </div>
             <br>
             <hr>
-            <div view-each-argument="state.editor_detail.claim.supporting">{{> argument_group }}</div>
+            <div view-each-argument="editor_detail.claim.supporting">{{> argument_group }}</div>
             {{> argument_group }}
 
         </div>
@@ -113,7 +113,7 @@
         <div class="card bg-color--white text-color--black box">
 
             <hr>
-            <div view-each-argument="state.editor_detail.claim.opposing">{{> argument_group }}</div>
+            <div view-each-argument="editor_detail.claim.opposing">{{> argument_group }}</div>
             {{> argument_group }}
 
         </div>
