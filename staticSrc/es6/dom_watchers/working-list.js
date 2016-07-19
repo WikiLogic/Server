@@ -10,7 +10,9 @@ var eventManager = require('../utils/event_manager');
 
 var domActions = {
 	clicked: function(rivet){
-		console.warn('TODO: deal with the working list item being clicked');
+		var claimId = rivet.currentTarget.attributes['data-claim-id'].value;
+		var workingListId = rivet.currentTarget.attributes['data-working-list-id'].value;
+		workingListStateCtrl.itemClicked(workingListId, claimId);
 	}
 };
 

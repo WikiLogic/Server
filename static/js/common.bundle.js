@@ -13574,7 +13574,9 @@ var eventManager = require('../utils/event_manager');
 
 var domActions = {
 	clicked: function(rivet){
-		console.warn('TODO: deal with the working list item being clicked');
+		var claimId = rivet.currentTarget.attributes['data-claim-id'].value;
+		var workingListId = rivet.currentTarget.attributes['data-working-list-id'].value;
+		workingListStateCtrl.itemClicked(workingListId, claimId);
 	}
 };
 
@@ -14396,7 +14398,7 @@ module.exports = {
 'use strict';
 
 var editorListStateCtrl = require('./editor_list');
-
+var eventManager = require('../utils/event_manager');
 /* Working_list State controller
  *
  */
@@ -14439,11 +14441,24 @@ module.exports = {
 		console.groupEnd(); //END Adding claim to editor list
 		
 	},
+	itemClicked: function(workingListId, claimId){
+		console.log('item clicked: ', claimId);
+		//get the claim object, fire it with an event
+		for (var i = 0; i < workingListStateRefs[workingListId].claims.length; i++) {
+			if (workingListStateRefs[workingListId].claims[i]._id == claimId) {
+				eventManager.fire('working_list_item_clicked', {
+					workingListId: workingListId,
+					itemObj: workingListStateRefs[workingListId].claims[i]
+				});
+				break;
+			}
+		}
+	},
 	removeClaimFromList: function(claimId){
 		
 	}
 }
-},{"./editor_list":24}],31:[function(require,module,exports){
+},{"../utils/event_manager":31,"./editor_list":24}],31:[function(require,module,exports){
 'use strict';
 
 var eventSubscribers = {};

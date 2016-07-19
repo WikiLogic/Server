@@ -1,7 +1,7 @@
 'use strict';
 
 var editorListStateCtrl = require('./editor_list');
-
+var eventManager = require('../utils/event_manager');
 /* Working_list State controller
  *
  */
@@ -43,6 +43,19 @@ module.exports = {
 		}
 		console.groupEnd(); //END Adding claim to editor list
 		
+	},
+	itemClicked: function(workingListId, claimId){
+		console.log('item clicked: ', claimId);
+		//get the claim object, fire it with an event
+		for (var i = 0; i < workingListStateRefs[workingListId].claims.length; i++) {
+			if (workingListStateRefs[workingListId].claims[i]._id == claimId) {
+				eventManager.fire('working_list_item_clicked', {
+					workingListId: workingListId,
+					itemObj: workingListStateRefs[workingListId].claims[i]
+				});
+				break;
+			}
+		}
 	},
 	removeClaimFromList: function(claimId){
 		
