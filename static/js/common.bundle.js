@@ -13100,11 +13100,32 @@ module.exports = {
  */
 
 var editorDetailStateCtrl = require('../state/editor_detail');
-var actionStateCtrl = require('../state/actions');
 var eventManager = require('../utils/event_manager');
 
 var domActions = {
+	new_reason_keypress: function(rivet, e){
+		
+		//this fires with every keypress of the input for a new reason
+		var argumentId = rivet.currentTarget.attributes['data-argument-id'].value;
 
+		if (rivet.key == "Enter"){
+			//when the user presses enter, run the search. Only let them add a new claim if it doesn't already exist
+			var term = rivet.currentTarget.value;
+			
+			//they're just typing, run the search and send the results to the new argument controller
+			searchApi.searchByString(term).done(function(data){
+				//add to search results
+				newArgumentStateCtrl.setResults(argumentId, term, data);
+			}).fail(function(err){
+				console.error('search api error: ', err);
+				//TODO: send to alerts
+			});
+
+		} else {
+			//not the enter key - we could start pre fetching results...
+
+		}
+	}
 }
 
 module.exports = {
@@ -13136,7 +13157,7 @@ module.exports = {
 		
 	}
 }
-},{"../state/actions":22,"../state/editor_detail":23,"../utils/event_manager":31}],10:[function(require,module,exports){
+},{"../state/editor_detail":23,"../utils/event_manager":31}],10:[function(require,module,exports){
 'use strict';
 /*
  * This module is responsibe for the editor's claim tabs
@@ -13213,7 +13234,7 @@ module.exports = {
 /*
  * This module is responsibe for the new arguments form
  */
-
+console.warn('TODO: depreciate this dom watcher');
 var newArgumentStateCtrl = require('../state/new_argument');
 var actionStateCtrl = require('../state/actions');
 var searchApi = require('../api/search');
@@ -13724,26 +13745,20 @@ module.exports = {
 'use strict';
 
 var eventManager = require('../utils/event_manager');
+var newArgumentStateCtrl = require('./new_argument');
 
 /* The Editor Detail state controller
- *
+ * The special case here is in adding new for/against arguments. 
+ * All those details are delegated to the newArgumentStateCtrl which doesn't actually have it's own dom watcher.
  */
 
-var editorDetailState = {
-	claim: {},
-	open: false,
-	new_for: {
-		is_valid: false,
-		reasons: [
-			{
 
-			}
-		]
-	},
-	new_against: {
-		is_valid: false,
-		reasons: [{}]
-	}
+var editorDetailState = {
+	_id: 'anon',
+	open: false,
+	claim: {},
+	new_for: {},
+	new_against: {}
 }
 
 var editorDetailRefs = {};
@@ -13753,6 +13768,10 @@ module.exports = {
 	getNewState: function(editorDetailId){
 		var returnState = Object.create(editorDetailState);
 		returnState._id = editorDetailId;
+		//in addition we have to get and attach two new argument group creation forms
+		returnState.new_for = newArgumentStateCtrl.getNewState(editorDetailId + "_for");
+		returnState.new_against = newArgumentStateCtrl.getNewState(editorDetailId + "_against");
+
 		editorDetailRefs[editorDetailId] = returnState;
 		return returnState;
 	},
@@ -13789,7 +13808,7 @@ module.exports = {
 	}
 
 };
-},{"../utils/event_manager":31}],24:[function(require,module,exports){
+},{"../utils/event_manager":31,"./new_argument":25}],24:[function(require,module,exports){
 'use strict';
 
 /* The Editor List State Controller
@@ -13914,7 +13933,7 @@ module.exports = {
  */
 
 //keep a refrence to all the arguments we create
-var newArguments = {};
+var newArgumentRefs = {};
 
 var argIdIterator = 0;
 
@@ -13974,19 +13993,14 @@ var newArgument = {
  */
 module.exports = {
 
-	getNewArgument: function(){
-		//new instance of an argument creation form
-		var returnArgument = Object.create(newArgument);
-		//new id
-		var returnArgumentID = "newarg" + argIdIterator;
-		//set the id on the argument
-		returnArgument._id = "newarg" + argIdIterator;
-		//save a refrence to the argument
-		newArguments[returnArgumentID] = returnArgument;
-		//iterate the ID generator for next time
-		argIdIterator ++;
-		//return the newly created argument
-		return returnArgument;
+	getNewState: function(argumentId){
+		var returnState = Object.create(newArgument);
+		returnState._id = argumentId;
+		newArgumentRefs[argumentId] = returnState;
+		return returnState;
+	},
+	getExistingState: function(argumentId){
+		return newArgumentRefs[argumentId];
 	},
 	setResults: function(argumentID, searchTerm, resultsArray){
 		console.log('setting search results for argument group:', argumentName, resultsArray);

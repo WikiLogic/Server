@@ -5,7 +5,7 @@
  */
 
 //keep a refrence to all the arguments we create
-var newArguments = {};
+var newArgumentRefs = {};
 
 var argIdIterator = 0;
 
@@ -65,19 +65,14 @@ var newArgument = {
  */
 module.exports = {
 
-	getNewArgument: function(){
-		//new instance of an argument creation form
-		var returnArgument = Object.create(newArgument);
-		//new id
-		var returnArgumentID = "newarg" + argIdIterator;
-		//set the id on the argument
-		returnArgument._id = "newarg" + argIdIterator;
-		//save a refrence to the argument
-		newArguments[returnArgumentID] = returnArgument;
-		//iterate the ID generator for next time
-		argIdIterator ++;
-		//return the newly created argument
-		return returnArgument;
+	getNewState: function(argumentId){
+		var returnState = Object.create(newArgument);
+		returnState._id = argumentId;
+		newArgumentRefs[argumentId] = returnState;
+		return returnState;
+	},
+	getExistingState: function(argumentId){
+		return newArgumentRefs[argumentId];
 	},
 	setResults: function(argumentID, searchTerm, resultsArray){
 		console.log('setting search results for argument group:', argumentName, resultsArray);

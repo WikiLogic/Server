@@ -3,7 +3,7 @@
 /*
  * This module is responsibe for the new arguments form
  */
-
+console.warn('TODO: depreciate this dom watcher');
 var newArgumentStateCtrl = require('../state/new_argument');
 var actionStateCtrl = require('../state/actions');
 var searchApi = require('../api/search');
