@@ -9,33 +9,33 @@ var eventManager = require('../utils/event_manager');
 
 var openClaimTab = function(editorTabsId, claimId){
 	console.log('opening claim tab id: ', claimId);
-	var claimObjRef = {};
+	var claimObj = {};
 	//loop through all the claim tabs, set them to false unless they match
 	for (var c = 0; c < newEditorTabsRefs[editorTabsId].claim_tabs.length; c++) {
 		if (newEditorTabsRefs[editorTabsId].claim_tabs[c].claim._id == claimId) {
 			console.log('open!');
 			newEditorTabsRefs[editorTabsId].claim_tabs[c].open = true;
-			claimObjRef = newEditorTabsRefs[editorTabsId].claim_tabs[c].claim;
+			claimObj = newEditorTabsRefs[editorTabsId].claim_tabs[c].claim;
 		} else {
 			console.log('close');
 			newEditorTabsRefs[editorTabsId].claim_tabs[c].open = false;
 		}
 	}
-	eventManager.fire('claim_tab_opened', claimObjRef);
+	eventManager.fire('editor_tab_opened', {	editorTabsId, claimObj });
 }
 
 var removeClaimFromList = function(editorTabsId, claimId){
 	console.group('Removing claim from editor list', claimId);
 	var claimTabRemoved = false;
-	var claimObjRef = {};
+	var claimObj = {};
 	//loop through to find the relevant claim obj
 	for (var c = 0; c < newEditorTabsRefs[editorTabsId].claim_tabs.length; c++) {
 		if (newEditorTabsRefs[editorTabsId].claim_tabs[c].claim._id == claimId) {
 			console.log('removing claim tab from array');
-			claimObjRef = newEditorTabsRefs[editorTabsId].claim_tabs[c].claim;
+			claimObj = newEditorTabsRefs[editorTabsId].claim_tabs[c].claim;
 			newEditorTabsRefs[editorTabsId].claim_tabs.splice(c,1);
 			claimTabRemoved = true;
-			eventManager.fire('claim_tab_closed', claimObjRef);
+			eventManager.fire('editor_tab_closed', {	editorTabsId, claimObj });
 
 			//now check if there are any other claims tabs to open instead
 			if (newEditorTabsRefs[editorTabsId].claim_tabs.length > 0) {

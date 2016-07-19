@@ -13099,18 +13099,35 @@ module.exports = {
  * It also deals with the interactions from that claim
  */
 
-var editorDetailStateCtrl = require('../state/editor_detail'); editorDetailStateCtrl.init();
+var editorDetailStateCtrl = require('../state/editor_detail');
 var actionStateCtrl = require('../state/actions');
+var eventManager = require('../utils/event_manager');
+
+var domActions = {
+
+}
 
 module.exports = {
 	init: function(){
-		console.log('initting editor detail DOM watcher');
-		editorDetailStateCtrl.init();
 
+		$('.js-editor-detail').each(function(){
+			var editorDetailId = $(this).data('editor-detail-id');
+			var editorDetailState = editorDetailStateCtrl.getNewState(editorDetailId);
+			rivets.bind(
+				$(this),
+				{ editor_detail: editorDetailState, actions: domActions }
+			);
+		});
+
+		eventManager.subscribe('editor_tab_opened', function(event){
+			if (event.editorTabsId == "main_tabs") {
+				editorDetailStateCtrl.setNewClaimDetail("main_editor", event.claimObj);
+			}
+		});
 		
 	}
 }
-},{"../state/actions":22,"../state/editor_detail":23}],10:[function(require,module,exports){
+},{"../state/actions":22,"../state/editor_detail":23,"../utils/event_manager":31}],10:[function(require,module,exports){
 'use strict';
 /*
  * This module is responsibe for the editor's claim tabs
@@ -13703,44 +13720,43 @@ var eventManager = require('../utils/event_manager');
  *
  */
 
-var setNewClaimDetail = function(claimObj){
-	WL_STATE.editor_detail.claim = claimObj;
+
+var editorDetailState = {
+	claim: {},
+	new_for: {
+		is_valid: false,
+		reasons: [
+			{
+
+			}
+		]
+	},
+	new_against: {
+		is_valid: false,
+		reasons: [{}]
+	}
 }
+
+var editorDetailRefs = {};
 
 module.exports = {
 
-	init: function(){
-		console.log('initting editor detail state controller');
-		WL_STATE.editor_detail = {
-			show: false,
-			claim: {},
-			new_for: {
-				is_valid: false,
-				reasons: [
-					{
-
-					}
-				]
-			},
-			new_against: {
-				is_valid: false,
-				reasons: [{}]
-			}
-		};
-
-		eventManager.subscribe('claim_tab_closed', function(claimObj){
-			WL_STATE.editor_detail.show = false;
-		});
-
-		eventManager.subscribe('claim_tab_opened', function(claimObj){
-			setNewClaimDetail(claimObj);
-			WL_STATE.editor_detail.show = true;
-		});
+	getNewState: function(editorDetailId){
+		var returnState = Object.create(editorDetailState);
+		returnState._id = editorDetailId;
+		editorDetailRefs[editorDetailId] = returnState;
+		return returnState;
+	},
+	getExistingState: function(editorDetailId){
+		return editorDetailRefs[editorDetailId];
+	},
+	setNewClaimDetail: function(editorDetailId, claimObj){
+		editorDetailRefs[editorDetailId].claim = claimObj;
+		eventManager.fire('editor_detail_set', {editorDetailId, claimObj});
 	},
 
-	setNewClaimDetail: function(claimObj){
-		setNewClaimDetail(claimObj);
-	},
+
+
 
 	addSupportingArgument: function(){
 		console.log('stubbing new supporting argument group');
@@ -13770,33 +13786,33 @@ var eventManager = require('../utils/event_manager');
 
 var openClaimTab = function(editorTabsId, claimId){
 	console.log('opening claim tab id: ', claimId);
-	var claimObjRef = {};
+	var claimObj = {};
 	//loop through all the claim tabs, set them to false unless they match
 	for (var c = 0; c < newEditorTabsRefs[editorTabsId].claim_tabs.length; c++) {
 		if (newEditorTabsRefs[editorTabsId].claim_tabs[c].claim._id == claimId) {
 			console.log('open!');
 			newEditorTabsRefs[editorTabsId].claim_tabs[c].open = true;
-			claimObjRef = newEditorTabsRefs[editorTabsId].claim_tabs[c].claim;
+			claimObj = newEditorTabsRefs[editorTabsId].claim_tabs[c].claim;
 		} else {
 			console.log('close');
 			newEditorTabsRefs[editorTabsId].claim_tabs[c].open = false;
 		}
 	}
-	eventManager.fire('claim_tab_opened', claimObjRef);
+	eventManager.fire('editor_tab_opened', {	editorTabsId, claimObj });
 }
 
 var removeClaimFromList = function(editorTabsId, claimId){
 	console.group('Removing claim from editor list', claimId);
 	var claimTabRemoved = false;
-	var claimObjRef = {};
+	var claimObj = {};
 	//loop through to find the relevant claim obj
 	for (var c = 0; c < newEditorTabsRefs[editorTabsId].claim_tabs.length; c++) {
 		if (newEditorTabsRefs[editorTabsId].claim_tabs[c].claim._id == claimId) {
 			console.log('removing claim tab from array');
-			claimObjRef = newEditorTabsRefs[editorTabsId].claim_tabs[c].claim;
+			claimObj = newEditorTabsRefs[editorTabsId].claim_tabs[c].claim;
 			newEditorTabsRefs[editorTabsId].claim_tabs.splice(c,1);
 			claimTabRemoved = true;
-			eventManager.fire('claim_tab_closed', claimObjRef);
+			eventManager.fire('editor_tab_closed', {	editorTabsId, claimObj });
 
 			//now check if there are any other claims tabs to open instead
 			if (newEditorTabsRefs[editorTabsId].claim_tabs.length > 0) {
