@@ -10,15 +10,14 @@ var eventManager = require('../utils/event_manager');
 
 var domActions = {
 	new_reason_keypress: function(rivet, e){
-		
-		//this fires with every keypress of the input for a new reason
+
 		var argumentId = rivet.currentTarget.attributes['data-argument-id'].value;
+		var term = rivet.currentTarget.value;
 
 		if (rivet.key == "Enter"){
-			//when the user presses enter, run the search. Only let them add a new claim if it doesn't already exist
-			var term = rivet.currentTarget.value;
+
+			editorDetailStateCtrl.enterNewReason(argumentId, term);
 			
-			//they're just typing, run the search and send the results to the new argument controller
 			searchApi.searchByString(term).done(function(data){
 				//add to search results
 				newArgumentStateCtrl.setResults(argumentId, term, data);
@@ -29,6 +28,8 @@ var domActions = {
 
 		} else {
 			//not the enter key - we could start pre fetching results...
+			//maybe a good place to debounce a search
+			editorDetailStateCtrl.setNewReason(argumentId, term);
 
 		}
 	}

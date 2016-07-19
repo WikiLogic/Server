@@ -13045,10 +13045,9 @@ require('./dom_watchers/toaster').init();
 require('./dom_watchers/claim-input').init();
 require('./dom_watchers/working-list').init();
 require('./dom_watchers/editor-detail').init();
-require('./dom_watchers/new-argument').init();
 
 console.groupEnd(); //END Initting
-},{"./dom_watchers/claim-input":8,"./dom_watchers/editor-detail":9,"./dom_watchers/editor-tabs":10,"./dom_watchers/new-argument":11,"./dom_watchers/new-claim":12,"./dom_watchers/search-input":13,"./dom_watchers/search-results":14,"./dom_watchers/tabs":15,"./dom_watchers/toaster":16,"./dom_watchers/toggles":17,"./dom_watchers/working-list":18,"jquery":1,"rivets":2}],8:[function(require,module,exports){
+},{"./dom_watchers/claim-input":8,"./dom_watchers/editor-detail":9,"./dom_watchers/editor-tabs":10,"./dom_watchers/new-claim":11,"./dom_watchers/search-input":12,"./dom_watchers/search-results":13,"./dom_watchers/tabs":14,"./dom_watchers/toaster":15,"./dom_watchers/toggles":16,"./dom_watchers/working-list":17,"jquery":1,"rivets":2}],8:[function(require,module,exports){
 'use strict';
 
 var trumbowyg = require('trumbowyg');
@@ -13091,7 +13090,7 @@ module.exports = {
 	}
 }
 
-},{"../api/claim":5,"../state/actions":22,"trumbowyg":4}],9:[function(require,module,exports){
+},{"../api/claim":5,"../state/actions":21,"trumbowyg":4}],9:[function(require,module,exports){
 'use strict';
 
 /* Current Editor DOM Watcher
@@ -13104,15 +13103,14 @@ var eventManager = require('../utils/event_manager');
 
 var domActions = {
 	new_reason_keypress: function(rivet, e){
-		
-		//this fires with every keypress of the input for a new reason
+
 		var argumentId = rivet.currentTarget.attributes['data-argument-id'].value;
+		var term = rivet.currentTarget.value;
 
 		if (rivet.key == "Enter"){
-			//when the user presses enter, run the search. Only let them add a new claim if it doesn't already exist
-			var term = rivet.currentTarget.value;
+
+			editorDetailStateCtrl.enterNewReason(argumentId, term);
 			
-			//they're just typing, run the search and send the results to the new argument controller
 			searchApi.searchByString(term).done(function(data){
 				//add to search results
 				newArgumentStateCtrl.setResults(argumentId, term, data);
@@ -13123,6 +13121,8 @@ var domActions = {
 
 		} else {
 			//not the enter key - we could start pre fetching results...
+			//maybe a good place to debounce a search
+			editorDetailStateCtrl.setNewReason(argumentId, term);
 
 		}
 	}
@@ -13157,7 +13157,7 @@ module.exports = {
 		
 	}
 }
-},{"../state/editor_detail":23,"../utils/event_manager":31}],10:[function(require,module,exports){
+},{"../state/editor_detail":22,"../utils/event_manager":30}],10:[function(require,module,exports){
 'use strict';
 /*
  * This module is responsibe for the editor's claim tabs
@@ -13228,94 +13228,7 @@ module.exports = {
 */
 	}
 }
-},{"../state/editor_tabs":24,"../utils/event_manager":31}],11:[function(require,module,exports){
-'use strict';
-
-/*
- * This module is responsibe for the new arguments form
- */
-console.warn('TODO: depreciate this dom watcher');
-var newArgumentStateCtrl = require('../state/new_argument');
-var actionStateCtrl = require('../state/actions');
-var searchApi = require('../api/search');
-var claimApi = require('../api/claim');
-var rivets = require('rivets');
-
-var domActions = {
-	test: "testing",
-	new_reason_keypress: function(rivet, e){
-		console.log(e);
-		//this fires with every keypress of the input for the new reason
-		var argumentId = rivet.currentTarget.attributes['data-argument-id'].value;
-
-		if (rivet.key == "Enter"){
-			//when the user presses enter, run the search. Only let them add a new claim if it doesn't already exist
-			var term = rivet.currentTarget.value;
-			
-			//they're just typing, run the search and send the results to the new argument controller
-			searchApi.searchByString(term).done(function(data){
-				//add to search results
-				newArgumentStateCtrl.setResults(argumentId, term, data);
-			}).fail(function(err){
-				console.error('search api error: ', err);
-				//TODO: send to alerts
-			});
-
-		} else {
-			//not the enter key - we could start pre fetching results...
-
-		}
-	},
-	save_reason_as_claim: function(rivet){
-		console.group('Saving reason as new claim');
-		var argumentId = rivet.currentTarget.attributes['data-argument-id'].value;
-		var newClaimString = newArgumentStateCtrl.getSearchTerm(argumentId);
-		claimApi.newClaim(newClaimString).done(function(data){
-			console.info('new claim has been added!', data);
-			newArgumentStateCtrl.addReason(argumentId, data);
-			//add it to this new argument
-		}).fail(function(err){
-			console.error('new claim api failed', err);
-
-			//send err to the alert system
-		});
-		console.groupEnd();//END Saving reason as new claim
-	},
-	add_reason_to_argument: function(rivet){
-		console.group('Adding reason to argument');
-		//get the claim ref & argument id
-
-		//send it to the argument state controller
-		console.groupEnd(); //END Adding reason to argument
-	},
-	save_new_argument: function(rivet){
-		console.group('saving New Argument Group');
-		var argumentId = rivet.currentTarget.attributes['data-argument-id'].value;
-		console.log('TODO: save argument to somewhere');
-	
-		console.groupEnd();//END adding New Argument Group
-	}
-}
-
-
-module.exports = {
-	init: function(){
-		console.log('initting new argument DOM watcher');
-
-		//for each argument creation form, bind a new argument state object
-		$('.js-argument-creation-form').each(function(){
-			//get a new instance of the "argument creation" state
-			var newArgumentState = newArgumentStateCtrl.getNewArgument();
-			//and bind it
-			rivets.bind(
-				$(this),
-				{ new_argument: newArgumentState, actions: domActions }
-			);
-		});
-		
-	}
-}
-},{"../api/claim":5,"../api/search":6,"../state/actions":22,"../state/new_argument":25,"rivets":2}],12:[function(require,module,exports){
+},{"../state/editor_tabs":23,"../utils/event_manager":30}],11:[function(require,module,exports){
 'use strict';
 
 /*
@@ -13366,7 +13279,7 @@ module.exports = {
 
 	}
 }
-},{"../api/claim":5,"../state/new_claim":26,"../utils/event_manager":31}],13:[function(require,module,exports){
+},{"../api/claim":5,"../state/new_claim":25,"../utils/event_manager":30}],12:[function(require,module,exports){
 'use strict';
 
 var searchApi = require('../api/search');
@@ -13420,7 +13333,7 @@ module.exports = {
 
 }
 
-},{"../api/search":6,"../state/actions":22,"../state/search":27}],14:[function(require,module,exports){
+},{"../api/search":6,"../state/actions":21,"../state/search":26}],13:[function(require,module,exports){
 'use strict';
 
 var searchApi = require('../api/search');
@@ -13456,7 +13369,7 @@ module.exports = {
 
 }
 
-},{"../api/search":6,"../state/actions":22,"../state/search":27}],15:[function(require,module,exports){
+},{"../api/search":6,"../state/actions":21,"../state/search":26}],14:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -13516,7 +13429,7 @@ module.exports = {
 		});
 	}
 }
-},{"../state/actions":22,"../state/tabs":28,"jquery":1}],16:[function(require,module,exports){
+},{"../state/actions":21,"../state/tabs":27,"jquery":1}],15:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -13548,7 +13461,7 @@ module.exports = {
 		});
 	}
 }
-},{"jquery":1}],17:[function(require,module,exports){
+},{"jquery":1}],16:[function(require,module,exports){
 'use strict';
 
 /*
@@ -13598,7 +13511,7 @@ module.exports = {
 
 	}
 }
-},{"../state/actions":22,"../state/toggles":29}],18:[function(require,module,exports){
+},{"../state/actions":21,"../state/toggles":28}],17:[function(require,module,exports){
 'use strict';
 
 var workingListStateCtrl = require('../state/working_list');
@@ -13637,7 +13550,7 @@ module.exports = {
 
 	}
 }
-},{"../state/working_list":30,"../utils/event_manager":31}],19:[function(require,module,exports){
+},{"../state/working_list":29,"../utils/event_manager":30}],18:[function(require,module,exports){
 
 module.exports = {
 	cloneThisObject: function(obj) {
@@ -13651,7 +13564,7 @@ module.exports = {
 		return newObj;
 	}
 }
-},{}],20:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -13664,7 +13577,7 @@ module.exports = {
 		return /[A-Z]/.test(s);
 	}
 }
-},{}],21:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 /* Takes tab group state
  * modifies it
  * Returns tab group state
@@ -13717,7 +13630,7 @@ module.exports = {
 		};
 	}
 }
-},{"../reducers/string_helpers":20,"./object_helpers":19}],22:[function(require,module,exports){
+},{"../reducers/string_helpers":19,"./object_helpers":18}],21:[function(require,module,exports){
 'use strict';
 
 var objectHelpers = require('../reducers/object_helpers');
@@ -13741,7 +13654,7 @@ module.exports = {
 	}
 
 };
-},{"../reducers/object_helpers":19}],23:[function(require,module,exports){
+},{"../reducers/object_helpers":18}],22:[function(require,module,exports){
 'use strict';
 
 var eventManager = require('../utils/event_manager');
@@ -13788,6 +13701,14 @@ module.exports = {
 	hideEditor: function(editorDetailId){
 		editorDetailRefs[editorDetailId].open = false;
 	},
+	setNewReason: function(argumentId, term){
+		//sent here, delegated to the new reason state ctrl
+		newArgumentStateCtrl.setNewReason(argumentId, term);
+	},
+	enterNewReason: function(argumentId, term){
+		//sent here, delegated to the new reason state ctrl
+		newArgumentStateCtrl.enterNewReason(argumentId, term);
+	},
 
 
 
@@ -13808,7 +13729,7 @@ module.exports = {
 	}
 
 };
-},{"../utils/event_manager":31,"./new_argument":25}],24:[function(require,module,exports){
+},{"../utils/event_manager":30,"./new_argument":24}],23:[function(require,module,exports){
 'use strict';
 
 /* The Editor List State Controller
@@ -13925,8 +13846,11 @@ module.exports = {
 		removeClaimFromList(editorTabsId, claimId);
 	}
 }
-},{"../utils/event_manager":31}],25:[function(require,module,exports){
+},{"../utils/event_manager":30}],24:[function(require,module,exports){
 'use strict';
+
+var searchApi = require('../api/search');
+var eventManager = require('../utils/event_manager');
 
 /* New arguments do not check state wile they are being authored
  * That would be distracting and might entice people to warp their reasoning to respond to the state
@@ -14002,6 +13926,25 @@ module.exports = {
 	getExistingState: function(argumentId){
 		return newArgumentRefs[argumentId];
 	},
+	setNewReason: function(argumentID, term){
+		console.log('setting ', argumentID, term);
+	},
+	enterNewReason: function(argumentId, term){
+		console.log('entering ', argumentID, term);
+
+		searchApi.searchByString(term).done(function(data){
+			//add to search results
+			newArgumentRefs[argumentId].search_results = data;
+			eventManager.fire("search_results_set", {argumentId, argumentGroup: newArgumentRefs[argumentId]});
+		}).fail(function(err){
+			console.error('search api error: ', err);
+			//TODO: send to alerts
+		});
+	},
+
+
+
+
 	setResults: function(argumentID, searchTerm, resultsArray){
 		console.log('setting search results for argument group:', argumentName, resultsArray);
 		if (newArguments.hasOwnProperty(argumentID)) {
@@ -14053,7 +13996,7 @@ module.exports = {
 	},
 
 };
-},{}],26:[function(require,module,exports){
+},{"../api/search":6,"../utils/event_manager":30}],25:[function(require,module,exports){
 'use strict';
 
 /* New Claim State Ctrl
@@ -14090,7 +14033,7 @@ module.exports = {
 	}
 
 };
-},{"../utils/event_manager":31}],27:[function(require,module,exports){
+},{"../utils/event_manager":30}],26:[function(require,module,exports){
 'use strict';
 
 /* The Search Input state controller
@@ -14152,7 +14095,7 @@ module.exports = {
 	}
 
 };
-},{"../api/search":6,"../utils/event_manager":31}],28:[function(require,module,exports){
+},{"../api/search":6,"../utils/event_manager":30}],27:[function(require,module,exports){
 'use strict';
 
 /* Everyting aout handling tab state!
@@ -14407,7 +14350,7 @@ module.exports = {
 		WL_STATE.tabs[groupName].tempTab = null;
 	}
 };
-},{"../reducers/object_helpers":19,"../reducers/string_helpers":20,"../reducers/tab_helpers":21,"../utils/event_manager":31}],29:[function(require,module,exports){
+},{"../reducers/object_helpers":18,"../reducers/string_helpers":19,"../reducers/tab_helpers":20,"../utils/event_manager":30}],28:[function(require,module,exports){
 'use strict';
 /* The Toggle State Controller
  * Thoughts from when this was just a help tab:
@@ -14440,7 +14383,7 @@ module.exports = {
 		toggleStateRef[toggleId].open = false;
 	}
 }
-},{}],30:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 'use strict';
 
 var eventManager = require('../utils/event_manager');
@@ -14503,7 +14446,7 @@ module.exports = {
 		
 	}
 }
-},{"../utils/event_manager":31}],31:[function(require,module,exports){
+},{"../utils/event_manager":30}],30:[function(require,module,exports){
 'use strict';
 
 var eventSubscribers = {};

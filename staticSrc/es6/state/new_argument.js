@@ -1,5 +1,8 @@
 'use strict';
 
+var searchApi = require('../api/search');
+var eventManager = require('../utils/event_manager');
+
 /* New arguments do not check state wile they are being authored
  * That would be distracting and might entice people to warp their reasoning to respond to the state
  */
@@ -74,6 +77,25 @@ module.exports = {
 	getExistingState: function(argumentId){
 		return newArgumentRefs[argumentId];
 	},
+	setNewReason: function(argumentID, term){
+		console.log('setting ', argumentID, term);
+	},
+	enterNewReason: function(argumentId, term){
+		console.log('entering ', argumentID, term);
+
+		searchApi.searchByString(term).done(function(data){
+			//add to search results
+			newArgumentRefs[argumentId].search_results = data;
+			eventManager.fire("search_results_set", {argumentId, argumentGroup: newArgumentRefs[argumentId]});
+		}).fail(function(err){
+			console.error('search api error: ', err);
+			//TODO: send to alerts
+		});
+	},
+
+
+
+
 	setResults: function(argumentID, searchTerm, resultsArray){
 		console.log('setting search results for argument group:', argumentName, resultsArray);
 		if (newArguments.hasOwnProperty(argumentID)) {

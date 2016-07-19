@@ -35,6 +35,5 @@ require('./dom_watchers/toaster').init();
 require('./dom_watchers/claim-input').init();
 require('./dom_watchers/working-list').init();
 require('./dom_watchers/editor-detail').init();
-require('./dom_watchers/new-argument').init();
 
 console.groupEnd(); //END Initting

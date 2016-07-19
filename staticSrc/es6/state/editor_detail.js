@@ -44,6 +44,14 @@ module.exports = {
 	hideEditor: function(editorDetailId){
 		editorDetailRefs[editorDetailId].open = false;
 	},
+	setNewReason: function(argumentId, term){
+		//sent here, delegated to the new reason state ctrl
+		newArgumentStateCtrl.setNewReason(argumentId, term);
+	},
+	enterNewReason: function(argumentId, term){
+		//sent here, delegated to the new reason state ctrl
+		newArgumentStateCtrl.enterNewReason(argumentId, term);
+	},
 
 
 
