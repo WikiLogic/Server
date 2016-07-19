@@ -11,14 +11,15 @@
                 <hr>
             </div>
 
-            <div class="header-layout__body y-scroll js-working-list">
+            <div class="header-layout__body y-scroll js-working-list"
+                data-working-list-id="main_list">
 
                 <button
                     class="display-block full-width box box--wide"
-                    view-each-claim="state.working_list.claims"
-                    view-on-click="state.actions.add_claim_to_editor_list"
+                    view-each-claim="working_list.claims"
+                    view-on-click="actions.clicked"
                     view-data-claim-id="claim._id"
-                    data-from-list="working_list">
+                    data-working-list-id="main_list">
                     <p class="no-margins">{claim.description}</p></button>
                 
             </div>

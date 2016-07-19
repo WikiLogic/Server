@@ -6,9 +6,12 @@ var actionStateCtrl = require('../state/actions');
 
 
 var domActions = {
-	search_this: function(rivet){
+	result_clicked: function(rivet){
 		//get the search id
-		//send the search
+		var searchId = rivet.currentTarget.attributes['data-search-id'].value;
+		var claimId = rivet.currentTarget.attributes['data-claim-id'].value;
+		//tell the state
+		searchStateCtrl.result_clicked(searchId, claimId);
 	}
 }
 

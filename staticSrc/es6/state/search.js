@@ -42,6 +42,20 @@ module.exports = {
 			console.error('search api error: ', err);
 			//TODO: send to alerts
 		});		
+	},
+	result_clicked: function(searchId, claimId){
+		//get the result object
+		var clickedResult = {};
+
+		for (var r = 0; r < searchStateRef[searchId].results.length; r++){
+			if (searchStateRef[searchId].results[r]._id == claimId){
+				eventManager.fire('search_result_clicked', {
+					searchId: searchId,
+					resultObj: searchStateRef[searchId].results[r]
+				});
+				break;
+			}
+		}
 	}
 
 };
