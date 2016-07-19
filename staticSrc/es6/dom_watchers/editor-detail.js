@@ -28,8 +28,17 @@ module.exports = {
 		eventManager.subscribe('editor_tab_opened', function(event){
 			if (event.editorTabsId == "main_tabs") {
 				editorDetailStateCtrl.setNewClaimDetail("main_editor", event.claimObj);
+				editorDetailStateCtrl.showEditor("main_editor");
 			}
 		});
+
+		eventManager.subscribe('editor_tab_closed', function(event){
+			if (event.editorTabsId == "main_tabs") {
+				editorDetailStateCtrl.hideEditor("main_editor");
+			}
+		});
+
+		
 		
 	}
 }

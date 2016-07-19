@@ -6,9 +6,9 @@ var eventManager = require('../utils/event_manager');
  *
  */
 
-
 var editorDetailState = {
 	claim: {},
+	open: false,
 	new_for: {
 		is_valid: false,
 		reasons: [
@@ -39,6 +39,12 @@ module.exports = {
 	setNewClaimDetail: function(editorDetailId, claimObj){
 		editorDetailRefs[editorDetailId].claim = claimObj;
 		eventManager.fire('editor_detail_set', {editorDetailId, claimObj});
+	},
+	showEditor: function(editorDetailId){
+		editorDetailRefs[editorDetailId].open = true;
+	},
+	hideEditor: function(editorDetailId){
+		editorDetailRefs[editorDetailId].open = false;
 	},
 
 

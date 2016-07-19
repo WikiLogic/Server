@@ -13122,8 +13122,17 @@ module.exports = {
 		eventManager.subscribe('editor_tab_opened', function(event){
 			if (event.editorTabsId == "main_tabs") {
 				editorDetailStateCtrl.setNewClaimDetail("main_editor", event.claimObj);
+				editorDetailStateCtrl.showEditor("main_editor");
 			}
 		});
+
+		eventManager.subscribe('editor_tab_closed', function(event){
+			if (event.editorTabsId == "main_tabs") {
+				editorDetailStateCtrl.hideEditor("main_editor");
+			}
+		});
+
+		
 		
 	}
 }
@@ -13720,9 +13729,9 @@ var eventManager = require('../utils/event_manager');
  *
  */
 
-
 var editorDetailState = {
 	claim: {},
+	open: false,
 	new_for: {
 		is_valid: false,
 		reasons: [
@@ -13753,6 +13762,12 @@ module.exports = {
 	setNewClaimDetail: function(editorDetailId, claimObj){
 		editorDetailRefs[editorDetailId].claim = claimObj;
 		eventManager.fire('editor_detail_set', {editorDetailId, claimObj});
+	},
+	showEditor: function(editorDetailId){
+		editorDetailRefs[editorDetailId].open = true;
+	},
+	hideEditor: function(editorDetailId){
+		editorDetailRefs[editorDetailId].open = false;
 	},
 
 
