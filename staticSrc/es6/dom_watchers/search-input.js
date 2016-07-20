@@ -15,14 +15,15 @@ var domActions = {
 module.exports = {
 
 	init: function(){
-
+		console.log('search-input');
 		$('.js-search').each(function(){
 			//bind the state
 			var searchId = $(this).data('search-id');
 			var searchState = searchStateCtrl.getNewState(searchId);
+			searchState.actions = domActions;
 			rivets.bind(
 				$(this),
-				{ search: searchState, actions: domActions }
+				{ search: searchState }
 			);
 
 			//now watch for keypresses:

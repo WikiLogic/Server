@@ -1,76 +1,74 @@
 <!-- The New Argument form -->
-<div class="card bg-color--white text-color--black box section-wrap">
-    <section class="splitter splitter--full-width">
-        <div class="splitter__left">
-            <svg class="float-left"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#pencil"></use></svg>
-        </div>
-        <div class="splitter__right full-width text-align-left">
-        
-            <!-- This is the input for a new reason. It's essentially a mini search bar -->
-            <input type="text" 
-                class="full-width js-new-reason"
-                data-argument-id="new_argument._id"
-                view-on-keypress="actions.new_reason_keypress" 
-                placeholder="Add a reason...">
 
-            <!-- When the user submits their input above, it'll run a search -->
-
-            <!-- If there are no exact matches, this button gives them the option to add it as a new claim -->
-            <div view-show="new_argument.show_new_claim_button"
-                 class="splitter bump-up-3">
-                <div class="splitter__left">
-                    <p><i><small>No exact matches found, add <b>"{state.search_input.term}"</b> as a new claim:</small></i></p>
-                </div>
-                <div class="splitter__right">
-                    <button class="button button--green text-align-center"
-                        view-on-click="new_argument.actions.save_reason_as_claim"
-                        data-argument-id="editor_detail_for">
-                        <svg class="icon color-white bump-up-2"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#cloud-upload"></use></svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section view-show="new_argument.show_results" 
-             class="splitter splitter--full-width">
-        <div class="splitter__left">
-            <svg class="icon color-black float-left"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#magnifying-glass"></use></svg>
-        </div>
-        <div class="splitter__right full-width text-align-left">
-            <!-- These are the results -->
-            <div view-each-result="new_argument.search_results"
-                 class="splitter box box--wide splitter--full-width">
-                <div class="splitter__left">
-                    <button class="button text-align-center"
-                            view-on-click="new_argument.actions.add_reason_to_argument"
-                            data-argument-id="editor_detail_for"
-                            view-data-claim-id="result._id">
-                        <svg class="icon bump-up-2 color-white"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#cloud-download"></use></svg>
-                    </button>
-                </div>
-                <div class="splitter__right text-align-left full-width">
-                    <p>{result.description}</p>
-                </div>
-            </div>
-        </div>
-    </section>
+<section class="splitter splitter--full-width">
+    <div class="splitter__left">
+        <svg class="float-left"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#pencil"></use></svg>
+    </div>
+    <div class="splitter__right full-width text-align-left">
     
-    <section view-show="new_argument.has_reasons">
-        <!-- These are the reasons that have been added to the argument group -->
-        <div view-each-reason="new_argument.reasons">
-            <p>reason.description</p>
-            <p>{reason.description}</p>
-        </div>
+        <!-- This is the input for a new reason. It's essentially a mini search bar -->
+        <input type="text" 
+            class="full-width js-new-reason"
+            view-data-argument-id="new_argument._id"
+            view-on-keypress="new_argument.actions.new_reason_keypress" 
+            placeholder="Add a reason...">
 
-        <!-- When the argument group is valid, then show this to save -->
-        <div view-show="new_argument.is_valid">
-            <br>
-            <button class="button full-width text-align-center"
-                view-on-click="new_argument.actions.save_new_argument"
-                data-to="editor_detial_for">
-                save argument</button>
-        </div>
-    </section>
+        <!-- When the user submits their input above, it'll run a search -->
 
-</div>
+        <!-- If there are no exact matches, this button gives them the option to add it as a new claim -->
+        <div view-show="new_argument.show_new_claim_button"
+             class="splitter bump-up-3">
+            <div class="splitter__left">
+                <p><i><small>No exact matches found, add <b>"{state.search_input.term}"</b> as a new claim:</small></i></p>
+            </div>
+            <div class="splitter__right">
+                <button class="button button--green text-align-center"
+                    view-on-click="new_argument.actions.save_reason_as_claim"
+                    data-argument-id="editor_detail_for">
+                    <svg class="icon color-white bump-up-2"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#cloud-upload"></use></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section view-show="new_argument.show_results" 
+         class="splitter splitter--full-width">
+    <div class="splitter__left">
+        <svg class="icon color-black float-left"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#magnifying-glass"></use></svg>
+    </div>
+    <div class="splitter__right full-width text-align-left">
+        <!-- These are the results -->
+        <div view-each-result="new_argument.search_results"
+             class="splitter box box--wide splitter--full-width">
+            <div class="splitter__left">
+                <button class="button text-align-center"
+                        view-on-click="new_argument.actions.add_reason_to_argument"
+                        data-argument-id="editor_detail_for"
+                        view-data-claim-id="result._id">
+                    <svg class="icon bump-up-2 color-white"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#cloud-download"></use></svg>
+                </button>
+            </div>
+            <div class="splitter__right text-align-left full-width">
+                <p>{result.description}</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section view-show="new_argument.has_reasons">
+    <!-- These are the reasons that have been added to the argument group -->
+    <div view-each-reason="new_argument.reasons">
+        <p>reason.description</p>
+        <p>{reason.description}</p>
+    </div>
+
+    <!-- When the argument group is valid, then show this to save -->
+    <div view-show="new_argument.is_valid">
+        <br>
+        <button class="button full-width text-align-center"
+            view-on-click="new_argument.actions.save_new_argument"
+            data-to="editor_detial_for">
+            save argument</button>
+    </div>
+</section>

@@ -23,15 +23,16 @@ var domActions = {
 
 module.exports = {
 	init: function(){
-		console.log('initting toggle DOM watcher');
+		console.log('toggles');
 
 		//the controllers (turning help on/off)
 		$('.js-toggle-controller').each(function(){
 			var toggleId = $(this).data('toggle-id');
 			var toggleState = toggleStateCtrl.getNewState(toggleId);
+			toggleState.actions = domActions;
 			rivets.bind(
 				$(this),
-				{ toggle: toggleState, actions: domActions }
+				{ toggle: toggleState }
 			);
 		});
 

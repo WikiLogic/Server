@@ -18,13 +18,14 @@ var domActions = {
 
 module.exports = {
 	init: function(){
-
+		console.log('working-list');
 		$('.js-working-list').each(function(){
 			var workingListId = $(this).data('working-list-id');
 			var workingListState = workingListStateCtrl.getNewState(workingListId);
+			workingListState.actions = domActions;
 			rivets.bind(
 				$(this),
-				{ working_list: workingListState, actions: domActions }
+				{ working_list: workingListState }
 			);
 		});
 		

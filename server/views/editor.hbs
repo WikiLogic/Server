@@ -17,7 +17,7 @@
                 <button
                     class="display-block full-width box box--wide"
                     view-each-claim="working_list.claims"
-                    view-on-click="actions.clicked"
+                    view-on-click="working_list.actions.clicked"
                     view-data-claim-id="claim._id"
                     data-working-list-id="main_list">
                     <p class="no-margins">{claim.description}</p></button>
@@ -35,7 +35,7 @@
                         data-toggle-id="main_help"
                         view-class-active="toggle.open">
                         <span class="tabs__title"
-                            view-on-click="actions.open_toggle"
+                            view-on-click="toggle.actions.open_toggle"
                             data-toggle-id="main_help">
                             <span view-show="toggle.open">Help</span>
                             <span view-hide="toggle.open">
@@ -45,7 +45,7 @@
                         </span>
                         <span class="tabs__x"
                             view-show="toggle.open"
-                            view-on-click="actions.close_toggle"
+                            view-on-click="toggle.actions.close_toggle"
                             data-toggle-id="main_help">
                             <svg class="icon icon--10"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>
                         </span>
@@ -56,7 +56,7 @@
                         data-toggle-id="main_results"
                         view-class-active="toggle.open">
                         <span class="tabs__title"
-                            view-on-click="actions.open_toggle"
+                            view-on-click="toggle.actions.open_toggle"
                             data-toggle-id="main_results">
                             <span view-show="toggle.open">Results</span>
                             <span view-hide="toggle.open">
@@ -66,7 +66,7 @@
                         </span>
                         <span class="tabs__x"
                             view-show="toggle.open"
-                            view-on-click="actions.close_toggle"
+                            view-on-click="toggle.actions.close_toggle"
                             data-toggle-id="main_results">
                             <svg class="icon icon--10"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>
                         </span>
@@ -79,13 +79,13 @@
                         view-class-active="claimtab.open">
 
                         <span class="tabs__title"
-                            view-on-click="actions.editor_tab_open"
+                            view-on-click="claimtab.actions.editor_tab_open"
                             data-editor-tabs-id="main_tabs"
                             view-data-claimtab-id="claimtab.claim._id"
                             data-tab-group="editor">{claimtab.claim.description}</span>
 
                         <span class="tabs__x"
-                            view-on-click="actions.editor_tab_close"
+                            view-on-click="claimtab.actions.editor_tab_close"
                             data-editor-tabs-id="main_tabs"
                             view-data-claimtab-id="claimtab.claim._id">
                             <svg class="icon icon--10"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>
@@ -127,9 +127,9 @@
                 </section>
 
                 <!-- Current claim tab (claim detail) -->
-                <section class="js-editor-detail box"
-                        data-editor-detail-id="main_editor"
-                        view-show="editor_detail.open">
+                <section class="box js-editor-tabs-content"
+                    data-editor-tabs-id="main_tabs"
+                    view-each-claimdetail="editor_tabs.claim_tabs">
                     {{>editor_detail}}
                 </section>
 

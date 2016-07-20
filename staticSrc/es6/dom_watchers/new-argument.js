@@ -3,35 +3,23 @@
 /*
  * This module is responsibe for the new arguments form
  */
-console.warn('TODO: depreciate this dom watcher');
+
 var newArgumentStateCtrl = require('../state/new_argument');
-var actionStateCtrl = require('../state/actions');
-var searchApi = require('../api/search');
-var claimApi = require('../api/claim');
-var rivets = require('rivets');
+var eventManager = require('../utils/event_manager');
 
 var domActions = {
-	test: "testing",
 	new_reason_keypress: function(rivet, e){
-		console.log(e);
-		//this fires with every keypress of the input for the new reason
-		var argumentId = rivet.currentTarget.attributes['data-argument-id'].value;
+		console.log('new reason');
+		var argumentId = $(rivet.currentTarget).closest('.js-argument-creation-form').data('argument-id');
+		var term = rivet.currentTarget.value;
 
 		if (rivet.key == "Enter"){
-			//when the user presses enter, run the search. Only let them add a new claim if it doesn't already exist
-			var term = rivet.currentTarget.value;
-			
-			//they're just typing, run the search and send the results to the new argument controller
-			searchApi.searchByString(term).done(function(data){
-				//add to search results
-				newArgumentStateCtrl.setResults(argumentId, term, data);
-			}).fail(function(err){
-				console.error('search api error: ', err);
-				//TODO: send to alerts
-			});
+			newArgumentStateCtrl.enterNewReason(argumentId, term);
 
 		} else {
 			//not the enter key - we could start pre fetching results...
+			//maybe a good place to debounce a search
+			newArgumentStateCtrl.setNewReason(argumentId, term);
 
 		}
 	},
@@ -69,17 +57,31 @@ var domActions = {
 
 module.exports = {
 	init: function(){
-		console.log('initting new argument DOM watcher');
+		console.log('new-argument');
 
 		//for each argument creation form, bind a new argument state object
 		$('.js-argument-creation-form').each(function(){
-			//get a new instance of the "argument creation" state
-			var newArgumentState = newArgumentStateCtrl.getNewArgument();
-			//and bind it
+			var newargumentId = $(this).data('argument-id');
+			var newArgumentState = newArgumentStateCtrl.getNewState(newargumentId);
+			newArgumentState.actions = domActions;
 			rivets.bind(
 				$(this),
-				{ new_argument: newArgumentState, actions: domActions }
+				{ new_argument: newArgumentState }
 			);
+		});
+
+		eventManager.subscribe('editor_tab_opened', function(event){
+			if (event.editorTabsId == "main_tabs") {
+				newArgumentStateCtrl.show("main_editor_for");
+				newArgumentStateCtrl.show("main_editor_against");
+			}
+		});
+
+		eventManager.subscribe('editor_tab_closed', function(event){
+			if (event.editorTabsId == "main_tabs") {
+				newArgumentStateCtrl.hide("main_editor_for");
+				newArgumentStateCtrl.show("main_editor_against");
+			}
 		});
 		
 	}

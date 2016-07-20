@@ -16,7 +16,7 @@ var actionStateCtrl = require('../state/actions');
 
 module.exports = {
 	init: function(){
-
+		console.log('tabs');
 		actionStateCtrl.addAction('activateTab', function(rivet){
 
 			var thsGroupName = rivet.currentTarget.attributes['data-tab-group'].value;

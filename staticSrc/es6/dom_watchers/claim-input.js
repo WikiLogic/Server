@@ -6,7 +6,7 @@ var claimApi = require('../api/claim');
 
 module.exports = {
 	init: function(){
-		console.log('initting trumbowyg');
+		console.log('claim-input');
 		$('textarea').trumbowyg({
 			prefix: 'trumbowyg-',
 			svgPath: false,

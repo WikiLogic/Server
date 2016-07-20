@@ -21,13 +21,23 @@ var domActions = {
 
 module.exports = {
 	init: function(presetTabs){
-
+		console.log('editor-tabs');
 		$('.js-editor-tabs').each(function(){
 			var editorTabsId = $(this).data('editor-tabs-id');
 			var newEditorTabs = editorTabsStateCtrl.getNewState(editorTabsId);
+			newEditorTabs.actions = domActions;
 			rivets.bind(
 				$(this),
-				{ tabs: newEditorTabs, actions: domActions }
+				{ tabs: newEditorTabs }
+			);
+		});
+
+		$('.js-editor-tabs-content').each(function(){
+			var editorTabsId = $(this).data('editor-tabs-id');
+			var editorTabsState = editorTabsStateCtrl.getExistingState(editorTabsId);
+			rivets.bind(
+				$(this),
+				{ editor_tabs: editorTabsState }
 			);
 		});
 

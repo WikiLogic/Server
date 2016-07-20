@@ -34,18 +34,27 @@
 </div>
 
 
-<div class="text-color--black">   
+<div class="text-color--black js-claim-detail"
+    data-claim-detail-id="main_claim_detail"
+    view-show="claim_detail.show">   
     <div class="box card bg-color--white">
         <p class="full-width text-align-center no-margins">
-            <svg class="float-left" view-show="editor_detail.claim.status"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#check"></use></svg>
-            <svg class="float-left" view-hide="editor_detail.claim.status"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>
-            &nbsp;{editor_detail.claim.description}
+            {claim_detail.claim.description}
         </p>
-        <p><span class="state-tag state-tag--100">100</span> <span class="state-tag state-tag--50">50</span> <span class="state-tag state-tag--0">0</span></p>
+        <p>
+            <span class="state-tag state-tag--100">100</span> 
+            <span class="state-tag state-tag--90">90</span> 
+            <span class="state-tag state-tag--80">80</span> 
+            <span class="state-tag state-tag--70">70</span> 
+            <span class="state-tag state-tag--60">60</span> 
+            <span class="state-tag state-tag--50">50</span> 
+            <span class="state-tag state-tag--40">40</span> 
+            <span class="state-tag state-tag--30">30</span> 
+            <span class="state-tag state-tag--20">20</span> 
+            <span class="state-tag state-tag--10">10</span> 
+            <span class="state-tag state-tag--0">0</span>
+        </p>
     </div>
-    <!--
-    <textarea name="" class="trumbowyg-claim-input claim-input display-none" cols="30" rows="10">{editor_detail.claim.description}</textarea>
-    -->
 </div>
 
 
@@ -55,7 +64,9 @@
         <svg class="align-center icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-top"></use></svg>
         <p class="small text-align-center no-margins">For</p>
 
-        <div class="js-argument-creation-form">
+        <div class="card bg-color--white text-color--black box section-wrap js-argument-creation-form"
+            data-argument-id="main_editor_for"
+            view-show="new_argument.show">
             {{> new_argument_form }}
         </div>
 
@@ -109,7 +120,9 @@
         <svg class="align-center icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-top"></use></svg>
         <p class="small text-align-center no-margins">Against</p>
 
-        <div class="js-argument-creation-form">
+        <div class="card bg-color--white text-color--black box section-wrap js-argument-creation-form"
+            data-argument-id="main_editor_against"
+            view-show="new_argument.show">
             {{> new_argument_form }}
         </div>
 

@@ -4,8 +4,7 @@
 	padding: 0.1em 0.4em;
 	border-radius: 4px;
 	color: white;
-
-	&--0 { background-color: $WL_Red; }
-	&--50 { background-color: $WL_Red; }
-	&--100 { background-color: $WL_Green; }
+	@for $i from 0 through 100 {
+		&--#{$i} { background-color: mix($WL_Green, $WL_Red, $i); }
+	}
 }

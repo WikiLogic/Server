@@ -14,13 +14,14 @@ var domActions = {
 
 module.exports = {
 	init: function(){
-
+		console.log('new-claim');
 		$('.js-new-claim').each(function(){
 			var newClaimId = $(this).data('new-claim-id');
 			var newClaimState = newClaimStateCtrl.getNewState(newClaimId);
+			newClaimState.actions = domActions;
 			rivets.bind(
 				$(this),
-				{ new_claim: newClaimState, actions: domActions }
+				{ new_claim: newClaimState }
 			);
 		});
 		

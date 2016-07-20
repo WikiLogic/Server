@@ -18,14 +18,15 @@ var domActions = {
 module.exports = {
 
 	init: function(){
-
+		console.log('search-results');
 		$('.js-search-results').each(function(){
 			//bind the state (don't make a new one for results, only the search input should do that);
 			var searchId = $(this).data('search-id');
 			var searchState = searchStateCtrl.getExistingState(searchId);
+			searchState.actions.result_clicked = domActions.result_clicked;
 			rivets.bind(
 				$(this),
-				{ search: searchState, actions: domActions }
+				{ search: searchState }
 			);
 
 		});
