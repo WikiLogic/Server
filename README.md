@@ -117,6 +117,8 @@ cool style idea for the tabs: http://codepen.io/marcobiedermann/pen/aZZQww
 
 this may be needed: https://github.com/paulmillr/es6-shim/ needs more looking into!
 
+interesting for deployment/scaling: http://kubernetes.io/
+
 ---
 
 other argument maps:
