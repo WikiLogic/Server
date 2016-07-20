@@ -42,8 +42,14 @@ module.exports = {
 		});
 
 		eventManager.subscribe('working_list_claim_clicked', function(event){
-			if (event.workingListId == "main_list") {
-				editorTabsStateCtrl.addClaim("main_tabs", event.claim);
+			if (event.owner == "main_list") {
+				editorTabsStateCtrl.addClaim("main_tabs", event.data);
+			}
+		});
+
+		eventManager.subscribe('working_list_duplicate_requested', function(event){
+			if (event.owner == "main_list") {
+				editorTabsStateCtrl.addClaim("main_tabs", event.data);
 			}
 		});
 

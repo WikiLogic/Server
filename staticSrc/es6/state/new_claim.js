@@ -6,6 +6,7 @@
 var eventManager = require('../utils/event_manager');
 
 var newClaimState = {
+	show: false,
 	description: '',
 	valid: true
 }
@@ -31,6 +32,12 @@ module.exports = {
 	},
 	publishClaim: function(newClaimId){
 		console.warn('TODO: publish new claim');
+	},
+	show: function(newClaimId){
+		newClaimRefs[newClaimId].show = true;
+	},
+	hide: function(newClaimId){
+		newClaimRefs[newClaimId].show = false;
 	}
 
 };

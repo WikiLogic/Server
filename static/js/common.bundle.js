@@ -13135,8 +13135,14 @@ module.exports = {
 		});
 
 		eventManager.subscribe('working_list_claim_clicked', function(event){
-			if (event.workingListId == "main_list") {
-				editorTabsStateCtrl.addClaim("main_tabs", event.claim);
+			if (event.owner == "main_list") {
+				editorTabsStateCtrl.addClaim("main_tabs", event.data);
+			}
+		});
+
+		eventManager.subscribe('working_list_duplicate_requested', function(event){
+			if (event.owner == "main_list") {
+				editorTabsStateCtrl.addClaim("main_tabs", event.data);
 			}
 		});
 
@@ -13255,8 +13261,10 @@ module.exports = {
 },{"../state/new_argument":23,"../utils/event_manager":29}],11:[function(require,module,exports){
 'use strict';
 
-/*
- * This module is responsibe for the new claim
+/* This module is responsibe for the new claim
+ * It looks like these might generally be attached to some search results
+ * It could then be a good idea to have the id of the new claim to match that of the results to which it is attached
+ * then when we're responding to the search_results_set event, we can assume the id matches. nifty? or spaghetti? 
  */
 
 var newClaimStateCtrl = require('../state/new_claim');
@@ -13281,27 +13289,29 @@ module.exports = {
 		});
 		
 		//watch for search results being set, then check if there are any exact matches. If not, barge in!
-		eventManager.subscribe('search_results_set', function(searchState){
+		eventManager.subscribe('search_results_set', function(event){
 
-			var exactMatchFound = false;
+			//currently only running for the main results
+			if (event.owner == "main_results") {
+				var exactMatchFound = false;
 
-			for (var r = 0; r < searchState.results.length; r++){
-				if (searchState.results[r].description == searchState.term) {
-					exactMatchFound = true;
-					break;
+				for (var r = 0; r < event.data.results.length; r++){
+					if (event.data.results[r].description == event.data.term) {
+						exactMatchFound = true;
+						break;
+					}
 				}
-			}
 
-			if (!exactMatchFound){
-				//turn on the relevant new claim form!!
-				console.warn('TODO: turn on the new claim form with the search term');
-				var newClaimId = searchState._id; //this is deliberate
-				newClaimStateCtrl.setDescription(newClaimId, searchState.term);
+				if (exactMatchFound){
+					newClaimStateCtrl.hide("main_results");
+				} else {
+					newClaimStateCtrl.setDescription("main_results", event.data.term);
+					newClaimStateCtrl.show("main_results");
+				}
+
 			}
 
 		});
-
-
 	}
 }
 },{"../api/claim":5,"../state/new_claim":24,"../utils/event_manager":29}],12:[function(require,module,exports){
@@ -13886,7 +13896,7 @@ module.exports = {
 		searchApi.searchByString(term).done(function(data){
 			//add to search results
 			newArgumentRefs[argumentId].search_results = data;
-			eventManager.fire("search_results_set", {argumentId, argumentGroup: newArgumentRefs[argumentId]});
+			eventManager.fire("search_results_set", {owner: argumentId, data: newArgumentRefs[argumentId].search_results});
 		}).fail(function(err){
 			console.error('search api error: ', err);
 			//TODO: send to alerts
@@ -13957,6 +13967,7 @@ module.exports = {
 var eventManager = require('../utils/event_manager');
 
 var newClaimState = {
+	show: false,
 	description: '',
 	valid: true
 }
@@ -13982,6 +13993,12 @@ module.exports = {
 	},
 	publishClaim: function(newClaimId){
 		console.warn('TODO: publish new claim');
+	},
+	show: function(newClaimId){
+		newClaimRefs[newClaimId].show = true;
+	},
+	hide: function(newClaimId){
+		newClaimRefs[newClaimId].show = false;
 	}
 
 };
@@ -14015,8 +14032,7 @@ module.exports = {
 		return searchStateRef[searchId];
 	},
 	setTerm: function(searchId, newterm){
-		console.warn('TODO: trim whitespace etc');
-		searchStateRef[searchId].term = newterm;
+		searchStateRef[searchId].term = newterm.trim();
 		eventManager.fire('search_term_set', { search: searchStateRef[searchId] });
 	},
 	runSearch: function(searchId){
@@ -14025,7 +14041,7 @@ module.exports = {
 		searchApi.searchByString(searchStateRef[searchId].term).done(function(data){
 			//send to the search results
 			searchStateRef[searchId].results = data;
-			eventManager.fire('search_results_set', searchStateRef[searchId]);
+			eventManager.fire('search_results_set', {owner: searchId, data: searchStateRef[searchId]});
 		}).fail(function(err){
 			console.error('search api error: ', err);
 			//TODO: send to alerts
@@ -14360,15 +14376,14 @@ module.exports = {
 		return workingListStateRefs[workingListId];
 	},
 	addClaim: function(workingListId, claimObj){
-		console.group('Adding claim to working list', claimObj);
 		var alreadySet = false;
 
 		//first check that it's not already in the editor list
 		for (var c = 0; c < workingListStateRefs[workingListId].claims.length; c++) { //c for claim
 			if (workingListStateRefs[workingListId].claims[c]._id == claimObj._id) {
 				//it is, our job is done
-				console.warn('That claim is already in the working list');
 				alreadySet = true;
+				eventManager.fire('working_list_duplicate_requested', {owner: workingListId, data: workingListStateRefs[workingListId].claims[c]});
 				break;
 			}
 		}
@@ -14378,17 +14393,15 @@ module.exports = {
 			//Yesy! new claim to work with!
 			workingListStateRefs[workingListId].claims.push(claimObj);
 		}
-		console.groupEnd(); //END Adding claim to editor list
 		
 	},
 	itemClicked: function(workingListId, claimId){
-		console.log('item clicked: ', claimId);
 		//get the claim object, fire it with an event
 		for (var i = 0; i < workingListStateRefs[workingListId].claims.length; i++) {
 			if (workingListStateRefs[workingListId].claims[i]._id == claimId) {
 				eventManager.fire('working_list_claim_clicked', {
-					workingListId: workingListId,
-					claim: workingListStateRefs[workingListId].claims[i]
+					owner: workingListId,
+					data: workingListStateRefs[workingListId].claims[i]
 				});
 				break;
 			}

@@ -1,7 +1,9 @@
 'use strict';
 
-/*
- * This module is responsibe for the new claim
+/* This module is responsibe for the new claim
+ * It looks like these might generally be attached to some search results
+ * It could then be a good idea to have the id of the new claim to match that of the results to which it is attached
+ * then when we're responding to the search_results_set event, we can assume the id matches. nifty? or spaghetti? 
  */
 
 var newClaimStateCtrl = require('../state/new_claim');
@@ -26,26 +28,28 @@ module.exports = {
 		});
 		
 		//watch for search results being set, then check if there are any exact matches. If not, barge in!
-		eventManager.subscribe('search_results_set', function(searchState){
+		eventManager.subscribe('search_results_set', function(event){
 
-			var exactMatchFound = false;
+			//currently only running for the main results
+			if (event.owner == "main_results") {
+				var exactMatchFound = false;
 
-			for (var r = 0; r < searchState.results.length; r++){
-				if (searchState.results[r].description == searchState.term) {
-					exactMatchFound = true;
-					break;
+				for (var r = 0; r < event.data.results.length; r++){
+					if (event.data.results[r].description == event.data.term) {
+						exactMatchFound = true;
+						break;
+					}
 				}
-			}
 
-			if (!exactMatchFound){
-				//turn on the relevant new claim form!!
-				console.warn('TODO: turn on the new claim form with the search term');
-				var newClaimId = searchState._id; //this is deliberate
-				newClaimStateCtrl.setDescription(newClaimId, searchState.term);
+				if (exactMatchFound){
+					newClaimStateCtrl.hide("main_results");
+				} else {
+					newClaimStateCtrl.setDescription("main_results", event.data.term);
+					newClaimStateCtrl.show("main_results");
+				}
+
 			}
 
 		});
-
-
 	}
 }

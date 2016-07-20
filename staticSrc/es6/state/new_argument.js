@@ -86,7 +86,7 @@ module.exports = {
 		searchApi.searchByString(term).done(function(data){
 			//add to search results
 			newArgumentRefs[argumentId].search_results = data;
-			eventManager.fire("search_results_set", {argumentId, argumentGroup: newArgumentRefs[argumentId]});
+			eventManager.fire("search_results_set", {owner: argumentId, data: newArgumentRefs[argumentId].search_results});
 		}).fail(function(err){
 			console.error('search api error: ', err);
 			//TODO: send to alerts
