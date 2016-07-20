@@ -18,7 +18,6 @@ var newReason = {
 }
 
 var newArgument = {
-	show: false,
 	reasons: [Object.create(newReason)],
 	addReason: function(claimObj){
 		var reasonIsValid = true;
@@ -93,12 +92,7 @@ module.exports = {
 			//TODO: send to alerts
 		});
 	},
-	show: function(argumentId){
-		newArgumentRefs[argumentId].show = true;
-	},
-	hide: function(argumentId){
-		newArgumentRefs[argumentId].show = false;
-	},
+
 
 
 

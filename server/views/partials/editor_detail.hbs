@@ -1,3 +1,4 @@
+<!-- claimdetail is the rivet king -->
 
 <!-- confusing section, even for Douglas -->
 <div class="row" style="display:none;">
@@ -34,12 +35,10 @@
 </div>
 
 
-<div class="text-color--black js-claim-detail"
-    data-claim-detail-id="main_claim_detail"
-    view-show="claim_detail.show">   
+<div class="text-color--black">   
     <div class="box card bg-color--white">
         <p class="full-width text-align-center no-margins">
-            {claim_detail.claim.description}
+            {claimdetail.claim.description}
         </p>
         <p>
             <span class="state-tag state-tag--100">100</span> 
@@ -65,8 +64,8 @@
         <p class="small text-align-center no-margins">For</p>
 
         <div class="card bg-color--white text-color--black box section-wrap js-argument-creation-form"
-            data-argument-id="main_editor_for"
-            view-show="new_argument.show">
+            data-argument-side="for"
+            view-claim-id="claimdetail._id">
             {{> new_argument_form }}
         </div>
 
@@ -121,8 +120,8 @@
         <p class="small text-align-center no-margins">Against</p>
 
         <div class="card bg-color--white text-color--black box section-wrap js-argument-creation-form"
-            data-argument-id="main_editor_against"
-            view-show="new_argument.show">
+            data-argument-side="against"
+            view-claim-id="claimdetail._id">
             {{> new_argument_form }}
         </div>
 

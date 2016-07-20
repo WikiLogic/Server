@@ -69,20 +69,6 @@ module.exports = {
 				{ new_argument: newArgumentState }
 			);
 		});
-
-		eventManager.subscribe('editor_tab_opened', function(event){
-			if (event.editorTabsId == "main_tabs") {
-				newArgumentStateCtrl.show("main_editor_for");
-				newArgumentStateCtrl.show("main_editor_against");
-			}
-		});
-
-		eventManager.subscribe('editor_tab_closed', function(event){
-			if (event.editorTabsId == "main_tabs") {
-				newArgumentStateCtrl.hide("main_editor_for");
-				newArgumentStateCtrl.show("main_editor_against");
-			}
-		});
 		
 	}
 }
