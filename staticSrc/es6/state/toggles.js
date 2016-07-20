@@ -18,6 +18,7 @@ module.exports = {
 		var returnToggleState = Object.create(toggleState);
 		returnToggleState._id = toggleId;
 		toggleStateRef[toggleId] = returnToggleState;
+		console.info('New State: ', toggleStateRef[toggleId]);
 		return returnToggleState;
 	},
 	getExistingState: function(toggleId){

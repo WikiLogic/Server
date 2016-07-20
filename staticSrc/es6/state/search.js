@@ -20,6 +20,7 @@ module.exports = {
 		var returnSearchState = Object.create(searchState);
 		returnSearchState._id = searchId;
 		searchStateRef[searchId] = returnSearchState;
+		console.info('New State: ', searchStateRef[searchId]);
 		return returnSearchState;
 	},
 	getExistingState: function(searchId){

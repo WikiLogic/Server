@@ -13240,9 +13240,9 @@ module.exports = {
 	init: function(){
 		console.log('new-argument');
 
-		//for each argument creation form, bind a new argument state object
+		//for each argument creation form, bind a new argument state object. There probably won't be any there yet.
 		$('.js-argument-creation-form').each(function(){
-			var newargumentId = $(this).data('argument-id');
+			var newargumentId = $(this).data('claim-id');
 			var newArgumentState = newArgumentStateCtrl.getNewState(newargumentId);
 			newArgumentState.actions = domActions;
 			rivets.bind(
@@ -13253,7 +13253,28 @@ module.exports = {
 
 		//Listen out for any new claims being added to the editor tabs, we'll need to bind them
 		eventManager.subscribe('editor_tab_claim_added', function(event){
-			console.warn('TODO: bind the claim detail');
+			
+			//currently only for the main editor
+			if (event.owner == "main_tabs") {
+				console.warn('TODO: bind the claim detail');
+				//event.data is the claim
+				//look for it's bit of the DOM and bind it.
+				//fair warning, rivets may not have run. This'll be the next challenge no doubt.
+				$('.js-argument-creation-form').each(function(){
+					var domClaimId = $(this).data('claim-id');
+					var side = $(this).data('argument-side');
+					var newargumentId = "new_" + side + "_" + domClaimId;
+					//check if this claim already has a new argument state
+					if (typeof newArgumentStateCtrl.getExistingState(domClaimId) == "undefined") {
+						var newArgumentState = newArgumentStateCtrl.getNewState(newargumentId);
+						newArgumentState.actions = domActions;
+						rivets.bind(
+							$(this),
+							{ new_argument: newArgumentState }
+						);
+					};
+				});
+			}
 		});
 		
 	}
@@ -13771,6 +13792,7 @@ module.exports = {
 		var returnState = Object.create(editorTabsState);
 		returnState._id = editorTabsId;
 		newEditorTabsRefs[editorTabsId] = returnState;
+		console.info('New State: ', newEditorTabsRefs[editorTabsId]);
 		return returnState;
 	},
 	getExistingState: function(editorTabsId){
@@ -13795,7 +13817,7 @@ module.exports = {
 				claim: claimObj
 			}
 			newEditorTabsRefs[editorTabsId].claim_tabs.push(newClaimTabObj);
-			eventManager.fire('editor_tab_claim_added', {editorTabsId, claim: newClaimTabObj});
+			eventManager.fire('editor_tab_claim_added', {owner: editorTabsId, data: newClaimTabObj});
 		}
 
 		openClaimTab(editorTabsId, claimObj._id);
@@ -13882,6 +13904,7 @@ module.exports = {
 		var returnState = Object.create(newArgument);
 		returnState._id = argumentId;
 		newArgumentRefs[argumentId] = returnState;
+		console.info('New State: ', newArgumentRefs[argumentId]);
 		return returnState;
 	},
 	getExistingState: function(argumentId){
@@ -13980,6 +14003,7 @@ module.exports = {
 		var returnState = Object.create(newClaimState);
 		returnState._id = newClaimId;
 		newClaimRefs[newClaimId] = returnState;
+		console.info('New State: ', newClaimRefs[newClaimId]);
 		return returnState;
 	},
 	getExistingState(newClaimId){
@@ -14025,6 +14049,7 @@ module.exports = {
 		var returnSearchState = Object.create(searchState);
 		returnSearchState._id = searchId;
 		searchStateRef[searchId] = returnSearchState;
+		console.info('New State: ', searchStateRef[searchId]);
 		return returnSearchState;
 	},
 	getExistingState: function(searchId){
@@ -14339,6 +14364,7 @@ module.exports = {
 		var returnToggleState = Object.create(toggleState);
 		returnToggleState._id = toggleId;
 		toggleStateRef[toggleId] = returnToggleState;
+		console.info('New State: ', toggleStateRef[toggleId]);
 		return returnToggleState;
 	},
 	getExistingState: function(toggleId){
@@ -14370,6 +14396,7 @@ module.exports = {
 		var returnListState = Object.create(workingListState);
 		returnListState._id = workingListId;
 		workingListStateRefs[workingListId] = returnListState;
+		console.info('New State: ', workingListStateRefs[workingListId]);
 		return returnListState;
 	},
 	getExistingState: function(workingListId){

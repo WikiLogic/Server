@@ -16,6 +16,7 @@ module.exports = {
 		var returnListState = Object.create(workingListState);
 		returnListState._id = workingListId;
 		workingListStateRefs[workingListId] = returnListState;
+		console.info('New State: ', workingListStateRefs[workingListId]);
 		return returnListState;
 	},
 	getExistingState: function(workingListId){

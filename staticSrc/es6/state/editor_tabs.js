@@ -75,6 +75,7 @@ module.exports = {
 		var returnState = Object.create(editorTabsState);
 		returnState._id = editorTabsId;
 		newEditorTabsRefs[editorTabsId] = returnState;
+		console.info('New State: ', newEditorTabsRefs[editorTabsId]);
 		return returnState;
 	},
 	getExistingState: function(editorTabsId){
@@ -99,7 +100,7 @@ module.exports = {
 				claim: claimObj
 			}
 			newEditorTabsRefs[editorTabsId].claim_tabs.push(newClaimTabObj);
-			eventManager.fire('editor_tab_claim_added', {editorTabsId, claim: newClaimTabObj});
+			eventManager.fire('editor_tab_claim_added', {owner: editorTabsId, data: newClaimTabObj});
 		}
 
 		openClaimTab(editorTabsId, claimObj._id);

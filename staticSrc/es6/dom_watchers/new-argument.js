@@ -60,9 +60,9 @@ module.exports = {
 	init: function(){
 		console.log('new-argument');
 
-		//for each argument creation form, bind a new argument state object
+		//for each argument creation form, bind a new argument state object. There probably won't be any there yet.
 		$('.js-argument-creation-form').each(function(){
-			var newargumentId = $(this).data('argument-id');
+			var newargumentId = $(this).data('claim-id');
 			var newArgumentState = newArgumentStateCtrl.getNewState(newargumentId);
 			newArgumentState.actions = domActions;
 			rivets.bind(
@@ -73,7 +73,28 @@ module.exports = {
 
 		//Listen out for any new claims being added to the editor tabs, we'll need to bind them
 		eventManager.subscribe('editor_tab_claim_added', function(event){
-			console.warn('TODO: bind the claim detail');
+			
+			//currently only for the main editor
+			if (event.owner == "main_tabs") {
+				console.warn('TODO: bind the claim detail');
+				//event.data is the claim
+				//look for it's bit of the DOM and bind it.
+				//fair warning, rivets may not have run. This'll be the next challenge no doubt.
+				$('.js-argument-creation-form').each(function(){
+					var domClaimId = $(this).data('claim-id');
+					var side = $(this).data('argument-side');
+					var newargumentId = "new_" + side + "_" + domClaimId;
+					//check if this claim already has a new argument state
+					if (typeof newArgumentStateCtrl.getExistingState(domClaimId) == "undefined") {
+						var newArgumentState = newArgumentStateCtrl.getNewState(newargumentId);
+						newArgumentState.actions = domActions;
+						rivets.bind(
+							$(this),
+							{ new_argument: newArgumentState }
+						);
+					};
+				});
+			}
 		});
 		
 	}

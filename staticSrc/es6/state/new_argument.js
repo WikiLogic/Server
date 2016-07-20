@@ -72,6 +72,7 @@ module.exports = {
 		var returnState = Object.create(newArgument);
 		returnState._id = argumentId;
 		newArgumentRefs[argumentId] = returnState;
+		console.info('New State: ', newArgumentRefs[argumentId]);
 		return returnState;
 	},
 	getExistingState: function(argumentId){
