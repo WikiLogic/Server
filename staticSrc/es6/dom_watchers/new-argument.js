@@ -55,6 +55,7 @@ var domActions = {
 }
 
 
+
 module.exports = {
 	init: function(){
 		console.log('new-argument');
@@ -68,6 +69,11 @@ module.exports = {
 				$(this),
 				{ new_argument: newArgumentState }
 			);
+		});
+
+		//Listen out for any new claims being added to the editor tabs, we'll need to bind them
+		eventManager.subscribe('editor_tab_claim_added', function(event){
+			console.warn('TODO: bind the claim detail');
 		});
 		
 	}

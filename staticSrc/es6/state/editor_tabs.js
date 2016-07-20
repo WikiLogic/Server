@@ -81,15 +81,12 @@ module.exports = {
 		return newEditorTabsRefs[editorTabsId];
 	},
 	addClaim: function(editorTabsId, claimObj){
-		console.group('Adding claim to editor list');
-		console.log('claim:', claimObj);
 		var alreadySet = false;
 
 		//first check that it's not already in the editor list
 		for (var c = 0; c < newEditorTabsRefs[editorTabsId].claim_tabs.length; c++) { //c for claim
 			if (newEditorTabsRefs[editorTabsId].claim_tabs[c].claim._id == claimObj._id) {
 				//it is, our job is done
-				console.log('That claim is already in the editor list');
 				alreadySet = true;
 				break;
 			}
@@ -97,14 +94,14 @@ module.exports = {
 
 		if (!alreadySet) {
 			//Yesy! new claim to work with!
-			console.log('pushing new claim ref to the editor list');
 			var newClaimTabObj = {
 				open: false,
 				claim: claimObj
 			}
 			newEditorTabsRefs[editorTabsId].claim_tabs.push(newClaimTabObj);
+			eventManager.fire('editor_tab_claim_added', {editorTabsId, claim: newClaimTabObj});
 		}
-		console.groupEnd(); //END Adding claim to editor list
+
 		openClaimTab(editorTabsId, claimObj._id);
 	},
 	openClaimTab: function(editorTabsId, claimId){
