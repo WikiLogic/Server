@@ -16,6 +16,9 @@ var domActions = {
 		var editorTabsId = rivet.currentTarget.attributes['data-editor-tabs-id'].value;
 		var claimId = rivet.currentTarget.attributes['data-claimtab-id'].value;
 		editorTabsStateCtrl.removeClaimFromList(editorTabsId, claimId);
+	},
+	new_reason_keypress: function(){
+		console.log('here I am');
 	}
 }
 

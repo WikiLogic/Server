@@ -15,7 +15,11 @@ rivets.configure({
 		//Nothing hapening in this hook other than logging for development
 		console.log('->> user interaction: ', binding.keypath);
 		//this is required to continue the chain of events
-		this.call(target, event, binding.view.models);
+		try {
+			this.call(target, event, binding.view.models);
+		} catch (err) {
+			console.warn('->> user interaction failed: ', err);
+		}
 	}
 });
 

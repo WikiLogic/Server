@@ -9,10 +9,11 @@ var eventManager = require('../utils/event_manager');
 
 var domActions = {
 	new_reason_keypress: function(rivet, e){
-		console.log('new reason');
+		//console.log('new reason');
 		var argumentId = $(rivet.currentTarget).closest('.js-argument-creation-form').data('argument-id');
 		var term = rivet.currentTarget.value;
-
+		console.log('keypress: ', rivet.key);
+/*
 		if (rivet.key == "Enter"){
 			newArgumentStateCtrl.enterNewReason(argumentId, term);
 
@@ -21,7 +22,7 @@ var domActions = {
 			//maybe a good place to debounce a search
 			newArgumentStateCtrl.setNewReason(argumentId, term);
 
-		}
+		}*/
 	},
 	save_reason_as_claim: function(rivet){
 		console.group('Saving reason as new claim');
@@ -76,10 +77,7 @@ module.exports = {
 			
 			//currently only for the main editor
 			if (event.owner == "main_tabs") {
-				console.warn('TODO: bind the claim detail');
-				//event.data is the claim
-				//look for it's bit of the DOM and bind it.
-				//fair warning, rivets may not have run. This'll be the next challenge no doubt.
+
 				$('.js-argument-creation-form').each(function(){
 					var domClaimId = $(this).data('claim-id');
 					var side = $(this).data('argument-side');
@@ -93,7 +91,23 @@ module.exports = {
 							{ new_argument: newArgumentState }
 						);
 					};
+
+					//also watch the input
+					$(this).find('.js-new-reason').on('keyup', function(e){
+						if (e.which == 13) {
+							//enter!
+							var newReasonText = $(this).val();
+							var argumentId = $(this).data('argument-id');
+							newArgumentStateCtrl.enterNewReason(argumentId, newReasonText);
+						} else {
+							//not the enter key - we could start pre fetching results...
+							//maybe a good place to debounce a search
+							//newArgumentStateCtrl.setNewReason(argumentId, term);
+
+						}
+					});
 				});
+
 			}
 		});
 		

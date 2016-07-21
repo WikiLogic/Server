@@ -59,7 +59,7 @@ var newArgument = {
 	show_results: false,
 	has_reasons: false,
 	search_term: '',
-	search_results: []
+	search_results: [{description: "test"}]
 }
 
 /* There could be many many places a new argument group is authored (thinking of the node map)
@@ -82,19 +82,26 @@ module.exports = {
 		console.log('setting ', argumentID, term);
 	},
 	enterNewReason: function(argumentId, term){
-		console.log('entering ', argumentID, term);
+		var term = newArgumentRefs[argumentId].input;
 
 		searchApi.searchByString(term).done(function(data){
 			//add to search results
+			console.log('newArgumentRefs: ', newArgumentRefs);
 			newArgumentRefs[argumentId].search_results = data;
+			if (data.length > 0) {
+				newArgumentRefs[argumentId].show_results = true;
+			} else {
+				newArgumentRefs[argumentId].show_results = false;
+			}
 			eventManager.fire("search_results_set", {owner: argumentId, data: newArgumentRefs[argumentId].search_results});
+
 		}).fail(function(err){
 			console.error('search api error: ', err);
 			//TODO: send to alerts
 		});
-	},
+	}
 
-
+/*
 
 
 
@@ -147,5 +154,6 @@ module.exports = {
 	clearArgument: function(argumentName){
 		console.log('clearing argument group:', argumentName);
 	},
+	*/
 
 };

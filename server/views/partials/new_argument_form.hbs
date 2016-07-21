@@ -10,7 +10,7 @@
         <input type="text" 
             class="full-width js-new-reason"
             view-data-argument-id="new_argument._id"
-            view-on-keypress="new_argument.actions.new_reason_keypress" 
+            view-value="new_argument.input"
             placeholder="Add a reason...">
 
         <!-- When the user submits their input above, it'll run a search -->
@@ -39,18 +39,17 @@
     </div>
     <div class="splitter__right full-width text-align-left">
         <!-- These are the results -->
-        <div view-each-result="new_argument.search_results"
+        <div view-each-searchresult="new_argument.search_results"
              class="splitter box box--wide splitter--full-width">
             <div class="splitter__left">
                 <button class="button text-align-center"
-                        view-on-click="new_argument.actions.add_reason_to_argument"
                         data-argument-id="editor_detail_for"
-                        view-data-claim-id="result._id">
+                        view-data-claim-id="searchresult._id">
                     <svg class="icon bump-up-2 color-white"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#cloud-download"></use></svg>
                 </button>
             </div>
             <div class="splitter__right text-align-left full-width">
-                <p>{result.description}</p>
+                <p>{searchresult.description}</p>
             </div>
         </div>
     </div>

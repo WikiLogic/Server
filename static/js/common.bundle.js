@@ -13025,7 +13025,11 @@ rivets.configure({
 		//Nothing hapening in this hook other than logging for development
 		console.log('->> user interaction: ', binding.keypath);
 		//this is required to continue the chain of events
-		this.call(target, event, binding.view.models);
+		try {
+			this.call(target, event, binding.view.models);
+		} catch (err) {
+			console.warn('->> user interaction failed: ', err);
+		}
 	}
 });
 
@@ -13109,6 +13113,9 @@ var domActions = {
 		var editorTabsId = rivet.currentTarget.attributes['data-editor-tabs-id'].value;
 		var claimId = rivet.currentTarget.attributes['data-claimtab-id'].value;
 		editorTabsStateCtrl.removeClaimFromList(editorTabsId, claimId);
+	},
+	new_reason_keypress: function(){
+		console.log('here I am');
 	}
 }
 
@@ -13189,10 +13196,11 @@ var eventManager = require('../utils/event_manager');
 
 var domActions = {
 	new_reason_keypress: function(rivet, e){
-		console.log('new reason');
+		//console.log('new reason');
 		var argumentId = $(rivet.currentTarget).closest('.js-argument-creation-form').data('argument-id');
 		var term = rivet.currentTarget.value;
-
+		console.log('keypress: ', rivet.key);
+/*
 		if (rivet.key == "Enter"){
 			newArgumentStateCtrl.enterNewReason(argumentId, term);
 
@@ -13201,7 +13209,7 @@ var domActions = {
 			//maybe a good place to debounce a search
 			newArgumentStateCtrl.setNewReason(argumentId, term);
 
-		}
+		}*/
 	},
 	save_reason_as_claim: function(rivet){
 		console.group('Saving reason as new claim');
@@ -13256,10 +13264,7 @@ module.exports = {
 			
 			//currently only for the main editor
 			if (event.owner == "main_tabs") {
-				console.warn('TODO: bind the claim detail');
-				//event.data is the claim
-				//look for it's bit of the DOM and bind it.
-				//fair warning, rivets may not have run. This'll be the next challenge no doubt.
+
 				$('.js-argument-creation-form').each(function(){
 					var domClaimId = $(this).data('claim-id');
 					var side = $(this).data('argument-side');
@@ -13273,7 +13278,23 @@ module.exports = {
 							{ new_argument: newArgumentState }
 						);
 					};
+
+					//also watch the input
+					$(this).find('.js-new-reason').on('keyup', function(e){
+						if (e.which == 13) {
+							//enter!
+							var newReasonText = $(this).val();
+							var argumentId = $(this).data('argument-id');
+							newArgumentStateCtrl.enterNewReason(argumentId, newReasonText);
+						} else {
+							//not the enter key - we could start pre fetching results...
+							//maybe a good place to debounce a search
+							//newArgumentStateCtrl.setNewReason(argumentId, term);
+
+						}
+					});
 				});
+
 			}
 		});
 		
@@ -13891,7 +13912,7 @@ var newArgument = {
 	show_results: false,
 	has_reasons: false,
 	search_term: '',
-	search_results: []
+	search_results: [{description: "test"}]
 }
 
 /* There could be many many places a new argument group is authored (thinking of the node map)
@@ -13914,19 +13935,26 @@ module.exports = {
 		console.log('setting ', argumentID, term);
 	},
 	enterNewReason: function(argumentId, term){
-		console.log('entering ', argumentID, term);
+		var term = newArgumentRefs[argumentId].input;
 
 		searchApi.searchByString(term).done(function(data){
 			//add to search results
+			console.log('newArgumentRefs: ', newArgumentRefs);
 			newArgumentRefs[argumentId].search_results = data;
+			if (data.length > 0) {
+				newArgumentRefs[argumentId].show_results = true;
+			} else {
+				newArgumentRefs[argumentId].show_results = false;
+			}
 			eventManager.fire("search_results_set", {owner: argumentId, data: newArgumentRefs[argumentId].search_results});
+
 		}).fail(function(err){
 			console.error('search api error: ', err);
 			//TODO: send to alerts
 		});
-	},
+	}
 
-
+/*
 
 
 
@@ -13979,6 +14007,7 @@ module.exports = {
 	clearArgument: function(argumentName){
 		console.log('clearing argument group:', argumentName);
 	},
+	*/
 
 };
 },{"../api/search":6,"../utils/event_manager":29}],24:[function(require,module,exports){
