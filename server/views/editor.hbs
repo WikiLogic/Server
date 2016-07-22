@@ -75,7 +75,7 @@
                     <!-- editor list tabs -->
                     <div class="tabs__tab js-editor-tabs"
                         data-editor-tabs-id="main_tabs"
-                        view-each-claimtab="tabs.claim_tabs"
+                        view-each-claimtab="editor_tabs.tab_list"
                         view-class-active="claimtab.open">
 
                         <span class="tabs__title"
@@ -129,7 +129,7 @@
                 <!-- Current claim tab (claim detail) -->
                 <section class="box js-editor-tabs-content"
                     data-editor-tabs-id="main_tabs"
-                    view-each-claimdetail="editor_tabs.claim_tabs"
+                    view-each-claimdetail="editor_tabs.tab_list"
                     view-show="claimdetail.open">
                     {{>editor_detail}}
                 </section>

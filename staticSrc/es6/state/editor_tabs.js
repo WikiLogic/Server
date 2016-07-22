@@ -6,7 +6,6 @@
 
 var eventManager = require('../utils/event_manager');
 
-
 var openClaimTab = function(editorTabsId, claimId){
 	console.log('opening claim tab id: ', claimId);
 	var claimObj = {};
@@ -21,7 +20,7 @@ var openClaimTab = function(editorTabsId, claimId){
 			newEditorTabsRefs[editorTabsId].claim_tabs[c].open = false;
 		}
 	}
-	eventManager.fire('editor_tab_opened', {	editorTabsId, claimObj });
+	eventManager.fire('editor_tab_opened', { owner: editorTabsId, data: claimObj });
 }
 
 var removeClaimFromList = function(editorTabsId, claimId){
@@ -64,7 +63,7 @@ var removeClaimFromList = function(editorTabsId, claimId){
 
 var editorTabsState = {
 	_id: 'anon',
-	claim_tabs: []
+	tab_list: []
 }
 
 var newEditorTabsRefs = {};
@@ -75,11 +74,14 @@ module.exports = {
 		var returnState = Object.create(editorTabsState);
 		returnState._id = editorTabsId;
 		newEditorTabsRefs[editorTabsId] = returnState;
-		console.info('New State: ', newEditorTabsRefs[editorTabsId]);
+		console.info('New Editor Tabs State: ', newEditorTabsRefs[editorTabsId]);
 		return returnState;
 	},
 	getExistingState: function(editorTabsId){
 		return newEditorTabsRefs[editorTabsId];
+	},
+	newTab: function(editorTabsId, claimObj){
+
 	},
 	addClaim: function(editorTabsId, claimObj){
 		var alreadySet = false;

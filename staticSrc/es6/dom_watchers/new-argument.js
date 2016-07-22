@@ -66,6 +66,8 @@ module.exports = {
 			var newargumentId = $(this).data('claim-id');
 			var newArgumentState = newArgumentStateCtrl.getNewState(newargumentId);
 			newArgumentState.actions = domActions;
+			console.log('binding: ', newargumentId);
+			rivets.unbind($(this));
 			rivets.bind(
 				$(this),
 				{ new_argument: newArgumentState }
@@ -73,7 +75,7 @@ module.exports = {
 		});
 
 		//Listen out for any new claims being added to the editor tabs, we'll need to bind them
-		eventManager.subscribe('editor_tab_claim_added', function(event){
+		eventManager.subscribe('editor_tab_opened', function(event){
 			
 			//currently only for the main editor
 			if (event.owner == "main_tabs") {
@@ -83,9 +85,10 @@ module.exports = {
 					var side = $(this).data('argument-side');
 					var newargumentId = "new_" + side + "_" + domClaimId;
 					//check if this claim already has a new argument state
-					if (typeof newArgumentStateCtrl.getExistingState(domClaimId) == "undefined") {
+					if (!newArgumentStateCtrl.hasExistingState(domClaimId)) {
 						var newArgumentState = newArgumentStateCtrl.getNewState(newargumentId);
 						newArgumentState.actions = domActions;
+						console.log('binding: ', newargumentId);
 						rivets.bind(
 							$(this),
 							{ new_argument: newArgumentState }

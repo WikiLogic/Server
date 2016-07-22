@@ -39,6 +39,9 @@
     </div>
     <div class="splitter__right full-width text-align-left">
         <!-- These are the results -->
+        <p>Result</p>
+        <p view-each-searchresult="new_argument.search_results">{searchresult.description}</p>
+        <!--
         <div view-each-searchresult="new_argument.search_results"
              class="splitter box box--wide splitter--full-width">
             <div class="splitter__left">
@@ -52,6 +55,7 @@
                 <p>{searchresult.description}</p>
             </div>
         </div>
+        -->
     </div>
 </section>
 

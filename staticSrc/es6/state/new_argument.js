@@ -59,7 +59,12 @@ var newArgument = {
 	show_results: false,
 	has_reasons: false,
 	search_term: '',
-	search_results: [{description: "test"}]
+	search_results: []
+}
+
+var newArgumentState = {
+	search_results: [],
+	search_term: ''
 }
 
 /* There could be many many places a new argument group is authored (thinking of the node map)
@@ -69,11 +74,14 @@ var newArgument = {
 module.exports = {
 
 	getNewState: function(argumentId){
-		var returnState = Object.create(newArgument);
+		var returnState = Object.create(newArgumentState);
 		returnState._id = argumentId;
 		newArgumentRefs[argumentId] = returnState;
-		console.info('New State: ', newArgumentRefs[argumentId]);
+		console.info('New Argument State: ', newArgumentRefs[argumentId]);
 		return returnState;
+	},
+	hasExistingState: function(argumentId){
+		return newArgumentRefs.hasOwnProperty(argumentId);
 	},
 	getExistingState: function(argumentId){
 		return newArgumentRefs[argumentId];

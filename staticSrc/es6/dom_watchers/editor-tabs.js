@@ -23,7 +23,7 @@ var domActions = {
 }
 
 module.exports = {
-	init: function(presetTabs){
+	init: function(){
 		console.log('editor-tabs');
 		$('.js-editor-tabs').each(function(){
 			var editorTabsId = $(this).data('editor-tabs-id');
@@ -31,16 +31,7 @@ module.exports = {
 			newEditorTabs.actions = domActions;
 			rivets.bind(
 				$(this),
-				{ tabs: newEditorTabs }
-			);
-		});
-
-		$('.js-editor-tabs-content').each(function(){
-			var editorTabsId = $(this).data('editor-tabs-id');
-			var editorTabsState = editorTabsStateCtrl.getExistingState(editorTabsId);
-			rivets.bind(
-				$(this),
-				{ editor_tabs: editorTabsState }
+				{ editor_tabs: newEditorTabs }
 			);
 		});
 
@@ -56,34 +47,5 @@ module.exports = {
 			}
 		});
 
-/*
-
-		actionStateCtrl.addAction('add_claim_to_editor_list', function(rivet){
-		console.groupCollapsed('adding claim to editor list');
-			var claimFound = false;
-			//first we need to get a refrence of the claim object
-			//Which list is it in?
-			var location = rivet.currentTarget.attributes['data-from-list'].value;
-			var claimId =  rivet.currentTarget.attributes['data-claim-id'].value;
-			if (location == 'working_list') {
-				for (var c = 0; c < WL_STATE.working_list.claims.length; c++) { //c for claim
-					if (WL_STATE.working_list.claims[c]._id == claimId) {
-						var claimRef = WL_STATE.working_list.claims[c];
-						claimFound = true;
-						break;
-					}
-				}
-			} else {
-				console.error('not set up to pull claims from', location);
-			}
-
-			if (claimFound) {
-				editorListStateCtrl.addClaimToList(claimRef);
-			} else {
-				console.warn(claimId, ' not found in ', location);
-			}
-		console.groupEnd();
-		});
-*/
 	}
 }

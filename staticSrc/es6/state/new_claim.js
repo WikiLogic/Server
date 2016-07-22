@@ -19,7 +19,7 @@ module.exports = {
 		var returnState = Object.create(newClaimState);
 		returnState._id = newClaimId;
 		newClaimRefs[newClaimId] = returnState;
-		console.info('New State: ', newClaimRefs[newClaimId]);
+		console.info('New Claim State: ', newClaimRefs[newClaimId]);
 		return returnState;
 	},
 	getExistingState(newClaimId){

@@ -28,9 +28,9 @@ require('./dom_watchers/search-input').init();
 require('./dom_watchers/search-results').init();
 require('./dom_watchers/new-claim').init();
 require('./dom_watchers/toggles').init();
-require('./dom_watchers/editor-tabs').init();
 require('./dom_watchers/working-list').init();
-require('./dom_watchers/new-argument').init();
+require('./dom_watchers/editor-tabs').init();
+require('./dom_watchers/editor-detail').init();
 
 
 
