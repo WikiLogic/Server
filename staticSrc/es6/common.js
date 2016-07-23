@@ -15,11 +15,7 @@ rivets.configure({
 		//Nothing hapening in this hook other than logging for development
 		console.log('->> user interaction: ', binding.keypath);
 		//this is required to continue the chain of events
-		try {
-			this.call(target, event, binding.view.models);
-		} catch (err) {
-			console.warn('->> user interaction failed: ', err);
-		}
+		this.call(target, event, binding.view.models);
 	}
 });
 
@@ -29,7 +25,6 @@ require('./dom_watchers/search-results').init();
 require('./dom_watchers/new-claim').init();
 require('./dom_watchers/toggles').init();
 require('./dom_watchers/working-list').init();
-require('./dom_watchers/editor-tabs').init();
 require('./dom_watchers/editor-detail').init();
 
 

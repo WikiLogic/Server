@@ -79,13 +79,13 @@
                         view-class-active="claimtab.open">
 
                         <span class="tabs__title"
-                            view-on-click="tabs.actions.editor_tab_open"
+                            view-on-click="editor_tabs.actions.editor_tab_open"
                             data-editor-tabs-id="main_tabs"
                             view-data-claimtab-id="claimtab.claim._id"
                             data-tab-group="editor">{claimtab.claim.description}</span>
 
                         <span class="tabs__x"
-                            view-on-click="tabs.actions.editor_tab_close"
+                            view-on-click="editor_tabs.actions.editor_tab_close"
                             data-editor-tabs-id="main_tabs"
                             view-data-claimtab-id="claimtab.claim._id">
                             <svg class="icon icon--10"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>
@@ -129,7 +129,7 @@
                 <!-- Current claim tab (claim detail) -->
                 <section class="box js-editor-tabs-content"
                     data-editor-tabs-id="main_tabs"
-                    view-each-claimdetail="editor_tabs.tab_list"
+                    view-each-claimdetail="editor_details.tab_list"
                     view-show="claimdetail.open">
                     {{>editor_detail}}
                 </section>

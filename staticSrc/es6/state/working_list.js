@@ -36,7 +36,6 @@ module.exports = {
 		}
 
 		if (!alreadySet) {
-			console.log('pushing new claim ref to working list');
 			//Yesy! new claim to work with!
 			workingListStateRefs[workingListId].claims.push(claimObj);
 		}

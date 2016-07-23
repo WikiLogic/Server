@@ -3,55 +3,59 @@
  * This module is responsibe for the detail view of a claim
  */
 
-var editorDetailStateCtrl = require('../state/editor_tabs');
+var editorDetailStateCtrl = require('../state/editor_detail');
+var editorTabsStateCtrl = require('../state/editor_tabs');
 var eventManager = require('../utils/event_manager');
 
 var domActions = {
-
+	editor_tab_open: function(rivet){
+		var editorTabsId = rivet.currentTarget.attributes['data-editor-tabs-id'].value;
+		var claimId = rivet.currentTarget.attributes['data-claimtab-id'].value;
+		editorTabsStateCtrl.openClaimTab(editorTabsId, claimId);
+	},
+	editor_tab_close: function(rivet){
+		var editorTabsId = rivet.currentTarget.attributes['data-editor-tabs-id'].value;
+		var claimId = rivet.currentTarget.attributes['data-claimtab-id'].value;
+		editorTabsStateCtrl.removeClaimFromList(editorTabsId, claimId);
+	}
 }
 
 module.exports = {
 	init: function(){
 		console.log('editor-detail');
 
+		//set up the tabbing 
+		$('.js-editor-tabs').each(function(){
+			var editorTabsId = $(this).data('editor-tabs-id');
+			var newEditorTabs = editorTabsStateCtrl.getNewState(editorTabsId);
+			newEditorTabs.actions = domActions;
+			rivets.bind(
+				$(this),
+				{ editor_tabs: newEditorTabs }
+			);
+		});
 
-		eventManager.subscribe('editor_tab_claim_added', function(event){
-			//currently only for the main editor
-			if (event.owner == "main_tabs") {
-				console.warn('TODO: bind editor detail');
-/*
-				$('.js-editor-detail').each(function(){
-					var domClaimId = $(this).data('claim-id');
-					var side = $(this).data('argument-side');
-					var newargumentId = "new_" + side + "_" + domClaimId;
-					//check if this claim already has a new argument state
-					if (!newArgumentStateCtrl.hasExistingState(domClaimId)) {
-						var newArgumentState = newArgumentStateCtrl.getNewState(newargumentId);
-						newArgumentState.actions = domActions;
-						console.log('binding: ', newargumentId);
-						rivets.bind(
-							$(this),
-							{ new_argument: newArgumentState }
-						);
-					};
+		//set up the tabbed content
+		$('.js-editor-tabs-content').each(function(){
+			var editorTabsId = $(this).data('editor-tabs-id');
+			var tabbedEditorDetails = editorTabsStateCtrl.getNewState(editorTabsId);
+			tabbedEditorDetails.actions = domActions;
+			rivets.bind(
+				$(this),
+				{ editor_details: tabbedEditorDetails }
+			);
+		});
 
-					//also watch the input
-					$(this).find('.js-new-reason').on('keyup', function(e){
-						if (e.which == 13) {
-							//enter!
-							var newReasonText = $(this).val();
-							var argumentId = $(this).data('argument-id');
-							newArgumentStateCtrl.enterNewReason(argumentId, newReasonText);
-						} else {
-							//not the enter key - we could start pre fetching results...
-							//maybe a good place to debounce a search
-							//newArgumentStateCtrl.setNewReason(argumentId, term);
-
-						}
-					});
-				});
-				*/
-
+		//watch the working list to see when the user wants to look at a claim in detail.
+		eventManager.subscribe([
+			'working_list_claim_clicked',
+			'working_list_duplicate_requested'
+		], function(event){
+			if (event.owner == "main_list") {
+				var newEditorDetailState = editorDetailStateCtrl.getNewState(event.data._id);
+				newEditorDetailState.claim = event.data;
+				//now add the detail to the editor tabs
+				editorTabsStateCtrl.addDetail("main_tabs", newEditorDetailState);
 			}
 		});
 

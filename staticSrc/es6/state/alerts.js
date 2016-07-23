@@ -43,7 +43,7 @@ module.exports = {
 	getExistingState: function(stateId){
 		return alertsStateRef[stateId];
 	},
-	alert: function(stateId, alertObj){
+	setAlert: function(stateId, alertObj){
 		alertsStateRef[stateId].activeAlerts.push(alertObj);
 
 		setTimeout(function(){ 

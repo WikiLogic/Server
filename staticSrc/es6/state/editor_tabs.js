@@ -7,46 +7,38 @@
 var eventManager = require('../utils/event_manager');
 
 var openClaimTab = function(editorTabsId, claimId){
-	console.log('opening claim tab id: ', claimId);
 	var claimObj = {};
 	//loop through all the claim tabs, set them to false unless they match
-	for (var c = 0; c < newEditorTabsRefs[editorTabsId].claim_tabs.length; c++) {
-		if (newEditorTabsRefs[editorTabsId].claim_tabs[c].claim._id == claimId) {
-			console.log('open!');
-			newEditorTabsRefs[editorTabsId].claim_tabs[c].open = true;
-			claimObj = newEditorTabsRefs[editorTabsId].claim_tabs[c].claim;
+	for (var c = 0; c < newEditorTabsRefs[editorTabsId].tab_list.length; c++) {
+		if (newEditorTabsRefs[editorTabsId].tab_list[c]._id == claimId) {
+			newEditorTabsRefs[editorTabsId].tab_list[c].open = true;
+			claimObj = newEditorTabsRefs[editorTabsId].tab_list[c].claim;
 		} else {
-			console.log('close');
-			newEditorTabsRefs[editorTabsId].claim_tabs[c].open = false;
+			newEditorTabsRefs[editorTabsId].tab_list[c].open = false;
 		}
 	}
 	eventManager.fire('editor_tab_opened', { owner: editorTabsId, data: claimObj });
 }
 
 var removeClaimFromList = function(editorTabsId, claimId){
-	console.group('Removing claim from editor list', claimId);
 	var claimTabRemoved = false;
 	var claimObj = {};
 	//loop through to find the relevant claim obj
-	for (var c = 0; c < newEditorTabsRefs[editorTabsId].claim_tabs.length; c++) {
-		if (newEditorTabsRefs[editorTabsId].claim_tabs[c].claim._id == claimId) {
-			console.log('removing claim tab from array');
-			claimObj = newEditorTabsRefs[editorTabsId].claim_tabs[c].claim;
-			newEditorTabsRefs[editorTabsId].claim_tabs.splice(c,1);
+	for (var c = 0; c < newEditorTabsRefs[editorTabsId].tab_list.length; c++) {
+		if (newEditorTabsRefs[editorTabsId].tab_list[c]._id == claimId) {
+			claimObj = newEditorTabsRefs[editorTabsId].tab_list[c].claim;
+			newEditorTabsRefs[editorTabsId].tab_list.splice(c,1);
 			claimTabRemoved = true;
 			eventManager.fire('editor_tab_closed', {	editorTabsId, claimObj });
 
 			//now check if there are any other claims tabs to open instead
-			if (newEditorTabsRefs[editorTabsId].claim_tabs.length > 0) {
-				console.log('there are other claim tabs to open');
-				if (typeof newEditorTabsRefs[editorTabsId].claim_tabs[c] !== 'undefined') {
+			if (newEditorTabsRefs[editorTabsId].tab_list.length > 0) {
+				if (typeof newEditorTabsRefs[editorTabsId].tab_list[c] !== 'undefined') {
 					//if a tab fell into the place that was just spliced, open it
-					console.log('opening the tab that is now in the place of the one removed: ', newEditorTabsRefs[editorTabsId].claim_tabs[c]);
-					openClaimTab(editorTabsId, newEditorTabsRefs[editorTabsId].claim_tabs[c].claim._id);	
+					openClaimTab(editorTabsId, newEditorTabsRefs[editorTabsId].tab_list[c]._id);	
 				} else {
 					//otherwise open the one before it
-					console.log('opening the tab that\'s one back: ', newEditorTabsRefs[editorTabsId].claim_tabs[c-1]);
-					openClaimTab(editorTabsId, newEditorTabsRefs[editorTabsId].claim_tabs[c-1].claim._id);
+					openClaimTab(editorTabsId, newEditorTabsRefs[editorTabsId].tab_list[c-1]._id);
 				}
 			} 
 			break;
@@ -57,7 +49,6 @@ var removeClaimFromList = function(editorTabsId, claimId){
 		console.warn('Claim tab to remove not found');	
 	}
 
-	console.groupEnd(); //ENd Removing claim from working list
 
 }
 
@@ -83,12 +74,12 @@ module.exports = {
 	newTab: function(editorTabsId, claimObj){
 
 	},
-	addClaim: function(editorTabsId, claimObj){
+	addDetail: function(editorTabsId, claimDetail){
 		var alreadySet = false;
 
 		//first check that it's not already in the editor list
-		for (var c = 0; c < newEditorTabsRefs[editorTabsId].claim_tabs.length; c++) { //c for claim
-			if (newEditorTabsRefs[editorTabsId].claim_tabs[c].claim._id == claimObj._id) {
+		for (var c = 0; c < newEditorTabsRefs[editorTabsId].tab_list.length; c++) { //c for claim
+			if (newEditorTabsRefs[editorTabsId].tab_list[c]._id == claimDetail._id) {
 				//it is, our job is done
 				alreadySet = true;
 				break;
@@ -96,16 +87,11 @@ module.exports = {
 		}
 
 		if (!alreadySet) {
-			//Yesy! new claim to work with!
-			var newClaimTabObj = {
-				open: false,
-				claim: claimObj
-			}
-			newEditorTabsRefs[editorTabsId].claim_tabs.push(newClaimTabObj);
-			eventManager.fire('editor_tab_claim_added', {owner: editorTabsId, data: newClaimTabObj});
+			newEditorTabsRefs[editorTabsId].tab_list.push(claimDetail);
+			eventManager.fire('editor_tab_claim_added', {owner: editorTabsId, data: claimDetail});
 		}
 
-		openClaimTab(editorTabsId, claimObj._id);
+		openClaimTab(editorTabsId, claimDetail._id);
 	},
 	openClaimTab: function(editorTabsId, claimId){
 		openClaimTab(editorTabsId, claimId);

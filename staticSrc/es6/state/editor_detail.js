@@ -10,7 +10,7 @@ var newArgumentStateCtrl = require('./new_argument');
 var editorDetailState = {
 	_id: 'anon',
 	show: false,
-	claimObj: {},
+	claim: {},
 	new_for: {},
 	new_against: {},
 	sort_for: {},
@@ -18,7 +18,6 @@ var editorDetailState = {
 }
 
 var editorDetailRefs = {};
-
 
 module.exports = {
 	getNewState: function(editorDetailId){
