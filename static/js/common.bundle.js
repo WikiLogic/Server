@@ -13614,7 +13614,7 @@ module.exports = {
 		var returnState = Object.create(editorDetailState);
 		returnState._id = editorDetailId;
 		returnState.new_for[0] = newArgumentStateCtrl.getNewState("new_for_" + editorDetailId);
-		returnState.sort_against[0] = newArgumentStateCtrl.getNewState("new_against_" + editorDetailId);
+		returnState.new_against[0] = newArgumentStateCtrl.getNewState("new_against_" + editorDetailId);
 		editorDetailRefs[editorDetailId] = returnState;
 		console.info('New Editor Detail State: ', editorDetailRefs[editorDetailId]);
 		return returnState;
