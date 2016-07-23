@@ -77,7 +77,7 @@ module.exports = {
 		var returnState = Object.create(newArgumentState);
 		returnState._id = argumentId;
 		newArgumentRefs[argumentId] = returnState;
-		console.info('New Argument State: ', newArgumentRefs[argumentId]);
+		eventManager.fire('new_argument_state_created', {owner: argumentId, data: newArgumentRefs[argumentId]});
 		return returnState;
 	},
 	hasExistingState: function(argumentId){

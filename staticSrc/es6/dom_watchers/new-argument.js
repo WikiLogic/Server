@@ -61,7 +61,13 @@ module.exports = {
 	init: function(){
 		console.log('new-argument');
 
+		eventManager.subscribe('new_argument_state_created', function(event){
+			//hooking in our own DOM actions
+			event.data.actions = domActions;
+		});
+
 		//for each argument creation form, bind a new argument state object. There probably won't be any there yet.
+		/*
 		$('.js-argument-creation-form').each(function(){
 			var newargumentId = $(this).data('claim-id');
 			var newArgumentState = newArgumentStateCtrl.getNewState(newargumentId);
@@ -73,8 +79,10 @@ module.exports = {
 				{ new_argument: newArgumentState }
 			);
 		});
+		*/
 
 		//Listen out for any new claims being added to the editor tabs, we'll need to bind them
+		/*
 		eventManager.subscribe('editor_tab_opened', function(event){
 			
 			//currently only for the main editor
@@ -113,6 +121,7 @@ module.exports = {
 
 			}
 		});
+		*/
 		
 	}
 }

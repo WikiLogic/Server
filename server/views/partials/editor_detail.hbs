@@ -64,8 +64,7 @@
         <p class="small text-align-center no-margins">For</p>
 
         <div class="card bg-color--white text-color--black box section-wrap js-argument-creation-form"
-            data-argument-side="for"
-            view-data-claim-id="claimdetail.claim._id">
+            view-each-newargument="claimdetail.new_against">
             {{> new_argument_form }}
         </div>
 
@@ -120,8 +119,7 @@
         <p class="small text-align-center no-margins">Against</p>
 
         <div class="card bg-color--white text-color--black box section-wrap js-argument-creation-form"
-            data-argument-side="against"
-            view-data-claim-id="claimdetail.claim._id">
+            view-each-newargument="claimdetail.new_against">
             {{> new_argument_form }}
         </div>
 

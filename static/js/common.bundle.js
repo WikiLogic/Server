@@ -13601,8 +13601,8 @@ var editorDetailState = {
 	_id: 'anon',
 	show: false,
 	claim: {},
-	new_for: {},
-	new_against: {},
+	new_for: [],
+	new_against: [],
 	sort_for: {},
 	sort_against: {}
 }
@@ -13613,6 +13613,8 @@ module.exports = {
 	getNewState: function(editorDetailId){
 		var returnState = Object.create(editorDetailState);
 		returnState._id = editorDetailId;
+		returnState.new_for[0] = newArgumentStateCtrl.getNewState("new_for_" + editorDetailId);
+		returnState.sort_against[0] = newArgumentStateCtrl.getNewState("new_against_" + editorDetailId);
 		editorDetailRefs[editorDetailId] = returnState;
 		console.info('New Editor Detail State: ', editorDetailRefs[editorDetailId]);
 		return returnState;
@@ -13804,7 +13806,7 @@ module.exports = {
 		var returnState = Object.create(newArgumentState);
 		returnState._id = argumentId;
 		newArgumentRefs[argumentId] = returnState;
-		console.info('New Argument State: ', newArgumentRefs[argumentId]);
+		eventManager.fire('new_argument_state_created', {owner: argumentId, data: newArgumentRefs[argumentId]});
 		return returnState;
 	},
 	hasExistingState: function(argumentId){

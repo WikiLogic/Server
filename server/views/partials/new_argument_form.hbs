@@ -1,4 +1,5 @@
 <!-- The New Argument form -->
+<!-- newargument is the rivet king -->
 
 <section class="splitter splitter--full-width">
     <div class="splitter__left">
@@ -9,21 +10,21 @@
         <!-- This is the input for a new reason. It's essentially a mini search bar -->
         <input type="text" 
             class="full-width js-new-reason"
-            view-data-argument-id="new_argument._id"
-            view-value="new_argument.input"
+            view-data-argument-id="newargument._id"
+            view-value="newargument.input"
             placeholder="Add a reason...">
 
         <!-- When the user submits their input above, it'll run a search -->
 
         <!-- If there are no exact matches, this button gives them the option to add it as a new claim -->
-        <div view-show="new_argument.show_new_claim_button"
+        <div view-show="newargument.show_new_claim_button"
              class="splitter bump-up-3">
             <div class="splitter__left">
                 <p><i><small>No exact matches found, add <b>"{state.search_input.term}"</b> as a new claim:</small></i></p>
             </div>
             <div class="splitter__right">
                 <button class="button button--green text-align-center"
-                    view-on-click="new_argument.actions.save_reason_as_claim"
+                    view-on-click="newargument.actions.save_reason_as_claim"
                     data-argument-id="editor_detail_for">
                     <svg class="icon color-white bump-up-2"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#cloud-upload"></use></svg>
                 </button>
@@ -32,7 +33,7 @@
     </div>
 </section>
 
-<section view-show="new_argument.show_results" 
+<section view-show="newargument.show_results" 
          class="splitter splitter--full-width">
     <div class="splitter__left">
         <svg class="icon color-black float-left"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#magnifying-glass"></use></svg>
@@ -40,9 +41,9 @@
     <div class="splitter__right full-width text-align-left">
         <!-- These are the results -->
         <p>Result</p>
-        <p view-each-searchresult="new_argument.search_results">{searchresult.description}</p>
+        <p view-each-searchresult="newargument.search_results">{searchresult.description}</p>
         <!--
-        <div view-each-searchresult="new_argument.search_results"
+        <div view-each-searchresult="newargument.search_results"
              class="splitter box box--wide splitter--full-width">
             <div class="splitter__left">
                 <button class="button text-align-center"
@@ -59,18 +60,18 @@
     </div>
 </section>
 
-<section view-show="new_argument.has_reasons">
+<section view-show="newargument.has_reasons">
     <!-- These are the reasons that have been added to the argument group -->
-    <div view-each-reason="new_argument.reasons">
+    <div view-each-reason="newargument.reasons">
         <p>reason.description</p>
         <p>{reason.description}</p>
     </div>
 
     <!-- When the argument group is valid, then show this to save -->
-    <div view-show="new_argument.is_valid">
+    <div view-show="newargument.is_valid">
         <br>
         <button class="button full-width text-align-center"
-            view-on-click="new_argument.actions.save_new_argument"
+            view-on-click="newargument.actions.save_new_argument"
             data-to="editor_detial_for">
             save argument</button>
     </div>
