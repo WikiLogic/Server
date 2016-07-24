@@ -566,10 +566,8 @@ svg.logo {
 ::-webkit-scrollbar-thumb:window-inactive {
   background: #375073; }
 
-.sections-wrap section {
-  border-top: 1px dashed #5f9aec; }
-  .sections-wrap section:first-of-type {
-    border-top: 0; }
+.sections-wrap section:first-of-type {
+  border-top: 0; }
 
 select {
   background-color: white;

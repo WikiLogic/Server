@@ -7,65 +7,23 @@ var eventManager = require('../utils/event_manager');
  * That would be distracting and might entice people to warp their reasoning to respond to the state
  */
 
-//keep a refrence to all the arguments we create
-var newArgumentRefs = {};
-
-var argIdIterator = 0;
-
-var newReason = {
-	description: "",
-	claimObj: {}
-}
-
-var newArgument = {
-	reasons: [Object.create(newReason)],
-	addReason: function(claimObj){
-		var reasonIsValid = true;
-		//first check if this reason already exists in the argument
-		for (var r = 0; r < this.reasons; r++){//r for reason
-			if (this.reasons[r].description == claimObj.description) {
-				console.warn('This reason already exists in the new argument');
-				reasonIsValid = false;
-				break;
-			}
-		}
-
-		if (reasonIsValid) {
-			console.log('adding reason to argument');
-			this.reasons.push(claimObj);
-		}
-	},
-	removeReason: function(claimObj){
-		for (var r = 0; r < this.reasons; r++){//r for reason
-			if (this.reasons[r].description == claimObj.description) {
-				this.reasons.splice(r, 1);
-			}
-		}
-	},
-	is_valid: false,
-	checkArgument: function(){
-		//there should be more than one reason
-		if (this.reasons.length < 2) {
-			this.isValid = false;
-			console.warn('not enough reasons in argument');
-			return;
-		}
-
-		console.log('new argument group is valid');
-		//if we've made it this far, it's passed all our checks!
-		this.isValid = true;
-	},
-	show_new_claim_button: false,
-	show_results: false,
-	has_reasons: false,
-	search_term: '',
-	search_results: []
-}
 
 var newArgumentState = {
-	reasons: [],
+	search_term: '',
 	search_results: [],
-	search_term: ''
+	reasons: [],
+	isValid: false
+}
+
+var newArgumentRefs = {};
+
+var argHasReason = function(argumentId, claimId){
+	for (var r = 0; r < newArgumentRefs[argumentId].reasons.length; r++){//r for reason
+		if (newArgumentRefs[argumentId].reasons[r]._id == claimId) {
+			return true;
+		}
+	}
+	return false;
 }
 
 /* There could be many many places a new argument group is authored (thinking of the node map)
@@ -109,7 +67,20 @@ module.exports = {
 			console.error('search api error: ', err);
 			//TODO: send to alerts
 		});
-
+	},
+	getClaimFromSearch: function(argumentId, claimId) {
+		for (var r = 0; r < newArgumentRefs[argumentId].search_results.length; r++) {
+			if (newArgumentRefs[argumentId].search_results[r]._id == claimId) {
+				return newArgumentRefs[argumentId].search_results[r];
+			}
+		}
+	},
+	addReason: function(argumentId, claimObj) {
+		//first check if that reason already exists
+		if (!argHasReason(argumentId, claimObj._id)) {
+			newArgumentRefs[argumentId].reasons.push(claimObj);
+			eventManager.fire('new_argument_new_reason', {owner: argumentId, data: claimObj});
+		}
 	}
 
 /*
