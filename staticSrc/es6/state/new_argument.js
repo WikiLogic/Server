@@ -9,6 +9,7 @@ var eventManager = require('../utils/event_manager');
 
 
 var newArgumentState = {
+	_id: 'anon',
 	search_term: '',
 	search_results: [],
 	reasons: [],
@@ -35,6 +36,7 @@ module.exports = {
 	getNewState: function(argumentId){
 		var returnState = Object.create(newArgumentState);
 		returnState._id = argumentId;
+		returnState.reasons = []; //clear out the link between state objects
 		newArgumentRefs[argumentId] = returnState;
 		eventManager.fire('new_argument_state_created', {owner: argumentId, data: newArgumentRefs[argumentId]});
 		return returnState;
@@ -78,6 +80,7 @@ module.exports = {
 	addReason: function(argumentId, claimObj) {
 		//first check if that reason already exists in this argument
 		if (!argHasReason(argumentId, claimObj._id)) {
+			console.info('newArgumentRefs: ', newArgumentRefs);
 			newArgumentRefs[argumentId].reasons.push(claimObj);
 			//now tidy up - remove the reason if it is in the results
 			for (var r = 0; r < newArgumentRefs[argumentId].search_results.length; r++){
