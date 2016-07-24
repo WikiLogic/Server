@@ -13203,10 +13203,12 @@ module.exports = {
 			//hooking in our own new argument objects
 			event.data.new_for = [];
 			event.data.new_for[0] = newArgumentStateCtrl.getNewState("new_for_" + event.owner);
+			event.data.new_for[0].parent_claim_description = event.data.description;
 			event.data.new_for[0].actions = domActions;
 
 			event.data.new_against = [];
 			event.data.new_against[0] = newArgumentStateCtrl.getNewState("new_against_" + event.owner);
+			event.data.new_against[0].parent_claim_description = event.data.description;
 			event.data.new_against[0].actions = domActions;
 		});
 		
@@ -13800,10 +13802,14 @@ var stateFactory = require('../utils/state_factory');
 
 var newArgumentState = {
 	_id: 'anon',
+	parent_claim_description: '',
 	search_term: '',
 	search_results: [],
+	show_results: false,
+	show_new_claim_form: false,
 	reasons: [],
-	isValid: false
+	show_reasons: false,
+	is_valid: false
 }
 
 var newArgumentRefs = {};
@@ -13815,6 +13821,57 @@ var argHasReason = function(argumentId, claimId){
 		}
 	}
 	return false;
+}
+
+var updateStatuses = function(argumentId){
+	//are there any results
+	if (newArgumentRefs[argumentId].search_results.length > 0) {
+		newArgumentRefs[argumentId].show_results = true;
+	} else {
+		newArgumentRefs[argumentId].show_results = false;
+	}
+
+	console.log('parent: ', newArgumentRefs[argumentId].parent_claim_description);
+	//make sure the parent claim isn't set anywhere
+	for (var r = 0; r < newArgumentRefs[argumentId].search_results.length; r++) {
+		console.log('result: ', newArgumentRefs[argumentId].search_results[r].description);
+		if (newArgumentRefs[argumentId].search_results[r].description == newArgumentRefs[argumentId].parent_claim_description) {
+			newArgumentRefs[argumentId].search_results.splice(r, 1);
+			r--;
+		}
+	}
+	for (var r = 0; r < newArgumentRefs[argumentId].reasons.length; r++) {
+		console.log('reason: ', newArgumentRefs[argumentId].reasons[r].description);
+		if (newArgumentRefs[argumentId].reasons[r].description == newArgumentRefs[argumentId].parent_claim_description) {
+			newArgumentRefs[argumentId].reasons.splice(r, 1);
+			r--;
+		}
+	}
+
+	//are there any exact matches?
+	newArgumentRefs[argumentId].show_new_claim_form = true;
+	for (var r = 0; r < newArgumentRefs[argumentId].search_results.length; r++) {
+		if (newArgumentRefs[argumentId].search_results[r].description == newArgumentRefs[argumentId].search_term) {
+			//found a match!
+			newArgumentRefs[argumentId].show_new_claim_form = false;
+			break;
+		}
+	}
+
+	//are there any reasons?
+	if (newArgumentRefs[argumentId].reasons.length > 0) {
+		newArgumentRefs[argumentId].show_reasons = true;
+	} else {
+		newArgumentRefs[argumentId].show_reasons = false;
+	}
+
+	//do the reasons make a valid argument?
+	if (newArgumentRefs[argumentId].reasons.length > 1) {
+		newArgumentRefs[argumentId].is_valid = true;
+	} else {
+		newArgumentRefs[argumentId].is_valid = false;
+	}
+
 }
 
 /* There could be many many places a new argument group is authored (thinking of the node map)
@@ -13840,11 +13897,9 @@ module.exports = {
 		console.log('setting ', argumentID, term);
 	},
 	enterNewReason: function(argumentId, term){
-		console.log('argumentId: ', argumentId);
+		newArgumentRefs[argumentId].search_term = term;
 		searchApi.searchByString(term).done(function(data){
 			//add to search results
-			console.log('setting results: ', data);
-			console.log('to new id: ', argumentId);
 			newArgumentRefs[argumentId].search_results = data;
 
 			if (data.length > 0) {
@@ -13852,6 +13907,7 @@ module.exports = {
 			} else {
 				newArgumentRefs[argumentId].show_results = false;
 			}
+			updateStatuses(argumentId);
 			eventManager.fire("search_results_set", {owner: argumentId, data: newArgumentRefs[argumentId].search_results});
 
 		}).fail(function(err){
@@ -13878,6 +13934,7 @@ module.exports = {
 					break;
 				}
 			}
+			updateStatuses(argumentId);
 			eventManager.fire('new_argument_new_reason', {owner: argumentId, data: claimObj});
 		}
 	},
@@ -13891,6 +13948,7 @@ module.exports = {
 				break;
 			}
 		}
+		updateStatuses(argumentId);
 		eventManager.fire('new_argument_reason_removed', {owner: argumentId, data: removedReason});
 	}
 

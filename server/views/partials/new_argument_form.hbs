@@ -18,10 +18,10 @@
         <!-- When the user submits their input above, it'll run a search -->
 
         <!-- If there are no exact matches, this button gives them the option to add it as a new claim -->
-        <div view-show="newargument.show_new_claim_button"
+        <div view-show="newargument.show_new_claim_form"
              class="splitter bump-up-3">
             <div class="splitter__left">
-                <p><i><small>No exact matches found, add <b>"{state.search_input.term}"</b> as a new claim:</small></i></p>
+                <p><i><small>No exact matches found, click the button to save <b>"{newargument.search_term}"</b> as a new claim.</small></i></p>
             </div>
             <div class="splitter__right">
                 <button class="button button--green text-align-center"
@@ -60,7 +60,7 @@
     </div>
 </section>
 
-<section>
+<section view-show="newargument.show_reasons">
     <!-- These are the reasons that have been added to the argument group -->
     <hr>
     

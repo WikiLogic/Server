@@ -48,10 +48,12 @@ module.exports = {
 			//hooking in our own new argument objects
 			event.data.new_for = [];
 			event.data.new_for[0] = newArgumentStateCtrl.getNewState("new_for_" + event.owner);
+			event.data.new_for[0].parent_claim_description = event.data.description;
 			event.data.new_for[0].actions = domActions;
 
 			event.data.new_against = [];
 			event.data.new_against[0] = newArgumentStateCtrl.getNewState("new_against_" + event.owner);
+			event.data.new_against[0].parent_claim_description = event.data.description;
 			event.data.new_against[0].actions = domActions;
 		});
 		
