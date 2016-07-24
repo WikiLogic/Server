@@ -48,7 +48,7 @@
                 <p>{searchresult.description}</p>
             </div>
             <div class="splitter__right">
-                <button class="button text-align-center"
+                <button class="button text-align-center display-inline-block"
                         view-data-argument-id="newargument._id"
                         view-data-claim-id="searchresult._id"
                         view-on-click="newargument.actions.result_clicked">
@@ -63,17 +63,38 @@
 <section>
     <!-- These are the reasons that have been added to the argument group -->
     <hr>
-    <div view-each-reason="newargument.reasons" class="splitter splitter--full-width">
+    
+    <div class="splitter">
         <div class="splitter__left">
-            <p>{reason.description}</p>
+        
+            <span class="state-tag state-tag--50">50</span>
+
         </div>
-        <div class="splitter__right">
-            <button class="button button--red text-align-center"
-                    view-data-argument-id="newargument._id"
-                    view-data-claim-id="reason._id"
-                    view-on-click="newargument.actions.remove_reason">
-                <svg class="icon bump-up-2 color-white"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>
-            </button>
+        <div class="splitter__right full-width">
+        
+            <div view-each-reason="newargument.reasons" class="splitter splitter--full-width">
+                <div class="splitter__left text-align-left full-width">
+
+                    <div class="splitter">
+                        <div class="splitter__left">
+                            <span class="state-tag state-tag--50">50</span>     
+                        </div>
+                        <div class="splitter__right text-align-left full-width">
+                            <p>{reason.description}</p>
+                        </div>
+                    </div>
+                
+                </div>
+                <div class="splitter__right">
+                    <button class="button button--red text-align-center display-inline-block"
+                            view-data-argument-id="newargument._id"
+                            view-data-claim-id="reason._id"
+                            view-on-click="newargument.actions.remove_reason">
+                        <svg class="icon bump-up-2 color-white"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>
+                    </button>
+                </div>
+            </div>
+
         </div>
     </div>
 

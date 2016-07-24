@@ -1626,6 +1626,8 @@ These create the structurs within which components will live
 .splitter {
   font-size: 1rem;
   display: block;
+  display: table;
+  width: 100%;
   /*
 	 * --v-centered doesn't work on this
 	 * for justified split with vertical centering, use the above 2 modifyers and align right content to the right in the component
@@ -1640,12 +1642,8 @@ These create the structurs within which components will live
   .splitter__right {
     display: table-cell;
     vertical-align: middle;
-    padding-left: 0.625rem; }
-  .splitter--full-width {
-    display: table;
-    width: 100%; }
-    .splitter--full-width .splitter__right {
-      text-align: right; }
+    padding-left: 0.625rem;
+    text-align: right; }
   .splitter--v-bottom > .splitter__left {
     vertical-align: bottom; }
   .splitter--v-bottom > .splitter__right {
