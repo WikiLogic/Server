@@ -29,6 +29,11 @@ var domActions = {
 		var argumentId = rivet.currentTarget.attributes['data-argument-id'].value;
 		var claimToAdd = newArgumentStateCtrl.getClaimFromSearch(argumentId, claimId);
 		newArgumentStateCtrl.addReason(argumentId, claimToAdd);
+	},
+	remove_reason: function(rivet){
+		var claimId = rivet.currentTarget.attributes['data-claim-id'].value;
+		var argumentId = rivet.currentTarget.attributes['data-argument-id'].value;
+		newArgumentStateCtrl.removeReason(argumentId, claimId);
 	}
 }
 

@@ -13184,6 +13184,11 @@ var domActions = {
 		var argumentId = rivet.currentTarget.attributes['data-argument-id'].value;
 		var claimToAdd = newArgumentStateCtrl.getClaimFromSearch(argumentId, claimId);
 		newArgumentStateCtrl.addReason(argumentId, claimToAdd);
+	},
+	remove_reason: function(rivet){
+		var claimId = rivet.currentTarget.attributes['data-claim-id'].value;
+		var argumentId = rivet.currentTarget.attributes['data-argument-id'].value;
+		newArgumentStateCtrl.removeReason(argumentId, claimId);
 	}
 }
 
@@ -13858,11 +13863,30 @@ module.exports = {
 		}
 	},
 	addReason: function(argumentId, claimObj) {
-		//first check if that reason already exists
+		//first check if that reason already exists in this argument
 		if (!argHasReason(argumentId, claimObj._id)) {
 			newArgumentRefs[argumentId].reasons.push(claimObj);
+			//now tidy up - remove the reason if it is in the results
+			for (var r = 0; r < newArgumentRefs[argumentId].search_results.length; r++){
+				if (newArgumentRefs[argumentId].search_results[r]._id == claimObj._id) {
+					newArgumentRefs[argumentId].search_results.splice(r, 1);
+					break;
+				}
+			}
 			eventManager.fire('new_argument_new_reason', {owner: argumentId, data: claimObj});
 		}
+	},
+	removeReason: function(argumentId, claimId){
+		for (var r = 0; r < newArgumentRefs[argumentId].reasons.length; r++){
+			if (newArgumentRefs[argumentId].reasons[r]._id == claimId) {
+				//remove it
+				var removedReason = newArgumentRefs[argumentId].reasons.splice(r, 1);
+				//but push it into the search results - kind of like a last chance, just in case that was a mistake
+				newArgumentRefs[argumentId].search_results.push(removedReason);
+				break;
+			}
+		}
+		eventManager.fire('new_argument_reason_removed', {owner: argumentId, data: claimObj});
 	}
 
 /*
