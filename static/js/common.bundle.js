@@ -13882,11 +13882,11 @@ module.exports = {
 				//remove it
 				var removedReason = newArgumentRefs[argumentId].reasons.splice(r, 1);
 				//but push it into the search results - kind of like a last chance, just in case that was a mistake
-				newArgumentRefs[argumentId].search_results.push(removedReason);
+				newArgumentRefs[argumentId].search_results.push(removedReason[0]);
 				break;
 			}
 		}
-		eventManager.fire('new_argument_reason_removed', {owner: argumentId, data: claimObj});
+		eventManager.fire('new_argument_reason_removed', {owner: argumentId, data: removedReason});
 	}
 
 /*
