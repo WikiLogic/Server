@@ -10,10 +10,10 @@ var eventManager = require('../utils/event_manager');
 var domActions = {
 	new_reason_keypress: function(rivet, e){
 		//console.log('new reason');
-		var argumentId = $(rivet.currentTarget).closest('.js-argument-creation-form').data('argument-id');
+		var argumentId = rivet.currentTarget.attributes['data-argument-id'].value;
 		var term = rivet.currentTarget.value;
-		console.log('keypress: ', rivet.key);
-/*
+		console.log('term: ', term); // <- does this just render too fast? Watch the console when you're typing. It's so weird.
+
 		if (rivet.key == "Enter"){
 			newArgumentStateCtrl.enterNewReason(argumentId, term);
 
@@ -22,7 +22,7 @@ var domActions = {
 			//maybe a good place to debounce a search
 			newArgumentStateCtrl.setNewReason(argumentId, term);
 
-		}*/
+		}
 	},
 	save_reason_as_claim: function(rivet){
 		console.group('Saving reason as new claim');
@@ -61,9 +61,16 @@ module.exports = {
 	init: function(){
 		console.log('new-argument');
 
-		eventManager.subscribe('new_argument_state_created', function(event){
-			//hooking in our own DOM actions
-			event.data.actions = domActions;
+		eventManager.subscribe('new_editor_detail_state', function(event){
+
+			//hooking in our own new argument objects
+			event.data.new_for = [];
+			event.data.new_for[0] = newArgumentStateCtrl.getNewState("new_for_" + event.owner);
+			event.data.new_for[0].actions = domActions;
+
+			event.data.new_against = [];
+			event.data.new_against[0] = newArgumentStateCtrl.getNewState("new_against_" + event.owner);
+			event.data.new_against[0].actions = domActions;
 		});
 
 		//for each argument creation form, bind a new argument state object. There probably won't be any there yet.

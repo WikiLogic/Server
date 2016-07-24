@@ -23,10 +23,8 @@ module.exports = {
 	getNewState: function(editorDetailId){
 		var returnState = Object.create(editorDetailState);
 		returnState._id = editorDetailId;
-		returnState.new_for[0] = newArgumentStateCtrl.getNewState("new_for_" + editorDetailId);
-		returnState.new_against[0] = newArgumentStateCtrl.getNewState("new_against_" + editorDetailId);
 		editorDetailRefs[editorDetailId] = returnState;
-		console.info('New Editor Detail State: ', editorDetailRefs[editorDetailId]);
+		eventManager.fire('new_editor_detail_state', {owner: editorDetailId, data: editorDetailRefs[editorDetailId]});
 		return returnState;
 	},
 	getExistingState: function(editorDetailId){

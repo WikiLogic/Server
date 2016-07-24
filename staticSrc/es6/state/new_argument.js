@@ -63,6 +63,7 @@ var newArgument = {
 }
 
 var newArgumentState = {
+	reasons: [],
 	search_results: [],
 	search_term: ''
 }
@@ -90,12 +91,13 @@ module.exports = {
 		console.log('setting ', argumentID, term);
 	},
 	enterNewReason: function(argumentId, term){
-		var term = newArgumentRefs[argumentId].input;
-
+		console.log('argumentId: ', argumentId);
 		searchApi.searchByString(term).done(function(data){
 			//add to search results
-			console.log('newArgumentRefs: ', newArgumentRefs);
+			console.log('setting results: ', data);
+			console.log('to new id: ', argumentId);
 			newArgumentRefs[argumentId].search_results = data;
+
 			if (data.length > 0) {
 				newArgumentRefs[argumentId].show_results = true;
 			} else {
@@ -107,6 +109,7 @@ module.exports = {
 			console.error('search api error: ', err);
 			//TODO: send to alerts
 		});
+
 	}
 
 /*
