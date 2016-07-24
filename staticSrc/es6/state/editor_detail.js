@@ -6,6 +6,7 @@
 
 var eventManager = require('../utils/event_manager');
 var newArgumentStateCtrl = require('./new_argument');
+var stateFactory = require('../utils/state_factory');
 
 var editorDetailState = {
 	_id: 'anon',
@@ -21,7 +22,7 @@ var editorDetailRefs = {};
 
 module.exports = {
 	getNewState: function(editorDetailId){
-		var returnState = Object.create(editorDetailState);
+		var returnState = stateFactory.create(editorDetailState);
 		returnState._id = editorDetailId;
 		editorDetailRefs[editorDetailId] = returnState;
 		eventManager.fire('new_editor_detail_state', {owner: editorDetailId, data: editorDetailRefs[editorDetailId]});

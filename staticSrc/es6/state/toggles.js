@@ -6,6 +6,8 @@
  * The main body of the help tab could itself be tabbed content with more in depth help
  */
 
+var stateFactory = require('../utils/state_factory');
+
  var toggleState = {
  	_id: 'anon',
  	open: true
@@ -15,7 +17,7 @@
 
 module.exports = {
 	getNewState: function(toggleId){
-		var returnToggleState = Object.create(toggleState);
+		var returnToggleState = stateFactory.create(toggleState);
 		returnToggleState._id = toggleId;
 		toggleStateRef[toggleId] = returnToggleState;
 		console.info('New State: ', toggleStateRef[toggleId]);

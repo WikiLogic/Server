@@ -1,5 +1,7 @@
 'use strict';
 
+var stateFactory = require('../utils/state_factory');
+
 var userState = {
 	gravatar: 'string',
 	settings: {
@@ -11,7 +13,7 @@ var userState = {
 
 module.exports = {
 	getNewState: function(userId){
-
+		stateFactory.create(userState);
 	},
 	getExistingState: function(userId){
 		

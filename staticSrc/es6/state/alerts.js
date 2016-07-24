@@ -1,6 +1,7 @@
 'use strict';
 
 var eventManager = require('../utils/event_manager');
+var stateFactory = require('../utils/state_factory');
 
 /*
 var alertObj = {
@@ -34,7 +35,7 @@ var removeAlert = function(stateId, alertId){
 module.exports = {
 
 	getNewState: function(stateId){
-		var returnState = Object.create(alertsState);
+		var returnState = stateFactory.create(alertsState);
 		returnState._id = stateId;
 		alertsStateRef[stateId] = returnState;
 		console.info('New Alerts State: ', alertsStateRef[stateId]);

@@ -6,6 +6,7 @@
 
 var eventManager = require('../utils/event_manager');
 var searchApi = require('../api/search');
+var stateFactory = require('../utils/state_factory');
 
 var searchState = {
 	_id: 'anon',
@@ -17,7 +18,7 @@ var searchStateRef = {}
 
 module.exports = {
 	getNewState: function(searchId){
-		var returnSearchState = Object.create(searchState);
+		var returnSearchState = stateFactory.create(searchState);
 		returnSearchState._id = searchId;
 		searchStateRef[searchId] = returnSearchState;
 		console.info('New State: ', searchStateRef[searchId]);

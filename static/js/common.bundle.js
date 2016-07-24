@@ -13656,6 +13656,7 @@ module.exports = {
 
 var eventManager = require('../utils/event_manager');
 var newArgumentStateCtrl = require('./new_argument');
+var stateFactory = require('../utils/state_factory');
 
 var editorDetailState = {
 	_id: 'anon',
@@ -13671,7 +13672,7 @@ var editorDetailRefs = {};
 
 module.exports = {
 	getNewState: function(editorDetailId){
-		var returnState = Object.create(editorDetailState);
+		var returnState = stateFactory.create(editorDetailState);
 		returnState._id = editorDetailId;
 		editorDetailRefs[editorDetailId] = returnState;
 		eventManager.fire('new_editor_detail_state', {owner: editorDetailId, data: editorDetailRefs[editorDetailId]});
@@ -13681,7 +13682,7 @@ module.exports = {
 		return editorDetailRefs[editorDetailId];
 	}
 }
-},{"../utils/event_manager":30,"./new_argument":24}],23:[function(require,module,exports){
+},{"../utils/event_manager":30,"../utils/state_factory":31,"./new_argument":24}],23:[function(require,module,exports){
 'use strict';
 
 /* The Editor List State Controller
@@ -13689,6 +13690,7 @@ module.exports = {
  */
 
 var eventManager = require('../utils/event_manager');
+var stateFactory = require('../utils/state_factory');
 
 var openClaimTab = function(editorTabsId, claimId){
 	var claimObj = {};
@@ -13746,7 +13748,7 @@ var newEditorTabsRefs = {};
 
 module.exports = {
 	getNewState: function(editorTabsId){
-		var returnState = Object.create(editorTabsState);
+		var returnState = stateFactory.create(editorTabsState);
 		returnState._id = editorTabsId;
 		newEditorTabsRefs[editorTabsId] = returnState;
 		console.info('New Editor Tabs State: ', newEditorTabsRefs[editorTabsId]);
@@ -13784,11 +13786,12 @@ module.exports = {
 		removeClaimFromList(editorTabsId, claimId);
 	}
 }
-},{"../utils/event_manager":30}],24:[function(require,module,exports){
+},{"../utils/event_manager":30,"../utils/state_factory":31}],24:[function(require,module,exports){
 'use strict';
 
 var searchApi = require('../api/search');
 var eventManager = require('../utils/event_manager');
+var stateFactory = require('../utils/state_factory');
 
 /* New arguments do not check state wile they are being authored
  * That would be distracting and might entice people to warp their reasoning to respond to the state
@@ -13821,9 +13824,8 @@ var argHasReason = function(argumentId, claimId){
 module.exports = {
 
 	getNewState: function(argumentId){
-		var returnState = Object.create(newArgumentState);
+		var returnState = stateFactory.create(newArgumentState);
 		returnState._id = argumentId;
-		returnState.reasons = []; //clear out the link between state objects
 		newArgumentRefs[argumentId] = returnState;
 		eventManager.fire('new_argument_state_created', {owner: argumentId, data: newArgumentRefs[argumentId]});
 		return returnState;
@@ -13948,13 +13950,14 @@ module.exports = {
 	*/
 
 };
-},{"../api/search":6,"../utils/event_manager":30}],25:[function(require,module,exports){
+},{"../api/search":6,"../utils/event_manager":30,"../utils/state_factory":31}],25:[function(require,module,exports){
 'use strict';
 
 /* New Claim State Ctrl
  */
 
 var eventManager = require('../utils/event_manager');
+var stateFactory = require('../utils/state_factory');
 
 var newClaimState = {
 	show: false,
@@ -13967,7 +13970,7 @@ var newClaimRefs = {};
 module.exports = {
 
 	getNewState: function(newClaimId){
-		var returnState = Object.create(newClaimState);
+		var returnState = stateFactory.create(newClaimState);
 		returnState._id = newClaimId;
 		newClaimRefs[newClaimId] = returnState;
 		console.info('New Claim State: ', newClaimRefs[newClaimId]);
@@ -13993,7 +13996,7 @@ module.exports = {
 	}
 
 };
-},{"../utils/event_manager":30}],26:[function(require,module,exports){
+},{"../utils/event_manager":30,"../utils/state_factory":31}],26:[function(require,module,exports){
 'use strict';
 
 /* The Search Input state controller
@@ -14002,6 +14005,7 @@ module.exports = {
 
 var eventManager = require('../utils/event_manager');
 var searchApi = require('../api/search');
+var stateFactory = require('../utils/state_factory');
 
 var searchState = {
 	_id: 'anon',
@@ -14013,7 +14017,7 @@ var searchStateRef = {}
 
 module.exports = {
 	getNewState: function(searchId){
-		var returnSearchState = Object.create(searchState);
+		var returnSearchState = stateFactory.create(searchState);
 		returnSearchState._id = searchId;
 		searchStateRef[searchId] = returnSearchState;
 		console.info('New State: ', searchStateRef[searchId]);
@@ -14055,7 +14059,7 @@ module.exports = {
 	}
 
 };
-},{"../api/search":6,"../utils/event_manager":30}],27:[function(require,module,exports){
+},{"../api/search":6,"../utils/event_manager":30,"../utils/state_factory":31}],27:[function(require,module,exports){
 'use strict';
 
 /* Everyting aout handling tab state!
@@ -14319,6 +14323,8 @@ module.exports = {
  * The main body of the help tab could itself be tabbed content with more in depth help
  */
 
+var stateFactory = require('../utils/state_factory');
+
  var toggleState = {
  	_id: 'anon',
  	open: true
@@ -14328,7 +14334,7 @@ module.exports = {
 
 module.exports = {
 	getNewState: function(toggleId){
-		var returnToggleState = Object.create(toggleState);
+		var returnToggleState = stateFactory.create(toggleState);
 		returnToggleState._id = toggleId;
 		toggleStateRef[toggleId] = returnToggleState;
 		console.info('New State: ', toggleStateRef[toggleId]);
@@ -14344,13 +14350,15 @@ module.exports = {
 		toggleStateRef[toggleId].open = false;
 	}
 }
-},{}],29:[function(require,module,exports){
+},{"../utils/state_factory":31}],29:[function(require,module,exports){
 'use strict';
 
-var eventManager = require('../utils/event_manager');
 /* Working_list State controller
  *
  */
+ 
+var eventManager = require('../utils/event_manager');
+var stateFactory = require('../utils/state_factory');
 
 var workingListState = {
 	claims: []
@@ -14360,7 +14368,7 @@ var workingListStateRefs = {};
 
 module.exports = {
 	getNewState: function(workingListId){
-		var returnListState = Object.create(workingListState);
+		var returnListState = stateFactory.create(workingListState);
 		returnListState._id = workingListId;
 		workingListStateRefs[workingListId] = returnListState;
 		console.info('New State: ', workingListStateRefs[workingListId]);
@@ -14404,7 +14412,7 @@ module.exports = {
 		
 	}
 }
-},{"../utils/event_manager":30}],30:[function(require,module,exports){
+},{"../utils/event_manager":30,"../utils/state_factory":31}],30:[function(require,module,exports){
 'use strict';
 
 /* The Event Manager
@@ -14453,6 +14461,30 @@ module.exports = {
 				eventSubscribers[event][s](data);
 			}
 		}
+	}
+}
+},{}],31:[function(require,module,exports){
+'use strict';
+
+/* The State Factory
+ * You should see in every state controller a request here. 
+ * Pass in a state template (an object of the structure you require) and this will return an object
+ * conforming to that template without any shared refrences. Otherwise, you might find some troubling
+ * side effects when modifying states.
+ */
+
+module.exports = {
+	create: function(stateTemplate){
+		var returnState = Object.create(stateTemplate);
+		
+		for (var attr in returnState){
+			//array
+			if (Array.isArray(returnState[attr])) {
+				returnState[attr] = [];
+			}
+		}
+
+		return returnState;
 	}
 }
 },{}]},{},[7]);

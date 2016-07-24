@@ -2,6 +2,7 @@
 
 var searchApi = require('../api/search');
 var eventManager = require('../utils/event_manager');
+var stateFactory = require('../utils/state_factory');
 
 /* New arguments do not check state wile they are being authored
  * That would be distracting and might entice people to warp their reasoning to respond to the state
@@ -34,9 +35,8 @@ var argHasReason = function(argumentId, claimId){
 module.exports = {
 
 	getNewState: function(argumentId){
-		var returnState = Object.create(newArgumentState);
+		var returnState = stateFactory.create(newArgumentState);
 		returnState._id = argumentId;
-		returnState.reasons = []; //clear out the link between state objects
 		newArgumentRefs[argumentId] = returnState;
 		eventManager.fire('new_argument_state_created', {owner: argumentId, data: newArgumentRefs[argumentId]});
 		return returnState;

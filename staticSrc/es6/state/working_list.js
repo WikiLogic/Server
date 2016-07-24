@@ -1,9 +1,11 @@
 'use strict';
 
-var eventManager = require('../utils/event_manager');
 /* Working_list State controller
  *
  */
+ 
+var eventManager = require('../utils/event_manager');
+var stateFactory = require('../utils/state_factory');
 
 var workingListState = {
 	claims: []
@@ -13,7 +15,7 @@ var workingListStateRefs = {};
 
 module.exports = {
 	getNewState: function(workingListId){
-		var returnListState = Object.create(workingListState);
+		var returnListState = stateFactory.create(workingListState);
 		returnListState._id = workingListId;
 		workingListStateRefs[workingListId] = returnListState;
 		console.info('New State: ', workingListStateRefs[workingListId]);
