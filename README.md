@@ -119,6 +119,8 @@ this may be needed: https://github.com/paulmillr/es6-shim/ needs more looking in
 
 interesting for deployment/scaling: http://kubernetes.io/
 
+Also for when we get really big: https://webtorrent.io/ p2p streaming data using the browser!
+
 ---
 
 other argument maps:
