@@ -13198,18 +13198,18 @@ module.exports = {
 	init: function(){
 		console.log('new-argument');
 
-		eventManager.subscribe('new_editor_detail_state', function(event){
+		eventManager.subscribe('editor_tab_claim_added', function(event){
 
 			//hooking in our own new argument objects
-			event.data.new_for = [];
-			event.data.new_for[0] = newArgumentStateCtrl.getNewState("new_for_" + event.owner);
-			event.data.new_for[0].parent_claim_description = event.data.description;
-			event.data.new_for[0].actions = domActions;
+			event.data.claim.new_for = [];
+			event.data.claim.new_for[0] = newArgumentStateCtrl.getNewState("new_for_" + event.data.claim._id);
+			event.data.claim.new_for[0].parent_claim_description = event.data.claim.description;
+			event.data.claim.new_for[0].actions = domActions;
 
-			event.data.new_against = [];
-			event.data.new_against[0] = newArgumentStateCtrl.getNewState("new_against_" + event.owner);
-			event.data.new_against[0].parent_claim_description = event.data.description;
-			event.data.new_against[0].actions = domActions;
+			event.data.claim.new_against = [];
+			event.data.claim.new_against[0] = newArgumentStateCtrl.getNewState("new_against_" + event.data.claim._id);
+			event.data.claim.new_against[0].parent_claim_description = event.data.claim.description;
+			event.data.claim.new_against[0].actions = domActions;
 		});
 		
 	}
@@ -14533,14 +14533,19 @@ module.exports = {
 
 module.exports = {
 	create: function(stateTemplate){
+		console.info("1: ", stateTemplate);
 		var returnState = Object.create(stateTemplate);
-		
+		console.info("2: ", stateTemplate);
 		for (var attr in returnState){
 			//array
 			if (Array.isArray(returnState[attr])) {
 				returnState[attr] = [];
+				console.log('array', attr);
+			} else {
+				console.log('attr', attr);
 			}
 		}
+		console.info("3: ", returnState);
 
 		return returnState;
 	}
