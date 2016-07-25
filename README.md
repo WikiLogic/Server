@@ -121,6 +121,8 @@ interesting for deployment/scaling: http://kubernetes.io/
 
 Also for when we get really big: https://webtorrent.io/ p2p streaming data using the browser!
 and this: https://zeronet.io/
+
+cool tree design idea: http://png.clipart.me/graphics/thumbs/199/icon-tree-flat-abstract-background-with-web-icons-interface-symbols-cloud-computing-mobile-devices-business-concept_199444085.jpg
 ---
 
 other argument maps:
