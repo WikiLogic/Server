@@ -2,7 +2,7 @@
 
 module.exports = {
 
-	searchByString: function(searchTerm, sendResultsHere){
+	searchByString(searchTerm, sendResultsHere){
 		var order = 'relevance';
 
 

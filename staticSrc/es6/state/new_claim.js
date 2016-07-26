@@ -16,7 +16,7 @@ var newClaimRefs = {};
 
 module.exports = {
 
-	getNewState: function(newClaimId){
+	getNewState(newClaimId){
 		var returnState = stateFactory.create(newClaimState);
 		returnState._id = newClaimId;
 		newClaimRefs[newClaimId] = returnState;
@@ -26,19 +26,19 @@ module.exports = {
 	getExistingState(newClaimId){
 		return newClaimRefs[newClaimId];
 	},
-	setDescription: function(newClaimId, newDescription){
+	setDescription(newClaimId, newDescription){
 		newClaimRefs[newClaimId].description = newDescription;
 	},
-	getDescription: function(newClaimId){
+	getDescription(newClaimId){
 		return newClaimRefs[newClaimId].description;
 	},
-	publishClaim: function(newClaimId){
+	publishClaim(newClaimId){
 		console.warn('TODO: publish new claim');
 	},
-	show: function(newClaimId){
+	show(newClaimId){
 		newClaimRefs[newClaimId].show = true;
 	},
-	hide: function(newClaimId){
+	hide(newClaimId){
 		newClaimRefs[newClaimId].show = false;
 	}
 

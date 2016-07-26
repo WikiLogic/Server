@@ -12,10 +12,10 @@ var userState = {
 }
 
 module.exports = {
-	getNewState: function(userId){
+	getNewState(userId){
 		stateFactory.create(userState);
 	},
-	getExistingState: function(userId){
+	getExistingState(userId){
 		
 	}
 }

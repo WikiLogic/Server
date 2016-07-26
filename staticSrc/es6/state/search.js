@@ -17,22 +17,22 @@ var searchState = {
 var searchStateRef = {}
 
 module.exports = {
-	getNewState: function(searchId){
+	getNewState(searchId){
 		var returnSearchState = stateFactory.create(searchState);
 		returnSearchState._id = searchId;
 		searchStateRef[searchId] = returnSearchState;
 		console.info('New State: ', searchStateRef[searchId]);
 		return returnSearchState;
 	},
-	getExistingState: function(searchId){
+	getExistingState(searchId){
 		console.log('searchStateRef[searchId]: ', searchStateRef[searchId]);
 		return searchStateRef[searchId];
 	},
-	setTerm: function(searchId, newterm){
+	setTerm(searchId, newterm){
 		searchStateRef[searchId].term = newterm.trim();
 		eventManager.fire('search_term_set', { search: searchStateRef[searchId] });
 	},
-	runSearch: function(searchId){
+	runSearch(searchId){
 		eventManager.fire('search_requested', {	search: searchStateRef[searchId] });
 
 		searchApi.searchByString(searchStateRef[searchId].term).done(function(data){
@@ -44,7 +44,7 @@ module.exports = {
 			//TODO: send to alerts
 		});		
 	},
-	result_clicked: function(searchId, claimId){
+	result_clicked(searchId, claimId){
 		//get the result object
 		var clickedResult = {};
 

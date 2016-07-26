@@ -14,17 +14,17 @@ var workingListState = {
 var workingListStateRefs = {};
 
 module.exports = {
-	getNewState: function(workingListId){
+	getNewState(workingListId){
 		var returnListState = stateFactory.create(workingListState);
 		returnListState._id = workingListId;
 		workingListStateRefs[workingListId] = returnListState;
 		console.info('New State: ', workingListStateRefs[workingListId]);
 		return returnListState;
 	},
-	getExistingState: function(workingListId){
+	getExistingState(workingListId){
 		return workingListStateRefs[workingListId];
 	},
-	addClaim: function(workingListId, claimObj){
+	addClaim(workingListId, claimObj){
 		var alreadySet = false;
 
 		//first check that it's not already in the editor list
@@ -43,7 +43,7 @@ module.exports = {
 		}
 		
 	},
-	itemClicked: function(workingListId, claimId){
+	itemClicked(workingListId, claimId){
 		//get the claim object, fire it with an event
 		for (var i = 0; i < workingListStateRefs[workingListId].claims.length; i++) {
 			if (workingListStateRefs[workingListId].claims[i]._id == claimId) {
@@ -55,7 +55,7 @@ module.exports = {
 			}
 		}
 	},
-	removeClaimFromList: function(claimId){
+	removeClaimFromList(claimId){
 		
 	}
 }

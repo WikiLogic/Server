@@ -62,20 +62,20 @@ var newEditorTabsRefs = {};
 
 
 module.exports = {
-	getNewState: function(editorTabsId){
+	getNewState(editorTabsId){
 		var returnState = stateFactory.create(editorTabsState);
 		returnState._id = editorTabsId;
 		newEditorTabsRefs[editorTabsId] = returnState;
 		console.info('New Editor Tabs State: ', newEditorTabsRefs[editorTabsId]);
 		return returnState;
 	},
-	getExistingState: function(editorTabsId){
+	getExistingState(editorTabsId){
 		return newEditorTabsRefs[editorTabsId];
 	},
-	newTab: function(editorTabsId, claimObj){
+	newTab(editorTabsId, claimObj){
 
 	},
-	addDetail: function(editorTabsId, claimDetail){
+	addDetail(editorTabsId, claimDetail){
 		var alreadySet = false;
 
 		//first check that it's not already in the editor list
@@ -94,10 +94,10 @@ module.exports = {
 
 		openClaimTab(editorTabsId, claimDetail._id);
 	},
-	openClaimTab: function(editorTabsId, claimId){
+	openClaimTab(editorTabsId, claimId){
 		openClaimTab(editorTabsId, claimId);
 	},
-	removeClaimFromList: function(editorTabsId, claimId){
+	removeClaimFromList(editorTabsId, claimId){
 		removeClaimFromList(editorTabsId, claimId);
 	}
 }

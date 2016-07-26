@@ -106,24 +106,24 @@ var updateStatuses = function(argumentId){
  */
 module.exports = {
 
-	getNewState: function(argumentId){
+	getNewState(argumentId){
 		var returnState = stateFactory.create(newArgumentState);
 		returnState._id = argumentId;
 		newArgumentRefs[argumentId] = returnState;
 		eventManager.fire('new_argument_state_created', {owner: argumentId, data: newArgumentRefs[argumentId]});
 		return returnState;
 	},
-	hasExistingState: function(argumentId){
+	hasExistingState(argumentId){
 		return newArgumentRefs.hasOwnProperty(argumentId);
 	},
-	getExistingState: function(argumentId){
+	getExistingState(argumentId){
 		return newArgumentRefs[argumentId];
 	},
-	setNewReason: function(argumentId, term){
+	setNewReason(argumentId, term){
 		newArgumentRefs[argumentId].search_term = term;
 		newArgumentRefs[argumentId].show_new_claim_form = false;
 	},
-	enterNewReason: function(argumentId, term){
+	enterNewReason(argumentId, term){
 		newArgumentRefs[argumentId].search_term = term;
 		searchApi.searchByString(term).done(function(data){
 			//add to search results
@@ -142,14 +142,14 @@ module.exports = {
 			//TODO: send to alerts
 		});
 	},
-	getClaimFromSearch: function(argumentId, claimId) {
+	getClaimFromSearch(argumentId, claimId) {
 		for (var r = 0; r < newArgumentRefs[argumentId].search_results.length; r++) {
 			if (newArgumentRefs[argumentId].search_results[r]._id == claimId) {
 				return newArgumentRefs[argumentId].search_results[r];
 			}
 		}
 	},
-	addReason: function(argumentId, claimObj) {
+	addReason(argumentId, claimObj) {
 		//first check if that reason already exists in this argument
 		if (!argHasReason(argumentId, claimObj._id)) {
 			console.info('newArgumentRefs: ', newArgumentRefs);
@@ -165,7 +165,7 @@ module.exports = {
 			eventManager.fire('new_argument_new_reason', {owner: argumentId, data: claimObj});
 		}
 	},
-	removeReason: function(argumentId, claimId){
+	removeReason(argumentId, claimId){
 		for (var r = 0; r < newArgumentRefs[argumentId].reasons.length; r++){
 			if (newArgumentRefs[argumentId].reasons[r]._id == claimId) {
 				//remove it
@@ -178,7 +178,7 @@ module.exports = {
 		updateStatuses(argumentId);
 		eventManager.fire('new_argument_reason_removed', {owner: argumentId, data: removedReason});
 	},
-	saveTermAsClaim: function(argumentId){
+	saveTermAsClaim(argumentId){
 		var term = newArgumentRefs[argumentId].search_term;
 
 		claimApi.newClaim(term).done(function(data){

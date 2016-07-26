@@ -21,14 +21,14 @@ var editorDetailState = {
 var editorDetailRefs = {};
 
 module.exports = {
-	getNewState: function(editorDetailId){
+	getNewState(editorDetailId){
 		var returnState = stateFactory.create(editorDetailState);
 		returnState._id = editorDetailId;
 		editorDetailRefs[editorDetailId] = returnState;
 		eventManager.fire('new_editor_detail_state', {owner: editorDetailId, data: editorDetailRefs[editorDetailId]});
 		return returnState;
 	},
-	getExistingState: function(editorDetailId){
+	getExistingState(editorDetailId){
 		return editorDetailRefs[editorDetailId];
 	}
 }
