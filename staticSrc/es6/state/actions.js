@@ -11,7 +11,7 @@ var objectHelpers = require('../reducers/object_helpers');
 
 module.exports = {
 
-	addAction: function(name, action){
+	addAction(name, action){
 		
 		if (!WL_STATE.hasOwnProperty('actions')) {
 			WL_STATE.actions = {};

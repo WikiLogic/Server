@@ -12999,7 +12999,7 @@ module.exports = {
 
 module.exports = {
 
-	searchByString: function(searchTerm, sendResultsHere){
+	searchByString(searchTerm, sendResultsHere){
 		var order = 'relevance';
 
 
@@ -13643,7 +13643,7 @@ var objectHelpers = require('../reducers/object_helpers');
 
 module.exports = {
 
-	addAction: function(name, action){
+	addAction(name, action){
 		
 		if (!WL_STATE.hasOwnProperty('actions')) {
 			WL_STATE.actions = {};
@@ -13677,14 +13677,14 @@ var editorDetailState = {
 var editorDetailRefs = {};
 
 module.exports = {
-	getNewState: function(editorDetailId){
+	getNewState(editorDetailId){
 		var returnState = stateFactory.create(editorDetailState);
 		returnState._id = editorDetailId;
 		editorDetailRefs[editorDetailId] = returnState;
 		eventManager.fire('new_editor_detail_state', {owner: editorDetailId, data: editorDetailRefs[editorDetailId]});
 		return returnState;
 	},
-	getExistingState: function(editorDetailId){
+	getExistingState(editorDetailId){
 		return editorDetailRefs[editorDetailId];
 	}
 }
@@ -13753,20 +13753,20 @@ var newEditorTabsRefs = {};
 
 
 module.exports = {
-	getNewState: function(editorTabsId){
+	getNewState(editorTabsId){
 		var returnState = stateFactory.create(editorTabsState);
 		returnState._id = editorTabsId;
 		newEditorTabsRefs[editorTabsId] = returnState;
 		console.info('New Editor Tabs State: ', newEditorTabsRefs[editorTabsId]);
 		return returnState;
 	},
-	getExistingState: function(editorTabsId){
+	getExistingState(editorTabsId){
 		return newEditorTabsRefs[editorTabsId];
 	},
-	newTab: function(editorTabsId, claimObj){
+	newTab(editorTabsId, claimObj){
 
 	},
-	addDetail: function(editorTabsId, claimDetail){
+	addDetail(editorTabsId, claimDetail){
 		var alreadySet = false;
 
 		//first check that it's not already in the editor list
@@ -13785,10 +13785,10 @@ module.exports = {
 
 		openClaimTab(editorTabsId, claimDetail._id);
 	},
-	openClaimTab: function(editorTabsId, claimId){
+	openClaimTab(editorTabsId, claimId){
 		openClaimTab(editorTabsId, claimId);
 	},
-	removeClaimFromList: function(editorTabsId, claimId){
+	removeClaimFromList(editorTabsId, claimId){
 		removeClaimFromList(editorTabsId, claimId);
 	}
 }
@@ -13901,24 +13901,24 @@ var updateStatuses = function(argumentId){
  */
 module.exports = {
 
-	getNewState: function(argumentId){
+	getNewState(argumentId){
 		var returnState = stateFactory.create(newArgumentState);
 		returnState._id = argumentId;
 		newArgumentRefs[argumentId] = returnState;
 		eventManager.fire('new_argument_state_created', {owner: argumentId, data: newArgumentRefs[argumentId]});
 		return returnState;
 	},
-	hasExistingState: function(argumentId){
+	hasExistingState(argumentId){
 		return newArgumentRefs.hasOwnProperty(argumentId);
 	},
-	getExistingState: function(argumentId){
+	getExistingState(argumentId){
 		return newArgumentRefs[argumentId];
 	},
-	setNewReason: function(argumentId, term){
+	setNewReason(argumentId, term){
 		newArgumentRefs[argumentId].search_term = term;
 		newArgumentRefs[argumentId].show_new_claim_form = false;
 	},
-	enterNewReason: function(argumentId, term){
+	enterNewReason(argumentId, term){
 		newArgumentRefs[argumentId].search_term = term;
 		searchApi.searchByString(term).done(function(data){
 			//add to search results
@@ -13937,14 +13937,14 @@ module.exports = {
 			//TODO: send to alerts
 		});
 	},
-	getClaimFromSearch: function(argumentId, claimId) {
+	getClaimFromSearch(argumentId, claimId) {
 		for (var r = 0; r < newArgumentRefs[argumentId].search_results.length; r++) {
 			if (newArgumentRefs[argumentId].search_results[r]._id == claimId) {
 				return newArgumentRefs[argumentId].search_results[r];
 			}
 		}
 	},
-	addReason: function(argumentId, claimObj) {
+	addReason(argumentId, claimObj) {
 		//first check if that reason already exists in this argument
 		if (!argHasReason(argumentId, claimObj._id)) {
 			console.info('newArgumentRefs: ', newArgumentRefs);
@@ -13960,7 +13960,7 @@ module.exports = {
 			eventManager.fire('new_argument_new_reason', {owner: argumentId, data: claimObj});
 		}
 	},
-	removeReason: function(argumentId, claimId){
+	removeReason(argumentId, claimId){
 		for (var r = 0; r < newArgumentRefs[argumentId].reasons.length; r++){
 			if (newArgumentRefs[argumentId].reasons[r]._id == claimId) {
 				//remove it
@@ -13973,7 +13973,7 @@ module.exports = {
 		updateStatuses(argumentId);
 		eventManager.fire('new_argument_reason_removed', {owner: argumentId, data: removedReason});
 	},
-	saveTermAsClaim: function(argumentId){
+	saveTermAsClaim(argumentId){
 		var term = newArgumentRefs[argumentId].search_term;
 
 		claimApi.newClaim(term).done(function(data){
@@ -14061,7 +14061,7 @@ var newClaimRefs = {};
 
 module.exports = {
 
-	getNewState: function(newClaimId){
+	getNewState(newClaimId){
 		var returnState = stateFactory.create(newClaimState);
 		returnState._id = newClaimId;
 		newClaimRefs[newClaimId] = returnState;
@@ -14071,19 +14071,19 @@ module.exports = {
 	getExistingState(newClaimId){
 		return newClaimRefs[newClaimId];
 	},
-	setDescription: function(newClaimId, newDescription){
+	setDescription(newClaimId, newDescription){
 		newClaimRefs[newClaimId].description = newDescription;
 	},
-	getDescription: function(newClaimId){
+	getDescription(newClaimId){
 		return newClaimRefs[newClaimId].description;
 	},
-	publishClaim: function(newClaimId){
+	publishClaim(newClaimId){
 		console.warn('TODO: publish new claim');
 	},
-	show: function(newClaimId){
+	show(newClaimId){
 		newClaimRefs[newClaimId].show = true;
 	},
-	hide: function(newClaimId){
+	hide(newClaimId){
 		newClaimRefs[newClaimId].show = false;
 	}
 
@@ -14108,22 +14108,22 @@ var searchState = {
 var searchStateRef = {}
 
 module.exports = {
-	getNewState: function(searchId){
+	getNewState(searchId){
 		var returnSearchState = stateFactory.create(searchState);
 		returnSearchState._id = searchId;
 		searchStateRef[searchId] = returnSearchState;
 		console.info('New State: ', searchStateRef[searchId]);
 		return returnSearchState;
 	},
-	getExistingState: function(searchId){
+	getExistingState(searchId){
 		console.log('searchStateRef[searchId]: ', searchStateRef[searchId]);
 		return searchStateRef[searchId];
 	},
-	setTerm: function(searchId, newterm){
+	setTerm(searchId, newterm){
 		searchStateRef[searchId].term = newterm.trim();
 		eventManager.fire('search_term_set', { search: searchStateRef[searchId] });
 	},
-	runSearch: function(searchId){
+	runSearch(searchId){
 		eventManager.fire('search_requested', {	search: searchStateRef[searchId] });
 
 		searchApi.searchByString(searchStateRef[searchId].term).done(function(data){
@@ -14135,7 +14135,7 @@ module.exports = {
 			//TODO: send to alerts
 		});		
 	},
-	result_clicked: function(searchId, claimId){
+	result_clicked(searchId, claimId){
 		//get the result object
 		var clickedResult = {};
 
@@ -14291,23 +14291,23 @@ var activateTempTab = function(groupName){
 //the 'public' interface
 module.exports = {
 
-	init: function(){
+	init(){
 		WL_STATE.tabs = {}
 	},
 
-	createTabGroup: function(groupName){
+	createTabGroup(groupName){
 		createTabGroup(groupName);
 	},
 
-	addTabToTabGroup: function(groupName, newTab){
+	addTabToTabGroup(groupName, newTab){
 		addTabToTabGroup(groupName, newTab);
 	},
 
-	activateTab: function(groupName, tabToActivate){
+	activateTab(groupName, tabToActivate){
 		activateTab(groupName, tabToActivate);
 	},
 
-	removeTab: function(groupName, tabName){
+	removeTab(groupName, tabName){
 		console.groupCollapsed('removing "' + tabName + '" from "' + groupName);
 		//first check if this is the tab they're currently on
 		if (WL_STATE.tabs[groupName][tabName].active) {
@@ -14348,7 +14348,7 @@ module.exports = {
 		console.groupEnd();
 	},
 
-	addTempTabToGroup: function(groupName, newTab){
+	addTempTabToGroup(groupName, newTab){
 		console.groupCollapsed('Adding Temp Tab: ', newTab, 'to Group:', groupName);
 		//Recreates the sublime text tab behaviour(ish). One click adds temp tab, a second adds it permanently 
 		//newTab = { tabName: <string>, tabType: <string>, data: <obj> }
@@ -14391,11 +14391,11 @@ module.exports = {
 
 	},
 
-	activateTempTab: function(groupName){
+	activateTempTab(groupName){
 		activateTempTab(groupName);
 	},
 
-	closeTempTab: function(groupName){
+	closeTempTab(groupName){
 		console.log('closing temp tab');
 		//if it's open and there is a tab available to move the user to, move the user there
 		if (WL_STATE.tabs[groupName].tempTab.active && WL_STATE.tabs[groupName].tabs.length > 0) {
@@ -14425,20 +14425,20 @@ var stateFactory = require('../utils/state_factory');
  var toggleStateRef = {};
 
 module.exports = {
-	getNewState: function(toggleId){
+	getNewState(toggleId){
 		var returnToggleState = stateFactory.create(toggleState);
 		returnToggleState._id = toggleId;
 		toggleStateRef[toggleId] = returnToggleState;
 		console.info('New State: ', toggleStateRef[toggleId]);
 		return returnToggleState;
 	},
-	getExistingState: function(toggleId){
+	getExistingState(toggleId){
 		return toggleStateRef[toggleId];
 	},
-	open: function(toggleId){
+	open(toggleId){
 		toggleStateRef[toggleId].open = true;
 	},
-	close: function(toggleId){
+	close(toggleId){
 		toggleStateRef[toggleId].open = false;
 	}
 }
@@ -14459,17 +14459,17 @@ var workingListState = {
 var workingListStateRefs = {};
 
 module.exports = {
-	getNewState: function(workingListId){
+	getNewState(workingListId){
 		var returnListState = stateFactory.create(workingListState);
 		returnListState._id = workingListId;
 		workingListStateRefs[workingListId] = returnListState;
 		console.info('New State: ', workingListStateRefs[workingListId]);
 		return returnListState;
 	},
-	getExistingState: function(workingListId){
+	getExistingState(workingListId){
 		return workingListStateRefs[workingListId];
 	},
-	addClaim: function(workingListId, claimObj){
+	addClaim(workingListId, claimObj){
 		var alreadySet = false;
 
 		//first check that it's not already in the editor list
@@ -14488,7 +14488,7 @@ module.exports = {
 		}
 		
 	},
-	itemClicked: function(workingListId, claimId){
+	itemClicked(workingListId, claimId){
 		//get the claim object, fire it with an event
 		for (var i = 0; i < workingListStateRefs[workingListId].claims.length; i++) {
 			if (workingListStateRefs[workingListId].claims[i]._id == claimId) {
@@ -14500,7 +14500,7 @@ module.exports = {
 			}
 		}
 	},
-	removeClaimFromList: function(claimId){
+	removeClaimFromList(claimId){
 		
 	}
 }

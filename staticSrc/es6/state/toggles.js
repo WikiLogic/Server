@@ -16,20 +16,20 @@ var stateFactory = require('../utils/state_factory');
  var toggleStateRef = {};
 
 module.exports = {
-	getNewState: function(toggleId){
+	getNewState(toggleId){
 		var returnToggleState = stateFactory.create(toggleState);
 		returnToggleState._id = toggleId;
 		toggleStateRef[toggleId] = returnToggleState;
 		console.info('New State: ', toggleStateRef[toggleId]);
 		return returnToggleState;
 	},
-	getExistingState: function(toggleId){
+	getExistingState(toggleId){
 		return toggleStateRef[toggleId];
 	},
-	open: function(toggleId){
+	open(toggleId){
 		toggleStateRef[toggleId].open = true;
 	},
-	close: function(toggleId){
+	close(toggleId){
 		toggleStateRef[toggleId].open = false;
 	}
 }

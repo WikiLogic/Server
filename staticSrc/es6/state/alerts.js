@@ -34,17 +34,17 @@ var removeAlert = function(stateId, alertId){
 
 module.exports = {
 
-	getNewState: function(stateId){
+	getNewState(stateId){
 		var returnState = stateFactory.create(alertsState);
 		returnState._id = stateId;
 		alertsStateRef[stateId] = returnState;
 		console.info('New Alerts State: ', alertsStateRef[stateId]);
 		return returnState;
 	},
-	getExistingState: function(stateId){
+	getExistingState(stateId){
 		return alertsStateRef[stateId];
 	},
-	setAlert: function(stateId, alertObj){
+	setAlert(stateId, alertObj){
 		alertsStateRef[stateId].activeAlerts.push(alertObj);
 
 		setTimeout(function(){ 

@@ -137,23 +137,23 @@ var activateTempTab = function(groupName){
 //the 'public' interface
 module.exports = {
 
-	init: function(){
+	init(){
 		WL_STATE.tabs = {}
 	},
 
-	createTabGroup: function(groupName){
+	createTabGroup(groupName){
 		createTabGroup(groupName);
 	},
 
-	addTabToTabGroup: function(groupName, newTab){
+	addTabToTabGroup(groupName, newTab){
 		addTabToTabGroup(groupName, newTab);
 	},
 
-	activateTab: function(groupName, tabToActivate){
+	activateTab(groupName, tabToActivate){
 		activateTab(groupName, tabToActivate);
 	},
 
-	removeTab: function(groupName, tabName){
+	removeTab(groupName, tabName){
 		console.groupCollapsed('removing "' + tabName + '" from "' + groupName);
 		//first check if this is the tab they're currently on
 		if (WL_STATE.tabs[groupName][tabName].active) {
@@ -194,7 +194,7 @@ module.exports = {
 		console.groupEnd();
 	},
 
-	addTempTabToGroup: function(groupName, newTab){
+	addTempTabToGroup(groupName, newTab){
 		console.groupCollapsed('Adding Temp Tab: ', newTab, 'to Group:', groupName);
 		//Recreates the sublime text tab behaviour(ish). One click adds temp tab, a second adds it permanently 
 		//newTab = { tabName: <string>, tabType: <string>, data: <obj> }
@@ -237,11 +237,11 @@ module.exports = {
 
 	},
 
-	activateTempTab: function(groupName){
+	activateTempTab(groupName){
 		activateTempTab(groupName);
 	},
 
-	closeTempTab: function(groupName){
+	closeTempTab(groupName){
 		console.log('closing temp tab');
 		//if it's open and there is a tab available to move the user to, move the user there
 		if (WL_STATE.tabs[groupName].tempTab.active && WL_STATE.tabs[groupName].tabs.length > 0) {
