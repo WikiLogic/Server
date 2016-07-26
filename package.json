@@ -10,7 +10,7 @@
     "npm": "3.9.3"
   },
   "scripts": {
-    "start": "npm run server",
+    "start": "npm-run-all --parallel database server",
     "start:dev": "npm-run-all --parallel database server gulp test",
     "database": "mongod",
     "server": "nodemon ./server/server.js",
