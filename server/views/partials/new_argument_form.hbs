@@ -1,7 +1,7 @@
 <!-- The New Argument form -->
 <!-- newargument is the rivet king -->
 
-<section class="splitter splitter--full-width">
+<section class="splitter splitter--full-width box">
     <div class="splitter__left">
         <svg class="float-left"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#pencil"></use></svg>
     </div>
@@ -34,8 +34,10 @@
     </div>
 </section>
 
+<hr view-show="newargument.show_results" class="hr--zeroed">
+
 <section view-show="newargument.show_results" 
-         class="splitter splitter--full-width">
+         class="splitter splitter--full-width box">
     <div class="splitter__left">
         <svg class="icon color-black float-left"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#magnifying-glass"></use></svg>
     </div>
@@ -60,9 +62,11 @@
     </div>
 </section>
 
-<section view-show="newargument.show_reasons">
+<hr view-show="newargument.show_reasons" class="hr--zeroed">
+
+<section view-show="newargument.show_reasons"
+        class="box">
     <!-- These are the reasons that have been added to the argument group -->
-    <hr>
     
     <div class="splitter">
         <div class="splitter__left">
