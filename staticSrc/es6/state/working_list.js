@@ -1,44 +1,59 @@
 'use strict';
 
-var editorListStateCtrl = require('./editor_list');
-
 /* Working_list State controller
  *
  */
+ 
+var eventManager = require('../utils/event_manager');
+var stateFactory = require('../utils/state_factory');
+
+var workingListState = {
+	claims: []
+}
+
+var workingListStateRefs = {};
 
 module.exports = {
-	init: function(){
-		WL_STATE.working_list = {
-			claims: [],
-			is_empty: true
-		}
+	getNewState: function(workingListId){
+		var returnListState = stateFactory.create(workingListState);
+		returnListState._id = workingListId;
+		workingListStateRefs[workingListId] = returnListState;
+		console.info('New State: ', workingListStateRefs[workingListId]);
+		return returnListState;
 	},
-	addClaimToList: function(claimObj){
-		console.group('Adding claim to working list', claimObj);
+	getExistingState: function(workingListId){
+		return workingListStateRefs[workingListId];
+	},
+	addClaim: function(workingListId, claimObj){
 		var alreadySet = false;
 
 		//first check that it's not already in the editor list
-		for (var c = 0; c < WL_STATE.working_list.claims.length; c++) { //c for claim
-			if (WL_STATE.working_list.claims[c]._id == claimObj._id) {
+		for (var c = 0; c < workingListStateRefs[workingListId].claims.length; c++) { //c for claim
+			if (workingListStateRefs[workingListId].claims[c]._id == claimObj._id) {
 				//it is, our job is done
-				console.warn('That claim is already in the working list');
 				alreadySet = true;
-				//open a tab
-				editorListStateCtrl.addClaimToList(claimObj);
+				eventManager.fire('working_list_duplicate_requested', {owner: workingListId, data: workingListStateRefs[workingListId].claims[c]});
 				break;
 			}
 		}
 
 		if (!alreadySet) {
-			console.log('pushing new claim ref to working list');
 			//Yesy! new claim to work with!
-			WL_STATE.working_list.claims.push(claimObj);
-
-			//even if it wasn't before, this makes it doubly not so
-			WL_STATE.working_list.is_empty = false;
+			workingListStateRefs[workingListId].claims.push(claimObj);
 		}
-		console.groupEnd(); //END Adding claim to editor list
 		
+	},
+	itemClicked: function(workingListId, claimId){
+		//get the claim object, fire it with an event
+		for (var i = 0; i < workingListStateRefs[workingListId].claims.length; i++) {
+			if (workingListStateRefs[workingListId].claims[i]._id == claimId) {
+				eventManager.fire('working_list_claim_clicked', {
+					owner: workingListId,
+					data: workingListStateRefs[workingListId].claims[i]
+				});
+				break;
+			}
+		}
 	},
 	removeClaimFromList: function(claimId){
 		

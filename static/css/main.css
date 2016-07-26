@@ -566,6 +566,9 @@ svg.logo {
 ::-webkit-scrollbar-thumb:window-inactive {
   background: #375073; }
 
+.sections-wrap section:first-of-type {
+  border-top: 0; }
+
 select {
   background-color: white;
   padding: 0.3125rem 0.625rem;
@@ -1096,8 +1099,11 @@ They should get you 90% of the look you're after
   .text-color--black h5, .text-color--black h6, .text-color--black p {
     color: rgba(0, 0, 0, 0.87); }
 
-.color--black {
+.color-black {
   fill: black !important; }
+
+.color-white {
+  fill: white !important; }
 
 .hover-color--grey-2:hover {
   color: #223856;
@@ -1201,6 +1207,215 @@ They should get you 90% of the look you're after
 
 .pull-up-8 {
   margin-top: -8px; }
+
+.state-tag {
+  font-size: 0.8em;
+  font-weight: 700;
+  padding: 0.1em 0.4em;
+  border-radius: 4px;
+  color: white; }
+  .state-tag--0 {
+    background-color: #f25454; }
+  .state-tag--1 {
+    background-color: #f05554; }
+  .state-tag--2 {
+    background-color: #ee5753; }
+  .state-tag--3 {
+    background-color: #ec5853; }
+  .state-tag--4 {
+    background-color: #ea5953; }
+  .state-tag--5 {
+    background-color: #e85a52; }
+  .state-tag--6 {
+    background-color: #e65c52; }
+  .state-tag--7 {
+    background-color: #e45d52; }
+  .state-tag--8 {
+    background-color: #e35e51; }
+  .state-tag--9 {
+    background-color: #e15f51; }
+  .state-tag--10 {
+    background-color: #df6151; }
+  .state-tag--11 {
+    background-color: #dd6250; }
+  .state-tag--12 {
+    background-color: #db6350; }
+  .state-tag--13 {
+    background-color: #d96550; }
+  .state-tag--14 {
+    background-color: #d7664f; }
+  .state-tag--15 {
+    background-color: #d5674f; }
+  .state-tag--16 {
+    background-color: #d3684f; }
+  .state-tag--17 {
+    background-color: #d16a4e; }
+  .state-tag--18 {
+    background-color: #cf6b4e; }
+  .state-tag--19 {
+    background-color: #cd6c4e; }
+  .state-tag--20 {
+    background-color: #cb6d4d; }
+  .state-tag--21 {
+    background-color: #c96f4d; }
+  .state-tag--22 {
+    background-color: #c8704d; }
+  .state-tag--23 {
+    background-color: #c6714c; }
+  .state-tag--24 {
+    background-color: #c4724c; }
+  .state-tag--25 {
+    background-color: #c2744c; }
+  .state-tag--26 {
+    background-color: #c0754b; }
+  .state-tag--27 {
+    background-color: #be764b; }
+  .state-tag--28 {
+    background-color: #bc784a; }
+  .state-tag--29 {
+    background-color: #ba794a; }
+  .state-tag--30 {
+    background-color: #b87a4a; }
+  .state-tag--31 {
+    background-color: #b67b49; }
+  .state-tag--32 {
+    background-color: #b47d49; }
+  .state-tag--33 {
+    background-color: #b27e49; }
+  .state-tag--34 {
+    background-color: #b07f48; }
+  .state-tag--35 {
+    background-color: #ae8048; }
+  .state-tag--36 {
+    background-color: #ad8248; }
+  .state-tag--37 {
+    background-color: #ab8347; }
+  .state-tag--38 {
+    background-color: #a98447; }
+  .state-tag--39 {
+    background-color: #a78647; }
+  .state-tag--40 {
+    background-color: #a58746; }
+  .state-tag--41 {
+    background-color: #a38846; }
+  .state-tag--42 {
+    background-color: #a18946; }
+  .state-tag--43 {
+    background-color: #9f8b45; }
+  .state-tag--44 {
+    background-color: #9d8c45; }
+  .state-tag--45 {
+    background-color: #9b8d45; }
+  .state-tag--46 {
+    background-color: #998e44; }
+  .state-tag--47 {
+    background-color: #979044; }
+  .state-tag--48 {
+    background-color: #959144; }
+  .state-tag--49 {
+    background-color: #939243; }
+  .state-tag--50 {
+    background-color: #929443; }
+  .state-tag--51 {
+    background-color: #909543; }
+  .state-tag--52 {
+    background-color: #8e9642; }
+  .state-tag--53 {
+    background-color: #8c9742; }
+  .state-tag--54 {
+    background-color: #8a9942; }
+  .state-tag--55 {
+    background-color: #889a41; }
+  .state-tag--56 {
+    background-color: #869b41; }
+  .state-tag--57 {
+    background-color: #849c41; }
+  .state-tag--58 {
+    background-color: #829e40; }
+  .state-tag--59 {
+    background-color: #809f40; }
+  .state-tag--60 {
+    background-color: #7ea040; }
+  .state-tag--61 {
+    background-color: #7ca13f; }
+  .state-tag--62 {
+    background-color: #7aa33f; }
+  .state-tag--63 {
+    background-color: #78a43f; }
+  .state-tag--64 {
+    background-color: #76a53e; }
+  .state-tag--65 {
+    background-color: #75a73e; }
+  .state-tag--66 {
+    background-color: #73a83e; }
+  .state-tag--67 {
+    background-color: #71a93d; }
+  .state-tag--68 {
+    background-color: #6faa3d; }
+  .state-tag--69 {
+    background-color: #6dac3d; }
+  .state-tag--70 {
+    background-color: #6bad3c; }
+  .state-tag--71 {
+    background-color: #69ae3c; }
+  .state-tag--72 {
+    background-color: #67af3c; }
+  .state-tag--73 {
+    background-color: #65b13b; }
+  .state-tag--74 {
+    background-color: #63b23b; }
+  .state-tag--75 {
+    background-color: #61b33b; }
+  .state-tag--76 {
+    background-color: #5fb53a; }
+  .state-tag--77 {
+    background-color: #5db63a; }
+  .state-tag--78 {
+    background-color: #5bb739; }
+  .state-tag--79 {
+    background-color: #5ab839; }
+  .state-tag--80 {
+    background-color: #58ba39; }
+  .state-tag--81 {
+    background-color: #56bb38; }
+  .state-tag--82 {
+    background-color: #54bc38; }
+  .state-tag--83 {
+    background-color: #52bd38; }
+  .state-tag--84 {
+    background-color: #50bf37; }
+  .state-tag--85 {
+    background-color: #4ec037; }
+  .state-tag--86 {
+    background-color: #4cc137; }
+  .state-tag--87 {
+    background-color: #4ac236; }
+  .state-tag--88 {
+    background-color: #48c436; }
+  .state-tag--89 {
+    background-color: #46c536; }
+  .state-tag--90 {
+    background-color: #44c635; }
+  .state-tag--91 {
+    background-color: #42c835; }
+  .state-tag--92 {
+    background-color: #40c935; }
+  .state-tag--93 {
+    background-color: #3fca34; }
+  .state-tag--94 {
+    background-color: #3dcb34; }
+  .state-tag--95 {
+    background-color: #3bcd34; }
+  .state-tag--96 {
+    background-color: #39ce33; }
+  .state-tag--97 {
+    background-color: #37cf33; }
+  .state-tag--98 {
+    background-color: #35d033; }
+  .state-tag--99 {
+    background-color: #33d232; }
+  .state-tag--100 {
+    background-color: #31d332; }
 
 /* text helpers */
 .text-right {
@@ -1411,6 +1626,8 @@ These create the structurs within which components will live
 .splitter {
   font-size: 1rem;
   display: block;
+  display: table;
+  width: 100%;
   /*
 	 * --v-centered doesn't work on this
 	 * for justified split with vertical centering, use the above 2 modifyers and align right content to the right in the component
@@ -1425,12 +1642,8 @@ These create the structurs within which components will live
   .splitter__right {
     display: table-cell;
     vertical-align: middle;
-    padding-left: 0.625rem; }
-  .splitter--full-width {
-    display: table;
-    width: 100%; }
-    .splitter--full-width .splitter__right {
-      text-align: right; }
+    padding-left: 0.625rem;
+    text-align: right; }
   .splitter--v-bottom > .splitter__left {
     vertical-align: bottom; }
   .splitter--v-bottom > .splitter__right {

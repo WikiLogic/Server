@@ -1,14 +1,21 @@
 'use strict';
 
-module.exports = {
+var stateFactory = require('../utils/state_factory');
+
+var userState = {
 	gravatar: 'string',
-	drafts_list: {
-		items: []
+	settings: {
+		enabled: true,
+		level: 'high',
+		duration: 5
+	}
+}
+
+module.exports = {
+	getNewState: function(userId){
+		stateFactory.create(userState);
 	},
-	claim_list: {
-		items: []
-	},
-	trashed_list: {
-		items: []
-	} 
+	getExistingState: function(userId){
+		
+	}
 }
