@@ -1,0 +1,70 @@
+.bg-pattern {
+	@include light-typography();
+	background-image: repeating-linear-gradient(
+			30deg,
+			rgba(darken($WL_Blue, 8%), 0.5),
+			rgba(darken($WL_Blue, 8%), 0.5) 8px,
+			rgba(darken($WL_Blue, 13%), 0.5) 9px,
+			rgba(darken($WL_Blue, 8%), 0.5) 10px
+		),
+		radial-gradient(circle farthest-corner at 50% 20%, rgba(darken($WL_Blue, 5%), 0.5), black);
+
+	&--red {
+		background-image: repeating-linear-gradient(
+				30deg,
+				rgba(darken($WL_Red, 8%), 0.5),
+				rgba(darken($WL_Red, 8%), 0.5) 8px,
+				rgba(darken($WL_Red, 13%), 0.5) 9px,
+				rgba(darken($WL_Red, 8%), 0.5) 10px
+			),
+			radial-gradient(circle farthest-corner at 50% 20%, rgba(darken($WL_Red, 5%), 0.5), rgba(darken($WL_Red, 40%), 0.5));
+	}
+
+	&--green {
+		background-image: repeating-linear-gradient(
+				30deg,
+				rgba(darken($WL_Green, 8%), 0.5),
+				rgba(darken($WL_Green, 8%), 0.5) 8px,
+				rgba(darken($WL_Green, 13%), 0.5) 9px,
+				rgba(darken($WL_Green, 8%), 0.5) 10px
+			),
+			radial-gradient(circle farthest-corner at 50% 20%, rgba(darken($WL_Green, 5%), 0.5), rgba(darken($WL_Green, 50%), 0.4));
+	}
+}
+
+.bg-color {
+	&--red { background-color: $WL_Red; @include light-typography();}
+	&--blue { background-color: $WL_Blue; @include light-typography(); }
+	&--green { background-color: $WL_Green; @include light-typography(); }
+	&--white { background-color: white; @include dark-typography(); }
+	&--grey-e { background-color: $grey-e; @include dark-typography(); }
+	&--grey-d { background-color: $grey-d; @include dark-typography(); }
+	&--grey-c { background-color: $grey-c; @include dark-typography(); }
+	&--grey-b { background-color: $grey-b; @include dark-typography(); }
+	&--grey-a { background-color: $grey-a; @include dark-typography(); }
+	&--grey-6 { background-color: $grey-6; @include light-typography(); }
+	&--grey-5 { background-color: $grey-5; @include light-typography(); }
+	&--grey-4 { background-color: $grey-4; @include light-typography(); }
+	&--grey-3 { background-color: $grey-3; @include light-typography(); }
+	&--grey-2 { background-color: $grey-2; @include light-typography(); }
+	&--grey-1 { background-color: $grey-1; @include light-typography(); }
+	&--black { background-color: black; @include light-typography(); }
+}
+
+.text-color {
+	&--white { color: white !important; fill: white; svg { fill: white; } @include light-typography(); }
+	&--red { color: $WL_Red !important; }
+	&--blue { color: $WL_Blue !important; }
+	&--green { color: $WL_Green !important; }
+	&--black { color: black !important; fill: black; svg { fill: black; } @include dark-typography(); }
+}
+
+.color {
+	&--black { fill: black !important; }
+}
+
+.hover-color {
+	&--grey-2:hover { color: $grey-2; fill: $grey-2; }
+	&--red:hover { color: $WL_Red; fill: $WL_Red; }
+	&--blue:hover { color: $WL_Blue; fill: $WL_Blue; }
+}

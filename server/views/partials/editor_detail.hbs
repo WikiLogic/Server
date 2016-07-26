@@ -1,0 +1,180 @@
+
+<!-- confusing section, even for Douglas -->
+<div class="row" style="display:none;">
+
+    <div class="row__col--1-half">
+        <div class="card bg-color--white text-color--black box">
+
+            {{> referencing_claim }}
+            <hr>
+
+            {{> referencing_claim }}
+            <hr>
+            
+        </div>
+        <svg class="align-center icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-top"></use></svg>
+        <p class="small text-align-center no-margins">Supports</p>
+
+    </div>
+
+    <div class="row__col--1-half">
+        <div class="card bg-color--white text-color--black box">
+
+            {{> referencing_claim }}
+            <hr>
+
+            {{> referencing_claim }}
+            <hr>
+            
+        </div>
+        <svg class="align-center icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-top"></use></svg>
+        <p class="small text-align-center no-margins">Opposes</p>
+
+    </div>
+</div>
+
+
+<div class="text-color--black">   
+    <div class="box card bg-color--white">
+        <p class="full-width text-align-center no-margins">
+            <svg class="float-left" view-show="state.editor_detail.claim.status"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#check"></use></svg>
+            <svg class="float-left" view-hide="state.editor_detail.claim.status"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>
+            &nbsp;{state.editor_detail.claim.description}
+        </p>
+    </div>
+    <!--
+    <textarea name="" class="trumbowyg-claim-input claim-input display-none" cols="30" rows="10">{state.editor_detail.claim.description}</textarea>
+    -->
+</div>
+
+
+<div class="row">
+    <div class="row__col--1-half">
+
+        <svg class="align-center icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-top"></use></svg>
+        <p class="small text-align-center no-margins">For</p>
+
+        <!-- The New Argument form -->
+        <div class="card bg-color--white text-color--black box">
+            <div class="splitter splitter--full-width">
+                <div class="splitter__left">
+                    <svg class="float-left"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#pencil"></use></svg>
+                </div>
+                <div class="splitter__right full-width text-align-left">
+
+                    
+
+                    <!-- This is the input for a new reason. It's essentially a mini search bar -->
+                    <input view-each-reason="state.new_arguments.editor_detail_for.reasons" 
+                        type="text" 
+                        class="full-width js-new-reason"
+                        data-argument-id="editor_detail_for"
+                        view-on-keypress="state.actions.new_reason_keypress" 
+                        placeholder="Add a reason...">
+
+                    <!-- When the user submits their input above, it'll run a search -->
+
+                    <!-- These are the results -->
+                    <div view-show="state.new_arguments.editor_detail_for.show_results">
+                        <button class="splitter box box--wide splitter--full-width"
+                            view-each-result="state.new_arguments.editor_detail_for.search_results"
+                            view-on-click="state.actions.add_reason_to_argument"
+                            data-argument-id="editor_detail_for"
+                            view-data-claim-id="result._id">
+                            <div class="splitter__left">
+                                <svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#plus"></use></svg>
+                            </div>
+                            <div class="splitter__right">
+                                <p>{result.description}</p>
+                            </div>
+                        </button>
+                    </div>
+
+                    <!-- If there are no exact matches, this button gives them the option to add it as a new claim -->
+                    <div view-show="state.new_arguments.editor_detail_for.show_new_claim_button">
+                        <br>
+                        <p class="text-align-center">No exact matches found</p>
+                        <br>
+                        <button class="button full-width text-align-center"
+                            view-on-click="state.actions.save_reason_as_claim"
+                            data-argument-id="editor_detail_for">
+                            save reason as new claim</button>
+                    </div>
+
+                </div>
+            </div>
+            
+            <!-- When the argument group is valid, then show this to save -->
+            <div view-show="state.editor_detail.new_for.is_valid">
+                <br>
+                <button class="button full-width text-align-center"
+                    view-on-click="state.actions.save_new_argument"
+                    data-to="editor_detial_for">
+                    save argument</button>
+            </div>
+
+
+           
+        </div>
+
+        <br>
+
+        <div class="card bg-color--white text-color--black box">
+
+            <div class="splitter splitter--full-width">
+                <div class="splitter__left">
+                    <!-- The sorting / filtering icons -->
+                    <svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#sort-ascending"></use></svg>
+                    <svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#sort-descending"></use></svg>
+                    <!-- Capricious -->
+                    <svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#fire"></use></svg>
+                    <!-- popular -->
+                    <svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#star"></use></svg>
+                    <!-- critical -->
+                    <svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#warning"></use></svg>
+                </div>
+                <div class="splitter__right">
+                    <svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#menu"></use></svg>
+                </div>
+            </div>
+
+            <br>
+            <div class="splitter splitter--full-width">
+                <div class="splitter__left">
+                    <p>Show the </p>
+                </div>
+                <div class="splitter__right full-width">
+                    <select name="" id="" class="splitter__left full-width">
+                        <option value="criticality">Most Critical</option>
+                        <option value="criticality">Least Critical</option>
+                        <option value="capriciousness">Most Capricious</option>
+                        <option value="capriciousness">Lease Capricious</option>
+                        <option value="popularity">Most Popular</option>
+                        <option value="popularity">Least Popular</option>
+                    </select>
+                </div>
+            </div>
+            <br>
+            <hr>
+            <div view-each-argument="state.editor_detail.claim.supporting">{{> argument_group }}</div>
+            {{> argument_group }}
+
+        </div>
+    </div>
+
+    <div class="row__col--1-half">
+
+        <svg class="align-center icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-top"></use></svg>
+        <p class="small text-align-center no-margins">Against</p>
+
+
+        
+        <div class="card bg-color--white text-color--black box">
+
+            <hr>
+            <div view-each-argument="state.editor_detail.claim.opposing">{{> argument_group }}</div>
+            {{> argument_group }}
+
+        </div>
+    </div>
+</div>

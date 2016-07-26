@@ -357,7 +357,8 @@ select {
  *    `input` and others.
  */
 button,
-html input[type="button"], input[type="reset"],
+html input[type="button"],
+input[type="reset"],
 input[type="submit"] {
   -webkit-appearance: button;
   /* 2 */
@@ -480,8 +481,7 @@ These guys can have their own atomic classes too
 */
 .clearfix {
   zoom: 1; }
-  .clearfix:before,
-  .clearfix:after {
+  .clearfix:before, .clearfix:after {
     content: "";
     display: table; }
   .clearfix:after {
@@ -589,12 +589,10 @@ button
 
 .inputAddon {
   display: -webkit-box;
-  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex; }
   .inputAddon__field {
     -webkit-box-flex: 1;
-    -webkit-flex: 1;
         -ms-flex: 1;
             flex: 1;
     border-top-right-radius: 0;
@@ -1037,28 +1035,23 @@ These create the structurs within which components will live
 */
 .flex-row {
   display: -webkit-box;
-  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
-  -webkit-flex-direction: row;
       -ms-flex-direction: row;
           flex-direction: row;
   -webkit-box-align: streatch;
-  -webkit-align-items: streatch;
       -ms-flex-align: streatch;
           align-items: streatch; }
   .flex-row .col {
     -webkit-box-flex: 1;
-    -webkit-flex-grow: 1;
         -ms-flex-positive: 1;
             flex-grow: 1; }
 
 .row {
   zoom: 1; }
-  .row:before,
-  .row:after {
+  .row:before, .row:after {
     content: "";
     display: table; }
   .row:after {
@@ -1091,68 +1084,55 @@ These create the structurs within which components will live
 .header-layout {
   height: 100vh;
   display: -webkit-box;
-  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
-  -webkit-flex-direction: column;
       -ms-flex-direction: column;
           flex-direction: column; }
   .header-layout__head {
     -webkit-box-flex: 0;
-    -webkit-flex: none;
         -ms-flex: none;
             flex: none; }
   .header-layout__body {
     -webkit-box-flex: 1;
-    -webkit-flex-grow: 1;
         -ms-flex-positive: 1;
             flex-grow: 1; }
 
 .sidebar-layout {
   display: -webkit-box;
-  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
-  -webkit-flex-direction: row;
       -ms-flex-direction: row;
           flex-direction: row;
   -webkit-box-align: streatch;
-  -webkit-align-items: streatch;
       -ms-flex-align: streatch;
           align-items: streatch; }
   .sidebar-layout__side {
     width: 14.375rem;
     -webkit-box-flex: 0;
-    -webkit-flex: none;
         -ms-flex: none;
             flex: none; }
   .sidebar-layout__main {
     -webkit-box-flex: 1;
-    -webkit-flex-grow: 1;
         -ms-flex-positive: 1;
             flex-grow: 1; }
   .sidebar-layout--left .sidebar-layout__side {
     -webkit-box-ordinal-group: 2;
-    -webkit-order: 1;
         -ms-flex-order: 1;
             order: 1; }
   .sidebar-layout--left .sidebar-layout__main {
     -webkit-box-ordinal-group: 3;
-    -webkit-order: 2;
         -ms-flex-order: 2;
             order: 2; }
   .sidebar-layout--right .sidebar-layout__side {
     -webkit-box-ordinal-group: 3;
-    -webkit-order: 2;
         -ms-flex-order: 2;
             order: 2; }
   .sidebar-layout--right .sidebar-layout__main {
     -webkit-box-ordinal-group: 2;
-    -webkit-order: 1;
         -ms-flex-order: 1;
             order: 1; }
   .sidebar-layout--full-height {
@@ -1240,20 +1220,17 @@ think carefully before adding anything in here.
 
 .claim-finder__header {
   display: -webkit-box;
-  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   margin-bottom: 15px; }
   .claim-finder__header__title {
     -webkit-box-flex: 1;
-    -webkit-flex-grow: 1;
         -ms-flex-positive: 1;
             flex-grow: 1;
     margin: 4px 0; }
 
 .claim-finder__section-title {
   display: -webkit-box;
-  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   border-bottom: 1px solid #333333;
@@ -1263,12 +1240,10 @@ think carefully before adding anything in here.
 .claim-search-result {
   padding: 4px;
   display: -webkit-box;
-  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex; }
   .claim-search-result p {
     -webkit-box-flex: 1;
-    -webkit-flex-grow: 1;
         -ms-flex-positive: 1;
             flex-grow: 1; }
   .claim-search-result__btns {
@@ -1343,8 +1318,7 @@ think carefully before adding anything in here.
   .draft-editor__description .autosizing-input {
     display: inline-block;
     vertical-align: middle; }
-    .draft-editor__description .autosizing-input__input,
-    .draft-editor__description .autosizing-input__sizer {
+    .draft-editor__description .autosizing-input__input, .draft-editor__description .autosizing-input__sizer {
       font-size: 26px; }
 
 .notification-wrap {

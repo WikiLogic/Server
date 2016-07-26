@@ -1,0 +1,75 @@
+//took this: https://css-tricks.com/dont-overthink-it-grids/ and tweaked it... a lot
+
+.row {
+
+	&:after {
+		content: "";
+		display: table;
+		clear: both;
+	}
+
+	&--pad {
+		/* Opt-in outside padding */
+		.row-pad {
+			padding: rem($pad) 0 rem($pad) rem($pad);
+			[class*='col-']:last-of-type {
+				padding-right: rem($pad);
+			}
+		}
+	}
+
+	.row__col--no-padding { //some extra specificity juice to override the above [class*='']
+		padding-right: 0;
+		padding-left: 0;
+	}
+
+	//even more specificity for the same cause
+	&.row { .row__col--right-padding { padding-right: rem($pad); } }
+	&.row { .row__col--left-padding  { padding-left: rem($pad); } }
+
+
+
+	@mixin col-base($width){
+
+		//by default - colum width at all widths
+		width: $width;
+		float: left;
+		padding-right: rem($pad);
+
+		&:last-of-type {
+			padding-right: 0;
+		}
+
+		//to declare a breakpoint by the class
+		&\@small {
+			//reset all to full width
+			width: 100%;
+			padding-right: 0;
+			//make a gap between them
+			padding-bottom: rem($pad);
+			//except on the last guy
+			&:last-of-type { padding-bottom: 0; }
+
+			//when the named breakpoint arrives
+			@include breakpoint(small) { 
+				//set it all back to normal
+				width: $width;
+				float: left;
+				padding-right: rem($pad);
+				padding-bottom: 0;
+				&:last-of-type {
+					padding-right: 0;
+				}
+			}
+		}
+	}
+
+	// half column, 50%, easy
+	&__col--1-quarter {	@include col-base(25%); }
+	&__col--1-third { @include col-base(33.33%); }
+
+	&__col--1-half { @include col-base(50%); }
+		
+	&__col--2-third { @include col-base(66.66%); }
+	&__col--3-quarter {	@include col-base(75%); }
+}
