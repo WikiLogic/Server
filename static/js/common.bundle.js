@@ -13775,8 +13775,8 @@ module.exports = {
 		}
 
 		if (!alreadySet) {
-			newEditorTabsRefs[editorTabsId].tab_list.push(claimDetail);
 			eventManager.fire('editor_tab_claim_added', {owner: editorTabsId, data: claimDetail});
+			newEditorTabsRefs[editorTabsId].tab_list.push(claimDetail);
 		}
 
 		openClaimTab(editorTabsId, claimDetail._id);
@@ -13824,28 +13824,26 @@ var argHasReason = function(argumentId, claimId){
 }
 
 var updateStatuses = function(argumentId){
-	//are there any results
-	if (newArgumentRefs[argumentId].search_results.length > 0) {
-		newArgumentRefs[argumentId].show_results = true;
-	} else {
-		newArgumentRefs[argumentId].show_results = false;
-	}
 
-	console.log('parent: ', newArgumentRefs[argumentId].parent_claim_description);
 	//make sure the parent claim isn't set anywhere
 	for (var r = 0; r < newArgumentRefs[argumentId].search_results.length; r++) {
-		console.log('result: ', newArgumentRefs[argumentId].search_results[r].description);
 		if (newArgumentRefs[argumentId].search_results[r].description == newArgumentRefs[argumentId].parent_claim_description) {
 			newArgumentRefs[argumentId].search_results.splice(r, 1);
 			r--;
 		}
 	}
 	for (var r = 0; r < newArgumentRefs[argumentId].reasons.length; r++) {
-		console.log('reason: ', newArgumentRefs[argumentId].reasons[r].description);
 		if (newArgumentRefs[argumentId].reasons[r].description == newArgumentRefs[argumentId].parent_claim_description) {
 			newArgumentRefs[argumentId].reasons.splice(r, 1);
 			r--;
 		}
+	}
+
+	//are there any results
+	if (newArgumentRefs[argumentId].search_results.length > 0) {
+		newArgumentRefs[argumentId].show_results = true;
+	} else {
+		newArgumentRefs[argumentId].show_results = false;
 	}
 
 	//are there any exact matches?
@@ -14543,6 +14541,7 @@ module.exports = {
 				console.log('array', attr);
 			} else {
 				console.log('attr', attr);
+				returnState[attr] = returnState[attr];
 			}
 		}
 		console.info("3: ", returnState);

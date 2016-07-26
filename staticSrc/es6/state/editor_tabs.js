@@ -88,8 +88,8 @@ module.exports = {
 		}
 
 		if (!alreadySet) {
-			newEditorTabsRefs[editorTabsId].tab_list.push(claimDetail);
 			eventManager.fire('editor_tab_claim_added', {owner: editorTabsId, data: claimDetail});
+			newEditorTabsRefs[editorTabsId].tab_list.push(claimDetail);
 		}
 
 		openClaimTab(editorTabsId, claimDetail._id);

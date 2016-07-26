@@ -19,6 +19,7 @@ module.exports = {
 				console.log('array', attr);
 			} else {
 				console.log('attr', attr);
+				returnState[attr] = returnState[attr];
 			}
 		}
 		console.info("3: ", returnState);
