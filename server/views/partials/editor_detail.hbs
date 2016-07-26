@@ -1,3 +1,4 @@
+<!-- claimdetail is the rivet king -->
 
 <!-- confusing section, even for Douglas -->
 <div class="row" style="display:none;">
@@ -37,14 +38,22 @@
 <div class="text-color--black">   
     <div class="box card bg-color--white">
         <p class="full-width text-align-center no-margins">
-            <svg class="float-left" view-show="state.editor_detail.claim.status"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#check"></use></svg>
-            <svg class="float-left" view-hide="state.editor_detail.claim.status"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>
-            &nbsp;{state.editor_detail.claim.description}
+            {claimdetail.claim.description}
+        </p>
+        <p>
+            <span class="state-tag state-tag--100">100</span> 
+            <span class="state-tag state-tag--90">90</span> 
+            <span class="state-tag state-tag--80">80</span> 
+            <span class="state-tag state-tag--70">70</span> 
+            <span class="state-tag state-tag--60">60</span> 
+            <span class="state-tag state-tag--50">50</span> 
+            <span class="state-tag state-tag--40">40</span> 
+            <span class="state-tag state-tag--30">30</span> 
+            <span class="state-tag state-tag--20">20</span> 
+            <span class="state-tag state-tag--10">10</span> 
+            <span class="state-tag state-tag--0">0</span>
         </p>
     </div>
-    <!--
-    <textarea name="" class="trumbowyg-claim-input claim-input display-none" cols="30" rows="10">{state.editor_detail.claim.description}</textarea>
-    -->
 </div>
 
 
@@ -53,68 +62,9 @@
 
         <svg class="align-center icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-top"></use></svg>
         <p class="small text-align-center no-margins">For</p>
-
-        <!-- The New Argument form -->
-        <div class="card bg-color--white text-color--black box">
-            <div class="splitter splitter--full-width">
-                <div class="splitter__left">
-                    <svg class="float-left"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#pencil"></use></svg>
-                </div>
-                <div class="splitter__right full-width text-align-left">
-
-                    
-
-                    <!-- This is the input for a new reason. It's essentially a mini search bar -->
-                    <input view-each-reason="state.new_arguments.editor_detail_for.reasons" 
-                        type="text" 
-                        class="full-width js-new-reason"
-                        data-argument-id="editor_detail_for"
-                        view-on-keypress="state.actions.new_reason_keypress" 
-                        placeholder="Add a reason...">
-
-                    <!-- When the user submits their input above, it'll run a search -->
-
-                    <!-- These are the results -->
-                    <div view-show="state.new_arguments.editor_detail_for.show_results">
-                        <button class="splitter box box--wide splitter--full-width"
-                            view-each-result="state.new_arguments.editor_detail_for.search_results"
-                            view-on-click="state.actions.add_reason_to_argument"
-                            data-argument-id="editor_detail_for"
-                            view-data-claim-id="result._id">
-                            <div class="splitter__left">
-                                <svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#plus"></use></svg>
-                            </div>
-                            <div class="splitter__right">
-                                <p>{result.description}</p>
-                            </div>
-                        </button>
-                    </div>
-
-                    <!-- If there are no exact matches, this button gives them the option to add it as a new claim -->
-                    <div view-show="state.new_arguments.editor_detail_for.show_new_claim_button">
-                        <br>
-                        <p class="text-align-center">No exact matches found</p>
-                        <br>
-                        <button class="button full-width text-align-center"
-                            view-on-click="state.actions.save_reason_as_claim"
-                            data-argument-id="editor_detail_for">
-                            save reason as new claim</button>
-                    </div>
-
-                </div>
-            </div>
-            
-            <!-- When the argument group is valid, then show this to save -->
-            <div view-show="state.editor_detail.new_for.is_valid">
-                <br>
-                <button class="button full-width text-align-center"
-                    view-on-click="state.actions.save_new_argument"
-                    data-to="editor_detial_for">
-                    save argument</button>
-            </div>
-
-
-           
+        <div class="card bg-color--white text-color--black section-wrap js-argument-creation-form"
+            view-each-newargument="claimdetail.claim.new_for">
+            {{> new_argument_form }}
         </div>
 
         <br>
@@ -156,7 +106,7 @@
             </div>
             <br>
             <hr>
-            <div view-each-argument="state.editor_detail.claim.supporting">{{> argument_group }}</div>
+            <div view-each-argument="editor_detail.claim.supporting">{{> argument_group }}</div>
             {{> argument_group }}
 
         </div>
@@ -168,11 +118,18 @@
         <p class="small text-align-center no-margins">Against</p>
 
 
+        <div class="card bg-color--white text-color--black section-wrap js-argument-creation-form"
+            view-each-newargument="claimdetail.claim.new_against">
+            {{> new_argument_form }}
+        </div>
+
+        <br>
+
         
         <div class="card bg-color--white text-color--black box">
 
             <hr>
-            <div view-each-argument="state.editor_detail.claim.opposing">{{> argument_group }}</div>
+            <div view-each-argument="editor_detail.claim.opposing">{{> argument_group }}</div>
             {{> argument_group }}
 
         </div>

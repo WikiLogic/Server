@@ -6,7 +6,7 @@ alertStateCtrl.init();
 
 module.exports = {
 	init: function(){
-
+		console.log('alerts');
 		actionStateCtrl.addAction('clearalert', function(rivet){
 			console.warn("TODO: clear alert");
 		});

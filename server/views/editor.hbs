@@ -11,20 +11,15 @@
                 <hr>
             </div>
 
-            <div class="header-layout__body y-scroll">
-                <div view-hide="state.search.is_empty">
-                    <div view-if="state.working_list.is_empty">
-                        <h4>Working list</h4>
-                        <p>This is a place to keep a refrence to the claims you're interested in. Add them here from the search results.</p>
-                    </div>
-                </div>
+            <div class="header-layout__body y-scroll js-working-list"
+                data-working-list-id="main_list">
 
                 <button
                     class="display-block full-width box box--wide"
-                    view-each-claim="state.working_list.claims"
-                    view-on-click="state.actions.add_claim_to_editor_list"
+                    view-each-claim="working_list.claims"
+                    view-on-click="working_list.actions.clicked"
                     view-data-claim-id="claim._id"
-                    data-from-list="working_list">
+                    data-working-list-id="main_list">
                     <p class="no-margins">{claim.description}</p></button>
                 
             </div>
@@ -35,126 +30,130 @@
             <div class="header-layout__head">
                 <div class="tabs">
 
-                    <!-- the welcome tab -->
-                    <div class="tabs__tab"  
-                        view-class-active="state.helper_tab.open">
+                    <!-- the help tab -->
+                    <div class="tabs__tab js-toggle-controller"
+                        data-toggle-id="main_help"
+                        view-class-active="toggle.open">
                         <span class="tabs__title"
-                            view-on-click="state.actions.open_helper_tab">
-                            <span view-show="state.helper_tab.show">Helper</span>
-                            <span view-hide="state.helper_tab.show">
+                            view-on-click="toggle.actions.open_toggle"
+                            data-toggle-id="main_help">
+                            <span view-show="toggle.open">Help</span>
+                            <span view-hide="toggle.open">
                                 <svg class="icon icon--10"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#info"></use></svg>
                                 &nbsp;&nbsp;
                             </span>
                         </span>
                         <span class="tabs__x"
-                            view-show="state.helper_tab.show"
-                            view-on-click="state.actions.close_helper_tab">
+                            view-show="toggle.open"
+                            view-on-click="toggle.actions.close_toggle"
+                            data-toggle-id="main_help">
                             <svg class="icon icon--10"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>
                         </span>
                     </div>
 
                     <!-- the results tab -->
-                    <div class="tabs__tab"  
-                        view-class-active="state.search_results.open_tab">
+                    <div class="tabs__tab js-toggle-controller"  
+                        data-toggle-id="main_results"
+                        view-class-active="toggle.open">
                         <span class="tabs__title"
-                            view-on-click="state.actions.open_results_tab">
-                            <span view-show="state.search_results.show_tab">Results</span>
-                            <span view-hide="state.search_results.show_tab">
+                            view-on-click="toggle.actions.open_toggle"
+                            data-toggle-id="main_results">
+                            <span view-show="toggle.open">Results</span>
+                            <span view-hide="toggle.open">
                                 <svg class="icon icon--10"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#magnifying-glass"></use></svg>
                                 &nbsp;&nbsp;
                             </span>
                         </span>
                         <span class="tabs__x"
-                            view-show="state.search_results.show_tab"
-                            view-on-click="state.actions.close_results_tab">
+                            view-show="toggle.open"
+                            view-on-click="toggle.actions.close_toggle"
+                            data-toggle-id="main_results">
                             <svg class="icon icon--10"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>
                         </span>
                     </div>
 
                     <!-- editor list tabs -->
-                    <div class="tabs__tab"
-                        view-each-claimtab="state.editor_list.claim_tabs"
+                    <div class="tabs__tab js-editor-tabs"
+                        data-editor-tabs-id="main_tabs"
+                        view-each-claimtab="editor_tabs.tab_list"
                         view-class-active="claimtab.open">
+
                         <span class="tabs__title"
-                            view-on-click="state.actions.editor_tab_open"
+                            view-on-click="editor_tabs.actions.editor_tab_open"
+                            data-editor-tabs-id="main_tabs"
                             view-data-claimtab-id="claimtab.claim._id"
                             data-tab-group="editor">{claimtab.claim.description}</span>
+
                         <span class="tabs__x"
-                            view-on-click="state.actions.editor_tab_close"
+                            view-on-click="editor_tabs.actions.editor_tab_close"
+                            data-editor-tabs-id="main_tabs"
                             view-data-claimtab-id="claimtab.claim._id">
                             <svg class="icon icon--10"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>
-                        </span>
-                    </div>
-
-                    <!-- AAAnd the temp tab -->
-                    <div class="tabs__tab"  
-                        view-show="state.temp_tab.show"
-                        view-class-active="state.temp_tab.open">
-                        <span class="tabs__title"
-                            view-on-click="state.actions.openTempTab">
-                            <i>{state.temp_tab.name}</i>
-                        </span>
-                        <span class="tabs__x"
-                            view-on-click="state.temp_tab.closeTempTab">
-                            <svg class="icon icon--10"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>
+                            
                         </span>
                     </div>
 
                 </div>
 
             </div>
-            <div class="header-layout__body y-scroll bg-color--grey-1">
+            <div class="header-layout__body y-scroll bg-color--grey-1 sections-wrap">
 
-                <!-- The welcome temp tab content -->
-                <div view-show="state.helper_tab.show">
+                <!-- The main help tab content -->
+                <section class="js-toggle-content"
+                    data-toggle-id="main_help"
+                    view-show="toggle.open">
                     <div class="box text-align-center">
                         <br>
 
-                        <div view-show="state.helper_tab.show_welcome">
+                        <div>
                             <h4>Welcome!</h4>
-                            <p>To begin - think of something you believe to be true, <br>
-                            then type it in the search bar above.<br>
-                            Or just click this fun example<br>
-                            <button class="button button--green display-inline-block" view-on-click="state.actions.search_this">the world is flat</button></p>   
+                            <p>
+                                To begin - think of something you believe to be true, <br>
+                                then type it in the search bar above.<br>
+                                Or just click this fun example<br>
+                                <button class="button button--green display-inline-block js-search-suggestion"  
+                                        data-search-id="main_results">
+                                    the world is flat
+                                </button>
+                            </p>   
                         </div>
                         <br>
-                        <div view-show="state.helper_tab.show_results">
+                        <div>
                             <p>Nice. Below you can see a list of claims that have been found, double click/tap to open it. (a single click/tap will add it to your 'working list' on the left)</p>
                         </div> 
 
 
                     </div>
-                </div>
+                </section>
 
                 <!-- Current claim tab (claim detail) -->
-                <div view-show="state.editor_detail.show">
-                    <div class="box">
-                        {{>editor_detail}}
-                    </div>
-                </div>
+                <section class="box js-editor-tabs-content"
+                    data-editor-tabs-id="main_tabs"
+                    view-each-claimdetail="editor_details.tab_list"
+                    view-show="claimdetail.open">
+                    {{>editor_detail}}
+                </section>
 
-                <!-- the new claim form -->
-                <div view-show="state.new_claim.show">
-                    <div class="box">
-                        <h4>No exact match found</h4>
-                        <p>Would you like to make one?</p>
+
+                <!-- The main search reults -->
+                <section class="js-toggle-content"
+                    data-toggle-id="main_results"
+                    view-show="toggle.open">
+
+                    <div class="js-new-claim box"
+                        data-new-claim-id="main_results"
+                        data-search-id="main_results"
+                        view-show="new_claim.show">
+                        <small><i>No exact match was found, click the button to publish this as a new claim.</i></small>
                         {{>new_claim}}
                     </div>
-                </div>
 
-                <!-- The search reults tab content -->
-                <div view-show="state.search_results.show_tab">
-                    <div class="box">
+                    <div class="js-search-results box"
+                        data-search-id="main_results">
                         {{>search_results}}         
                     </div>
-                </div>
 
-                <!-- temp tab (claim detail) -->
-                <div view-show="state.temp_tab.show">
-                    <div class="box">
-                        {{>editor_detail}}
-                    </div>
-                </div>
+                </section>
 
                 
             </div>

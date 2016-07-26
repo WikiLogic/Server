@@ -13008,34 +13008,12 @@ module.exports = {
 
 }
 },{}],7:[function(require,module,exports){
-//first, init the global state
-window.WL_STATE = {};
-
-$ = jQuery = require('jquery');
 console.groupCollapsed('Initting');
-require('./dom_watchers/search-input').init();
-require('./dom_watchers/new-claim').init();
-require('./dom_watchers/search-results').init();
-require('./dom_watchers/helper-tab').init();
 
-var presetTabs = [
-	{
-		groupName: 'editor',
-		tabName: 'helper',
-		tabType: '',
-		data: {}
-	}
-]
-require('./dom_watchers/tabs').init(presetTabs);
-require('./dom_watchers/toaster').init();
-require('./dom_watchers/claim-input').init();
-require('./dom_watchers/working-list').init();
-require('./dom_watchers/search-results').init();
-require('./dom_watchers/editor-list').init();
-require('./dom_watchers/editor-detail').init();
-require('./dom_watchers/new-argument').init();
-
+//first, init the global state
 window.rivets = require('rivets');
+$ = jQuery = require('jquery');
+window.WL_STATE = {};
 
 //init rivets to drive the dom
 rivets.configure({
@@ -13051,9 +13029,24 @@ rivets.configure({
 	}
 });
 
-rivets.bind($('#god'), {state: window.WL_STATE});
+//now init the modular elements - there can be any number of these anywhere so we can't attach them to WL_STATE
+require('./dom_watchers/search-input').init();
+require('./dom_watchers/search-results').init();
+require('./dom_watchers/new-claim').init();
+require('./dom_watchers/toggles').init();
+require('./dom_watchers/working-list').init();
+require('./dom_watchers/editor-detail').init();
+require('./dom_watchers/new-argument').init();
+
+
+
+
+require('./dom_watchers/tabs').init();
+require('./dom_watchers/toaster').init();
+require('./dom_watchers/claim-input').init();
+
 console.groupEnd(); //END Initting
-},{"./dom_watchers/claim-input":8,"./dom_watchers/editor-detail":9,"./dom_watchers/editor-list":10,"./dom_watchers/helper-tab":11,"./dom_watchers/new-argument":12,"./dom_watchers/new-claim":13,"./dom_watchers/search-input":14,"./dom_watchers/search-results":15,"./dom_watchers/tabs":16,"./dom_watchers/toaster":17,"./dom_watchers/working-list":18,"jquery":1,"rivets":2}],8:[function(require,module,exports){
+},{"./dom_watchers/claim-input":8,"./dom_watchers/editor-detail":9,"./dom_watchers/new-argument":10,"./dom_watchers/new-claim":11,"./dom_watchers/search-input":12,"./dom_watchers/search-results":13,"./dom_watchers/tabs":14,"./dom_watchers/toaster":15,"./dom_watchers/toggles":16,"./dom_watchers/working-list":17,"jquery":1,"rivets":2}],8:[function(require,module,exports){
 'use strict';
 
 var trumbowyg = require('trumbowyg');
@@ -13062,7 +13055,7 @@ var claimApi = require('../api/claim');
 
 module.exports = {
 	init: function(){
-		console.log('initting trumbowyg');
+		console.log('claim-input');
 		$('textarea').trumbowyg({
 			prefix: 'trumbowyg-',
 			svgPath: false,
@@ -13095,311 +13088,285 @@ module.exports = {
 		});
 	}
 }
-
-},{"../api/claim":5,"../state/actions":22,"trumbowyg":4}],9:[function(require,module,exports){
+},{"../api/claim":5,"../state/actions":21,"trumbowyg":4}],9:[function(require,module,exports){
 'use strict';
-
-/* Current Editor DOM Watcher
- * This takes care of setting which claim is to be displayed in the body of the editor.
- * It also deals with the interactions from that claim
+/*
+ * This module is responsibe for the detail view of a claim
  */
 
-var editorDetailStateCtrl = require('../state/editor_detail'); editorDetailStateCtrl.init();
-var actionStateCtrl = require('../state/actions');
+var editorDetailStateCtrl = require('../state/editor_detail');
+var editorTabsStateCtrl = require('../state/editor_tabs');
+var eventManager = require('../utils/event_manager');
+
+var domActions = {
+	editor_tab_open: function(rivet){
+		var editorTabsId = rivet.currentTarget.attributes['data-editor-tabs-id'].value;
+		var claimId = rivet.currentTarget.attributes['data-claimtab-id'].value;
+		editorTabsStateCtrl.openClaimTab(editorTabsId, claimId);
+	},
+	editor_tab_close: function(rivet){
+		var editorTabsId = rivet.currentTarget.attributes['data-editor-tabs-id'].value;
+		var claimId = rivet.currentTarget.attributes['data-claimtab-id'].value;
+		editorTabsStateCtrl.removeClaimFromList(editorTabsId, claimId);
+	}
+}
 
 module.exports = {
 	init: function(){
-		console.log('initting editor detail DOM watcher');
-		editorDetailStateCtrl.init();
+		console.log('editor-detail');
 
-		
-	}
-}
-},{"../state/actions":22,"../state/editor_detail":23}],10:[function(require,module,exports){
-'use strict';
-
-var editorListStateCtrl = require('../state/editor_list'); editorListStateCtrl.init();
-var actionStateCtrl = require('../state/actions');
-
-/*
- * This module is responsibe for the editor's claim tabs
- */
-
-module.exports = {
-	init: function(presetTabs){
-		console.log('initting editor list DOM watcher');
-
-		actionStateCtrl.addAction('editor_tab_open', function(rivet){
-		console.group('open editor tab');
-			var claimId = rivet.currentTarget.attributes['data-claimtab-id'].value;
-			editorListStateCtrl.openClaimTab(claimId);
-		console.groupEnd();
+		//set up the tabbing 
+		$('.js-editor-tabs').each(function(){
+			var editorTabsId = $(this).data('editor-tabs-id');
+			var newEditorTabs = editorTabsStateCtrl.getNewState(editorTabsId);
+			newEditorTabs.actions = domActions;
+			rivets.bind(
+				$(this),
+				{ editor_tabs: newEditorTabs }
+			);
 		});
 
-		actionStateCtrl.addAction('editor_tab_close', function(rivet){
-		console.group('close editor tab');
-			var claimId =  rivet.currentTarget.attributes['data-claimtab-id'].value;
-			editorListStateCtrl.removeClaimFromList(claimId);
-		console.groupEnd();
+		//set up the tabbed content
+		$('.js-editor-tabs-content').each(function(){
+			var editorTabsId = $(this).data('editor-tabs-id');
+			var tabbedEditorDetails = editorTabsStateCtrl.getNewState(editorTabsId);
+			tabbedEditorDetails.actions = domActions;
+			rivets.bind(
+				$(this),
+				{ editor_details: tabbedEditorDetails }
+			);
 		});
 
-		actionStateCtrl.addAction('add_claim_to_editor_list', function(rivet){
-		console.groupCollapsed('adding claim to editor list');
-			var claimFound = false;
-			//first we need to get a refrence of the claim object
-			//Which list is it in?
-			var location = rivet.currentTarget.attributes['data-from-list'].value;
-			var claimId =  rivet.currentTarget.attributes['data-claim-id'].value;
-			if (location == 'working_list') {
-				for (var c = 0; c < WL_STATE.working_list.claims.length; c++) { //c for claim
-					if (WL_STATE.working_list.claims[c]._id == claimId) {
-						var claimRef = WL_STATE.working_list.claims[c];
-						claimFound = true;
-						break;
-					}
-				}
-			} else {
-				console.error('not set up to pull claims from', location);
+		//watch the working list to see when the user wants to look at a claim in detail.
+		eventManager.subscribe([
+			'working_list_claim_clicked',
+			'working_list_duplicate_requested'
+		], function(event){
+			if (event.owner == "main_list") {
+				var newEditorDetailState = editorDetailStateCtrl.getNewState(event.data._id);
+				newEditorDetailState.claim = event.data;
+				//now add the detail to the editor tabs
+				editorTabsStateCtrl.addDetail("main_tabs", newEditorDetailState);
 			}
-
-			if (claimFound) {
-				editorListStateCtrl.addClaimToList(claimRef);
-			} else {
-				console.warn(claimId, ' not found in ', location);
-			}
-		console.groupEnd();
 		});
 
 	}
 }
-},{"../state/actions":22,"../state/editor_list":24}],11:[function(require,module,exports){
-'use strict';
-
-/*
- * This module is responsibe for the welcome tab
- */
-
-var helperTabStateCtrl = require('../state/helper_tab'); helperTabStateCtrl.init();
-var actionStateCtrl = require('../state/actions');
-
-
-module.exports = {
-	init: function(){
-		console.log('initting helper tab DOM watcher');
-
-		actionStateCtrl.addAction('close_helper_tab', function(rivet){
-			helperTabStateCtrl.hideHelperTab();
-		});
-
-		actionStateCtrl.addAction('open_helper_tab', function(rivet){
-			helperTabStateCtrl.openHelperTab();
-		});
-
-	}
-}
-},{"../state/actions":22,"../state/helper_tab":25}],12:[function(require,module,exports){
+},{"../state/editor_detail":22,"../state/editor_tabs":23,"../utils/event_manager":30}],10:[function(require,module,exports){
 'use strict';
 
 /*
  * This module is responsibe for the new arguments form
  */
 
-var newArgumentStateCtrl = require('../state/new_argument'); newArgumentStateCtrl.init();
-var actionStateCtrl = require('../state/actions');
-var searchApi = require('../api/search');
-var claimApi = require('../api/claim');
+var newArgumentStateCtrl = require('../state/new_argument');
+var eventManager = require('../utils/event_manager');
+
+var domActions = {
+	new_reason_keypress: function(rivet, e){
+		//console.log('new reason');
+		var argumentId = rivet.currentTarget.attributes['data-argument-id'].value;
+		var term = rivet.currentTarget.value;
+		console.log('term: ', term); // <- does this just render too fast? Watch the console when you're typing. It's so weird.
+
+		if (rivet.key == "Enter"){
+			newArgumentStateCtrl.enterNewReason(argumentId, term);
+
+		} else {
+			//not the enter key - we could start pre fetching results...
+			//maybe a good place to debounce a search
+			newArgumentStateCtrl.setNewReason(argumentId, term);
+
+		}
+	},
+	result_clicked: function(rivet){
+		var claimId = rivet.currentTarget.attributes['data-claim-id'].value;
+		var argumentId = rivet.currentTarget.attributes['data-argument-id'].value;
+		var claimToAdd = newArgumentStateCtrl.getClaimFromSearch(argumentId, claimId);
+		newArgumentStateCtrl.addReason(argumentId, claimToAdd);
+	},
+	remove_reason: function(rivet){
+		var claimId = rivet.currentTarget.attributes['data-claim-id'].value;
+		var argumentId = rivet.currentTarget.attributes['data-argument-id'].value;
+		newArgumentStateCtrl.removeReason(argumentId, claimId);
+	},
+	save_search_term_as_claim: function(rivet){
+		var argumentId = rivet.currentTarget.attributes['data-argument-id'].value;
+		newArgumentStateCtrl.saveTermAsClaim(argumentId);
+	}
+}
+
+
 
 module.exports = {
 	init: function(){
-		console.log('initting new argument DOM watcher');
+		console.log('new-argument');
+
+		eventManager.subscribe('editor_tab_claim_added', function(event){
+
+			//hooking in our own new argument objects
+			event.data.claim.new_for = [];
+			event.data.claim.new_for[0] = newArgumentStateCtrl.getNewState("new_for_" + event.data.claim._id);
+			event.data.claim.new_for[0].parent_claim_description = event.data.claim.description;
+			event.data.claim.new_for[0].actions = domActions;
+
+			event.data.claim.new_against = [];
+			event.data.claim.new_against[0] = newArgumentStateCtrl.getNewState("new_against_" + event.data.claim._id);
+			event.data.claim.new_against[0].parent_claim_description = event.data.claim.description;
+			event.data.claim.new_against[0].actions = domActions;
+		});
 		
-		actionStateCtrl.addAction('new_reason_keypress', function(rivet, e){
-			//this fires with every keypress of the input for the new reason
-			var argumentId = rivet.currentTarget.attributes['data-argument-id'].value;
-
-			if (rivet.key == "Enter"){
-				//when the user presses enter, run the search. Only let them add a new claim if it doesn't already exist
-				var term = rivet.currentTarget.value;
-				
-				//they're just typing, run the search and send the results to the new argument controller
-				searchApi.searchByString(term).done(function(data){
-					//add to search results
-					newArgumentStateCtrl.setResults(argumentId, term, data);
-				}).fail(function(err){
-					console.error('search api error: ', err);
-					//TODO: send to alerts
-				});
-
-			} else {
-				//not the enter key - we could start pre fetching results...
-
-			}
-		});
-
-		//if a new reason has been typed up & the search has returned no exact matches, the user can add that reason as a new claim
-		actionStateCtrl.addAction('save_reason_as_claim', function(rivet){
-			console.group('Saving reason as new claim');
-			var argumentId = rivet.currentTarget.attributes['data-argument-id'].value;
-			var newClaimString = newArgumentStateCtrl.getSearchTerm(argumentId);
-			claimApi.newClaim(newClaimString).done(function(data){
-				console.info('new claim has been added!', data);
-				newArgumentStateCtrl.addReason(argumentId, data);
-				//add it to this new argument
-			}).fail(function(err){
-				console.error('new claim api failed', err);
-
-				//send err to the alert system
-			});
-			console.groupEnd();//END Saving reason as new claim
-		});
-
-		actionStateCtrl.addAction('add_reason_to_argument', function(rivet){
-			console.group('Adding reason to argument');
-			//get the claim ref & argument id
-
-			//send it to the argument state controller
-			console.groupEnd(); //END Adding reason to argument
-		});
-
-		//This action will add the argument group to a claim
-		actionStateCtrl.addAction('save_new_argument', function(rivet){
-			console.group('saving New Argument Group');
-			var argumentId = rivet.currentTarget.attributes['data-argument-id'].value;
-			console.log('TODO: save argument to somewhere');
-		
-			console.groupEnd();//END adding New Argument Group
-		});
-
 	}
 }
-},{"../api/claim":5,"../api/search":6,"../state/actions":22,"../state/new_argument":26}],13:[function(require,module,exports){
+},{"../state/new_argument":24,"../utils/event_manager":30}],11:[function(require,module,exports){
 'use strict';
 
-/*
- * This module is responsibe for the new claim
+/* This module is responsibe for the new claim
+ * It looks like these might generally be attached to some search results
+ * It could then be a good idea to have the id of the new claim to match that of the results to which it is attached
+ * then when we're responding to the search_results_set event, we can assume the id matches. nifty? or spaghetti? 
  */
 
-var newClaimStateCtrl = require('../state/new_claim'); newClaimStateCtrl.init();
-var actionStateCtrl = require('../state/actions');
-var searchApi = require('../api/search');
-var searchResultsStateCtrl = require('../state/search_results');
-var workingListStateCtrl = require('../state/working_list');
+var newClaimStateCtrl = require('../state/new_claim');
 var claimApi = require('../api/claim');
+var eventManager = require('../utils/event_manager');
+
+var domActions = {
+
+}
 
 module.exports = {
 	init: function(){
-		console.log('initting new claim DOM watcher');
+		console.log('new-claim');
+		$('.js-new-claim').each(function(){
+			var newClaimId = $(this).data('new-claim-id');
+			var newClaimState = newClaimStateCtrl.getNewState(newClaimId);
+			newClaimState.actions = domActions;
+			rivets.bind(
+				$(this),
+				{ new_claim: newClaimState }
+			);
+		});
 		
-		actionStateCtrl.addAction('new_claim_keypress', function(rivet, e){
-			//this fires with every keypress of the input for the new reason
-			var term = rivet.currentTarget.value;
-			newClaimStateCtrl.setDescription(term);
+		//watch for search results being set, then check if there are any exact matches. If not, barge in!
+		eventManager.subscribe('search_results_set', function(event){
 
-			if (rivet.key == "Enter"){
-				console.group('New Claim Form Enter: ', term);
-				//when the user presses enter, run the search. Only let them add a new claim if it doesn't already exist
-				searchApi.searchByString(term).done(function(data){
-					//add to search results
-					searchResultsStateCtrl.setResults(data);
-				}).fail(function(err){
-					console.error('search api error: ', err);
-					//TODO: send to alerts
-				});
-				console.groupEnd();//END New Claim Form Enter
+			//currently only running for the main results
+			if (event.owner == "main_results") {
+				var exactMatchFound = false;
 
-			} else {
-				//not the enter key - we could start pre fetching results...
+				for (var r = 0; r < event.data.results.length; r++){
+					if (event.data.results[r].description == event.data.term) {
+						exactMatchFound = true;
+						break;
+					}
+				}
+
+				if (exactMatchFound){
+					newClaimStateCtrl.hide("main_results");
+				} else {
+					newClaimStateCtrl.setDescription("main_results", event.data.term);
+					newClaimStateCtrl.show("main_results");
+				}
 
 			}
+
 		});
-
-		//if a new reason has been typed up & the search has returned no exact matches, the user can add that reason as a new claim
-		actionStateCtrl.addAction('save_new_claim', function(rivet){
-			var newClaimString = newClaimStateCtrl.getDescription();
-			console.group('Saving new claim: ', newClaimString);
-			claimApi.newClaim(newClaimString).done(function(data){
-				console.info('new claim has been added!', data);
-				//add it to the working list and open in detail (add it to the workin glist twice hehe!)
-				workingListStateCtrl.addClaimToList(data); //first time adds it to the working list
-				workingListStateCtrl.addClaimToList(data); //Second time, the working list will pop in into the detail and open the tab for us. EASy WIN :D
-			}).fail(function(err){
-				console.error('new claim api failed', err);
-
-				//send err to the alert system
-			});
-			console.groupEnd();//END Saving reason as new claim
-		});
-
 	}
 }
-},{"../api/claim":5,"../api/search":6,"../state/actions":22,"../state/new_claim":27,"../state/search_results":29,"../state/working_list":31}],14:[function(require,module,exports){
+},{"../api/claim":5,"../state/new_claim":25,"../utils/event_manager":30}],12:[function(require,module,exports){
 'use strict';
 
-var $ = require('jquery');
-var searchInputStateCtrl = require('../state/search_input'); searchInputStateCtrl.init();
 var searchApi = require('../api/search');
-var searchResultsStateCtrl = require('../state/search_results');
+var searchStateCtrl = require('../state/search');
 var actionStateCtrl = require('../state/actions');
 
 
-var search = function(term){
-	console.group('search submitted:', term);
-	searchInputStateCtrl.setNewTerm(term);
-
-	searchApi.searchByString(term).done(function(data){
-		//add to search results
-		searchResultsStateCtrl.setResults(data);
-	}).fail(function(err){
-		console.error('search api error: ', err);
-		//TODO: send to alerts
-	});
-	console.groupEnd(); //END search submitted
+var domActions = {
+	search_this: function(rivet){
+		//get the search id
+		//send the search
+	}
 }
 
 module.exports = {
 
 	init: function(){
-		$('.js-search').on('keypress', function(e){
-			if (e.keyCode == 13) {
-				search($(this).val());
-			}
+		console.log('search-input');
+		$('.js-search').each(function(){
+			//bind the state
+			var searchId = $(this).data('search-id');
+			var searchState = searchStateCtrl.getNewState(searchId);
+			searchState.actions = domActions;
+			rivets.bind(
+				$(this),
+				{ search: searchState }
+			);
+
+			//now watch for keypresses:
+			$(this).on('keypress', function(e){
+				var searchTerm = $(this).val();
+				var searchId = $(this).data('search-id');
+
+				if (e.keyCode == 13) {
+					searchStateCtrl.setTerm(searchId, searchTerm);
+					searchStateCtrl.runSearch(searchId, searchTerm);
+				} else {
+					searchStateCtrl.setTerm(searchId, searchTerm);
+				}
+			});
 		});
 
-		actionStateCtrl.addAction('search_this', function(rivet){
-			//used by links to help people click to search claims
-			search(rivet.target.innerText);
-		})
+		$('.js-search-suggestion').each(function(){
+			$(this).on('click', function(){
+				var searchId = $(this).data('search-id');
+				var searchTerm = $(this).html();
+				searchStateCtrl.setTerm(searchId, searchTerm);
+				searchStateCtrl.runSearch(searchId, searchTerm);
+			});
+		});
 	}
 
 }
 
-},{"../api/search":6,"../state/actions":22,"../state/search_input":28,"../state/search_results":29,"jquery":1}],15:[function(require,module,exports){
+},{"../api/search":6,"../state/actions":21,"../state/search":26}],13:[function(require,module,exports){
 'use strict';
 
-/* Search results tab and content DOM watcher
- *
- */
-
-var searchResultsStateCtrl = require('../state/search_results'); searchResultsStateCtrl.init();
+var searchApi = require('../api/search');
+var searchStateCtrl = require('../state/search');
 var actionStateCtrl = require('../state/actions');
 
 
-module.exports = {
-	init: function(){
-		console.log('initting search results DOM watcher');
-		
-
-		actionStateCtrl.addAction('close_results_tab', function(rivet){
-			searchResultsStateCtrl.hideResultsTab();
-		});
-
-		actionStateCtrl.addAction('open_results_tab', function(rivet){
-			searchResultsStateCtrl.openResultsTab();
-		});
-
+var domActions = {
+	result_clicked: function(rivet){
+		//get the search id
+		var searchId = rivet.currentTarget.attributes['data-search-id'].value;
+		var claimId = rivet.currentTarget.attributes['data-claim-id'].value;
+		//tell the state
+		searchStateCtrl.result_clicked(searchId, claimId);
 	}
 }
-},{"../state/actions":22,"../state/search_results":29}],16:[function(require,module,exports){
+
+module.exports = {
+
+	init: function(){
+		console.log('search-results');
+		$('.js-search-results').each(function(){
+			//bind the state (don't make a new one for results, only the search input should do that);
+			var searchId = $(this).data('search-id');
+			var searchState = searchStateCtrl.getExistingState(searchId);
+			searchState.actions.result_clicked = domActions.result_clicked;
+			rivets.bind(
+				$(this),
+				{ search: searchState }
+			);
+
+		});
+	}
+
+}
+
+},{"../api/search":6,"../state/actions":21,"../state/search":26}],14:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -13417,28 +13384,8 @@ var actionStateCtrl = require('../state/actions');
  */
 
 module.exports = {
-	init: function(presetTabs){
-
-		for (var t = 0; t < presetTabs.length; t++){
-			console.log('initting tabs');
-			if (presetTabs[t].isTemp) {
-				tabStateCtrl.createTabGroup(presetTabs[t].groupName);
-				tabStateCtrl.addTempTabToGroup(presetTabs[t].groupName, {
-					tabName: presetTabs[t].tabName,
-					tabType: presetTabs[t].tabtype,
-					data: presetTabs[t].data
-				});
-			} else {
-				tabStateCtrl.createTabGroup(presetTabs[t].groupName);
-				tabStateCtrl.addTabToTabGroup(presetTabs[t].groupName, {
-					tabName: presetTabs[t].tabName,
-					tabType: presetTabs[t].tabtype,
-					data: presetTabs[t].data
-				});
-			}
-		}
-
-
+	init: function(){
+		console.log('tabs');
 		actionStateCtrl.addAction('activateTab', function(rivet){
 
 			var thsGroupName = rivet.currentTarget.attributes['data-tab-group'].value;
@@ -13479,7 +13426,7 @@ module.exports = {
 		});
 	}
 }
-},{"../state/actions":22,"../state/tabs":30,"jquery":1}],17:[function(require,module,exports){
+},{"../state/actions":21,"../state/tabs":27,"jquery":1}],15:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -13493,7 +13440,7 @@ var $ = require('jquery');
 
 module.exports = {
 	init: function(){
-		console.log('initting toaster');
+		console.log('toaster');
 		$('.js-toaster').on('click', function(){
 			console.log('toasting toaster');
 			var $thisToaster = $(this);
@@ -13511,54 +13458,98 @@ module.exports = {
 		});
 	}
 }
-},{"jquery":1}],18:[function(require,module,exports){
+},{"jquery":1}],16:[function(require,module,exports){
 'use strict';
 
-var actionStateCtrl = require('../state/actions');
-var workingListStateCtrl = require('../state/working_list');
-workingListStateCtrl.init();
-var tabStateCtrl = require('../state/tabs');
+/*
+ * This module is responsibe for the help
+ * For now this si a single global state option. 
+ * Help is either on or off
+ * It's like setting WL to "easy mode"
+ */
 
+var toggleStateCtrl = require('../state/toggles');
+var actionStateCtrl = require('../state/actions');
+
+var domActions = {
+	close_toggle: function(rivet){
+		var toggleId =  rivet.currentTarget.attributes['data-toggle-id'].value;
+		toggleStateCtrl.close(toggleId);
+	},
+	open_toggle: function(rivet){
+		var toggleId =  rivet.currentTarget.attributes['data-toggle-id'].value;
+		toggleStateCtrl.open(toggleId);
+	}
+}
+
+module.exports = {
+	init: function(){
+		console.log('toggles');
+
+		//the controllers (turning help on/off)
+		$('.js-toggle-controller').each(function(){
+			var toggleId = $(this).data('toggle-id');
+			var toggleState = toggleStateCtrl.getNewState(toggleId);
+			toggleState.actions = domActions;
+			rivets.bind(
+				$(this),
+				{ toggle: toggleState }
+			);
+		});
+
+		//the views (showing content based on help state settings)
+		$('.js-toggle-content').each(function(){
+			var toggleId = $(this).data('toggle-id');
+			var toggleState = toggleStateCtrl.getExistingState(toggleId);
+			rivets.bind(
+				$(this),
+				{ toggle: toggleState }
+			);
+		})
+
+	}
+}
+},{"../state/actions":21,"../state/toggles":28}],17:[function(require,module,exports){
+'use strict';
+
+var workingListStateCtrl = require('../state/working_list');
+var eventManager = require('../utils/event_manager');
 /* Working-list DOM watcher
  * This module is responsibe for handling the 'working list'
  * This is a list of claims that live in the editor's sidebar
  * They act like files in Sublime's sidebar - click them to set them as tabs
  */
 
+var domActions = {
+	clicked: function(rivet){
+		var claimId = rivet.currentTarget.attributes['data-claim-id'].value;
+		var workingListId = rivet.currentTarget.attributes['data-working-list-id'].value;
+		workingListStateCtrl.itemClicked(workingListId, claimId);
+	}
+};
+
 module.exports = {
 	init: function(){
+		console.log('working-list');
+		$('.js-working-list').each(function(){
+			var workingListId = $(this).data('working-list-id');
+			var workingListState = workingListStateCtrl.getNewState(workingListId);
+			workingListState.actions = domActions;
+			rivets.bind(
+				$(this),
+				{ working_list: workingListState }
+			);
+		});
 		
-
-		actionStateCtrl.addAction('add_claim_to_working_list', function(rivet){
-			console.groupCollapsed('adding claim to working list');
-			var claimFound = false;
-			//first we need to get a refrence of the claim object
-			//Which list is it in?
-			var location = rivet.currentTarget.attributes['data-from-list'].value;
-			var claimId =  rivet.currentTarget.attributes['data-claim-id'].value;
-			if (location == 'search_results') {
-				for (var c = 0; c < WL_STATE.search_results.results.length; c++) { //c for claim
-					if (WL_STATE.search_results.results[c]._id == claimId) {
-						var claimRef = WL_STATE.search_results.results[c];
-						claimFound = true;
-						break;
-					}
-				}
-			} else {
-				console.error('not set up to pull claims from', location);
+		eventManager.subscribe('search_result_clicked', function(event){
+			if (event.searchId == "main_results"){
+				workingListStateCtrl.addClaim("main_list", event.resultObj);
 			}
-
-			if (claimFound) {
-				workingListStateCtrl.addClaimToList(claimRef);
-			} else {
-				console.warn(claimId, ' not found in ', location);
-			}
-			console.groupEnd();
 		});
 
 	}
 }
-},{"../state/actions":22,"../state/tabs":30,"../state/working_list":31}],19:[function(require,module,exports){
+},{"../state/working_list":29,"../utils/event_manager":30}],18:[function(require,module,exports){
 
 module.exports = {
 	cloneThisObject: function(obj) {
@@ -13572,7 +13563,7 @@ module.exports = {
 		return newObj;
 	}
 }
-},{}],20:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -13585,7 +13576,7 @@ module.exports = {
 		return /[A-Z]/.test(s);
 	}
 }
-},{}],21:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 /* Takes tab group state
  * modifies it
  * Returns tab group state
@@ -13638,7 +13629,7 @@ module.exports = {
 		};
 	}
 }
-},{"../reducers/string_helpers":20,"./object_helpers":19}],22:[function(require,module,exports){
+},{"../reducers/string_helpers":19,"./object_helpers":18}],21:[function(require,module,exports){
 'use strict';
 
 var objectHelpers = require('../reducers/object_helpers');
@@ -13662,71 +13653,7 @@ module.exports = {
 	}
 
 };
-},{"../reducers/object_helpers":19}],23:[function(require,module,exports){
-'use strict';
-
-var eventManager = require('../utils/event_manager');
-
-/* The Editor Detail state controller
- *
- */
-
-var setNewClaimDetail = function(claimObj){
-	WL_STATE.editor_detail.claim = claimObj;
-}
-
-module.exports = {
-
-	init: function(){
-		console.log('initting editor detail state controller');
-		WL_STATE.editor_detail = {
-			show: false,
-			claim: {},
-			new_for: {
-				is_valid: false,
-				reasons: [
-					{
-
-					}
-				]
-			},
-			new_against: {
-				is_valid: false,
-				reasons: [{}]
-			}
-		};
-
-		eventManager.subscribe('claim_tab_closed', function(claimObj){
-			WL_STATE.editor_detail.show = false;
-		});
-
-		eventManager.subscribe('claim_tab_opened', function(claimObj){
-			setNewClaimDetail(claimObj);
-			WL_STATE.editor_detail.show = true;
-		});
-	},
-
-	setNewClaimDetail: function(claimObj){
-		setNewClaimDetail(claimObj);
-	},
-
-	addSupportingArgument: function(){
-		console.log('stubbing new supporting argument group');
-		WL_STATE.editor_detail.claim.supporting.push({
-			status:false,
-			reasons: []
-		});
-	},
-	addOpposingArgument: function(){
-		console.log('stubbing new opposing argument group');
-		WL_STATE.editor_detail.claim.opposing.push({
-			status:false,
-			reasons: []
-		});
-	}
-
-};
-},{"../utils/event_manager":32}],24:[function(require,module,exports){
+},{"../reducers/object_helpers":18}],22:[function(require,module,exports){
 'use strict';
 
 /* The Editor List State Controller
@@ -13734,49 +13661,76 @@ module.exports = {
  */
 
 var eventManager = require('../utils/event_manager');
+var newArgumentStateCtrl = require('./new_argument');
+var stateFactory = require('../utils/state_factory');
 
-
-var openClaimTab = function(claimId){
-	console.log('opening claim tab id: ', claimId);
-	var claimObjRef = {};
-	//loop through all the claim tabs, set them to false unless they match
-	for (var c = 0; c < WL_STATE.editor_list.claim_tabs.length; c++) {
-		if (WL_STATE.editor_list.claim_tabs[c].claim._id == claimId) {
-			console.log('open!');
-			WL_STATE.editor_list.claim_tabs[c].open = true;
-			claimObjRef = WL_STATE.editor_list.claim_tabs[c].claim;
-		} else {
-			console.log('close');
-			WL_STATE.editor_list.claim_tabs[c].open = false;
-		}
-	}
-	eventManager.fire('claim_tab_opened', claimObjRef);
+var editorDetailState = {
+	_id: 'anon',
+	show: false,
+	claim: {},
+	new_for: [],
+	new_against: [],
+	sort_for: {},
+	sort_against: {}
 }
 
-var removeClaimFromList = function(claimId){
-	console.group('Removing claim from editor list', claimId);
+var editorDetailRefs = {};
+
+module.exports = {
+	getNewState: function(editorDetailId){
+		var returnState = stateFactory.create(editorDetailState);
+		returnState._id = editorDetailId;
+		editorDetailRefs[editorDetailId] = returnState;
+		eventManager.fire('new_editor_detail_state', {owner: editorDetailId, data: editorDetailRefs[editorDetailId]});
+		return returnState;
+	},
+	getExistingState: function(editorDetailId){
+		return editorDetailRefs[editorDetailId];
+	}
+}
+},{"../utils/event_manager":30,"../utils/state_factory":31,"./new_argument":24}],23:[function(require,module,exports){
+'use strict';
+
+/* The Editor List State Controller
+ * This state drives the editor's tabs and sends the correct content to the editor detail
+ */
+
+var eventManager = require('../utils/event_manager');
+var stateFactory = require('../utils/state_factory');
+
+var openClaimTab = function(editorTabsId, claimId){
+	var claimObj = {};
+	//loop through all the claim tabs, set them to false unless they match
+	for (var c = 0; c < newEditorTabsRefs[editorTabsId].tab_list.length; c++) {
+		if (newEditorTabsRefs[editorTabsId].tab_list[c]._id == claimId) {
+			newEditorTabsRefs[editorTabsId].tab_list[c].open = true;
+			claimObj = newEditorTabsRefs[editorTabsId].tab_list[c].claim;
+		} else {
+			newEditorTabsRefs[editorTabsId].tab_list[c].open = false;
+		}
+	}
+	eventManager.fire('editor_tab_opened', { owner: editorTabsId, data: claimObj });
+}
+
+var removeClaimFromList = function(editorTabsId, claimId){
 	var claimTabRemoved = false;
-	var claimObjRef = {};
+	var claimObj = {};
 	//loop through to find the relevant claim obj
-	for (var c = 0; c < WL_STATE.editor_list.claim_tabs.length; c++) {
-		if (WL_STATE.editor_list.claim_tabs[c].claim._id == claimId) {
-			console.log('removing claim tab from array');
-			claimObjRef = WL_STATE.editor_list.claim_tabs[c].claim;
-			WL_STATE.editor_list.claim_tabs.splice(c,1);
+	for (var c = 0; c < newEditorTabsRefs[editorTabsId].tab_list.length; c++) {
+		if (newEditorTabsRefs[editorTabsId].tab_list[c]._id == claimId) {
+			claimObj = newEditorTabsRefs[editorTabsId].tab_list[c].claim;
+			newEditorTabsRefs[editorTabsId].tab_list.splice(c,1);
 			claimTabRemoved = true;
-			eventManager.fire('claim_tab_closed', claimObjRef);
+			eventManager.fire('editor_tab_closed', {	editorTabsId, claimObj });
 
 			//now check if there are any other claims tabs to open instead
-			if (WL_STATE.editor_list.claim_tabs.length > 0) {
-				console.log('there are other claim tabs to open');
-				if (typeof WL_STATE.editor_list.claim_tabs[c] !== 'undefined') {
+			if (newEditorTabsRefs[editorTabsId].tab_list.length > 0) {
+				if (typeof newEditorTabsRefs[editorTabsId].tab_list[c] !== 'undefined') {
 					//if a tab fell into the place that was just spliced, open it
-					console.log('opening the tab that is now in the place of the one removed: ', WL_STATE.editor_list.claim_tabs[c]);
-					openClaimTab(WL_STATE.editor_list.claim_tabs[c].claim._id);	
+					openClaimTab(editorTabsId, newEditorTabsRefs[editorTabsId].tab_list[c]._id);	
 				} else {
 					//otherwise open the one before it
-					console.log('opening the tab that\'s one back: ', WL_STATE.editor_list.claim_tabs[c-1]);
-					openClaimTab(WL_STATE.editor_list.claim_tabs[c-1].claim._id);
+					openClaimTab(editorTabsId, newEditorTabsRefs[editorTabsId].tab_list[c-1]._id);
 				}
 			} 
 			break;
@@ -13787,135 +13741,158 @@ var removeClaimFromList = function(claimId){
 		console.warn('Claim tab to remove not found');	
 	}
 
-	console.groupEnd(); //ENd Removing claim from working list
 
 }
 
+var editorTabsState = {
+	_id: 'anon',
+	tab_list: []
+}
+
+var newEditorTabsRefs = {};
+
 
 module.exports = {
-	init: function(){
-		console.log('initting editor list state controller');
-		WL_STATE.editor_list = {
-			claim_tabs: []
-		};
+	getNewState: function(editorTabsId){
+		var returnState = stateFactory.create(editorTabsState);
+		returnState._id = editorTabsId;
+		newEditorTabsRefs[editorTabsId] = returnState;
+		console.info('New Editor Tabs State: ', newEditorTabsRefs[editorTabsId]);
+		return returnState;
 	},
-	addClaimToList: function(claimObj){
-		console.group('Adding claim to editor list', claimObj);
+	getExistingState: function(editorTabsId){
+		return newEditorTabsRefs[editorTabsId];
+	},
+	newTab: function(editorTabsId, claimObj){
+
+	},
+	addDetail: function(editorTabsId, claimDetail){
 		var alreadySet = false;
 
 		//first check that it's not already in the editor list
-		for (var c = 0; c < WL_STATE.editor_list.claim_tabs.length; c++) { //c for claim
-			if (WL_STATE.editor_list.claim_tabs[c].claim._id == claimObj._id) {
+		for (var c = 0; c < newEditorTabsRefs[editorTabsId].tab_list.length; c++) { //c for claim
+			if (newEditorTabsRefs[editorTabsId].tab_list[c]._id == claimDetail._id) {
 				//it is, our job is done
-				console.log('That claim is already in the editor list');
 				alreadySet = true;
 				break;
 			}
 		}
 
 		if (!alreadySet) {
-			//Yesy! new claim to work with!
-			console.log('pushing new claim ref to the editor list');
-			var newClaimTabObj = {
-				open: false,
-				claim: claimObj
-			}
-			WL_STATE.editor_list.claim_tabs.push(newClaimTabObj);
+			eventManager.fire('editor_tab_claim_added', {owner: editorTabsId, data: claimDetail});
+			newEditorTabsRefs[editorTabsId].tab_list.push(claimDetail);
 		}
-		console.groupEnd(); //END Adding claim to editor list
-		openClaimTab(claimObj._id);
-	},
-	openClaimTab: function(claimId){
-		openClaimTab(claimId);
-	},
-	removeClaimFromList: function(claimId){
-		removeClaimFromList(claimId);
-	}
-}
-},{"../utils/event_manager":32}],25:[function(require,module,exports){
-'use strict';
-/* The Temp Tab State Controller
- * 
- */
 
-module.exports = {
-	init: function(){
-		console.log('initting helper tab state control');
-		WL_STATE.helper_tab = {
-			show: true,
-			open: true,
-			show_welcome: true,
-			show_results: false,
-			show_new_claim: false,
-			show_working_list: false,
-			show_editor_detail: false
-		};
+		openClaimTab(editorTabsId, claimDetail._id);
 	},
-	openHelperTab: function(){
-		WL_STATE.helper_tab.open = true;
-		WL_STATE.helper_tab.show = true;
+	openClaimTab: function(editorTabsId, claimId){
+		openClaimTab(editorTabsId, claimId);
 	},
-	closeHelperTab: function(){
-		WL_STATE.helper_tab.open = false;
-	},
-	hideHelperTab: function(){
-		WL_STATE.helper_tab.show = false;
+	removeClaimFromList: function(editorTabsId, claimId){
+		removeClaimFromList(editorTabsId, claimId);
 	}
 }
-},{}],26:[function(require,module,exports){
+},{"../utils/event_manager":30,"../utils/state_factory":31}],24:[function(require,module,exports){
 'use strict';
+
+var searchApi = require('../api/search');
+var claimApi = require('../api/claim');
+var eventManager = require('../utils/event_manager');
+var stateFactory = require('../utils/state_factory');
 
 /* New arguments do not check state wile they are being authored
  * That would be distracting and might entice people to warp their reasoning to respond to the state
  */
 
-var newReason = {
-	description: "",
-	claimObj: {}
+
+var newArgumentState = {
+	_id: 'anon',
+	parent_claim_description: '',
+	search_term: '',
+	search_results: [],
+	show_results: false,
+	show_new_claim_form: false,
+	reasons: [],
+	show_reasons: false,
+	is_valid: false
 }
 
-var newArgumet = {
-	reasons: [Object.create(newReason)],
-	addReason: function(claimObj){
-		var reasonIsValid = true;
-		//first check if this reason already exists in the argument
-		for (var r = 0; r < this.reasons; r++){//r for reason
-			if (this.reasons[r].description == claimObj.description) {
-				console.warn('This reason already exists in the new argument');
-				reasonIsValid = false;
-				break;
+var newArgumentRefs = {};
+
+var argHasReason = function(argumentId, claimId){
+	for (var r = 0; r < newArgumentRefs[argumentId].reasons.length; r++){//r for reason
+		if (newArgumentRefs[argumentId].reasons[r]._id == claimId) {
+			return true;
+		}
+	}
+	return false;
+}
+
+var updateStatuses = function(argumentId){
+
+	//make sure the parent claim or any of the reasons aren't set in the search results
+	for (var r = 0; r < newArgumentRefs[argumentId].search_results.length; r++) {
+		//we're in a searcj result, now check it against the parent
+		if (newArgumentRefs[argumentId].search_results[r].description == newArgumentRefs[argumentId].parent_claim_description) {
+			newArgumentRefs[argumentId].search_results.splice(r, 1);
+			r--;
+		}
+		//also check it against all the reasons that are already set
+		for (var r2 = 0; r2 < newArgumentRefs[argumentId].reasons.length; r2++) {
+			if (newArgumentRefs[argumentId].search_results[r].description == newArgumentRefs[argumentId].reasons[r2].description) {
+				newArgumentRefs[argumentId].search_results.splice(r, 1);
+				r--;
 			}
 		}
+	}
 
-		if (reasonIsValid) {
-			console.log('adding reason to argument');
-			this.reasons.push(claimObj);
+	//now check that none of the reasons are actually somehow the parent
+	for (var r = 0; r < newArgumentRefs[argumentId].reasons.length; r++) {
+		if (newArgumentRefs[argumentId].reasons[r].description == newArgumentRefs[argumentId].parent_claim_description) {
+			newArgumentRefs[argumentId].reasons.splice(r, 1);
+			r--;
 		}
-	},
-	removeReason: function(claimObj){
-		for (var r = 0; r < this.reasons; r++){//r for reason
-			if (this.reasons[r].description == claimObj.description) {
-				this.reasons.splice(r, 1);
-			}
-		}
-	},
-	is_valid: false,
-	checkArgument: function(){
-		//there should be more than one reason
-		if (this.reasons.length < 2) {
-			this.isValid = false;
-			console.warn('not enough reasons in argument');
-			return;
-		}
+	}
 
-		console.log('new argument group is valid');
-		//if we've made it this far, it's passed all our checks!
-		this.isValid = true;
-	},
-	show_new_claim_button: false,
-	show_results: false,
-	search_term: '',
-	search_results: []
+	//after all that - are there any results left?
+	if (newArgumentRefs[argumentId].search_results.length > 0) {
+		newArgumentRefs[argumentId].show_results = true;
+	} else {
+		newArgumentRefs[argumentId].show_results = false;
+	}
+
+	//are there any exact matches?
+	newArgumentRefs[argumentId].show_new_claim_form = true;
+	for (var r = 0; r < newArgumentRefs[argumentId].search_results.length; r++) {
+		if (newArgumentRefs[argumentId].search_results[r].description == newArgumentRefs[argumentId].search_term) {
+			//found a match!
+			newArgumentRefs[argumentId].show_new_claim_form = false;
+			break;
+		}
+	}
+	//also check in the reasons for an exact match
+	for (var r = 0; r < newArgumentRefs[argumentId].reasons.length; r++) {
+		if (newArgumentRefs[argumentId].reasons[r].description == newArgumentRefs[argumentId].search_term) {
+			//found a match!
+			newArgumentRefs[argumentId].show_new_claim_form = false;
+			break;
+		}
+	}
+
+	//are there any reasons?
+	if (newArgumentRefs[argumentId].reasons.length > 0) {
+		newArgumentRefs[argumentId].show_reasons = true;
+	} else {
+		newArgumentRefs[argumentId].show_reasons = false;
+	}
+
+	//do the reasons make a valid argument?
+	if (newArgumentRefs[argumentId].reasons.length > 1) {
+		newArgumentRefs[argumentId].is_valid = true;
+	} else {
+		newArgumentRefs[argumentId].is_valid = false;
+	}
+
 }
 
 /* There could be many many places a new argument group is authored (thinking of the node map)
@@ -13924,35 +13901,124 @@ var newArgumet = {
  */
 module.exports = {
 
-	init: function(){
-		console.log('initting new argument state controller');
-		//Here we're just manually creating the new arguments
-		WL_STATE.new_arguments = {
-			editor_detail_for: Object.create(newArgumet),
-			editor_detail_against: Object.create(newArgumet)
-		};
+	getNewState: function(argumentId){
+		var returnState = stateFactory.create(newArgumentState);
+		returnState._id = argumentId;
+		newArgumentRefs[argumentId] = returnState;
+		eventManager.fire('new_argument_state_created', {owner: argumentId, data: newArgumentRefs[argumentId]});
+		return returnState;
 	},
-	setResults: function(argumentName, searchTerm, resultsArray){
-		console.log('setting search results for argument group:', argumentName, resultsArray);
-		WL_STATE.new_arguments[argumentName].search_results = resultsArray;
-		WL_STATE.new_arguments[argumentName].search_term = searchTerm;
-		if (resultsArray.length > 0) {
-			WL_STATE.new_arguments[argumentName].show_results = true;
-			var exactMatchFound = false;
-			for (var r = 0; r < resultsArray.length; r++) {
-				if (resultsArray[r].description == searchTerm) {
-					exactMatchFound = true;
+	hasExistingState: function(argumentId){
+		return newArgumentRefs.hasOwnProperty(argumentId);
+	},
+	getExistingState: function(argumentId){
+		return newArgumentRefs[argumentId];
+	},
+	setNewReason: function(argumentId, term){
+		newArgumentRefs[argumentId].search_term = term;
+		newArgumentRefs[argumentId].show_new_claim_form = false;
+	},
+	enterNewReason: function(argumentId, term){
+		newArgumentRefs[argumentId].search_term = term;
+		searchApi.searchByString(term).done(function(data){
+			//add to search results
+			newArgumentRefs[argumentId].search_results = data;
+
+			if (data.length > 0) {
+				newArgumentRefs[argumentId].show_results = true;
+			} else {
+				newArgumentRefs[argumentId].show_results = false;
+			}
+			updateStatuses(argumentId);
+			eventManager.fire("search_results_set", {owner: argumentId, data: newArgumentRefs[argumentId].search_results});
+
+		}).fail(function(err){
+			console.error('search api error: ', err);
+			//TODO: send to alerts
+		});
+	},
+	getClaimFromSearch: function(argumentId, claimId) {
+		for (var r = 0; r < newArgumentRefs[argumentId].search_results.length; r++) {
+			if (newArgumentRefs[argumentId].search_results[r]._id == claimId) {
+				return newArgumentRefs[argumentId].search_results[r];
+			}
+		}
+	},
+	addReason: function(argumentId, claimObj) {
+		//first check if that reason already exists in this argument
+		if (!argHasReason(argumentId, claimObj._id)) {
+			console.info('newArgumentRefs: ', newArgumentRefs);
+			newArgumentRefs[argumentId].reasons.push(claimObj);
+			//now tidy up - remove the reason if it is in the results
+			for (var r = 0; r < newArgumentRefs[argumentId].search_results.length; r++){
+				if (newArgumentRefs[argumentId].search_results[r]._id == claimObj._id) {
+					newArgumentRefs[argumentId].search_results.splice(r, 1);
 					break;
 				}
 			}
-			WL_STATE.new_arguments[argumentName].show_new_claim_button = !exactMatchFound;
-		} else {
-			WL_STATE.new_arguments[argumentName].show_new_claim_button = true;
-			WL_STATE.new_arguments[argumentName].show_results = false;
+			updateStatuses(argumentId);
+			eventManager.fire('new_argument_new_reason', {owner: argumentId, data: claimObj});
 		}
 	},
-	getSearchTerm: function(argumentName){
-		return WL_STATE.new_arguments[argumentName].search_term;
+	removeReason: function(argumentId, claimId){
+		for (var r = 0; r < newArgumentRefs[argumentId].reasons.length; r++){
+			if (newArgumentRefs[argumentId].reasons[r]._id == claimId) {
+				//remove it
+				var removedReason = newArgumentRefs[argumentId].reasons.splice(r, 1);
+				//and push it back into the search results (in case that was a mistake, this will be an easy way to get it back);
+				newArgumentRefs[argumentId].search_results.push(removedReason[0]);
+				break;
+			}
+		}
+		updateStatuses(argumentId);
+		eventManager.fire('new_argument_reason_removed', {owner: argumentId, data: removedReason});
+	},
+	saveTermAsClaim: function(argumentId){
+		var term = newArgumentRefs[argumentId].search_term;
+
+		claimApi.newClaim(term).done(function(data){
+			console.log('data!', data);
+			newArgumentRefs[argumentId].reasons.push(data);
+			updateStatuses(argumentId);
+			eventManager.fire('new_argument_new_reason', {owner: argumentId, data: data});
+		}).fail(function(err){
+			console.error('API fail', err);
+		});
+	}
+
+/*
+
+
+
+	setResults: function(argumentID, searchTerm, resultsArray){
+		console.log('setting search results for argument group:', argumentName, resultsArray);
+		if (newArguments.hasOwnProperty(argumentID)) {
+			newArguments[argumentID].search_results = resultsArray;
+			newArguments[argumentID].search_term = searchTerm;
+
+			if (resultsArray.length > 0) {
+				newArguments[argumentID].show_results = true;
+				var exactMatchFound = false;
+				for (var r = 0; r < resultsArray.length; r++) {
+					if (resultsArray[r].description == searchTerm) {
+						exactMatchFound = true;
+						break;
+					}
+				}
+				newArguments[argumentID].show_new_claim_button = !exactMatchFound;
+			} else {
+				newArguments[argumentID].show_new_claim_button = true;
+				newArguments[argumentID].show_results = false;
+			}
+		} else {
+			console.warn('That argument creation form doesn\'t have any state :(');
+		}
+	},
+	getSearchTerm: function(argumentID){
+		if (newArguments.hasOwnProperty(argumentID)) {
+			return newArguments[argumentID].search_term;
+		}
+		console.warn('That argument creation form has no state :(');
 	},
 	addReason: function(argumentName, claimObj){
 		console.log('adding reason to argument group:', argumentName);
@@ -13972,65 +14038,57 @@ module.exports = {
 	},
 	clearArgument: function(argumentName){
 		console.log('clearing argument group:', argumentName);
-	}
+	},
+	*/
 
 };
-},{}],27:[function(require,module,exports){
+},{"../api/claim":5,"../api/search":6,"../utils/event_manager":30,"../utils/state_factory":31}],25:[function(require,module,exports){
 'use strict';
 
 /* New Claim State Ctrl
  */
 
 var eventManager = require('../utils/event_manager');
+var stateFactory = require('../utils/state_factory');
+
+var newClaimState = {
+	show: false,
+	description: '',
+	valid: true
+}
+
+var newClaimRefs = {};
 
 module.exports = {
 
-	init: function(){
-		console.log('initting new claim state controller');
-
-		WL_STATE.new_claim = {
-			description: '',
-			show: false
-		};
-
-		//listen for a new search term being set, if they don't find it they'll probably want to make a new one
-		eventManager.subscribe('search_term_set', function(searchTerm){
-			WL_STATE.new_claim.description = searchTerm;
-		});
-
-		//listen to the search results. If non are set, open me!!!
-		eventManager.subscribe('search_results_set', function(resultsArray){
-			var searchTerm = WL_STATE.search_input.term;
-			//show if there are no results
-			if (resultsArray.length < 1) {
-				WL_STATE.new_claim.show = true;
-			} else {
-				//also show if no results match
-				var hasExactMatch = false;
-				for (var r = 0; r < resultsArray.length; r++){
-					if (resultsArray[r].description == searchTerm) { //TODO - remove this cheekyness
-						hasExactMatch = true;
-						WL_STATE.new_claim.show = false;
-						break;
-					}
-				}
-
-				if (!hasExactMatch) {
-					WL_STATE.new_claim.show = true;
-				}	
-			}
-			
-		});
+	getNewState: function(newClaimId){
+		var returnState = stateFactory.create(newClaimState);
+		returnState._id = newClaimId;
+		newClaimRefs[newClaimId] = returnState;
+		console.info('New Claim State: ', newClaimRefs[newClaimId]);
+		return returnState;
 	},
-	setDescription: function(newDescription){
-		WL_STATE.new_claim.description = newDescription;
+	getExistingState(newClaimId){
+		return newClaimRefs[newClaimId];
 	},
-	getDescription: function(){
-		return WL_STATE.new_claim.description;
+	setDescription: function(newClaimId, newDescription){
+		newClaimRefs[newClaimId].description = newDescription;
+	},
+	getDescription: function(newClaimId){
+		return newClaimRefs[newClaimId].description;
+	},
+	publishClaim: function(newClaimId){
+		console.warn('TODO: publish new claim');
+	},
+	show: function(newClaimId){
+		newClaimRefs[newClaimId].show = true;
+	},
+	hide: function(newClaimId){
+		newClaimRefs[newClaimId].show = false;
 	}
 
 };
-},{"../utils/event_manager":32}],28:[function(require,module,exports){
+},{"../utils/event_manager":30,"../utils/state_factory":31}],26:[function(require,module,exports){
 'use strict';
 
 /* The Search Input state controller
@@ -14038,87 +14096,62 @@ module.exports = {
  */
 
 var eventManager = require('../utils/event_manager');
+var searchApi = require('../api/search');
+var stateFactory = require('../utils/state_factory');
 
+var searchState = {
+	_id: 'anon',
+	term: '',
+	results: []
+}
+
+var searchStateRef = {}
 
 module.exports = {
-
-	init: function(){
-		WL_STATE.search_input = {
-			term: ""
-		}
+	getNewState: function(searchId){
+		var returnSearchState = stateFactory.create(searchState);
+		returnSearchState._id = searchId;
+		searchStateRef[searchId] = returnSearchState;
+		console.info('New State: ', searchStateRef[searchId]);
+		return returnSearchState;
 	},
+	getExistingState: function(searchId){
+		console.log('searchStateRef[searchId]: ', searchStateRef[searchId]);
+		return searchStateRef[searchId];
+	},
+	setTerm: function(searchId, newterm){
+		searchStateRef[searchId].term = newterm.trim();
+		eventManager.fire('search_term_set', { search: searchStateRef[searchId] });
+	},
+	runSearch: function(searchId){
+		eventManager.fire('search_requested', {	search: searchStateRef[searchId] });
 
-	setNewTerm: function(newterm){
-		WL_STATE.search_input.term = newterm;
-		eventManager.fire('search_term_set', newterm);
+		searchApi.searchByString(searchStateRef[searchId].term).done(function(data){
+			//send to the search results
+			searchStateRef[searchId].results = data;
+			eventManager.fire('search_results_set', {owner: searchId, data: searchStateRef[searchId]});
+		}).fail(function(err){
+			console.error('search api error: ', err);
+			//TODO: send to alerts
+		});		
+	},
+	result_clicked: function(searchId, claimId){
+		//get the result object
+		var clickedResult = {};
+
+		for (var r = 0; r < searchStateRef[searchId].results.length; r++){
+			if (searchStateRef[searchId].results[r]._id == claimId){
+				eventManager.fire('search_result_clicked', {
+					searchId: searchId,
+					resultObj: searchStateRef[searchId].results[r]
+				});
+				break;
+			}
+		}
 	}
 
 };
-},{"../utils/event_manager":32}],29:[function(require,module,exports){
-'use strict';
-
-var eventManager = require('../utils/event_manager');
-
-var setResults = function(resultsArray){
-	console.groupCollapsed('Setting search results: ', resultsArray);
-	WL_STATE.search_results.results = resultsArray;
-	
-	if (resultsArray.length == 0) {
-		closeResultsTab();
-	} else {
-		openResultsTab();
-	}
-	console.groupEnd(); //ENd Setting search results
-	eventManager.fire('search_results_set', WL_STATE.search_results.results);
-}
-
-var openResultsTab = function(){
-	WL_STATE.search_results.open_tab = true;
-	WL_STATE.search_results.show_tab = true;
-}
-
-var closeResultsTab = function(){
-	WL_STATE.search_results.open_tab = false;
-}
-
-var hideResultsTab = function(){
-	WL_STATE.search_results.show_tab = false;
-}
-
-
-module.exports = {
-
-	init: function(){
-		console.log('initting search results state controller');
-		WL_STATE.search_results = {
-			term: "",
-			results: [],
-			show_tab: false,
-			open_tab: false,
-			is_empty: true
-		}
-	},
-
-	setNewTerm: function(newterm){
-		WL_STATE.search.term = newterm;
-	},
-
-	setResults: function(resultsArray){
-		setResults(resultsArray);
-	},
-
-	openResultsTab: function(){
-		openResultsTab();
-	},
-	closeResultsTab: function(){
-		closeResultsTab();
-	},
-	hideResultsTab: function(){
-		hideResultsTab();
-	}
-
-};
-},{"../utils/event_manager":32}],30:[function(require,module,exports){
+},{"../api/search":6,"../utils/event_manager":30,"../utils/state_factory":31}],27:[function(require,module,exports){
 'use strict';
 
 /* Everyting aout handling tab state!
@@ -14373,87 +14406,183 @@ module.exports = {
 		WL_STATE.tabs[groupName].tempTab = null;
 	}
 };
-},{"../reducers/object_helpers":19,"../reducers/string_helpers":20,"../reducers/tab_helpers":21,"../utils/event_manager":32}],31:[function(require,module,exports){
+},{"../reducers/object_helpers":18,"../reducers/string_helpers":19,"../reducers/tab_helpers":20,"../utils/event_manager":30}],28:[function(require,module,exports){
 'use strict';
+/* The Toggle State Controller
+ * Thoughts from when this was just a help tab:
+ * I'm thinking helpful text could be placed throughout the DOM and hide/show based on 
+ * the help state & whatever the relevant containing state is. 
+ * The main body of the help tab could itself be tabbed content with more in depth help
+ */
 
-var editorListStateCtrl = require('./editor_list');
+var stateFactory = require('../utils/state_factory');
+
+ var toggleState = {
+ 	_id: 'anon',
+ 	open: true
+ }
+
+ var toggleStateRef = {};
+
+module.exports = {
+	getNewState: function(toggleId){
+		var returnToggleState = stateFactory.create(toggleState);
+		returnToggleState._id = toggleId;
+		toggleStateRef[toggleId] = returnToggleState;
+		console.info('New State: ', toggleStateRef[toggleId]);
+		return returnToggleState;
+	},
+	getExistingState: function(toggleId){
+		return toggleStateRef[toggleId];
+	},
+	open: function(toggleId){
+		toggleStateRef[toggleId].open = true;
+	},
+	close: function(toggleId){
+		toggleStateRef[toggleId].open = false;
+	}
+}
+},{"../utils/state_factory":31}],29:[function(require,module,exports){
+'use strict';
 
 /* Working_list State controller
  *
  */
+ 
+var eventManager = require('../utils/event_manager');
+var stateFactory = require('../utils/state_factory');
+
+var workingListState = {
+	claims: []
+}
+
+var workingListStateRefs = {};
 
 module.exports = {
-	init: function(){
-		WL_STATE.working_list = {
-			claims: [],
-			is_empty: true
-		}
+	getNewState: function(workingListId){
+		var returnListState = stateFactory.create(workingListState);
+		returnListState._id = workingListId;
+		workingListStateRefs[workingListId] = returnListState;
+		console.info('New State: ', workingListStateRefs[workingListId]);
+		return returnListState;
 	},
-	addClaimToList: function(claimObj){
-		console.group('Adding claim to working list', claimObj);
+	getExistingState: function(workingListId){
+		return workingListStateRefs[workingListId];
+	},
+	addClaim: function(workingListId, claimObj){
 		var alreadySet = false;
 
 		//first check that it's not already in the editor list
-		for (var c = 0; c < WL_STATE.working_list.claims.length; c++) { //c for claim
-			if (WL_STATE.working_list.claims[c]._id == claimObj._id) {
+		for (var c = 0; c < workingListStateRefs[workingListId].claims.length; c++) { //c for claim
+			if (workingListStateRefs[workingListId].claims[c]._id == claimObj._id) {
 				//it is, our job is done
-				console.warn('That claim is already in the working list');
 				alreadySet = true;
-				//open a tab
-				editorListStateCtrl.addClaimToList(claimObj);
+				eventManager.fire('working_list_duplicate_requested', {owner: workingListId, data: workingListStateRefs[workingListId].claims[c]});
 				break;
 			}
 		}
 
 		if (!alreadySet) {
-			console.log('pushing new claim ref to working list');
 			//Yesy! new claim to work with!
-			WL_STATE.working_list.claims.push(claimObj);
-
-			//even if it wasn't before, this makes it doubly not so
-			WL_STATE.working_list.is_empty = false;
+			workingListStateRefs[workingListId].claims.push(claimObj);
 		}
-		console.groupEnd(); //END Adding claim to editor list
 		
+	},
+	itemClicked: function(workingListId, claimId){
+		//get the claim object, fire it with an event
+		for (var i = 0; i < workingListStateRefs[workingListId].claims.length; i++) {
+			if (workingListStateRefs[workingListId].claims[i]._id == claimId) {
+				eventManager.fire('working_list_claim_clicked', {
+					owner: workingListId,
+					data: workingListStateRefs[workingListId].claims[i]
+				});
+				break;
+			}
+		}
 	},
 	removeClaimFromList: function(claimId){
 		
 	}
 }
-},{"./editor_list":24}],32:[function(require,module,exports){
+},{"../utils/event_manager":30,"../utils/state_factory":31}],30:[function(require,module,exports){
 'use strict';
+
+/* The Event Manager
+ * each type of event that is subscribed to becomes an array by the same name
+ * That array holds all the functions that have subscribed to the event
+ * So when the event fires, those functions will be run
+ * When firing an event, you can also pass in data that will be accessible to the subscribers
+ * Try not to mutate that data, you never know who else might be expecting it.
+ */
 
 var eventSubscribers = {};
 
-module.exports = {
+var addSubscriber = function(event, subscriber){
+	if (eventSubscribers[event]) {
+		eventSubscribers[event].push(subscriber);
+	} else {
+		eventSubscribers[event] = [subscriber];
+	}
+}
 
-	subscribe: function(event_name, callback){
+module.exports = {
+	subscribe: function(event, subscriber){
 		/* Takes the name of an event to subscribe to
 		 * and a function to run when that event is fired.
 		 * An index number is returned. This will be needed if 
-		 * the subscriber is ever to be removed.
-		 */
-		if (eventSubscribers[event_name]) {
-			eventSubscribers[event_name].push(callback);
-		} else {
-			eventSubscribers[event_name] = [callback];
+		 * the subscriber is ever to be removed. (or we could implement some other kind of id system?)
+		 */	
+		if (Array.isArray(event)){
+			for (var e = 0; e < event.length; e++) {
+				addSubscriber(event[e], subscriber);
+			}
+			return;
 		}
-		console.info('Subscriber added to', event_name);
 
-		return eventSubscribers[event_name].length - 1;
+		addSubscriber(event, subscriber);
 	},
 
-	unsubscribe: function(event_name, index){
-		eventSubscribers[event_name].splice(index, 1);
+	unsubscribe: function(event, index){
+		eventSubscribers[event].splice(index, 1);
 	},
 
-	fire: function(event_name, data){
-		console.log('EVENT: ', event_name, data);
-		if (eventSubscribers[event_name]) {
-			for (var s = 0; s < eventSubscribers[event_name].length; s++) { //s for subscriber
-				eventSubscribers[event_name][s](data);
+	fire: function(event, data){
+		console.log('EVENT:', event, data);
+		if (eventSubscribers[event]) {
+			for (var s = 0; s < eventSubscribers[event].length; s++) { //s for subscriber
+				eventSubscribers[event][s](data);
 			}
 		}
 	}
-};
+}
+},{}],31:[function(require,module,exports){
+'use strict';
+
+/* The State Factory
+ * You should see in every state controller a request here. 
+ * Pass in a state template (an object of the structure you require) and this will return an object
+ * conforming to that template without any shared refrences. Otherwise, you might find some troubling
+ * side effects when modifying states.
+ */
+
+module.exports = {
+	create: function(stateTemplate){
+		console.info("1: ", stateTemplate);
+		var returnState = Object.create(stateTemplate);
+		console.info("2: ", stateTemplate);
+		for (var attr in returnState){
+			//array
+			if (Array.isArray(returnState[attr])) {
+				returnState[attr] = [];
+				console.log('array', attr);
+			} else {
+				console.log('attr', attr);
+				returnState[attr] = returnState[attr];
+			}
+		}
+		console.info("3: ", returnState);
+
+		return returnState;
+	}
+}
 },{}]},{},[7]);

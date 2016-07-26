@@ -1,59 +1,55 @@
 'use strict';
 
-/*
- * This module is responsibe for the new claim
+/* This module is responsibe for the new claim
+ * It looks like these might generally be attached to some search results
+ * It could then be a good idea to have the id of the new claim to match that of the results to which it is attached
+ * then when we're responding to the search_results_set event, we can assume the id matches. nifty? or spaghetti? 
  */
 
-var newClaimStateCtrl = require('../state/new_claim'); newClaimStateCtrl.init();
-var actionStateCtrl = require('../state/actions');
-var searchApi = require('../api/search');
-var searchResultsStateCtrl = require('../state/search_results');
-var workingListStateCtrl = require('../state/working_list');
+var newClaimStateCtrl = require('../state/new_claim');
 var claimApi = require('../api/claim');
+var eventManager = require('../utils/event_manager');
+
+var domActions = {
+
+}
 
 module.exports = {
 	init: function(){
-		console.log('initting new claim DOM watcher');
+		console.log('new-claim');
+		$('.js-new-claim').each(function(){
+			var newClaimId = $(this).data('new-claim-id');
+			var newClaimState = newClaimStateCtrl.getNewState(newClaimId);
+			newClaimState.actions = domActions;
+			rivets.bind(
+				$(this),
+				{ new_claim: newClaimState }
+			);
+		});
 		
-		actionStateCtrl.addAction('new_claim_keypress', function(rivet, e){
-			//this fires with every keypress of the input for the new reason
-			var term = rivet.currentTarget.value;
-			newClaimStateCtrl.setDescription(term);
+		//watch for search results being set, then check if there are any exact matches. If not, barge in!
+		eventManager.subscribe('search_results_set', function(event){
 
-			if (rivet.key == "Enter"){
-				console.group('New Claim Form Enter: ', term);
-				//when the user presses enter, run the search. Only let them add a new claim if it doesn't already exist
-				searchApi.searchByString(term).done(function(data){
-					//add to search results
-					searchResultsStateCtrl.setResults(data);
-				}).fail(function(err){
-					console.error('search api error: ', err);
-					//TODO: send to alerts
-				});
-				console.groupEnd();//END New Claim Form Enter
+			//currently only running for the main results
+			if (event.owner == "main_results") {
+				var exactMatchFound = false;
 
-			} else {
-				//not the enter key - we could start pre fetching results...
+				for (var r = 0; r < event.data.results.length; r++){
+					if (event.data.results[r].description == event.data.term) {
+						exactMatchFound = true;
+						break;
+					}
+				}
+
+				if (exactMatchFound){
+					newClaimStateCtrl.hide("main_results");
+				} else {
+					newClaimStateCtrl.setDescription("main_results", event.data.term);
+					newClaimStateCtrl.show("main_results");
+				}
 
 			}
+
 		});
-
-		//if a new reason has been typed up & the search has returned no exact matches, the user can add that reason as a new claim
-		actionStateCtrl.addAction('save_new_claim', function(rivet){
-			var newClaimString = newClaimStateCtrl.getDescription();
-			console.group('Saving new claim: ', newClaimString);
-			claimApi.newClaim(newClaimString).done(function(data){
-				console.info('new claim has been added!', data);
-				//add it to the working list and open in detail (add it to the workin glist twice hehe!)
-				workingListStateCtrl.addClaimToList(data); //first time adds it to the working list
-				workingListStateCtrl.addClaimToList(data); //Second time, the working list will pop in into the detail and open the tab for us. EASy WIN :D
-			}).fail(function(err){
-				console.error('new claim api failed', err);
-
-				//send err to the alert system
-			});
-			console.groupEnd();//END Saving reason as new claim
-		});
-
 	}
 }

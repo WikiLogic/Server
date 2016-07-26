@@ -60,7 +60,8 @@
 }
 
 .color {
-	&--black { fill: black !important; }
+	&-black { fill: black !important; }
+	&-white { fill: white !important; }
 }
 
 .hover-color {

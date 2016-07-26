@@ -1,0 +1,113 @@
+<!-- The New Argument form -->
+<!-- newargument is the rivet king -->
+
+<section class="splitter splitter--full-width box">
+    <div class="splitter__left">
+        <svg class="float-left"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#pencil"></use></svg>
+    </div>
+    <div class="splitter__right full-width text-align-left">
+    
+        <!-- This is the input for a new reason. It's essentially a mini search bar -->
+        <input type="text" 
+            class="full-width js-new-reason"
+            view-data-argument-id="newargument._id"
+            view-value="newargument.input"
+            view-on-keypress="newargument.actions.new_reason_keypress"
+            placeholder="Add a reason...">
+
+        <!-- When the user submits their input above, it'll run a search -->
+
+        <!-- If there are no exact matches, this button gives them the option to add it as a new claim -->
+        <div view-show="newargument.show_new_claim_form"
+             class="splitter bump-up-3">
+            <div class="splitter__left">
+                <p><i><small>No exact matches found, click the button to save <b>"{newargument.search_term}"</b> as a new claim.</small></i></p>
+            </div>
+            <div class="splitter__right">
+                <button class="button button--green text-align-center"
+                    view-on-click="newargument.actions.save_search_term_as_claim"
+                    view-data-argument-id="newargument._id">
+                    <svg class="icon color-white bump-up-2"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#cloud-upload"></use></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<hr view-show="newargument.show_results" class="hr--zeroed">
+
+<section view-show="newargument.show_results" 
+         class="splitter splitter--full-width box">
+    <div class="splitter__left">
+        <svg class="icon color-black float-left"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#magnifying-glass"></use></svg>
+    </div>
+    <div class="splitter__right full-width text-align-left">
+        <!-- These are the results -->
+        
+        <div view-each-searchresult="newargument.search_results"
+             class="splitter splitter--full-width">
+            <div class="splitter__left text-align-left full-width">
+                <p>{searchresult.description}</p>
+            </div>
+            <div class="splitter__right">
+                <button class="button text-align-center display-inline-block"
+                        view-data-argument-id="newargument._id"
+                        view-data-claim-id="searchresult._id"
+                        view-on-click="newargument.actions.result_clicked">
+                    <svg class="icon bump-up-2 color-white"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#cloud-download"></use></svg>
+                </button>
+            </div>
+        </div>
+        
+    </div>
+</section>
+
+<hr view-show="newargument.show_reasons" class="hr--zeroed">
+
+<section view-show="newargument.show_reasons"
+        class="box">
+    <!-- These are the reasons that have been added to the argument group -->
+    
+    <div class="splitter">
+        <div class="splitter__left">
+        
+            <span class="state-tag state-tag--50">50</span>
+
+        </div>
+        <div class="splitter__right full-width">
+        
+            <div view-each-reason="newargument.reasons" class="splitter splitter--full-width">
+                <div class="splitter__left text-align-left full-width">
+
+                    <div class="splitter">
+                        <div class="splitter__left">
+                            <span class="state-tag state-tag--50">50</span>     
+                        </div>
+                        <div class="splitter__right text-align-left full-width">
+                            <p>{reason.description}</p>
+                        </div>
+                    </div>
+                
+                </div>
+                <div class="splitter__right">
+                    <button class="button button--red text-align-center display-inline-block"
+                            view-data-argument-id="newargument._id"
+                            view-data-claim-id="reason._id"
+                            view-on-click="newargument.actions.remove_reason">
+                        <svg class="icon bump-up-2 color-white"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- When the argument group is valid, then show this to save -->
+    <div view-show="newargument.is_valid">
+        <br>
+        <button class="button full-width text-align-center"
+            view-on-click="newargument.actions.save_new_argument"
+            data-to="editor_detial_for">
+            save argument</button>
+    </div>
+</section>

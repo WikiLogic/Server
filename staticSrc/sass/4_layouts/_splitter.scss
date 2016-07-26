@@ -1,6 +1,8 @@
 .splitter {
 	font-size: rem(16);
 	display: block;
+	display: table;
+	width: 100%;
 	@include zero-typography-margins();
 
 	&__left {
@@ -8,16 +10,12 @@
 		vertical-align: middle;
 		padding-right: rem(10);
 	}
+	
 	&__right {
 		display: table-cell;
 		vertical-align: middle;
 		padding-left: rem(10);
-	}
-
-	&--full-width {
-		display: table;
-		width: 100%;
-		.splitter__right { text-align: right; }
+		text-align: right;
 	}
 
 

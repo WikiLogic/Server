@@ -1,63 +1,34 @@
 'use strict';
 
-var eventManager = require('../utils/event_manager');
-
-/* The Editor Detail state controller
- *
+/* The Editor List State Controller
+ * This state drives the editor's tabs and sends the correct content to the editor detail
  */
 
-var setNewClaimDetail = function(claimObj){
-	WL_STATE.editor_detail.claim = claimObj;
+var eventManager = require('../utils/event_manager');
+var newArgumentStateCtrl = require('./new_argument');
+var stateFactory = require('../utils/state_factory');
+
+var editorDetailState = {
+	_id: 'anon',
+	show: false,
+	claim: {},
+	new_for: [],
+	new_against: [],
+	sort_for: {},
+	sort_against: {}
 }
 
+var editorDetailRefs = {};
+
 module.exports = {
-
-	init: function(){
-		console.log('initting editor detail state controller');
-		WL_STATE.editor_detail = {
-			show: false,
-			claim: {},
-			new_for: {
-				is_valid: false,
-				reasons: [
-					{
-
-					}
-				]
-			},
-			new_against: {
-				is_valid: false,
-				reasons: [{}]
-			}
-		};
-
-		eventManager.subscribe('claim_tab_closed', function(claimObj){
-			WL_STATE.editor_detail.show = false;
-		});
-
-		eventManager.subscribe('claim_tab_opened', function(claimObj){
-			setNewClaimDetail(claimObj);
-			WL_STATE.editor_detail.show = true;
-		});
+	getNewState: function(editorDetailId){
+		var returnState = stateFactory.create(editorDetailState);
+		returnState._id = editorDetailId;
+		editorDetailRefs[editorDetailId] = returnState;
+		eventManager.fire('new_editor_detail_state', {owner: editorDetailId, data: editorDetailRefs[editorDetailId]});
+		return returnState;
 	},
-
-	setNewClaimDetail: function(claimObj){
-		setNewClaimDetail(claimObj);
-	},
-
-	addSupportingArgument: function(){
-		console.log('stubbing new supporting argument group');
-		WL_STATE.editor_detail.claim.supporting.push({
-			status:false,
-			reasons: []
-		});
-	},
-	addOpposingArgument: function(){
-		console.log('stubbing new opposing argument group');
-		WL_STATE.editor_detail.claim.opposing.push({
-			status:false,
-			reasons: []
-		});
+	getExistingState: function(editorDetailId){
+		return editorDetailRefs[editorDetailId];
 	}
-
-};
+}

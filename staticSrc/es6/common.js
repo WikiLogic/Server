@@ -1,31 +1,9 @@
-//first, init the global state
-window.WL_STATE = {};
-
-$ = jQuery = require('jquery');
 console.groupCollapsed('Initting');
-require('./dom_watchers/search-input').init();
-require('./dom_watchers/new-claim').init();
-require('./dom_watchers/search-results').init();
-require('./dom_watchers/helper-tab').init();
 
-var presetTabs = [
-	{
-		groupName: 'editor',
-		tabName: 'helper',
-		tabType: '',
-		data: {}
-	}
-]
-require('./dom_watchers/tabs').init(presetTabs);
-require('./dom_watchers/toaster').init();
-require('./dom_watchers/claim-input').init();
-require('./dom_watchers/working-list').init();
-require('./dom_watchers/search-results').init();
-require('./dom_watchers/editor-list').init();
-require('./dom_watchers/editor-detail').init();
-require('./dom_watchers/new-argument').init();
-
+//first, init the global state
 window.rivets = require('rivets');
+$ = jQuery = require('jquery');
+window.WL_STATE = {};
 
 //init rivets to drive the dom
 rivets.configure({
@@ -41,5 +19,20 @@ rivets.configure({
 	}
 });
 
-rivets.bind($('#god'), {state: window.WL_STATE});
+//now init the modular elements - there can be any number of these anywhere so we can't attach them to WL_STATE
+require('./dom_watchers/search-input').init();
+require('./dom_watchers/search-results').init();
+require('./dom_watchers/new-claim').init();
+require('./dom_watchers/toggles').init();
+require('./dom_watchers/working-list').init();
+require('./dom_watchers/editor-detail').init();
+require('./dom_watchers/new-argument').init();
+
+
+
+
+require('./dom_watchers/tabs').init();
+require('./dom_watchers/toaster').init();
+require('./dom_watchers/claim-input').init();
+
 console.groupEnd(); //END Initting

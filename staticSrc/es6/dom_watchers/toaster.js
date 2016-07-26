@@ -11,7 +11,7 @@ var $ = require('jquery');
 
 module.exports = {
 	init: function(){
-		console.log('initting toaster');
+		console.log('toaster');
 		$('.js-toaster').on('click', function(){
 			console.log('toasting toaster');
 			var $thisToaster = $(this);
