@@ -34,6 +34,10 @@ var domActions = {
 		var claimId = rivet.currentTarget.attributes['data-claim-id'].value;
 		var argumentId = rivet.currentTarget.attributes['data-argument-id'].value;
 		newArgumentStateCtrl.removeReason(argumentId, claimId);
+	},
+	save_search_term_as_claim: function(rivet){
+		var argumentId = rivet.currentTarget.attributes['data-argument-id'].value;
+		newArgumentStateCtrl.saveTermAsClaim(argumentId);
 	}
 }
 

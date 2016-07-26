@@ -1,6 +1,7 @@
 'use strict';
 
 var searchApi = require('../api/search');
+var claimApi = require('../api/claim');
 var eventManager = require('../utils/event_manager');
 var stateFactory = require('../utils/state_factory');
 
@@ -34,13 +35,23 @@ var argHasReason = function(argumentId, claimId){
 
 var updateStatuses = function(argumentId){
 
-	//make sure the parent claim isn't set anywhere
+	//make sure the parent claim or any of the reasons aren't set in the search results
 	for (var r = 0; r < newArgumentRefs[argumentId].search_results.length; r++) {
+		//we're in a searcj result, now check it against the parent
 		if (newArgumentRefs[argumentId].search_results[r].description == newArgumentRefs[argumentId].parent_claim_description) {
 			newArgumentRefs[argumentId].search_results.splice(r, 1);
 			r--;
 		}
+		//also check it against all the reasons that are already set
+		for (var r2 = 0; r2 < newArgumentRefs[argumentId].reasons.length; r2++) {
+			if (newArgumentRefs[argumentId].search_results[r].description == newArgumentRefs[argumentId].reasons[r2].description) {
+				newArgumentRefs[argumentId].search_results.splice(r, 1);
+				r--;
+			}
+		}
 	}
+
+	//now check that none of the reasons are actually somehow the parent
 	for (var r = 0; r < newArgumentRefs[argumentId].reasons.length; r++) {
 		if (newArgumentRefs[argumentId].reasons[r].description == newArgumentRefs[argumentId].parent_claim_description) {
 			newArgumentRefs[argumentId].reasons.splice(r, 1);
@@ -48,7 +59,7 @@ var updateStatuses = function(argumentId){
 		}
 	}
 
-	//are there any results
+	//after all that - are there any results left?
 	if (newArgumentRefs[argumentId].search_results.length > 0) {
 		newArgumentRefs[argumentId].show_results = true;
 	} else {
@@ -59,6 +70,14 @@ var updateStatuses = function(argumentId){
 	newArgumentRefs[argumentId].show_new_claim_form = true;
 	for (var r = 0; r < newArgumentRefs[argumentId].search_results.length; r++) {
 		if (newArgumentRefs[argumentId].search_results[r].description == newArgumentRefs[argumentId].search_term) {
+			//found a match!
+			newArgumentRefs[argumentId].show_new_claim_form = false;
+			break;
+		}
+	}
+	//also check in the reasons for an exact match
+	for (var r = 0; r < newArgumentRefs[argumentId].reasons.length; r++) {
+		if (newArgumentRefs[argumentId].reasons[r].description == newArgumentRefs[argumentId].search_term) {
 			//found a match!
 			newArgumentRefs[argumentId].show_new_claim_form = false;
 			break;
@@ -100,8 +119,9 @@ module.exports = {
 	getExistingState: function(argumentId){
 		return newArgumentRefs[argumentId];
 	},
-	setNewReason: function(argumentID, term){
-		console.log('setting ', argumentID, term);
+	setNewReason: function(argumentId, term){
+		newArgumentRefs[argumentId].search_term = term;
+		newArgumentRefs[argumentId].show_new_claim_form = false;
 	},
 	enterNewReason: function(argumentId, term){
 		newArgumentRefs[argumentId].search_term = term;
@@ -150,13 +170,25 @@ module.exports = {
 			if (newArgumentRefs[argumentId].reasons[r]._id == claimId) {
 				//remove it
 				var removedReason = newArgumentRefs[argumentId].reasons.splice(r, 1);
-				//but push it into the search results - kind of like a last chance, just in case that was a mistake
+				//and push it back into the search results (in case that was a mistake, this will be an easy way to get it back);
 				newArgumentRefs[argumentId].search_results.push(removedReason[0]);
 				break;
 			}
 		}
 		updateStatuses(argumentId);
 		eventManager.fire('new_argument_reason_removed', {owner: argumentId, data: removedReason});
+	},
+	saveTermAsClaim: function(argumentId){
+		var term = newArgumentRefs[argumentId].search_term;
+
+		claimApi.newClaim(term).done(function(data){
+			console.log('data!', data);
+			newArgumentRefs[argumentId].reasons.push(data);
+			updateStatuses(argumentId);
+			eventManager.fire('new_argument_new_reason', {owner: argumentId, data: data});
+		}).fail(function(err){
+			console.error('API fail', err);
+		});
 	}
 
 /*
