@@ -12970,14 +12970,9 @@ module.exports = {
 		 * asks the server for the claim of that ID
 		 * Returns the claim
 		 */
-
-		$.post("/api/", {
-			"action":"getclaimbyid",
-			"claim":claimID
-		}).done(function(data){
-			console.log('data!', data);
-		}).fail(function(err){
-			console.error('API fail', err)
+		return $.post("/api/", {
+			action: "getclaimbyid",
+			claim: claimID
 		});
 	},
 
@@ -12994,17 +12989,12 @@ module.exports = {
 
 	newArgument: function(argObj){
 		/* Takes an entire claim object
-		 * sends it to the server
-		 * expects the server to update this claim in the DB
+		 * sends it to the server to add to the specified claim
+		 * expects the server to return the updated claim
 		 */
-
-		//what type?
-		var action = "newopposing";
-		if (argObj.side) { action = "newsupporting"; } 
-
 		return $.post("/api/", {
-			action: action,
-			claim: argObj
+			action: "newargument",
+			argument: argObj
 		});
 	}
 
@@ -13164,6 +13154,11 @@ module.exports = {
 				//now add the detail to the editor tabs
 				editorTabsStateCtrl.addDetail("main_tabs", newEditorDetailState);
 			}
+		});
+
+		eventManager.subscribe('claim_updated', function(event){
+			//event.owner we have no use for!
+			editorDetailStateCtrl.updateClaim(event.data);
 		});
 
 	}
@@ -13361,6 +13356,7 @@ module.exports = {
 var searchApi = require('../api/search');
 var searchStateCtrl = require('../state/search');
 var actionStateCtrl = require('../state/actions');
+var eventManager = require('../utils/event_manager');
 
 
 var domActions = {
@@ -13388,11 +13384,16 @@ module.exports = {
 			);
 
 		});
+
+		eventManager.subscribe('claim_updated', function(event){
+			//event.owner we have no use for!
+			searchStateCtrl.updateClaim(event.data);
+		});
 	}
 
 }
 
-},{"../api/search":6,"../state/actions":21,"../state/search":26}],14:[function(require,module,exports){
+},{"../api/search":6,"../state/actions":21,"../state/search":26,"../utils/event_manager":30}],14:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -13712,6 +13713,14 @@ module.exports = {
 	},
 	getExistingState(editorDetailId){
 		return editorDetailRefs[editorDetailId];
+	},
+	updateClaim(claimObj){
+		//the is called when a claim update notification is sent out, it could be in any of the claim detail states
+		for (var editorDetailId in editorDetailRefs){
+			if (editorDetailRefs[editorDetailId].claim._id == claimObj._id) {
+				editorDetailRefs[editorDetailId].claim == claimObj;
+			}
+		}
 	}
 }
 },{"../utils/event_manager":30,"../utils/state_factory":31,"./new_argument":24}],23:[function(require,module,exports){
@@ -13854,6 +13863,11 @@ var argHasReason = function(argumentId, claimId){
 	return false;
 }
 
+var resetArgument = function(argumentId) {
+	newArgumentRefs[argumentId].search_term = '';
+	newArgumentRefs[argumentId].search_results = [];
+	newArgumentRefs[argumentId].reasons = [];
+}
 var updateStatuses = function(argumentId){
 
 	//make sure the parent claim or any of the reasons aren't set in the search results
@@ -14020,67 +14034,13 @@ module.exports = {
 		};
 
 		claimApi.newArgument(argObj).done(function(data){
-			console.warn('TODO: deal with new claim update');
+			resetArgument(argumentId);
+			updateStatuses(argumentId);
+			eventManager.fire('claim_updated', {owner:argumentId, data: data});
 		}).fail(function(err){
 			console.error('Update clai fail: ', err);
 		});
 	}
-
-/*
-
-
-
-	setResults: function(argumentID, searchTerm, resultsArray){
-		console.log('setting search results for argument group:', argumentName, resultsArray);
-		if (newArguments.hasOwnProperty(argumentID)) {
-			newArguments[argumentID].search_results = resultsArray;
-			newArguments[argumentID].search_term = searchTerm;
-
-			if (resultsArray.length > 0) {
-				newArguments[argumentID].show_results = true;
-				var exactMatchFound = false;
-				for (var r = 0; r < resultsArray.length; r++) {
-					if (resultsArray[r].description == searchTerm) {
-						exactMatchFound = true;
-						break;
-					}
-				}
-				newArguments[argumentID].show_new_claim_button = !exactMatchFound;
-			} else {
-				newArguments[argumentID].show_new_claim_button = true;
-				newArguments[argumentID].show_results = false;
-			}
-		} else {
-			console.warn('That argument creation form doesn\'t have any state :(');
-		}
-	},
-	getSearchTerm: function(argumentID){
-		if (newArguments.hasOwnProperty(argumentID)) {
-			return newArguments[argumentID].search_term;
-		}
-		console.warn('That argument creation form has no state :(');
-	},
-	addReason: function(argumentName, claimObj){
-		console.log('adding reason to argument group:', argumentName);
-		WL_STATE.new_arguments[argumentName].addReason.call(WL_STATE.new_arguments[argumentName], claimObj);
-	},
-	removeReason: function(argumentName, claimObj){
-		console.log('removing reason from argument group:', argumentName);
-		WL_STATE.new_arguments[argumentName].removeReason.call(WL_STATE.new_arguments[argumentName], claimObj);
-	},
-	checkArgument: function(argumentName){
-		console.log('checking argument group:', argumentName);
-		WL_STATE.new_arguments[argumentName].checkArgument.call(WL_STATE.new_arguments[argumentName]);
-	},
-	getArgument: function(argumentName){
-		console.log('get argument group:', argumentName);
-		return WL_STATE.new_arguments[argumentName];
-	},
-	clearArgument: function(argumentName){
-		console.log('clearing argument group:', argumentName);
-	},
-	*/
-
 };
 },{"../api/claim":5,"../api/search":6,"../utils/event_manager":30,"../utils/state_factory":31}],25:[function(require,module,exports){
 'use strict';
@@ -14186,6 +14146,16 @@ module.exports = {
 					resultObj: searchStateRef[searchId].results[r]
 				});
 				break;
+			}
+		}
+	},
+	updateClaim(claimObj){
+		//the is called when a claim update notification is sent out, it could be in any of the search states
+		for (var searchId in searchStateRef){
+			for (var c = 0; c < searchStateRef[searchId].results.length; c++) {
+				if (searchStateRef[searchId].results[c]._id == claimObj._id) {
+					searchStateRef[searchId].results[c] == claimObj;
+				}
 			}
 		}
 	}

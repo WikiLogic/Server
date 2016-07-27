@@ -51,6 +51,58 @@ var newClaim = function(req, res){
 	});
 }
 
+
+var newArgument = function(req, res){
+	var claimId = req.body.argument.claimId;
+	var sideToUpdate = req.body.argument.side;
+	var argumentToAdd = {
+		status: 50,
+		reasons: req.body.argument.reasons
+	};
+
+	async.waterfall([
+		function(callback) {
+			//1: check if there's an identicle claim already published
+			Claim.findOne({_id:claimId}).exec(function(err,result){
+				if(err) {
+					console.log(err);
+					res.status(500).send(JSON.stringify(err));
+				} else {
+					callback(null, result);
+				}
+			});
+		},
+		function(claim, callback) {
+			console.log('claim: ', claim);
+			//2 add the new argument to the claim
+			if (sideToUpdate) {
+				claim.supporting.push(argumentToAdd);
+			} else {
+				claim.opposing.push(argumentToAdd);
+			}
+
+			//3 save the claim
+			claim.save(function(err,result){
+				if(err) {
+					console.log(err);
+					res.status(500).send(JSON.stringify(err));
+				} else {
+					callback(null, result);
+				}
+			});
+		}
+	],
+	function (err, result) {//finished!
+		if(err) {
+			console.log('saving claim error: ', err);
+			res.status(500).send(JSON.stringify(err));
+		} else {
+			res.status(200).send(result);
+		}
+		
+	});
+}
+
 module.exports = function(req, res) {
 	var apiAction = req.body.action;
 	console.log('apiAction: ', apiAction);
@@ -58,11 +110,8 @@ module.exports = function(req, res) {
 		case "newclaim":
 			newClaim(req, res);
 			break;
-		case "newsupporting":
-			console.log('TODO: add supporting argument to claim');
-			break;
-		case "newopposing":
-			console.log('TODO: add supporting argument to claim');
+		case "newargument":
+			newArgument(req, res);
 			break;
 		default:
 			console.log('HANG');

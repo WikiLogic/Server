@@ -33,6 +33,11 @@ var argHasReason = function(argumentId, claimId){
 	return false;
 }
 
+var resetArgument = function(argumentId) {
+	newArgumentRefs[argumentId].search_term = '';
+	newArgumentRefs[argumentId].search_results = [];
+	newArgumentRefs[argumentId].reasons = [];
+}
 var updateStatuses = function(argumentId){
 
 	//make sure the parent claim or any of the reasons aren't set in the search results
@@ -199,65 +204,11 @@ module.exports = {
 		};
 
 		claimApi.newArgument(argObj).done(function(data){
-			console.warn('TODO: deal with new claim update');
+			resetArgument(argumentId);
+			updateStatuses(argumentId);
+			eventManager.fire('claim_updated', {owner:argumentId, data: data});
 		}).fail(function(err){
 			console.error('Update clai fail: ', err);
 		});
 	}
-
-/*
-
-
-
-	setResults: function(argumentID, searchTerm, resultsArray){
-		console.log('setting search results for argument group:', argumentName, resultsArray);
-		if (newArguments.hasOwnProperty(argumentID)) {
-			newArguments[argumentID].search_results = resultsArray;
-			newArguments[argumentID].search_term = searchTerm;
-
-			if (resultsArray.length > 0) {
-				newArguments[argumentID].show_results = true;
-				var exactMatchFound = false;
-				for (var r = 0; r < resultsArray.length; r++) {
-					if (resultsArray[r].description == searchTerm) {
-						exactMatchFound = true;
-						break;
-					}
-				}
-				newArguments[argumentID].show_new_claim_button = !exactMatchFound;
-			} else {
-				newArguments[argumentID].show_new_claim_button = true;
-				newArguments[argumentID].show_results = false;
-			}
-		} else {
-			console.warn('That argument creation form doesn\'t have any state :(');
-		}
-	},
-	getSearchTerm: function(argumentID){
-		if (newArguments.hasOwnProperty(argumentID)) {
-			return newArguments[argumentID].search_term;
-		}
-		console.warn('That argument creation form has no state :(');
-	},
-	addReason: function(argumentName, claimObj){
-		console.log('adding reason to argument group:', argumentName);
-		WL_STATE.new_arguments[argumentName].addReason.call(WL_STATE.new_arguments[argumentName], claimObj);
-	},
-	removeReason: function(argumentName, claimObj){
-		console.log('removing reason from argument group:', argumentName);
-		WL_STATE.new_arguments[argumentName].removeReason.call(WL_STATE.new_arguments[argumentName], claimObj);
-	},
-	checkArgument: function(argumentName){
-		console.log('checking argument group:', argumentName);
-		WL_STATE.new_arguments[argumentName].checkArgument.call(WL_STATE.new_arguments[argumentName]);
-	},
-	getArgument: function(argumentName){
-		console.log('get argument group:', argumentName);
-		return WL_STATE.new_arguments[argumentName];
-	},
-	clearArgument: function(argumentName){
-		console.log('clearing argument group:', argumentName);
-	},
-	*/
-
 };

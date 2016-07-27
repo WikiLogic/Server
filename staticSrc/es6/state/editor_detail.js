@@ -30,5 +30,13 @@ module.exports = {
 	},
 	getExistingState(editorDetailId){
 		return editorDetailRefs[editorDetailId];
+	},
+	updateClaim(claimObj){
+		//the is called when a claim update notification is sent out, it could be in any of the claim detail states
+		for (var editorDetailId in editorDetailRefs){
+			if (editorDetailRefs[editorDetailId].claim._id == claimObj._id) {
+				editorDetailRefs[editorDetailId].claim == claimObj;
+			}
+		}
 	}
 }

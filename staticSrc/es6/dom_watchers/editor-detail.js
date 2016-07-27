@@ -59,5 +59,10 @@ module.exports = {
 			}
 		});
 
+		eventManager.subscribe('claim_updated', function(event){
+			//event.owner we have no use for!
+			editorDetailStateCtrl.updateClaim(event.data);
+		});
+
 	}
 }

@@ -7,14 +7,9 @@ module.exports = {
 		 * asks the server for the claim of that ID
 		 * Returns the claim
 		 */
-
-		$.post("/api/", {
-			"action":"getclaimbyid",
-			"claim":claimID
-		}).done(function(data){
-			console.log('data!', data);
-		}).fail(function(err){
-			console.error('API fail', err)
+		return $.post("/api/", {
+			action: "getclaimbyid",
+			claim: claimID
 		});
 	},
 
@@ -31,17 +26,12 @@ module.exports = {
 
 	newArgument: function(argObj){
 		/* Takes an entire claim object
-		 * sends it to the server
-		 * expects the server to update this claim in the DB
+		 * sends it to the server to add to the specified claim
+		 * expects the server to return the updated claim
 		 */
-
-		//what type?
-		var action = "newopposing";
-		if (argObj.side) { action = "newsupporting"; } 
-
 		return $.post("/api/", {
-			action: action,
-			claim: argObj
+			action: "newargument",
+			argument: argObj
 		});
 	}
 

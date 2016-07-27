@@ -57,6 +57,16 @@ module.exports = {
 				break;
 			}
 		}
+	},
+	updateClaim(claimObj){
+		//the is called when a claim update notification is sent out, it could be in any of the search states
+		for (var searchId in searchStateRef){
+			for (var c = 0; c < searchStateRef[searchId].results.length; c++) {
+				if (searchStateRef[searchId].results[c]._id == claimObj._id) {
+					searchStateRef[searchId].results[c] == claimObj;
+				}
+			}
+		}
 	}
 
 };
