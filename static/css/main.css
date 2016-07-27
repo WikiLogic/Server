@@ -1208,215 +1208,6 @@ They should get you 90% of the look you're after
 .pull-up-8 {
   margin-top: -8px; }
 
-.state-tag {
-  font-size: 0.8em;
-  font-weight: 700;
-  padding: 0.1em 0.4em;
-  border-radius: 4px;
-  color: white; }
-  .state-tag--0 {
-    background-color: #f25454; }
-  .state-tag--1 {
-    background-color: #f05554; }
-  .state-tag--2 {
-    background-color: #ee5753; }
-  .state-tag--3 {
-    background-color: #ec5853; }
-  .state-tag--4 {
-    background-color: #ea5953; }
-  .state-tag--5 {
-    background-color: #e85a52; }
-  .state-tag--6 {
-    background-color: #e65c52; }
-  .state-tag--7 {
-    background-color: #e45d52; }
-  .state-tag--8 {
-    background-color: #e35e51; }
-  .state-tag--9 {
-    background-color: #e15f51; }
-  .state-tag--10 {
-    background-color: #df6151; }
-  .state-tag--11 {
-    background-color: #dd6250; }
-  .state-tag--12 {
-    background-color: #db6350; }
-  .state-tag--13 {
-    background-color: #d96550; }
-  .state-tag--14 {
-    background-color: #d7664f; }
-  .state-tag--15 {
-    background-color: #d5674f; }
-  .state-tag--16 {
-    background-color: #d3684f; }
-  .state-tag--17 {
-    background-color: #d16a4e; }
-  .state-tag--18 {
-    background-color: #cf6b4e; }
-  .state-tag--19 {
-    background-color: #cd6c4e; }
-  .state-tag--20 {
-    background-color: #cb6d4d; }
-  .state-tag--21 {
-    background-color: #c96f4d; }
-  .state-tag--22 {
-    background-color: #c8704d; }
-  .state-tag--23 {
-    background-color: #c6714c; }
-  .state-tag--24 {
-    background-color: #c4724c; }
-  .state-tag--25 {
-    background-color: #c2744c; }
-  .state-tag--26 {
-    background-color: #c0754b; }
-  .state-tag--27 {
-    background-color: #be764b; }
-  .state-tag--28 {
-    background-color: #bc784a; }
-  .state-tag--29 {
-    background-color: #ba794a; }
-  .state-tag--30 {
-    background-color: #b87a4a; }
-  .state-tag--31 {
-    background-color: #b67b49; }
-  .state-tag--32 {
-    background-color: #b47d49; }
-  .state-tag--33 {
-    background-color: #b27e49; }
-  .state-tag--34 {
-    background-color: #b07f48; }
-  .state-tag--35 {
-    background-color: #ae8048; }
-  .state-tag--36 {
-    background-color: #ad8248; }
-  .state-tag--37 {
-    background-color: #ab8347; }
-  .state-tag--38 {
-    background-color: #a98447; }
-  .state-tag--39 {
-    background-color: #a78647; }
-  .state-tag--40 {
-    background-color: #a58746; }
-  .state-tag--41 {
-    background-color: #a38846; }
-  .state-tag--42 {
-    background-color: #a18946; }
-  .state-tag--43 {
-    background-color: #9f8b45; }
-  .state-tag--44 {
-    background-color: #9d8c45; }
-  .state-tag--45 {
-    background-color: #9b8d45; }
-  .state-tag--46 {
-    background-color: #998e44; }
-  .state-tag--47 {
-    background-color: #979044; }
-  .state-tag--48 {
-    background-color: #959144; }
-  .state-tag--49 {
-    background-color: #939243; }
-  .state-tag--50 {
-    background-color: #929443; }
-  .state-tag--51 {
-    background-color: #909543; }
-  .state-tag--52 {
-    background-color: #8e9642; }
-  .state-tag--53 {
-    background-color: #8c9742; }
-  .state-tag--54 {
-    background-color: #8a9942; }
-  .state-tag--55 {
-    background-color: #889a41; }
-  .state-tag--56 {
-    background-color: #869b41; }
-  .state-tag--57 {
-    background-color: #849c41; }
-  .state-tag--58 {
-    background-color: #829e40; }
-  .state-tag--59 {
-    background-color: #809f40; }
-  .state-tag--60 {
-    background-color: #7ea040; }
-  .state-tag--61 {
-    background-color: #7ca13f; }
-  .state-tag--62 {
-    background-color: #7aa33f; }
-  .state-tag--63 {
-    background-color: #78a43f; }
-  .state-tag--64 {
-    background-color: #76a53e; }
-  .state-tag--65 {
-    background-color: #75a73e; }
-  .state-tag--66 {
-    background-color: #73a83e; }
-  .state-tag--67 {
-    background-color: #71a93d; }
-  .state-tag--68 {
-    background-color: #6faa3d; }
-  .state-tag--69 {
-    background-color: #6dac3d; }
-  .state-tag--70 {
-    background-color: #6bad3c; }
-  .state-tag--71 {
-    background-color: #69ae3c; }
-  .state-tag--72 {
-    background-color: #67af3c; }
-  .state-tag--73 {
-    background-color: #65b13b; }
-  .state-tag--74 {
-    background-color: #63b23b; }
-  .state-tag--75 {
-    background-color: #61b33b; }
-  .state-tag--76 {
-    background-color: #5fb53a; }
-  .state-tag--77 {
-    background-color: #5db63a; }
-  .state-tag--78 {
-    background-color: #5bb739; }
-  .state-tag--79 {
-    background-color: #5ab839; }
-  .state-tag--80 {
-    background-color: #58ba39; }
-  .state-tag--81 {
-    background-color: #56bb38; }
-  .state-tag--82 {
-    background-color: #54bc38; }
-  .state-tag--83 {
-    background-color: #52bd38; }
-  .state-tag--84 {
-    background-color: #50bf37; }
-  .state-tag--85 {
-    background-color: #4ec037; }
-  .state-tag--86 {
-    background-color: #4cc137; }
-  .state-tag--87 {
-    background-color: #4ac236; }
-  .state-tag--88 {
-    background-color: #48c436; }
-  .state-tag--89 {
-    background-color: #46c536; }
-  .state-tag--90 {
-    background-color: #44c635; }
-  .state-tag--91 {
-    background-color: #42c835; }
-  .state-tag--92 {
-    background-color: #40c935; }
-  .state-tag--93 {
-    background-color: #3fca34; }
-  .state-tag--94 {
-    background-color: #3dcb34; }
-  .state-tag--95 {
-    background-color: #3bcd34; }
-  .state-tag--96 {
-    background-color: #39ce33; }
-  .state-tag--97 {
-    background-color: #37cf33; }
-  .state-tag--98 {
-    background-color: #35d033; }
-  .state-tag--99 {
-    background-color: #33d232; }
-  .state-tag--100 {
-    background-color: #31d332; }
-
 /* text helpers */
 .text-right {
   text-align: right; }
@@ -1868,6 +1659,231 @@ think carefully before adding anything in here.
   top: -100%;
   left: 0;
   z-index: 999999; }
+
+.status {
+  width: 1.875rem; }
+  .status__title {
+    text-align: center;
+    width: 100%;
+    font-size: 0.75rem;
+    display: block; }
+  .status__bar {
+    height: 8px;
+    width: 100%;
+    background-color: #F25454;
+    position: relative;
+    display: block; }
+    .status__bar:before {
+      display: block;
+      content: " ";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 1;
+      background-color: #31D332; }
+  .status--0 .status__bar:before {
+    width: 0%; }
+  .status--1 .status__bar:before {
+    width: 1%; }
+  .status--2 .status__bar:before {
+    width: 2%; }
+  .status--3 .status__bar:before {
+    width: 3%; }
+  .status--4 .status__bar:before {
+    width: 4%; }
+  .status--5 .status__bar:before {
+    width: 5%; }
+  .status--6 .status__bar:before {
+    width: 6%; }
+  .status--7 .status__bar:before {
+    width: 7%; }
+  .status--8 .status__bar:before {
+    width: 8%; }
+  .status--9 .status__bar:before {
+    width: 9%; }
+  .status--10 .status__bar:before {
+    width: 10%; }
+  .status--11 .status__bar:before {
+    width: 11%; }
+  .status--12 .status__bar:before {
+    width: 12%; }
+  .status--13 .status__bar:before {
+    width: 13%; }
+  .status--14 .status__bar:before {
+    width: 14%; }
+  .status--15 .status__bar:before {
+    width: 15%; }
+  .status--16 .status__bar:before {
+    width: 16%; }
+  .status--17 .status__bar:before {
+    width: 17%; }
+  .status--18 .status__bar:before {
+    width: 18%; }
+  .status--19 .status__bar:before {
+    width: 19%; }
+  .status--20 .status__bar:before {
+    width: 20%; }
+  .status--21 .status__bar:before {
+    width: 21%; }
+  .status--22 .status__bar:before {
+    width: 22%; }
+  .status--23 .status__bar:before {
+    width: 23%; }
+  .status--24 .status__bar:before {
+    width: 24%; }
+  .status--25 .status__bar:before {
+    width: 25%; }
+  .status--26 .status__bar:before {
+    width: 26%; }
+  .status--27 .status__bar:before {
+    width: 27%; }
+  .status--28 .status__bar:before {
+    width: 28%; }
+  .status--29 .status__bar:before {
+    width: 29%; }
+  .status--30 .status__bar:before {
+    width: 30%; }
+  .status--31 .status__bar:before {
+    width: 31%; }
+  .status--32 .status__bar:before {
+    width: 32%; }
+  .status--33 .status__bar:before {
+    width: 33%; }
+  .status--34 .status__bar:before {
+    width: 34%; }
+  .status--35 .status__bar:before {
+    width: 35%; }
+  .status--36 .status__bar:before {
+    width: 36%; }
+  .status--37 .status__bar:before {
+    width: 37%; }
+  .status--38 .status__bar:before {
+    width: 38%; }
+  .status--39 .status__bar:before {
+    width: 39%; }
+  .status--40 .status__bar:before {
+    width: 40%; }
+  .status--41 .status__bar:before {
+    width: 41%; }
+  .status--42 .status__bar:before {
+    width: 42%; }
+  .status--43 .status__bar:before {
+    width: 43%; }
+  .status--44 .status__bar:before {
+    width: 44%; }
+  .status--45 .status__bar:before {
+    width: 45%; }
+  .status--46 .status__bar:before {
+    width: 46%; }
+  .status--47 .status__bar:before {
+    width: 47%; }
+  .status--48 .status__bar:before {
+    width: 48%; }
+  .status--49 .status__bar:before {
+    width: 49%; }
+  .status--50 .status__bar:before {
+    width: 50%; }
+  .status--51 .status__bar:before {
+    width: 51%; }
+  .status--52 .status__bar:before {
+    width: 52%; }
+  .status--53 .status__bar:before {
+    width: 53%; }
+  .status--54 .status__bar:before {
+    width: 54%; }
+  .status--55 .status__bar:before {
+    width: 55%; }
+  .status--56 .status__bar:before {
+    width: 56%; }
+  .status--57 .status__bar:before {
+    width: 57%; }
+  .status--58 .status__bar:before {
+    width: 58%; }
+  .status--59 .status__bar:before {
+    width: 59%; }
+  .status--60 .status__bar:before {
+    width: 60%; }
+  .status--61 .status__bar:before {
+    width: 61%; }
+  .status--62 .status__bar:before {
+    width: 62%; }
+  .status--63 .status__bar:before {
+    width: 63%; }
+  .status--64 .status__bar:before {
+    width: 64%; }
+  .status--65 .status__bar:before {
+    width: 65%; }
+  .status--66 .status__bar:before {
+    width: 66%; }
+  .status--67 .status__bar:before {
+    width: 67%; }
+  .status--68 .status__bar:before {
+    width: 68%; }
+  .status--69 .status__bar:before {
+    width: 69%; }
+  .status--70 .status__bar:before {
+    width: 70%; }
+  .status--71 .status__bar:before {
+    width: 71%; }
+  .status--72 .status__bar:before {
+    width: 72%; }
+  .status--73 .status__bar:before {
+    width: 73%; }
+  .status--74 .status__bar:before {
+    width: 74%; }
+  .status--75 .status__bar:before {
+    width: 75%; }
+  .status--76 .status__bar:before {
+    width: 76%; }
+  .status--77 .status__bar:before {
+    width: 77%; }
+  .status--78 .status__bar:before {
+    width: 78%; }
+  .status--79 .status__bar:before {
+    width: 79%; }
+  .status--80 .status__bar:before {
+    width: 80%; }
+  .status--81 .status__bar:before {
+    width: 81%; }
+  .status--82 .status__bar:before {
+    width: 82%; }
+  .status--83 .status__bar:before {
+    width: 83%; }
+  .status--84 .status__bar:before {
+    width: 84%; }
+  .status--85 .status__bar:before {
+    width: 85%; }
+  .status--86 .status__bar:before {
+    width: 86%; }
+  .status--87 .status__bar:before {
+    width: 87%; }
+  .status--88 .status__bar:before {
+    width: 88%; }
+  .status--89 .status__bar:before {
+    width: 89%; }
+  .status--90 .status__bar:before {
+    width: 90%; }
+  .status--91 .status__bar:before {
+    width: 91%; }
+  .status--92 .status__bar:before {
+    width: 92%; }
+  .status--93 .status__bar:before {
+    width: 93%; }
+  .status--94 .status__bar:before {
+    width: 94%; }
+  .status--95 .status__bar:before {
+    width: 95%; }
+  .status--96 .status__bar:before {
+    width: 96%; }
+  .status--97 .status__bar:before {
+    width: 97%; }
+  .status--98 .status__bar:before {
+    width: 98%; }
+  .status--99 .status__bar:before {
+    width: 99%; }
+  .status--100 .status__bar:before {
+    width: 100%; }
 
 .tabs {
   display: table-row;

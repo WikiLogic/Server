@@ -1,13 +1,18 @@
 <div class="splitter splitter--full-width">
     <div class="splitter__left">
-        <svg class="float-left" view-show="argument.status"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#check"></use></svg>
-        <svg class="float-left" view-hide="argument.status"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>    
+        <span class="status status--50 display-inline-block">
+            <span class="status__title">50%</span>
+            <span class="status__bar"></span>
+        </span>  
     </div>
     <div class="splitter__right full-width text-align-left">
         
         <div view-each-reason="argument.reasons">
             <p class="full-width small">
-                <svg class="float-left icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>
+                <span class="status status--50 display-inline-block">
+                    <!-- <span class="status__title">50%</span> -->
+                    <span class="status__bar"></span>
+                </span>
                 &nbsp; <span class="claim-text">{reason._id}</span>
             </p>
         </div>
