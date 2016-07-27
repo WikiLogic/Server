@@ -58,6 +58,12 @@ module.exports = function(req, res) {
 		case "newclaim":
 			newClaim(req, res);
 			break;
+		case "newsupporting":
+			console.log('TODO: add supporting argument to claim');
+			break;
+		case "newopposing":
+			console.log('TODO: add supporting argument to claim');
+			break;
 		default:
 			console.log('HANG');
 	}

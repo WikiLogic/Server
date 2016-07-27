@@ -12990,6 +12990,22 @@ module.exports = {
 			action: "newclaim",
 			newClaim: claimString
 		});
+	},
+
+	newArgument: function(argObj){
+		/* Takes an entire claim object
+		 * sends it to the server
+		 * expects the server to update this claim in the DB
+		 */
+
+		//what type?
+		var action = "newopposing";
+		if (argObj.side) { action = "newsupporting"; } 
+
+		return $.post("/api/", {
+			action: action,
+			claim: argObj
+		});
 	}
 
 }
@@ -13163,7 +13179,7 @@ var newArgumentStateCtrl = require('../state/new_argument');
 var eventManager = require('../utils/event_manager');
 
 var domActions = {
-	new_reason_keypress: function(rivet, e){
+	new_reason_keypress(rivet, e){
 		//console.log('new reason');
 		var argumentId = rivet.currentTarget.attributes['data-argument-id'].value;
 		var term = rivet.currentTarget.value;
@@ -13179,20 +13195,24 @@ var domActions = {
 
 		}
 	},
-	result_clicked: function(rivet){
+	result_clicked(rivet){
 		var claimId = rivet.currentTarget.attributes['data-claim-id'].value;
 		var argumentId = rivet.currentTarget.attributes['data-argument-id'].value;
 		var claimToAdd = newArgumentStateCtrl.getClaimFromSearch(argumentId, claimId);
 		newArgumentStateCtrl.addReason(argumentId, claimToAdd);
 	},
-	remove_reason: function(rivet){
+	remove_reason(rivet){
 		var claimId = rivet.currentTarget.attributes['data-claim-id'].value;
 		var argumentId = rivet.currentTarget.attributes['data-argument-id'].value;
 		newArgumentStateCtrl.removeReason(argumentId, claimId);
 	},
-	save_search_term_as_claim: function(rivet){
+	save_search_term_as_claim(rivet){
 		var argumentId = rivet.currentTarget.attributes['data-argument-id'].value;
 		newArgumentStateCtrl.saveTermAsClaim(argumentId);
+	},
+	save_new_argument(rivet){
+		var argumentId = rivet.currentTarget.attributes['data-argument-id'].value;
+		newArgumentStateCtrl.publishArgument(argumentId);
 	}
 }
 
@@ -13207,12 +13227,18 @@ module.exports = {
 			//hooking in our own new argument objects
 			event.data.claim.new_for = [];
 			event.data.claim.new_for[0] = newArgumentStateCtrl.getNewState("new_for_" + event.data.claim._id);
-			event.data.claim.new_for[0].parent_claim_description = event.data.claim.description;
+			event.data.claim.new_for[0].parent_claim = {
+				description: event.data.claim.description,
+				_id: event.data.claim._id
+			};
 			event.data.claim.new_for[0].actions = domActions;
 
 			event.data.claim.new_against = [];
 			event.data.claim.new_against[0] = newArgumentStateCtrl.getNewState("new_against_" + event.data.claim._id);
-			event.data.claim.new_against[0].parent_claim_description = event.data.claim.description;
+			event.data.claim.new_against[0].parent_claim = {
+				description: event.data.claim.description,
+				_id: event.data.claim._id
+			};
 			event.data.claim.new_against[0].actions = domActions;
 		});
 		
@@ -13807,7 +13833,7 @@ var stateFactory = require('../utils/state_factory');
 
 var newArgumentState = {
 	_id: 'anon',
-	parent_claim_description: '',
+	parent_claim: {},
 	search_term: '',
 	search_results: [],
 	show_results: false,
@@ -13833,7 +13859,7 @@ var updateStatuses = function(argumentId){
 	//make sure the parent claim or any of the reasons aren't set in the search results
 	for (var r = 0; r < newArgumentRefs[argumentId].search_results.length; r++) {
 		//we're in a searcj result, now check it against the parent
-		if (newArgumentRefs[argumentId].search_results[r].description == newArgumentRefs[argumentId].parent_claim_description) {
+		if (newArgumentRefs[argumentId].search_results[r].description == newArgumentRefs[argumentId].parent_claim.description) {
 			newArgumentRefs[argumentId].search_results.splice(r, 1);
 			r--;
 		}
@@ -13848,7 +13874,7 @@ var updateStatuses = function(argumentId){
 
 	//now check that none of the reasons are actually somehow the parent
 	for (var r = 0; r < newArgumentRefs[argumentId].reasons.length; r++) {
-		if (newArgumentRefs[argumentId].reasons[r].description == newArgumentRefs[argumentId].parent_claim_description) {
+		if (newArgumentRefs[argumentId].reasons[r].description == newArgumentRefs[argumentId].parent_claim.description) {
 			newArgumentRefs[argumentId].reasons.splice(r, 1);
 			r--;
 		}
@@ -13983,6 +14009,20 @@ module.exports = {
 			eventManager.fire('new_argument_new_reason', {owner: argumentId, data: data});
 		}).fail(function(err){
 			console.error('API fail', err);
+		});
+	},
+	publishArgument(argumentId){
+		//how did the server want this again?
+		var argObj = {
+			reasons: newArgumentRefs[argumentId].reasons,
+			claimId: newArgumentRefs[argumentId].parent_claim._id,
+			side: (argumentId.startsWith('new_for'))
+		};
+
+		claimApi.newArgument(argObj).done(function(data){
+			console.warn('TODO: deal with new claim update');
+		}).fail(function(err){
+			console.error('Update clai fail: ', err);
 		});
 	}
 

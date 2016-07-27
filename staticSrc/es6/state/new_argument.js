@@ -12,7 +12,7 @@ var stateFactory = require('../utils/state_factory');
 
 var newArgumentState = {
 	_id: 'anon',
-	parent_claim_description: '',
+	parent_claim: {},
 	search_term: '',
 	search_results: [],
 	show_results: false,
@@ -38,7 +38,7 @@ var updateStatuses = function(argumentId){
 	//make sure the parent claim or any of the reasons aren't set in the search results
 	for (var r = 0; r < newArgumentRefs[argumentId].search_results.length; r++) {
 		//we're in a searcj result, now check it against the parent
-		if (newArgumentRefs[argumentId].search_results[r].description == newArgumentRefs[argumentId].parent_claim_description) {
+		if (newArgumentRefs[argumentId].search_results[r].description == newArgumentRefs[argumentId].parent_claim.description) {
 			newArgumentRefs[argumentId].search_results.splice(r, 1);
 			r--;
 		}
@@ -53,7 +53,7 @@ var updateStatuses = function(argumentId){
 
 	//now check that none of the reasons are actually somehow the parent
 	for (var r = 0; r < newArgumentRefs[argumentId].reasons.length; r++) {
-		if (newArgumentRefs[argumentId].reasons[r].description == newArgumentRefs[argumentId].parent_claim_description) {
+		if (newArgumentRefs[argumentId].reasons[r].description == newArgumentRefs[argumentId].parent_claim.description) {
 			newArgumentRefs[argumentId].reasons.splice(r, 1);
 			r--;
 		}
@@ -188,6 +188,20 @@ module.exports = {
 			eventManager.fire('new_argument_new_reason', {owner: argumentId, data: data});
 		}).fail(function(err){
 			console.error('API fail', err);
+		});
+	},
+	publishArgument(argumentId){
+		//how did the server want this again?
+		var argObj = {
+			reasons: newArgumentRefs[argumentId].reasons,
+			claimId: newArgumentRefs[argumentId].parent_claim._id,
+			side: (argumentId.startsWith('new_for'))
+		};
+
+		claimApi.newArgument(argObj).done(function(data){
+			console.warn('TODO: deal with new claim update');
+		}).fail(function(err){
+			console.error('Update clai fail: ', err);
 		});
 	}
 

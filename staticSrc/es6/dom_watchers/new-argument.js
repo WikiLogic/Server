@@ -8,7 +8,7 @@ var newArgumentStateCtrl = require('../state/new_argument');
 var eventManager = require('../utils/event_manager');
 
 var domActions = {
-	new_reason_keypress: function(rivet, e){
+	new_reason_keypress(rivet, e){
 		//console.log('new reason');
 		var argumentId = rivet.currentTarget.attributes['data-argument-id'].value;
 		var term = rivet.currentTarget.value;
@@ -24,20 +24,24 @@ var domActions = {
 
 		}
 	},
-	result_clicked: function(rivet){
+	result_clicked(rivet){
 		var claimId = rivet.currentTarget.attributes['data-claim-id'].value;
 		var argumentId = rivet.currentTarget.attributes['data-argument-id'].value;
 		var claimToAdd = newArgumentStateCtrl.getClaimFromSearch(argumentId, claimId);
 		newArgumentStateCtrl.addReason(argumentId, claimToAdd);
 	},
-	remove_reason: function(rivet){
+	remove_reason(rivet){
 		var claimId = rivet.currentTarget.attributes['data-claim-id'].value;
 		var argumentId = rivet.currentTarget.attributes['data-argument-id'].value;
 		newArgumentStateCtrl.removeReason(argumentId, claimId);
 	},
-	save_search_term_as_claim: function(rivet){
+	save_search_term_as_claim(rivet){
 		var argumentId = rivet.currentTarget.attributes['data-argument-id'].value;
 		newArgumentStateCtrl.saveTermAsClaim(argumentId);
+	},
+	save_new_argument(rivet){
+		var argumentId = rivet.currentTarget.attributes['data-argument-id'].value;
+		newArgumentStateCtrl.publishArgument(argumentId);
 	}
 }
 
@@ -52,12 +56,18 @@ module.exports = {
 			//hooking in our own new argument objects
 			event.data.claim.new_for = [];
 			event.data.claim.new_for[0] = newArgumentStateCtrl.getNewState("new_for_" + event.data.claim._id);
-			event.data.claim.new_for[0].parent_claim_description = event.data.claim.description;
+			event.data.claim.new_for[0].parent_claim = {
+				description: event.data.claim.description,
+				_id: event.data.claim._id
+			};
 			event.data.claim.new_for[0].actions = domActions;
 
 			event.data.claim.new_against = [];
 			event.data.claim.new_against[0] = newArgumentStateCtrl.getNewState("new_against_" + event.data.claim._id);
-			event.data.claim.new_against[0].parent_claim_description = event.data.claim.description;
+			event.data.claim.new_against[0].parent_claim = {
+				description: event.data.claim.description,
+				_id: event.data.claim._id
+			};
 			event.data.claim.new_against[0].actions = domActions;
 		});
 		

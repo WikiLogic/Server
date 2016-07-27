@@ -27,6 +27,22 @@ module.exports = {
 			action: "newclaim",
 			newClaim: claimString
 		});
+	},
+
+	newArgument: function(argObj){
+		/* Takes an entire claim object
+		 * sends it to the server
+		 * expects the server to update this claim in the DB
+		 */
+
+		//what type?
+		var action = "newopposing";
+		if (argObj.side) { action = "newsupporting"; } 
+
+		return $.post("/api/", {
+			action: action,
+			claim: argObj
+		});
 	}
 
 }
