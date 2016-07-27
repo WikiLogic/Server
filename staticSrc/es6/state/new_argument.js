@@ -206,9 +206,9 @@ module.exports = {
 		claimApi.newArgument(argObj).done(function(data){
 			resetArgument(argumentId);
 			updateStatuses(argumentId);
-			eventManager.fire('claim_updated', {owner:argumentId, data: data});
+			eventManager.fire('claim_updated_new_argument', {owner:argumentId, data: data});
 		}).fail(function(err){
-			console.error('Update clai fail: ', err);
+			console.error('Update claim fail: ', err);
 		});
 	}
 };

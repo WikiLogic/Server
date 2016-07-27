@@ -59,10 +59,10 @@ module.exports = {
 			}
 		});
 
-		eventManager.subscribe('claim_updated', function(event){
-			//event.owner we have no use for!
-			editorDetailStateCtrl.updateClaim(event.data);
+		eventManager.subscribe('claim_updated_new_argument', function(event){
+			editorDetailStateCtrl.updateArgument(event.data);
 		});
+		
 
 	}
 }

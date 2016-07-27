@@ -13156,10 +13156,10 @@ module.exports = {
 			}
 		});
 
-		eventManager.subscribe('claim_updated', function(event){
-			//event.owner we have no use for!
-			editorDetailStateCtrl.updateClaim(event.data);
+		eventManager.subscribe('claim_updated_new_argument', function(event){
+			editorDetailStateCtrl.updateArgument(event.data);
 		});
+		
 
 	}
 }
@@ -13714,13 +13714,10 @@ module.exports = {
 	getExistingState(editorDetailId){
 		return editorDetailRefs[editorDetailId];
 	},
-	updateClaim(claimObj){
-		//the is called when a claim update notification is sent out, it could be in any of the claim detail states
-		for (var editorDetailId in editorDetailRefs){
-			if (editorDetailRefs[editorDetailId].claim._id == claimObj._id) {
-				editorDetailRefs[editorDetailId].claim == claimObj;
-			}
-		}
+	updateArgument(claimObj){
+
+		editorDetailRefs[claimObj._id].claim.supporting = claimObj.supporting;
+		editorDetailRefs[claimObj._id].claim.opposing = claimObj.opposing;
 	}
 }
 },{"../utils/event_manager":30,"../utils/state_factory":31,"./new_argument":24}],23:[function(require,module,exports){
@@ -14036,9 +14033,9 @@ module.exports = {
 		claimApi.newArgument(argObj).done(function(data){
 			resetArgument(argumentId);
 			updateStatuses(argumentId);
-			eventManager.fire('claim_updated', {owner:argumentId, data: data});
+			eventManager.fire('claim_updated_new_argument', {owner:argumentId, data: data});
 		}).fail(function(err){
-			console.error('Update clai fail: ', err);
+			console.error('Update claim fail: ', err);
 		});
 	}
 };
