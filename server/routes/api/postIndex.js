@@ -73,13 +73,14 @@ var newArgument = function(req, res){
 			});
 		},
 		function(claim, callback) {
-			console.log('claim: ', claim);
+			console.log('sideToUpdate: ', sideToUpdate);
 			//2 add the new argument to the claim
-			if (sideToUpdate) {
+			if (sideToUpdate == "s") {
 				claim.supporting.push(argumentToAdd);
-			} else {
+			} else if (sideToUpdate == "o") {
 				claim.opposing.push(argumentToAdd);
 			}
+			console.log('claim: ', claim);
 
 			//3 save the claim
 			claim.save(function(err,result){

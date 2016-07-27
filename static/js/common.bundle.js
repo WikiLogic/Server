@@ -13208,6 +13208,8 @@ var domActions = {
 	save_new_argument(rivet){
 		var argumentId = rivet.currentTarget.attributes['data-argument-id'].value;
 		newArgumentStateCtrl.publishArgument(argumentId);
+		//cheeky, clear the input value manually
+		$(rivet.currentTarget).closest('.js-argument-creation-form').find('.js-new-reason').val('');
 	}
 }
 
@@ -13864,6 +13866,7 @@ var resetArgument = function(argumentId) {
 	newArgumentRefs[argumentId].search_term = '';
 	newArgumentRefs[argumentId].search_results = [];
 	newArgumentRefs[argumentId].reasons = [];
+	updateStatuses(argumentId);
 }
 var updateStatuses = function(argumentId){
 
@@ -13899,21 +13902,25 @@ var updateStatuses = function(argumentId){
 	}
 
 	//are there any exact matches?
-	newArgumentRefs[argumentId].show_new_claim_form = true;
-	for (var r = 0; r < newArgumentRefs[argumentId].search_results.length; r++) {
-		if (newArgumentRefs[argumentId].search_results[r].description == newArgumentRefs[argumentId].search_term) {
-			//found a match!
-			newArgumentRefs[argumentId].show_new_claim_form = false;
-			break;
+	if (newArgumentRefs[argumentId].search_results.length > 0) {
+		newArgumentRefs[argumentId].show_new_claim_form = true;
+		for (var r = 0; r < newArgumentRefs[argumentId].search_results.length; r++) {
+			if (newArgumentRefs[argumentId].search_results[r].description == newArgumentRefs[argumentId].search_term) {
+				//found a match!
+				newArgumentRefs[argumentId].show_new_claim_form = false;
+				break;
+			}
 		}
-	}
-	//also check in the reasons for an exact match
-	for (var r = 0; r < newArgumentRefs[argumentId].reasons.length; r++) {
-		if (newArgumentRefs[argumentId].reasons[r].description == newArgumentRefs[argumentId].search_term) {
-			//found a match!
-			newArgumentRefs[argumentId].show_new_claim_form = false;
-			break;
+		//also check in the reasons for an exact match
+		for (var r = 0; r < newArgumentRefs[argumentId].reasons.length; r++) {
+			if (newArgumentRefs[argumentId].reasons[r].description == newArgumentRefs[argumentId].search_term) {
+				//found a match!
+				newArgumentRefs[argumentId].show_new_claim_form = false;
+				break;
+			}
 		}
+	} else {
+		newArgumentRefs[argumentId].show_new_claim_form = false;
 	}
 
 	//are there any reasons?
@@ -14030,9 +14037,14 @@ module.exports = {
 			side: (argumentId.startsWith('new_for'))
 		};
 
+		if (argumentId.startsWith('new_for')) {
+			argObj.side = "s";
+		} else {
+			argObj.side = "o";
+		}
+
 		claimApi.newArgument(argObj).done(function(data){
 			resetArgument(argumentId);
-			updateStatuses(argumentId);
 			eventManager.fire('claim_updated_new_argument', {owner:argumentId, data: data});
 		}).fail(function(err){
 			console.error('Update claim fail: ', err);

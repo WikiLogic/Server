@@ -42,6 +42,8 @@ var domActions = {
 	save_new_argument(rivet){
 		var argumentId = rivet.currentTarget.attributes['data-argument-id'].value;
 		newArgumentStateCtrl.publishArgument(argumentId);
+		//cheeky, clear the input value manually
+		$(rivet.currentTarget).closest('.js-argument-creation-form').find('.js-new-reason').val('');
 	}
 }
 
