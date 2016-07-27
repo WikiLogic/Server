@@ -2,7 +2,7 @@
 
 module.exports = {
 
-	getClaimById: function(claimID){
+	getClaimById(claimID){
 		/* Takes an ID, 
 		 * asks the server for the claim of that ID
 		 * Returns the claim
@@ -13,7 +13,14 @@ module.exports = {
 		});
 	},
 
-	newClaim: function(claimString){
+	getClaimsByIdArray(idArray){
+		return $.post("/api/", {
+			action: "getbyidarray",
+			idarray: idArray
+		});
+	},
+
+	newClaim(claimString){
 		/* Takes a claim string to add as new
 		 * sends it to the API
 		 * Expects a new claim object to be returned
@@ -24,7 +31,7 @@ module.exports = {
 		});
 	},
 
-	newArgument: function(argObj){
+	newArgument(argObj){
 		/* Takes an entire claim object
 		 * sends it to the server to add to the specified claim
 		 * expects the server to return the updated claim

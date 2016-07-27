@@ -216,6 +216,8 @@ module.exports = {
 
 		claimApi.newArgument(argObj).done(function(data){
 			resetArgument(argumentId);
+			//taking advantage of the fact that we already have the claims that make up this argument, just add them!
+			console.warn('TODO: build the new argument using the claims we already have locally');
 			eventManager.fire('claim_updated_new_argument', {owner:argumentId, data: data});
 		}).fail(function(err){
 			console.error('Update claim fail: ', err);

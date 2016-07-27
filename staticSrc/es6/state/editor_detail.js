@@ -7,6 +7,7 @@
 var eventManager = require('../utils/event_manager');
 var newArgumentStateCtrl = require('./new_argument');
 var stateFactory = require('../utils/state_factory');
+var claimApi = require('../api/claim');
 
 var editorDetailState = {
 	_id: 'anon',
@@ -20,6 +21,43 @@ var editorDetailState = {
 
 var editorDetailRefs = {};
 
+var fillArgumentClaims = function(editorDetailId){
+	console.log('editorDetailId: ', editorDetailId);
+	console.log('editorDetailRefs: ', editorDetailRefs);
+	console.log('editorDetailRefs[editorDetailId]: ', editorDetailRefs[editorDetailId]);
+	//build an array of id's & request them
+	var idArray = [];
+	var allArgumentss = [...editorDetailRefs[editorDetailId].claim.supporting, ...editorDetailRefs[editorDetailId].claim.opposing];
+	for (var a = 0; a < allArgumentss.length; a++){
+		//now loop through the reasons
+		for (var r = 0; r < allArgumentss[a].reasons.length; r++){
+			var dup = false;
+
+			//check that it's not a duplicate
+			for (var i = 0; i < idArray.length; i++) {
+				if (idArray[i] == allArgumentss[a].reasons[r]._id) {
+					dup = true;
+					break;
+				}
+			}
+
+			if (!dup) {
+				idArray.push(allArgumentss[a].reasons[r]._id);
+
+				allArgumentss[a].reasons[r]._id = 'test';
+			}
+		}
+	}
+
+	claimApi.getClaimsByIdArray(idArray).done(function(data){
+		console.log('got all the claims!');
+
+	}).fail(function(err){
+		console.error('ERROR: ', err);
+	});
+	
+}
+
 module.exports = {
 	getNewState(editorDetailId){
 		var returnState = stateFactory.create(editorDetailState);
@@ -31,9 +69,7 @@ module.exports = {
 	getExistingState(editorDetailId){
 		return editorDetailRefs[editorDetailId];
 	},
-	updateArgument(claimObj){
-
-		editorDetailRefs[claimObj._id].claim.supporting = claimObj.supporting;
-		editorDetailRefs[claimObj._id].claim.opposing = claimObj.opposing;
+	populateReasons(editorDetailId){
+		fillArgumentClaims(editorDetailId);
 	}
 }

@@ -102,7 +102,21 @@ var newArgument = function(req, res){
 		}
 		
 	});
-}
+};
+
+var betClaimsByIdArray = function(req, res){
+	console.log("ARRRRRRRRRAY:", req.body.idarray);
+	Claim.find({
+		'_id': { $in: req.body.idarray}
+	}, function(err, result){
+		if(err) {
+			console.log('get claims by id array err: ', err);
+			res.status(500).send(JSON.stringify(err));
+		} else {
+			res.status(200).send(result);
+		}
+	});
+};
 
 module.exports = function(req, res) {
 	var apiAction = req.body.action;
@@ -113,6 +127,9 @@ module.exports = function(req, res) {
 			break;
 		case "newargument":
 			newArgument(req, res);
+			break;
+		case "getbyidarray":
+			betClaimsByIdArray(req, res);
 			break;
 		default:
 			console.log('HANG');

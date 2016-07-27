@@ -12965,7 +12965,7 @@ jQuery.trumbowyg = {
 
 module.exports = {
 
-	getClaimById: function(claimID){
+	getClaimById(claimID){
 		/* Takes an ID, 
 		 * asks the server for the claim of that ID
 		 * Returns the claim
@@ -12976,7 +12976,14 @@ module.exports = {
 		});
 	},
 
-	newClaim: function(claimString){
+	getClaimsByIdArray(idArray){
+		return $.post("/api/", {
+			action: "getbyidarray",
+			idarray: idArray
+		});
+	},
+
+	newClaim(claimString){
 		/* Takes a claim string to add as new
 		 * sends it to the API
 		 * Expects a new claim object to be returned
@@ -12987,7 +12994,7 @@ module.exports = {
 		});
 	},
 
-	newArgument: function(argObj){
+	newArgument(argObj){
 		/* Takes an entire claim object
 		 * sends it to the server to add to the specified claim
 		 * expects the server to return the updated claim
@@ -13151,6 +13158,7 @@ module.exports = {
 			if (event.owner == "main_list") {
 				var newEditorDetailState = editorDetailStateCtrl.getNewState(event.data._id);
 				newEditorDetailState.claim = event.data;
+				editorDetailStateCtrl.populateReasons(newEditorDetailState._id);
 				//now add the detail to the editor tabs
 				editorTabsStateCtrl.addDetail("main_tabs", newEditorDetailState);
 			}
@@ -13692,6 +13700,7 @@ module.exports = {
 var eventManager = require('../utils/event_manager');
 var newArgumentStateCtrl = require('./new_argument');
 var stateFactory = require('../utils/state_factory');
+var claimApi = require('../api/claim');
 
 var editorDetailState = {
 	_id: 'anon',
@@ -13705,6 +13714,43 @@ var editorDetailState = {
 
 var editorDetailRefs = {};
 
+var fillArgumentClaims = function(editorDetailId){
+	console.log('editorDetailId: ', editorDetailId);
+	console.log('editorDetailRefs: ', editorDetailRefs);
+	console.log('editorDetailRefs[editorDetailId]: ', editorDetailRefs[editorDetailId]);
+	//build an array of id's & request them
+	var idArray = [];
+	var allArgumentss = [...editorDetailRefs[editorDetailId].claim.supporting, ...editorDetailRefs[editorDetailId].claim.opposing];
+	for (var a = 0; a < allArgumentss.length; a++){
+		//now loop through the reasons
+		for (var r = 0; r < allArgumentss[a].reasons.length; r++){
+			var dup = false;
+
+			//check that it's not a duplicate
+			for (var i = 0; i < idArray.length; i++) {
+				if (idArray[i] == allArgumentss[a].reasons[r]._id) {
+					dup = true;
+					break;
+				}
+			}
+
+			if (!dup) {
+				idArray.push(allArgumentss[a].reasons[r]._id);
+
+				allArgumentss[a].reasons[r]._id = 'test';
+			}
+		}
+	}
+
+	claimApi.getClaimsByIdArray(idArray).done(function(data){
+		console.log('got all the claims!');
+
+	}).fail(function(err){
+		console.error('ERROR: ', err);
+	});
+	
+}
+
 module.exports = {
 	getNewState(editorDetailId){
 		var returnState = stateFactory.create(editorDetailState);
@@ -13716,13 +13762,11 @@ module.exports = {
 	getExistingState(editorDetailId){
 		return editorDetailRefs[editorDetailId];
 	},
-	updateArgument(claimObj){
-
-		editorDetailRefs[claimObj._id].claim.supporting = claimObj.supporting;
-		editorDetailRefs[claimObj._id].claim.opposing = claimObj.opposing;
+	populateReasons(editorDetailId){
+		fillArgumentClaims(editorDetailId);
 	}
 }
-},{"../utils/event_manager":30,"../utils/state_factory":31,"./new_argument":24}],23:[function(require,module,exports){
+},{"../api/claim":5,"../utils/event_manager":30,"../utils/state_factory":31,"./new_argument":24}],23:[function(require,module,exports){
 'use strict';
 
 /* The Editor List State Controller
@@ -14045,6 +14089,8 @@ module.exports = {
 
 		claimApi.newArgument(argObj).done(function(data){
 			resetArgument(argumentId);
+			//taking advantage of the fact that we already have the claims that make up this argument, just add them!
+			console.warn('TODO: build the new argument using the claims we already have locally');
 			eventManager.fire('claim_updated_new_argument', {owner:argumentId, data: data});
 		}).fail(function(err){
 			console.error('Update claim fail: ', err);

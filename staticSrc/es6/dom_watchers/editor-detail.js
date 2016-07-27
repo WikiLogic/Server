@@ -54,6 +54,7 @@ module.exports = {
 			if (event.owner == "main_list") {
 				var newEditorDetailState = editorDetailStateCtrl.getNewState(event.data._id);
 				newEditorDetailState.claim = event.data;
+				editorDetailStateCtrl.populateReasons(newEditorDetailState._id);
 				//now add the detail to the editor tabs
 				editorTabsStateCtrl.addDetail("main_tabs", newEditorDetailState);
 			}
