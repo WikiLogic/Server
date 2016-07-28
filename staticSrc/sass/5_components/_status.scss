@@ -11,7 +11,7 @@
 	&__bar {
 		height: 8px;
 		width: 100%;
-		background-color: $WL_Red;
+		background-color: darken($WL_Red, 20%);
 		position: relative;
 		display: block;
 		&:before {

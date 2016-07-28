@@ -1,0 +1,40 @@
+.editor-sidebar {
+	$block: &;
+
+	display: flex;
+	flex-direction: row;
+	align-items: streatch;
+	position: relative;
+	overflow: hidden;
+
+	&__side { 
+		position: absolute;
+		width: rem(200);
+		top: 0;
+		bottom: 0;
+		right: 100%;
+		z-index: 2;
+		transition: right 0.2s ease;
+		flex: none;
+	}
+	
+	&__main { flex-grow: 1; }
+
+	&--show-menu {
+		.editor-sidebar__side {
+			right: calc(100% - #{rem(200)});
+		}
+	}
+
+	@include breakpoint(medium) {
+		&__side { 
+			position: static;
+		}
+	}
+}
+
+@include breakpoint(medium) {
+	.js-editor-menu {
+		display: none !important;
+	}
+}

@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>Wikilogic</title>
     <link rel="stylesheet" href="/css/main.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body id="god" class="bg-pattern">
 	<a href="#main" class="aria-only">Skip to main content</a>
@@ -12,16 +13,16 @@
 
 	    <div class="header-layout__head bg-color--grey-1 splitter splitter--full-width box">
 	        <div class="splitter__left">
-	        	<a href="/"><svg class="icon icon--30"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#wl"></use></svg></a>
+	        	<button class="js-logo-button"><svg class="icon icon--30"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#wl"></use></svg></button>
 	        </div>
 	        <div class="splitter__right full-width">
 	        	<input class="js-search full-width" type="text" placeholder="Search WL" data-search-id="main_results">
 	        </div>
 	    </div>
 
-	    <div class="header-layout__body sidebar-layout">
+	    <div class="header-layout__body root-sidebar js-root-sidebar">
 
-	        <div ng-controller="EditorNavController" class="sidebar-layout__side y-scroll bg-color--grey-1">
+	        <div ng-controller="EditorNavController" class="root-sidebar__side y-scroll bg-color--grey-1">
 
 	            <hr>
 
@@ -38,7 +39,7 @@
 
 	        </div>
 
-	        <div class="sidebar-layout__main y-scroll">
+	        <div class="root-sidebar__main y-scroll">
 	             	
 	             {{{body}}}
 

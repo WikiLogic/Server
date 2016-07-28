@@ -2,16 +2,26 @@
 
 <main id="main" class="box text-color--white">
 
-    <div class="sidebar-layout card bg-color--grey-2">
+    <div class="js-editor-sidebar editor-sidebar card bg-color--grey-2">
 
-        <div class="sidebar-layout__side header-layout box">
+        <div class="editor-sidebar__side header-layout bg-color--grey-1">
         
-            <div class="header-layout__head">
-                <h2 class="line-height--p">Editor</h2>
-                <hr>
+            <div class="header-layout__head box box--tall">
+                <div class="splitter line-height--p">
+                    <div class="splitter__left">
+                        <h2>Editor</h2>
+                    </div>
+                    <div class="splitter__right">
+                        <button class="box js-editor-menu">
+                            <svg class="icon icon--10"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#x"></use></svg>
+                        </button>
+                    </div>
+                </div>
             </div>
 
-            <div class="header-layout__body y-scroll js-working-list"
+            <hr class="hr--zeroed">
+
+            <div class="header-layout__body y-scroll js-working-list box"
                 data-working-list-id="main_list">
 
                 <button
@@ -26,9 +36,14 @@
 
         </div>
 
-        <div class="sidebar-layout__main header-layout">
+        <div class="editor-sidebar__main header-layout">
             <div class="header-layout__head">
                 <div class="tabs">
+                    <div class="js-editor-menu tabs__tab">
+                        <span class="box">
+                            <svg class="icon icon--10"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#menu"></use></svg>
+                        </span>
+                    </div>
 
                     <!-- the help tab -->
                     <div class="tabs__tab js-toggle-controller"
