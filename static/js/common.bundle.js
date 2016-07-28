@@ -12973,7 +12973,7 @@ module.exports = {
 		console.warn('TODO: build local claim index from here so we don\'t call the server for claims we already have locally');
 		return $.post("/api/", {
 			action: "getclaimbyid",
-			claim: claimID
+			claimid: claimID
 		});
 	},
 
@@ -13111,6 +13111,7 @@ module.exports = {
 var editorDetailStateCtrl = require('../state/editor_detail');
 var editorTabsStateCtrl = require('../state/editor_tabs');
 var eventManager = require('../utils/event_manager');
+var claimApi = require('../api/claim');
 
 var domActions = {
 	editor_tab_open: function(rivet){
@@ -13122,6 +13123,14 @@ var domActions = {
 		var editorTabsId = rivet.currentTarget.attributes['data-editor-tabs-id'].value;
 		var claimId = rivet.currentTarget.attributes['data-claimtab-id'].value;
 		editorTabsStateCtrl.removeClaimFromList(editorTabsId, claimId);
+	},
+	reason_clicked: function(rivet){
+		var claimId = rivet.currentTarget.attributes['data-claim-id'].value;
+		claimApi.getClaimById(claimId).done(function(data){
+			eventManager.fire('reason_clicked', {owner:claimId, claimObj: data});	
+		}).fail(function(err){
+			console.error('Get claim by id failed: ', err);
+		});
 	}
 }
 
@@ -13166,7 +13175,6 @@ module.exports = {
 		});
 
 		eventManager.subscribe('claim_updated_new_argument', function(event){
-			console.log('event.data: ', event.data); //event.data is a claim object with a new argument
 			editorDetailStateCtrl.updateArgument(event.data);
 			editorDetailStateCtrl.populateReasons(event.data._id);
 		});
@@ -13174,7 +13182,7 @@ module.exports = {
 
 	}
 }
-},{"../state/editor_detail":22,"../state/editor_tabs":23,"../utils/event_manager":30}],10:[function(require,module,exports){
+},{"../api/claim":5,"../state/editor_detail":22,"../state/editor_tabs":23,"../utils/event_manager":30}],10:[function(require,module,exports){
 'use strict';
 
 /*
@@ -13587,6 +13595,11 @@ module.exports = {
 			}
 		});
 
+		eventManager.subscribe('reason_clicked', function(event){
+			workingListStateCtrl.addClaim("main_list", event.claimObj);
+		});
+
+
 	}
 }
 },{"../state/working_list":29,"../utils/event_manager":30}],18:[function(require,module,exports){
@@ -13776,7 +13789,6 @@ module.exports = {
 	},
 	updateArgument(claimObj){
 		//claimObj is from the server, it has new arguments
-		console.log('claimObj: ', claimObj);
 		editorDetailRefs[claimObj._id].claim.supporting = claimObj.supporting;
 		editorDetailRefs[claimObj._id].claim.opposing = claimObj.opposing;
 	}

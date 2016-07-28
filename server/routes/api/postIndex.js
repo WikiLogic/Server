@@ -104,8 +104,7 @@ var newArgument = function(req, res){
 	});
 };
 
-var betClaimsByIdArray = function(req, res){
-	console.log("ARRRRRRRRRAY:", req.body.idarray);
+var getClaimsByIdArray = function(req, res){
 	Claim.find({
 		'_id': { $in: req.body.idarray}
 	}, function(err, result){
@@ -118,6 +117,17 @@ var betClaimsByIdArray = function(req, res){
 	});
 };
 
+var getClaimById = function(req, res){
+	Claim.findOne({_id:req.body.claimid}).exec(function(err,result){
+		if(err) {
+			console.log(err);
+			res.status(500).send(JSON.stringify(err));
+		} else {
+			res.status(200).send(result);
+		}
+	});
+}
+
 module.exports = function(req, res) {
 	var apiAction = req.body.action;
 	console.log('apiAction: ', apiAction);
@@ -129,7 +139,10 @@ module.exports = function(req, res) {
 			newArgument(req, res);
 			break;
 		case "getbyidarray":
-			betClaimsByIdArray(req, res);
+			getClaimsByIdArray(req, res);
+			break;
+		case "getclaimbyid":
+			getClaimById(req, res);
 			break;
 		default:
 			console.log('HANG');

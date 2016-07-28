@@ -10,7 +10,7 @@ module.exports = {
 		console.warn('TODO: build local claim index from here so we don\'t call the server for claims we already have locally');
 		return $.post("/api/", {
 			action: "getclaimbyid",
-			claim: claimID
+			claimid: claimID
 		});
 	},
 

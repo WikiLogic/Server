@@ -8,13 +8,15 @@
     <div class="splitter__right full-width text-align-left">
         
         <div view-each-reason="argument.reasons">
-            <p class="full-width small">
+            <button class="full-width small" 
+                view-on-click="editor_details.actions.reason_clicked"
+                view-data-claim-id="reason._id">
                 <span class="status status--50 display-inline-block">
                     <!-- <span class="status__title">50%</span> -->
                     <span class="status__bar"></span>
                 </span>
                 &nbsp; <span class="claim-text">{reason.claim.description}</span>
-            </p>
+            </button>
         </div>
       
     </div>

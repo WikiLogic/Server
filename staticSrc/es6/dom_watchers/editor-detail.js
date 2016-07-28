@@ -6,6 +6,7 @@
 var editorDetailStateCtrl = require('../state/editor_detail');
 var editorTabsStateCtrl = require('../state/editor_tabs');
 var eventManager = require('../utils/event_manager');
+var claimApi = require('../api/claim');
 
 var domActions = {
 	editor_tab_open: function(rivet){
@@ -17,6 +18,14 @@ var domActions = {
 		var editorTabsId = rivet.currentTarget.attributes['data-editor-tabs-id'].value;
 		var claimId = rivet.currentTarget.attributes['data-claimtab-id'].value;
 		editorTabsStateCtrl.removeClaimFromList(editorTabsId, claimId);
+	},
+	reason_clicked: function(rivet){
+		var claimId = rivet.currentTarget.attributes['data-claim-id'].value;
+		claimApi.getClaimById(claimId).done(function(data){
+			eventManager.fire('reason_clicked', {owner:claimId, claimObj: data});	
+		}).fail(function(err){
+			console.error('Get claim by id failed: ', err);
+		});
 	}
 }
 
