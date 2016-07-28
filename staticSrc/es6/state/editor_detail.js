@@ -5,7 +5,6 @@
  */
 
 var eventManager = require('../utils/event_manager');
-var newArgumentStateCtrl = require('./new_argument');
 var stateFactory = require('../utils/state_factory');
 var claimApi = require('../api/claim');
 

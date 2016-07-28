@@ -2,6 +2,7 @@
 
 var searchApi = require('../api/search');
 var claimApi = require('../api/claim');
+var editorDetailStateCtrl = require('./editor_detail');
 var eventManager = require('../utils/event_manager');
 var stateFactory = require('../utils/state_factory');
 
@@ -99,6 +100,7 @@ var updateStatuses = function(argumentId){
 		newArgumentRefs[argumentId].show_reasons = true;
 	} else {
 		newArgumentRefs[argumentId].show_reasons = false;
+		newArgumentRefs[argumentId].why_invalid = "Argument needs reasons";
 	}
 
 	//do the reasons make a valid argument?
@@ -106,6 +108,57 @@ var updateStatuses = function(argumentId){
 		newArgumentRefs[argumentId].is_valid = true;
 	} else {
 		newArgumentRefs[argumentId].is_valid = false;
+		newArgumentRefs[argumentId].why_invalid = "Argument needs more than 1 reason";
+	}
+
+	if (newArgumentRefs[argumentId].is_valid) {
+		//is this argument group a duplicate of any already existing arguments on the parent claim?
+		var parentClaim = editorDetailStateCtrl.getExistingState(newArgumentRefs[argumentId].parent_claim._id);
+		var parentArgGroups = [];
+		if (newArgumentRefs[argumentId]._id.startsWith('new_for')) {
+			parentArgGroups = parentClaim.claim.supporting;
+		} else {
+			parentArgGroups = parentClaim.claim.opposing;
+		}
+
+		for (var a = 0; a < parentArgGroups.length; a++){
+			//we're now in one of the parent claim's arg groups. 
+
+
+			//is this group identical?
+			if (parentArgGroups[a].reasons.length == newArgumentRefs[argumentId].reasons.length) {
+				//well it's the same length
+				var identicalGroup = true; //the new argument group is declared guilty of copying this parent arg grup until proven innocent!
+				
+				for (var r = 0; r < parentArgGroups[a].reasons.length; r++){
+					var hasThisReason = false;
+
+					for (var i = 0; i < newArgumentRefs[argumentId].reasons.length; i++){
+						if (parentArgGroups[a].reasons[r]._id == newArgumentRefs[argumentId].reasons[i]._id) {
+							hasThisReason = true;
+							break;
+						}
+					}
+
+					if (!hasThisReason) { 
+						//well, it doesn't have this reason so this group isn't the same
+						identicalGroup = false;
+						break; 
+					}
+				}
+
+				if (identicalGroup) {
+					//this means we've looped through all the reasons in a parent argument and each one has been matched
+					//not to mention the fact that because we're in here this parent argument has the same number of reasons
+					//so that means we have now determined that, in fact, yes, this new argument is GUILTY OF PLAGAIRY >:(
+					newArgumentRefs[argumentId].is_valid = false;
+					newArgumentRefs[argumentId].why_invalid = "Identical group";
+				}
+			}
+
+
+
+		}
 	}
 
 }
