@@ -199,7 +199,7 @@ module.exports = {
 		});
 	},
 	publishArgument(argumentId){
-		//how did the server want this again?
+		//This is how the server wants it... for now
 		var argObj = {
 			reasons: newArgumentRefs[argumentId].reasons,
 			claimId: newArgumentRefs[argumentId].parent_claim._id,
@@ -207,9 +207,9 @@ module.exports = {
 		};
 
 		if (argumentId.startsWith('new_for')) {
-			argObj.side = "s";
+			argObj.side = "s"; //supporting
 		} else {
-			argObj.side = "o";
+			argObj.side = "o"; //opposing
 		}
 
 		claimApi.newArgument(argObj).done(function(data){

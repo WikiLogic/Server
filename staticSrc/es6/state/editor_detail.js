@@ -79,7 +79,7 @@ module.exports = {
 		fillArgumentClaims(editorDetailId);
 	},
 	updateArgument(claimObj){
-		console.log('claimObjjjjjjjj', claimObj);
+		//claimObj is from the server, it has new arguments
 		editorDetailRefs[claimObj._id].claim.supporting = claimObj.supporting;
 		editorDetailRefs[claimObj._id].claim.opposing = claimObj.opposing;
 	}

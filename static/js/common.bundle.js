@@ -13166,7 +13166,8 @@ module.exports = {
 		});
 
 		eventManager.subscribe('claim_updated_new_argument', function(event){
-			console.log('event.data: ', event.data);
+			console.log('event.data: ', event.data); //event.data is a claim object with a new argument
+			editorDetailStateCtrl.updateArgument(event.data);
 			editorDetailStateCtrl.populateReasons(event.data._id);
 		});
 		
@@ -13774,7 +13775,8 @@ module.exports = {
 		fillArgumentClaims(editorDetailId);
 	},
 	updateArgument(claimObj){
-		console.log('claimObjjjjjjjj', claimObj);
+		//claimObj is from the server, it has new arguments
+		console.log('claimObj: ', claimObj);
 		editorDetailRefs[claimObj._id].claim.supporting = claimObj.supporting;
 		editorDetailRefs[claimObj._id].claim.opposing = claimObj.opposing;
 	}
@@ -14085,7 +14087,7 @@ module.exports = {
 		});
 	},
 	publishArgument(argumentId){
-		//how did the server want this again?
+		//This is how the server wants it... for now
 		var argObj = {
 			reasons: newArgumentRefs[argumentId].reasons,
 			claimId: newArgumentRefs[argumentId].parent_claim._id,
@@ -14093,9 +14095,9 @@ module.exports = {
 		};
 
 		if (argumentId.startsWith('new_for')) {
-			argObj.side = "s";
+			argObj.side = "s"; //supporting
 		} else {
-			argObj.side = "o";
+			argObj.side = "o"; //opposing
 		}
 
 		claimApi.newArgument(argObj).done(function(data){

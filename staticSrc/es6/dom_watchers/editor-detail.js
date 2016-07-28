@@ -61,7 +61,7 @@ module.exports = {
 		});
 
 		eventManager.subscribe('claim_updated_new_argument', function(event){
-			console.log('event.data: ', event.data);
+			editorDetailStateCtrl.updateArgument(event.data);
 			editorDetailStateCtrl.populateReasons(event.data._id);
 		});
 		
