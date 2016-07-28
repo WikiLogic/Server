@@ -25,7 +25,7 @@ module.exports = {
 
 			//send it to the API
 			claimApi.newClaim(newClaimString).done(function(data){
-				console.info('new claim has been added!', data);
+				
 
 				//send it to the working list
 			}).fail(function(err){

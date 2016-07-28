@@ -22,9 +22,6 @@ var editorDetailState = {
 var editorDetailRefs = {};
 
 var fillArgumentClaims = function(editorDetailId){
-	console.log('editorDetailId: ', editorDetailId);
-	console.log('editorDetailRefs: ', editorDetailRefs);
-	console.log('editorDetailRefs[editorDetailId]: ', editorDetailRefs[editorDetailId]);
 	//build an array of id's & request them
 	var idArray = [];
 	var allArgumentss = [...editorDetailRefs[editorDetailId].claim.supporting, ...editorDetailRefs[editorDetailId].claim.opposing];
@@ -43,15 +40,24 @@ var fillArgumentClaims = function(editorDetailId){
 
 			if (!dup) {
 				idArray.push(allArgumentss[a].reasons[r]._id);
-
-				allArgumentss[a].reasons[r]._id = 'test';
 			}
 		}
 	}
 
 	claimApi.getClaimsByIdArray(idArray).done(function(data){
-		console.log('got all the claims!');
-
+		//loop through all the arguments
+		for (var a = 0; a < allArgumentss.length; a++){
+			//& their reasons
+			for (var r = 0; r < allArgumentss[a].reasons.length; r++){
+				//add the relevant claim
+				for (var c = 0; c < data.length; c++){
+					if (data[c]._id == allArgumentss[a].reasons[r]._id) {
+						allArgumentss[a].reasons[r].claim = data[c];
+						break;
+					}
+				}
+			}
+		}
 	}).fail(function(err){
 		console.error('ERROR: ', err);
 	});
@@ -71,5 +77,10 @@ module.exports = {
 	},
 	populateReasons(editorDetailId){
 		fillArgumentClaims(editorDetailId);
+	},
+	updateArgument(claimObj){
+		console.log('claimObjjjjjjjj', claimObj);
+		editorDetailRefs[claimObj._id].claim.supporting = claimObj.supporting;
+		editorDetailRefs[claimObj._id].claim.opposing = claimObj.opposing;
 	}
 }

@@ -12970,6 +12970,7 @@ module.exports = {
 		 * asks the server for the claim of that ID
 		 * Returns the claim
 		 */
+		console.warn('TODO: build local claim index from here so we don\'t call the server for claims we already have locally');
 		return $.post("/api/", {
 			action: "getclaimbyid",
 			claim: claimID
@@ -13087,7 +13088,7 @@ module.exports = {
 
 			//send it to the API
 			claimApi.newClaim(newClaimString).done(function(data){
-				console.info('new claim has been added!', data);
+				
 
 				//send it to the working list
 			}).fail(function(err){
@@ -13165,7 +13166,8 @@ module.exports = {
 		});
 
 		eventManager.subscribe('claim_updated_new_argument', function(event){
-			editorDetailStateCtrl.updateArgument(event.data);
+			console.log('event.data: ', event.data);
+			editorDetailStateCtrl.populateReasons(event.data._id);
 		});
 		
 
@@ -13186,7 +13188,7 @@ var domActions = {
 		//console.log('new reason');
 		var argumentId = rivet.currentTarget.attributes['data-argument-id'].value;
 		var term = rivet.currentTarget.value;
-		console.log('term: ', term); // <- does this just render too fast? Watch the console when you're typing. It's so weird.
+		//console.log('term: ', term); // <- does this just render too fast? Watch the console when you're typing. It's so weird.
 
 		if (rivet.key == "Enter"){
 			newArgumentStateCtrl.enterNewReason(argumentId, term);
@@ -13715,9 +13717,6 @@ var editorDetailState = {
 var editorDetailRefs = {};
 
 var fillArgumentClaims = function(editorDetailId){
-	console.log('editorDetailId: ', editorDetailId);
-	console.log('editorDetailRefs: ', editorDetailRefs);
-	console.log('editorDetailRefs[editorDetailId]: ', editorDetailRefs[editorDetailId]);
 	//build an array of id's & request them
 	var idArray = [];
 	var allArgumentss = [...editorDetailRefs[editorDetailId].claim.supporting, ...editorDetailRefs[editorDetailId].claim.opposing];
@@ -13736,15 +13735,24 @@ var fillArgumentClaims = function(editorDetailId){
 
 			if (!dup) {
 				idArray.push(allArgumentss[a].reasons[r]._id);
-
-				allArgumentss[a].reasons[r]._id = 'test';
 			}
 		}
 	}
 
 	claimApi.getClaimsByIdArray(idArray).done(function(data){
-		console.log('got all the claims!');
-
+		//loop through all the arguments
+		for (var a = 0; a < allArgumentss.length; a++){
+			//& their reasons
+			for (var r = 0; r < allArgumentss[a].reasons.length; r++){
+				//add the relevant claim
+				for (var c = 0; c < data.length; c++){
+					if (data[c]._id == allArgumentss[a].reasons[r]._id) {
+						allArgumentss[a].reasons[r].claim = data[c];
+						break;
+					}
+				}
+			}
+		}
 	}).fail(function(err){
 		console.error('ERROR: ', err);
 	});
@@ -13764,6 +13772,11 @@ module.exports = {
 	},
 	populateReasons(editorDetailId){
 		fillArgumentClaims(editorDetailId);
+	},
+	updateArgument(claimObj){
+		console.log('claimObjjjjjjjj', claimObj);
+		editorDetailRefs[claimObj._id].claim.supporting = claimObj.supporting;
+		editorDetailRefs[claimObj._id].claim.opposing = claimObj.opposing;
 	}
 }
 },{"../api/claim":5,"../utils/event_manager":30,"../utils/state_factory":31,"./new_argument":24}],23:[function(require,module,exports){
@@ -14035,7 +14048,6 @@ module.exports = {
 	addReason(argumentId, claimObj) {
 		//first check if that reason already exists in this argument
 		if (!argHasReason(argumentId, claimObj._id)) {
-			console.info('newArgumentRefs: ', newArgumentRefs);
 			newArgumentRefs[argumentId].reasons.push(claimObj);
 			//now tidy up - remove the reason if it is in the results
 			for (var r = 0; r < newArgumentRefs[argumentId].search_results.length; r++){
@@ -14065,7 +14077,6 @@ module.exports = {
 		var term = newArgumentRefs[argumentId].search_term;
 
 		claimApi.newClaim(term).done(function(data){
-			console.log('data!', data);
 			newArgumentRefs[argumentId].reasons.push(data);
 			updateStatuses(argumentId);
 			eventManager.fire('new_argument_new_reason', {owner: argumentId, data: data});
@@ -14171,7 +14182,6 @@ module.exports = {
 		return returnSearchState;
 	},
 	getExistingState(searchId){
-		console.log('searchStateRef[searchId]: ', searchStateRef[searchId]);
 		return searchStateRef[searchId];
 	},
 	setTerm(searchId, newterm){
@@ -14632,20 +14642,15 @@ module.exports = {
 
 module.exports = {
 	create: function(stateTemplate){
-		console.info("1: ", stateTemplate);
 		var returnState = Object.create(stateTemplate);
-		console.info("2: ", stateTemplate);
 		for (var attr in returnState){
 			//array
 			if (Array.isArray(returnState[attr])) {
 				returnState[attr] = [];
-				console.log('array', attr);
 			} else {
-				console.log('attr', attr);
 				returnState[attr] = returnState[attr];
 			}
 		}
-		console.info("3: ", returnState);
 
 		return returnState;
 	}
