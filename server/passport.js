@@ -54,10 +54,8 @@ module.exports = function(passport) {
                     //first - check if the email is one of our restricted signups. 
                     console.log('TODO: remove signup restrictions when we\'re more confident');
                     var emailWhiteList = process.env.EMAIL_WHITELIST;
-                    console.log('emailWhiteList: ', emailWhiteList);
                     if (typeof emailWhiteList != "undefined") {
                         var emailWhiteListArray = emailWhiteList.split(",");
-                        console.log('emailWhiteListArray: ', emailWhiteListArray);
                         //we're somewhere with a white list! Only let these people sign up
                         var blocked = true;
                         for (var w = 0; w < emailWhiteListArray.length; w++){
@@ -120,10 +118,11 @@ module.exports = function(passport) {
             console.log('TODO: remove signup restrictions when we\'re more confident');
             var emailWhiteList = process.env.EMAIL_WHITELIST;
             if (typeof emailWhiteList != "undefined") {
+                var emailWhiteListArray = emailWhiteList.split(",");
                 //we're somewhere with a white list! Only let these people sign up
                 var blocked = true;
-                for (var w = 0; w < emailWhiteList.length; w++){
-                    if (email == emailWhiteList[w]) {
+                for (var w = 0; w < emailWhiteListArray.length; w++){
+                    if (email == emailWhiteListArray[w]) {
                         blocked = false;
                     }
                 }
