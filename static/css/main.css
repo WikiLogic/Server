@@ -880,7 +880,7 @@ They should get you 90% of the look you're after
     box-shadow: 0 0 10px #131E2D;
     z-index: -1; }
   .card--500 {
-    max-width: 500px; }
+    max-width: 31.25rem; }
   .card--drop {
     border-top-right-radius: 0;
     border-top-left-radius: 0; }
@@ -1375,6 +1375,38 @@ These create the structurs within which components will live
         .row__col--3-quarter\@small:last-of-type {
           padding-right: 0; } }
 
+.editor-sidebar {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: row;
+      flex-direction: row;
+  -ms-flex-align: streatch;
+      align-items: streatch;
+  position: relative;
+  overflow: hidden; }
+  .editor-sidebar__side {
+    position: absolute;
+    width: 12.5rem;
+    top: 0;
+    bottom: 0;
+    right: 100%;
+    z-index: 2;
+    transition: right 0.2s ease;
+    -ms-flex: none;
+        flex: none; }
+  .editor-sidebar__main {
+    -ms-flex-positive: 1;
+        flex-grow: 1; }
+  .editor-sidebar--show-menu .editor-sidebar__side {
+    right: calc(100% - 12.5rem); }
+  @media (min-width: 768px) {
+    .editor-sidebar__side {
+      position: static; } }
+
+@media (min-width: 768px) {
+  .js-editor-menu {
+    display: none !important; } }
+
 .header-layout {
   display: -ms-flexbox;
   display: flex;
@@ -1386,6 +1418,33 @@ These create the structurs within which components will live
   .header-layout__body {
     -ms-flex-positive: 1;
         flex-grow: 1; }
+
+.root-sidebar {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: row;
+      flex-direction: row;
+  -ms-flex-align: streatch;
+      align-items: streatch;
+  position: relative; }
+  .root-sidebar__side {
+    position: absolute;
+    width: 12.5rem;
+    top: 0;
+    bottom: 0;
+    right: 100%;
+    z-index: 3;
+    transition: right 0.2s ease;
+    -ms-flex: none;
+        flex: none; }
+  .root-sidebar__main {
+    -ms-flex-positive: 1;
+        flex-grow: 1; }
+  .root-sidebar--show-menu .root-sidebar__side {
+    right: calc(100% - 12.5rem); }
+  @media (min-width: 768px) {
+    .root-sidebar__side {
+      position: static; } }
 
 .sidebar-layout {
   display: -ms-flexbox;
@@ -1670,7 +1729,7 @@ think carefully before adding anything in here.
   .status__bar {
     height: 8px;
     width: 100%;
-    background-color: #F25454;
+    background-color: #d01010;
     position: relative;
     display: block; }
     .status__bar:before {

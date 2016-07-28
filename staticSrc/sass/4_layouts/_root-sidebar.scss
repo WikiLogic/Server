@@ -1,0 +1,33 @@
+.root-sidebar {
+	$block: &;
+
+	display: flex;
+	flex-direction: row;
+	align-items: streatch;
+	position: relative;
+
+	&__side { 
+		position: absolute;
+		width: rem(200);
+		top: 0;
+		bottom: 0;
+		right: 100%;
+		z-index: 3;
+		transition: right 0.2s ease;
+		flex: none;
+	}
+	
+	&__main { flex-grow: 1; }
+
+	&--show-menu {
+		.root-sidebar__side {
+			right: calc(100% - #{rem(200)});
+		}
+	}
+
+	@include breakpoint(medium) {
+		&__side { 
+			position: static;
+		}
+	}
+}

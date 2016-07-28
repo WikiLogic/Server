@@ -27,6 +27,7 @@ require('./dom_watchers/toggles').init();
 require('./dom_watchers/working-list').init();
 require('./dom_watchers/editor-detail').init();
 require('./dom_watchers/new-argument').init();
+require('./dom_watchers/logo-button').init();
 
 
 
@@ -36,3 +37,8 @@ require('./dom_watchers/toaster').init();
 require('./dom_watchers/claim-input').init();
 
 console.groupEnd(); //END Initting
+
+$('.js-editor-menu').on('click', function(){
+	console.log('hi');
+	$('.js-editor-sidebar').toggleClass('editor-sidebar--show-menu');
+});
