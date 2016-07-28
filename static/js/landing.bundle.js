@@ -9839,10 +9839,10 @@ $('.js-login').on('click', function(){
 			//redirect to the editor... ?
 			window.location.href = "/editor";
 		}
-	}).done(function(){
-		console.log('complete');
-	}).fail(function(){
-		console.log('login fail');
+	}).done(function(responce){
+		console.log('complete', responce);
+	}).fail(function(err){
+		console.log('login fail', err);
 	})
 });
 
@@ -9862,10 +9862,10 @@ $('.js-signup').on('click', function(){
 			//redirect to the editor... ?
 			window.location.href = "/editor";
 		}
-	}).done(function(){
-		console.log('complete');
-	}).fail(function(){
-		console.log('login fail');
+	}).done(function(responce){
+		console.log('complete', responce);
+	}).fail(function(err){
+		console.log('login fail', err);
 	})
 });
 },{"jquery":1}]},{},[2]);
