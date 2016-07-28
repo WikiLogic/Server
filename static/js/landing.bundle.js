@@ -9848,5 +9848,24 @@ $('.js-login').on('click', function(){
 
 $('.js-signup').on('click', function(){
 	console.log('signup button clicked!');
+	//email
+	var speakFriend = $('.js-speak-friend').val();
+	//password
+	var andEnter = $('.js-and-enter').val();
+	$.post("signup", {
+		email: speakFriend,
+		password: andEnter
+	},
+	function(data, status){
+		
+		if (status == 'success') {
+			//redirect to the editor... ?
+			window.location.href = "/editor";
+		}
+	}).done(function(){
+		console.log('complete');
+	}).fail(function(){
+		console.log('login fail');
+	})
 });
 },{"jquery":1}]},{},[2]);

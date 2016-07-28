@@ -12,7 +12,7 @@ var domActions = {
 		//console.log('new reason');
 		var argumentId = rivet.currentTarget.attributes['data-argument-id'].value;
 		var term = rivet.currentTarget.value;
-		console.log('term: ', term); // <- does this just render too fast? Watch the console when you're typing. It's so weird.
+		//console.log('term: ', term); // <- does this just render too fast? Watch the console when you're typing. It's so weird.
 
 		if (rivet.key == "Enter"){
 			newArgumentStateCtrl.enterNewReason(argumentId, term);
@@ -42,6 +42,8 @@ var domActions = {
 	save_new_argument(rivet){
 		var argumentId = rivet.currentTarget.attributes['data-argument-id'].value;
 		newArgumentStateCtrl.publishArgument(argumentId);
+		//cheeky, clear the input value manually
+		$(rivet.currentTarget).closest('.js-argument-creation-form').find('.js-new-reason').val('');
 	}
 }
 

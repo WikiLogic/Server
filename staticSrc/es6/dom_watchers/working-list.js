@@ -35,5 +35,10 @@ module.exports = {
 			}
 		});
 
+		eventManager.subscribe('reason_clicked', function(event){
+			workingListStateCtrl.addClaim("main_list", event.claimObj);
+		});
+
+
 	}
 }

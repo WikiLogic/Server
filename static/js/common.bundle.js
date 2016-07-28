@@ -12965,18 +12965,26 @@ jQuery.trumbowyg = {
 
 module.exports = {
 
-	getClaimById: function(claimID){
+	getClaimById(claimID){
 		/* Takes an ID, 
 		 * asks the server for the claim of that ID
 		 * Returns the claim
 		 */
+		console.warn('TODO: build local claim index from here so we don\'t call the server for claims we already have locally');
 		return $.post("/api/", {
 			action: "getclaimbyid",
-			claim: claimID
+			claimid: claimID
 		});
 	},
 
-	newClaim: function(claimString){
+	getClaimsByIdArray(idArray){
+		return $.post("/api/", {
+			action: "getbyidarray",
+			idarray: idArray
+		});
+	},
+
+	newClaim(claimString){
 		/* Takes a claim string to add as new
 		 * sends it to the API
 		 * Expects a new claim object to be returned
@@ -12987,7 +12995,7 @@ module.exports = {
 		});
 	},
 
-	newArgument: function(argObj){
+	newArgument(argObj){
 		/* Takes an entire claim object
 		 * sends it to the server to add to the specified claim
 		 * expects the server to return the updated claim
@@ -13080,7 +13088,7 @@ module.exports = {
 
 			//send it to the API
 			claimApi.newClaim(newClaimString).done(function(data){
-				console.info('new claim has been added!', data);
+				
 
 				//send it to the working list
 			}).fail(function(err){
@@ -13103,6 +13111,7 @@ module.exports = {
 var editorDetailStateCtrl = require('../state/editor_detail');
 var editorTabsStateCtrl = require('../state/editor_tabs');
 var eventManager = require('../utils/event_manager');
+var claimApi = require('../api/claim');
 
 var domActions = {
 	editor_tab_open: function(rivet){
@@ -13114,6 +13123,14 @@ var domActions = {
 		var editorTabsId = rivet.currentTarget.attributes['data-editor-tabs-id'].value;
 		var claimId = rivet.currentTarget.attributes['data-claimtab-id'].value;
 		editorTabsStateCtrl.removeClaimFromList(editorTabsId, claimId);
+	},
+	reason_clicked: function(rivet){
+		var claimId = rivet.currentTarget.attributes['data-claim-id'].value;
+		claimApi.getClaimById(claimId).done(function(data){
+			eventManager.fire('reason_clicked', {owner:claimId, claimObj: data});	
+		}).fail(function(err){
+			console.error('Get claim by id failed: ', err);
+		});
 	}
 }
 
@@ -13151,19 +13168,21 @@ module.exports = {
 			if (event.owner == "main_list") {
 				var newEditorDetailState = editorDetailStateCtrl.getNewState(event.data._id);
 				newEditorDetailState.claim = event.data;
+				editorDetailStateCtrl.populateReasons(newEditorDetailState._id);
 				//now add the detail to the editor tabs
 				editorTabsStateCtrl.addDetail("main_tabs", newEditorDetailState);
 			}
 		});
 
-		eventManager.subscribe('claim_updated', function(event){
-			//event.owner we have no use for!
-			editorDetailStateCtrl.updateClaim(event.data);
+		eventManager.subscribe('claim_updated_new_argument', function(event){
+			editorDetailStateCtrl.updateArgument(event.data);
+			editorDetailStateCtrl.populateReasons(event.data._id);
 		});
+		
 
 	}
 }
-},{"../state/editor_detail":22,"../state/editor_tabs":23,"../utils/event_manager":30}],10:[function(require,module,exports){
+},{"../api/claim":5,"../state/editor_detail":22,"../state/editor_tabs":23,"../utils/event_manager":30}],10:[function(require,module,exports){
 'use strict';
 
 /*
@@ -13178,7 +13197,7 @@ var domActions = {
 		//console.log('new reason');
 		var argumentId = rivet.currentTarget.attributes['data-argument-id'].value;
 		var term = rivet.currentTarget.value;
-		console.log('term: ', term); // <- does this just render too fast? Watch the console when you're typing. It's so weird.
+		//console.log('term: ', term); // <- does this just render too fast? Watch the console when you're typing. It's so weird.
 
 		if (rivet.key == "Enter"){
 			newArgumentStateCtrl.enterNewReason(argumentId, term);
@@ -13208,6 +13227,8 @@ var domActions = {
 	save_new_argument(rivet){
 		var argumentId = rivet.currentTarget.attributes['data-argument-id'].value;
 		newArgumentStateCtrl.publishArgument(argumentId);
+		//cheeky, clear the input value manually
+		$(rivet.currentTarget).closest('.js-argument-creation-form').find('.js-new-reason').val('');
 	}
 }
 
@@ -13574,6 +13595,11 @@ module.exports = {
 			}
 		});
 
+		eventManager.subscribe('reason_clicked', function(event){
+			workingListStateCtrl.addClaim("main_list", event.claimObj);
+		});
+
+
 	}
 }
 },{"../state/working_list":29,"../utils/event_manager":30}],18:[function(require,module,exports){
@@ -13690,6 +13716,7 @@ module.exports = {
 var eventManager = require('../utils/event_manager');
 var newArgumentStateCtrl = require('./new_argument');
 var stateFactory = require('../utils/state_factory');
+var claimApi = require('../api/claim');
 
 var editorDetailState = {
 	_id: 'anon',
@@ -13703,6 +13730,49 @@ var editorDetailState = {
 
 var editorDetailRefs = {};
 
+var fillArgumentClaims = function(editorDetailId){
+	//build an array of id's & request them
+	var idArray = [];
+	var allArgumentss = [...editorDetailRefs[editorDetailId].claim.supporting, ...editorDetailRefs[editorDetailId].claim.opposing];
+	for (var a = 0; a < allArgumentss.length; a++){
+		//now loop through the reasons
+		for (var r = 0; r < allArgumentss[a].reasons.length; r++){
+			var dup = false;
+
+			//check that it's not a duplicate
+			for (var i = 0; i < idArray.length; i++) {
+				if (idArray[i] == allArgumentss[a].reasons[r]._id) {
+					dup = true;
+					break;
+				}
+			}
+
+			if (!dup) {
+				idArray.push(allArgumentss[a].reasons[r]._id);
+			}
+		}
+	}
+
+	claimApi.getClaimsByIdArray(idArray).done(function(data){
+		//loop through all the arguments
+		for (var a = 0; a < allArgumentss.length; a++){
+			//& their reasons
+			for (var r = 0; r < allArgumentss[a].reasons.length; r++){
+				//add the relevant claim
+				for (var c = 0; c < data.length; c++){
+					if (data[c]._id == allArgumentss[a].reasons[r]._id) {
+						allArgumentss[a].reasons[r].claim = data[c];
+						break;
+					}
+				}
+			}
+		}
+	}).fail(function(err){
+		console.error('ERROR: ', err);
+	});
+	
+}
+
 module.exports = {
 	getNewState(editorDetailId){
 		var returnState = stateFactory.create(editorDetailState);
@@ -13714,16 +13784,16 @@ module.exports = {
 	getExistingState(editorDetailId){
 		return editorDetailRefs[editorDetailId];
 	},
-	updateClaim(claimObj){
-		//the is called when a claim update notification is sent out, it could be in any of the claim detail states
-		for (var editorDetailId in editorDetailRefs){
-			if (editorDetailRefs[editorDetailId].claim._id == claimObj._id) {
-				editorDetailRefs[editorDetailId].claim == claimObj;
-			}
-		}
+	populateReasons(editorDetailId){
+		fillArgumentClaims(editorDetailId);
+	},
+	updateArgument(claimObj){
+		//claimObj is from the server, it has new arguments
+		editorDetailRefs[claimObj._id].claim.supporting = claimObj.supporting;
+		editorDetailRefs[claimObj._id].claim.opposing = claimObj.opposing;
 	}
 }
-},{"../utils/event_manager":30,"../utils/state_factory":31,"./new_argument":24}],23:[function(require,module,exports){
+},{"../api/claim":5,"../utils/event_manager":30,"../utils/state_factory":31,"./new_argument":24}],23:[function(require,module,exports){
 'use strict';
 
 /* The Editor List State Controller
@@ -13867,6 +13937,7 @@ var resetArgument = function(argumentId) {
 	newArgumentRefs[argumentId].search_term = '';
 	newArgumentRefs[argumentId].search_results = [];
 	newArgumentRefs[argumentId].reasons = [];
+	updateStatuses(argumentId);
 }
 var updateStatuses = function(argumentId){
 
@@ -13902,21 +13973,25 @@ var updateStatuses = function(argumentId){
 	}
 
 	//are there any exact matches?
-	newArgumentRefs[argumentId].show_new_claim_form = true;
-	for (var r = 0; r < newArgumentRefs[argumentId].search_results.length; r++) {
-		if (newArgumentRefs[argumentId].search_results[r].description == newArgumentRefs[argumentId].search_term) {
-			//found a match!
-			newArgumentRefs[argumentId].show_new_claim_form = false;
-			break;
+	if (newArgumentRefs[argumentId].search_results.length > 0) {
+		newArgumentRefs[argumentId].show_new_claim_form = true;
+		for (var r = 0; r < newArgumentRefs[argumentId].search_results.length; r++) {
+			if (newArgumentRefs[argumentId].search_results[r].description == newArgumentRefs[argumentId].search_term) {
+				//found a match!
+				newArgumentRefs[argumentId].show_new_claim_form = false;
+				break;
+			}
 		}
-	}
-	//also check in the reasons for an exact match
-	for (var r = 0; r < newArgumentRefs[argumentId].reasons.length; r++) {
-		if (newArgumentRefs[argumentId].reasons[r].description == newArgumentRefs[argumentId].search_term) {
-			//found a match!
-			newArgumentRefs[argumentId].show_new_claim_form = false;
-			break;
+		//also check in the reasons for an exact match
+		for (var r = 0; r < newArgumentRefs[argumentId].reasons.length; r++) {
+			if (newArgumentRefs[argumentId].reasons[r].description == newArgumentRefs[argumentId].search_term) {
+				//found a match!
+				newArgumentRefs[argumentId].show_new_claim_form = false;
+				break;
+			}
 		}
+	} else {
+		newArgumentRefs[argumentId].show_new_claim_form = false;
 	}
 
 	//are there any reasons?
@@ -13987,7 +14062,6 @@ module.exports = {
 	addReason(argumentId, claimObj) {
 		//first check if that reason already exists in this argument
 		if (!argHasReason(argumentId, claimObj._id)) {
-			console.info('newArgumentRefs: ', newArgumentRefs);
 			newArgumentRefs[argumentId].reasons.push(claimObj);
 			//now tidy up - remove the reason if it is in the results
 			for (var r = 0; r < newArgumentRefs[argumentId].search_results.length; r++){
@@ -14017,7 +14091,6 @@ module.exports = {
 		var term = newArgumentRefs[argumentId].search_term;
 
 		claimApi.newClaim(term).done(function(data){
-			console.log('data!', data);
 			newArgumentRefs[argumentId].reasons.push(data);
 			updateStatuses(argumentId);
 			eventManager.fire('new_argument_new_reason', {owner: argumentId, data: data});
@@ -14026,19 +14099,26 @@ module.exports = {
 		});
 	},
 	publishArgument(argumentId){
-		//how did the server want this again?
+		//This is how the server wants it... for now
 		var argObj = {
 			reasons: newArgumentRefs[argumentId].reasons,
 			claimId: newArgumentRefs[argumentId].parent_claim._id,
 			side: (argumentId.startsWith('new_for'))
 		};
 
+		if (argumentId.startsWith('new_for')) {
+			argObj.side = "s"; //supporting
+		} else {
+			argObj.side = "o"; //opposing
+		}
+
 		claimApi.newArgument(argObj).done(function(data){
 			resetArgument(argumentId);
-			updateStatuses(argumentId);
-			eventManager.fire('claim_updated', {owner:argumentId, data: data});
+			//taking advantage of the fact that we already have the claims that make up this argument, just add them!
+			console.warn('TODO: build the new argument using the claims we already have locally');
+			eventManager.fire('claim_updated_new_argument', {owner:argumentId, data: data});
 		}).fail(function(err){
-			console.error('Update clai fail: ', err);
+			console.error('Update claim fail: ', err);
 		});
 	}
 };
@@ -14116,7 +14196,6 @@ module.exports = {
 		return returnSearchState;
 	},
 	getExistingState(searchId){
-		console.log('searchStateRef[searchId]: ', searchStateRef[searchId]);
 		return searchStateRef[searchId];
 	},
 	setTerm(searchId, newterm){
@@ -14577,20 +14656,15 @@ module.exports = {
 
 module.exports = {
 	create: function(stateTemplate){
-		console.info("1: ", stateTemplate);
 		var returnState = Object.create(stateTemplate);
-		console.info("2: ", stateTemplate);
 		for (var attr in returnState){
 			//array
 			if (Array.isArray(returnState[attr])) {
 				returnState[attr] = [];
-				console.log('array', attr);
 			} else {
-				console.log('attr', attr);
 				returnState[attr] = returnState[attr];
 			}
 		}
-		console.info("3: ", returnState);
 
 		return returnState;
 	}

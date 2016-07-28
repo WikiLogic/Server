@@ -25,7 +25,6 @@ module.exports = {
 		return returnSearchState;
 	},
 	getExistingState(searchId){
-		console.log('searchStateRef[searchId]: ', searchStateRef[searchId]);
 		return searchStateRef[searchId];
 	},
 	setTerm(searchId, newterm){

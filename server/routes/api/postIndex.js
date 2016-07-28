@@ -73,13 +73,14 @@ var newArgument = function(req, res){
 			});
 		},
 		function(claim, callback) {
-			console.log('claim: ', claim);
+			console.log('sideToUpdate: ', sideToUpdate);
 			//2 add the new argument to the claim
-			if (sideToUpdate) {
+			if (sideToUpdate == "s") {
 				claim.supporting.push(argumentToAdd);
-			} else {
+			} else if (sideToUpdate == "o") {
 				claim.opposing.push(argumentToAdd);
 			}
+			console.log('claim: ', claim);
 
 			//3 save the claim
 			claim.save(function(err,result){
@@ -101,6 +102,30 @@ var newArgument = function(req, res){
 		}
 		
 	});
+};
+
+var getClaimsByIdArray = function(req, res){
+	Claim.find({
+		'_id': { $in: req.body.idarray}
+	}, function(err, result){
+		if(err) {
+			console.log('get claims by id array err: ', err);
+			res.status(500).send(JSON.stringify(err));
+		} else {
+			res.status(200).send(result);
+		}
+	});
+};
+
+var getClaimById = function(req, res){
+	Claim.findOne({_id:req.body.claimid}).exec(function(err,result){
+		if(err) {
+			console.log(err);
+			res.status(500).send(JSON.stringify(err));
+		} else {
+			res.status(200).send(result);
+		}
+	});
 }
 
 module.exports = function(req, res) {
@@ -112,6 +137,12 @@ module.exports = function(req, res) {
 			break;
 		case "newargument":
 			newArgument(req, res);
+			break;
+		case "getbyidarray":
+			getClaimsByIdArray(req, res);
+			break;
+		case "getclaimbyid":
+			getClaimById(req, res);
 			break;
 		default:
 			console.log('HANG');

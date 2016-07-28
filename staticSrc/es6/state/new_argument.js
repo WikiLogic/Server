@@ -37,6 +37,7 @@ var resetArgument = function(argumentId) {
 	newArgumentRefs[argumentId].search_term = '';
 	newArgumentRefs[argumentId].search_results = [];
 	newArgumentRefs[argumentId].reasons = [];
+	updateStatuses(argumentId);
 }
 var updateStatuses = function(argumentId){
 
@@ -72,21 +73,25 @@ var updateStatuses = function(argumentId){
 	}
 
 	//are there any exact matches?
-	newArgumentRefs[argumentId].show_new_claim_form = true;
-	for (var r = 0; r < newArgumentRefs[argumentId].search_results.length; r++) {
-		if (newArgumentRefs[argumentId].search_results[r].description == newArgumentRefs[argumentId].search_term) {
-			//found a match!
-			newArgumentRefs[argumentId].show_new_claim_form = false;
-			break;
+	if (newArgumentRefs[argumentId].search_results.length > 0) {
+		newArgumentRefs[argumentId].show_new_claim_form = true;
+		for (var r = 0; r < newArgumentRefs[argumentId].search_results.length; r++) {
+			if (newArgumentRefs[argumentId].search_results[r].description == newArgumentRefs[argumentId].search_term) {
+				//found a match!
+				newArgumentRefs[argumentId].show_new_claim_form = false;
+				break;
+			}
 		}
-	}
-	//also check in the reasons for an exact match
-	for (var r = 0; r < newArgumentRefs[argumentId].reasons.length; r++) {
-		if (newArgumentRefs[argumentId].reasons[r].description == newArgumentRefs[argumentId].search_term) {
-			//found a match!
-			newArgumentRefs[argumentId].show_new_claim_form = false;
-			break;
+		//also check in the reasons for an exact match
+		for (var r = 0; r < newArgumentRefs[argumentId].reasons.length; r++) {
+			if (newArgumentRefs[argumentId].reasons[r].description == newArgumentRefs[argumentId].search_term) {
+				//found a match!
+				newArgumentRefs[argumentId].show_new_claim_form = false;
+				break;
+			}
 		}
+	} else {
+		newArgumentRefs[argumentId].show_new_claim_form = false;
 	}
 
 	//are there any reasons?
@@ -157,7 +162,6 @@ module.exports = {
 	addReason(argumentId, claimObj) {
 		//first check if that reason already exists in this argument
 		if (!argHasReason(argumentId, claimObj._id)) {
-			console.info('newArgumentRefs: ', newArgumentRefs);
 			newArgumentRefs[argumentId].reasons.push(claimObj);
 			//now tidy up - remove the reason if it is in the results
 			for (var r = 0; r < newArgumentRefs[argumentId].search_results.length; r++){
@@ -187,7 +191,6 @@ module.exports = {
 		var term = newArgumentRefs[argumentId].search_term;
 
 		claimApi.newClaim(term).done(function(data){
-			console.log('data!', data);
 			newArgumentRefs[argumentId].reasons.push(data);
 			updateStatuses(argumentId);
 			eventManager.fire('new_argument_new_reason', {owner: argumentId, data: data});
@@ -196,19 +199,26 @@ module.exports = {
 		});
 	},
 	publishArgument(argumentId){
-		//how did the server want this again?
+		//This is how the server wants it... for now
 		var argObj = {
 			reasons: newArgumentRefs[argumentId].reasons,
 			claimId: newArgumentRefs[argumentId].parent_claim._id,
 			side: (argumentId.startsWith('new_for'))
 		};
 
+		if (argumentId.startsWith('new_for')) {
+			argObj.side = "s"; //supporting
+		} else {
+			argObj.side = "o"; //opposing
+		}
+
 		claimApi.newArgument(argObj).done(function(data){
 			resetArgument(argumentId);
-			updateStatuses(argumentId);
-			eventManager.fire('claim_updated', {owner:argumentId, data: data});
+			//taking advantage of the fact that we already have the claims that make up this argument, just add them!
+			console.warn('TODO: build the new argument using the claims we already have locally');
+			eventManager.fire('claim_updated_new_argument', {owner:argumentId, data: data});
 		}).fail(function(err){
-			console.error('Update clai fail: ', err);
+			console.error('Update claim fail: ', err);
 		});
 	}
 };
