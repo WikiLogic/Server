@@ -13291,7 +13291,10 @@ var claimApi = require('../api/claim');
 var eventManager = require('../utils/event_manager');
 
 var domActions = {
-
+	save_new_claim(rivet){
+		var newClaimId = $(rivet.currentTarget).closest('.js-new-claim').data('new-claim-id');
+		newClaimStateCtrl.publishClaim(newClaimId);
+	}
 }
 
 module.exports = {
@@ -13338,13 +13341,13 @@ module.exports = {
 
 var searchApi = require('../api/search');
 var searchStateCtrl = require('../state/search');
-var actionStateCtrl = require('../state/actions');
 
 
 var domActions = {
-	search_this: function(rivet){
+	search_this(rivet){
 		//get the search id
 		//send the search
+		console.warn('TODO ', rivet);
 	}
 }
 
@@ -13388,7 +13391,7 @@ module.exports = {
 
 }
 
-},{"../api/search":6,"../state/actions":22,"../state/search":27}],14:[function(require,module,exports){
+},{"../api/search":6,"../state/search":27}],14:[function(require,module,exports){
 'use strict';
 
 var searchApi = require('../api/search');
@@ -13423,9 +13426,11 @@ module.exports = {
 
 		});
 
-		eventManager.subscribe('claim_updated', function(event){
-			//event.owner we have no use for!
-			searchStateCtrl.updateClaim(event.data);
+		eventManager.subscribe('new_claim_published', function(event){
+			console.log('1');
+			if (event.owner == "main_results") {
+				searchStateCtrl.addResult(event.data);
+			}
 		});
 	}
 
@@ -14199,6 +14204,7 @@ module.exports = {
 
 var eventManager = require('../utils/event_manager');
 var stateFactory = require('../utils/state_factory');
+var claimApi = require('../api/claim');
 
 var newClaimState = {
 	show: false,
@@ -14227,7 +14233,13 @@ module.exports = {
 		return newClaimRefs[newClaimId].description;
 	},
 	publishClaim(newClaimId){
-		console.warn('TODO: publish new claim');
+		console.warn('TODO: publish new claim', newClaimRefs[newClaimId].description);
+		claimApi.newClaim(newClaimRefs[newClaimId].description).done(function(publishedClaim){
+			newClaimRefs[newClaimId].description = '';
+			eventManager.fire('new_claim_published', {owner: newClaimId, data:publishedClaim});
+		}).fail(function(err){
+			console.error('publishing new claim failed: ', err);
+		});
 	},
 	show(newClaimId){
 		newClaimRefs[newClaimId].show = true;
@@ -14237,7 +14249,7 @@ module.exports = {
 	}
 
 };
-},{"../utils/event_manager":31,"../utils/state_factory":32}],27:[function(require,module,exports){
+},{"../api/claim":5,"../utils/event_manager":31,"../utils/state_factory":32}],27:[function(require,module,exports){
 'use strict';
 
 /* The Search Input state controller
@@ -14297,15 +14309,9 @@ module.exports = {
 			}
 		}
 	},
-	updateClaim(claimObj){
-		//the is called when a claim update notification is sent out, it could be in any of the search states
-		for (var searchId in searchStateRef){
-			for (var c = 0; c < searchStateRef[searchId].results.length; c++) {
-				if (searchStateRef[searchId].results[c]._id == claimObj._id) {
-					searchStateRef[searchId].results[c] == claimObj;
-				}
-			}
-		}
+	addResult(searchId, claimObj){
+		console.log(2);
+		searchStateRef[searchId].results.push(claimObj);
 	}
 
 };

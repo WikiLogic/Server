@@ -5,6 +5,7 @@
 
 var eventManager = require('../utils/event_manager');
 var stateFactory = require('../utils/state_factory');
+var claimApi = require('../api/claim');
 
 var newClaimState = {
 	show: false,
@@ -33,7 +34,13 @@ module.exports = {
 		return newClaimRefs[newClaimId].description;
 	},
 	publishClaim(newClaimId){
-		console.warn('TODO: publish new claim');
+		console.warn('TODO: publish new claim', newClaimRefs[newClaimId].description);
+		claimApi.newClaim(newClaimRefs[newClaimId].description).done(function(publishedClaim){
+			newClaimRefs[newClaimId].description = '';
+			eventManager.fire('new_claim_published', {owner: newClaimId, data:publishedClaim});
+		}).fail(function(err){
+			console.error('publishing new claim failed: ', err);
+		});
 	},
 	show(newClaimId){
 		newClaimRefs[newClaimId].show = true;

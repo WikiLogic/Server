@@ -32,9 +32,11 @@ module.exports = {
 
 		});
 
-		eventManager.subscribe('claim_updated', function(event){
-			//event.owner we have no use for!
-			searchStateCtrl.updateClaim(event.data);
+		eventManager.subscribe('new_claim_published', function(event){
+			console.log('1');
+			if (event.owner == "main_results") {
+				searchStateCtrl.addResult(event.data);
+			}
 		});
 	}
 

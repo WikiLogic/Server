@@ -2,13 +2,13 @@
 
 var searchApi = require('../api/search');
 var searchStateCtrl = require('../state/search');
-var actionStateCtrl = require('../state/actions');
 
 
 var domActions = {
-	search_this: function(rivet){
+	search_this(rivet){
 		//get the search id
 		//send the search
+		console.warn('TODO ', rivet);
 	}
 }
 
