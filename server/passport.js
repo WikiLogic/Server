@@ -80,10 +80,11 @@ module.exports = function(passport) {
                             return done(null, false);
                         } else {
                             console.log('new user!');
-                            var newUser            = new User();
+                            console.log('new email! ', email);
+                            var newUser = new User();
 
                             // set the user's local credentials
-                            newUser.local.email    = email;
+                            newUser.local.email = email;
                             newUser.local.password = newUser.generateHash(password);
 
                             // save the user
