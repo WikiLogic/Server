@@ -58,7 +58,7 @@ module.exports = {
 		}
 	},
 	addResult(searchId, claimObj){
-		console.log(2);
+		console.log('adding result!');
 		searchStateRef[searchId].results.push(claimObj);
 	}
 

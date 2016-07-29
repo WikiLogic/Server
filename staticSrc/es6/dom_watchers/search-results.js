@@ -33,9 +33,16 @@ module.exports = {
 		});
 
 		eventManager.subscribe('new_claim_published', function(event){
-			console.log('1');
 			if (event.owner == "main_results") {
-				searchStateCtrl.addResult(event.data);
+				searchStateCtrl.addResult("main_results", event.data);
+			}
+		});
+
+		eventManager.subscribe('new_claims_found', function(event){
+			if (event.owner == "main_results") {
+				for (var r = 0; r < event.data.length; r++) {
+					searchStateCtrl.addResult("main_results", event.data[r]);
+				}
 			}
 		});
 	}

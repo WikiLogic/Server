@@ -13427,9 +13427,16 @@ module.exports = {
 		});
 
 		eventManager.subscribe('new_claim_published', function(event){
-			console.log('1');
 			if (event.owner == "main_results") {
-				searchStateCtrl.addResult(event.data);
+				searchStateCtrl.addResult("main_results", event.data);
+			}
+		});
+
+		eventManager.subscribe('new_claims_found', function(event){
+			if (event.owner == "main_results") {
+				for (var r = 0; r < event.data.length; r++) {
+					searchStateCtrl.addResult("main_results", event.data[r]);
+				}
 			}
 		});
 	}
@@ -14236,7 +14243,13 @@ module.exports = {
 		console.warn('TODO: publish new claim', newClaimRefs[newClaimId].description);
 		claimApi.newClaim(newClaimRefs[newClaimId].description).done(function(publishedClaim){
 			newClaimRefs[newClaimId].description = '';
-			eventManager.fire('new_claim_published', {owner: newClaimId, data:publishedClaim});
+			newClaimRefs[newClaimId].show = false;
+			if (Array.isArray(publishedClaim)) {
+				//we've somehow managed to try and publish a claim that already exists, and the server is returning one or many matching claims
+				eventManager.fire('new_claims_found', {owner: newClaimId, data:publishedClaim});
+			} else {
+				eventManager.fire('new_claim_published', {owner: newClaimId, data:publishedClaim});
+			}
 		}).fail(function(err){
 			console.error('publishing new claim failed: ', err);
 		});
@@ -14310,7 +14323,7 @@ module.exports = {
 		}
 	},
 	addResult(searchId, claimObj){
-		console.log(2);
+		console.log('adding result!');
 		searchStateRef[searchId].results.push(claimObj);
 	}
 

@@ -21,8 +21,8 @@ var newClaim = function(req, res){
 				if(err) callback(err);
 
 				if (result.length){
-					//Can't publish - there is an identical claim
-					callback(new Error("Can't publish, identical claim already exists."));
+					//Can't publish - there is an identical claim, just send that back
+					res.status(200).send(result);
 				} else {
 					//didn't find any conflicts, on to the publishing!
 					callback(null);
