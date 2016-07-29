@@ -92,7 +92,13 @@ var updateStatuses = function(argumentId){
 			}
 		}
 	} else {
-		newArgumentRefs[argumentId].show_new_claim_form = false;
+		//so we have no results. But if there's a search term...
+		if (newArgumentRefs[argumentId].search_term.length > 4) {
+			newArgumentRefs[argumentId].show_new_claim_form = true; //no results, new claim!
+		} else {
+			//no term, no results, no new claim
+			newArgumentRefs[argumentId].show_new_claim_form = false;
+		}
 	}
 
 	//are there any reasons?
