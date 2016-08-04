@@ -1,14 +1,30 @@
 'use strict';
 
 var alertStateCtrl = require('../state/alerts');
-var actionStateCtrl = require('../state/actions');
-alertStateCtrl.init();
+var eventManager = require('../utils/event_manager');
+
+
+domActions = {
+	close_alert(rivet){
+		console.log('cloasing alert!');
+	},
+	open_alert(rivet){
+		console.log('opening alert!');
+	}
+}
 
 module.exports = {
 	init: function(){
 		console.log('alerts');
-		actionStateCtrl.addAction('clearalert', function(rivet){
-			console.warn("TODO: clear alert");
+		
+		$('.js-alerts').each(function(){
+			var alertsId = $(this).data('alerts-id');
+			var alertsState = alertStateCtrl.getState(alertsId);
+			newEditorTabs.actions = domActions;
+			rivets.bind(
+				$(this),
+				{ editor_tabs: newEditorTabs }
+			);
 		});
 	}
 }

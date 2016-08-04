@@ -1248,6 +1248,14 @@ They should get you 90% of the look you're after
 LAYOUTS
 These create the structurs within which components will live
 */
+.alerts {
+  position: absolute;
+  right: 10px;
+  bottom: 0; }
+  .alerts__bad {
+    background-color: #F25454;
+    color: white; }
+
 .row:after {
   content: "";
   display: table;
@@ -1517,6 +1525,9 @@ for any tweaking a component needs,
 the bulk of the work should be done already though, these are minimal, 
 think carefully before adding anything in here.
 */
+.alert__title {
+  margin-bottom: 0; }
+
 /* -------------------------------------- Autosizing Inputs
  * Funky little trick here, the sizer containes a copy of the text
  * and is used to expand the parent.  The input fills the height!

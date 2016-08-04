@@ -16,8 +16,17 @@ var alertsState = {
 	enabled: true,
 	level: 1,
 	duration: 5000,
-	activeAlerts: [],
-	pastAlerts: []
+	active: [
+		{
+			title: "test alert",
+			type: "good"
+		},
+		{
+			title: "test bad alert",
+			type: "bad"
+		}
+	],
+	past: []
 };
 
 var alertsStateRef = {};
@@ -34,7 +43,7 @@ var removeAlert = function(stateId, alertId){
 
 module.exports = {
 
-	getNewState(stateId){
+	getState(stateId){
 		var returnState = stateFactory.create(alertsState);
 		returnState._id = stateId;
 		alertsStateRef[stateId] = returnState;
