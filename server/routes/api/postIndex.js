@@ -128,6 +128,20 @@ var getClaimById = function(req, res){
 	});
 }
 
+var getMostRecent = function(req, res){
+	var query = Claim.find({});
+	query.sort({ 'created_at' : -1 });
+	query.limit(50);
+	query.exec(function (err, result) {
+		if(err) {
+			console.log('get most recent claims by id array err: ', err);
+			res.status(500).send(JSON.stringify(err));
+		} else {
+			res.status(200).send(result);
+		}
+	});
+}
+
 module.exports = function(req, res) {
 	var apiAction = req.body.action;
 	console.log('apiAction: ', apiAction);
@@ -143,6 +157,9 @@ module.exports = function(req, res) {
 			break;
 		case "getclaimbyid":
 			getClaimById(req, res);
+			break;
+		case "getmostrecent":
+			getMostRecent(req, res);
 			break;
 		default:
 			console.log('HANG');

@@ -13013,11 +13013,14 @@ module.exports = {
 
 module.exports = {
 
-	searchByString(searchTerm, sendResultsHere){
+	searchByString(searchTerm){
 		var order = 'relevance';
-
-
 		return $.get('/api?s=' + searchTerm);
+	},
+	searchMostRecent(){
+		return $.post("/api/", {
+			action: "getmostrecent"
+		});
 	}
 
 }
@@ -13385,6 +13388,19 @@ var domActions = {
 		//get the search id
 		//send the search
 		console.warn('TODO ', rivet);
+	},
+	get_most_critical(rivet){
+		var searchId = rivet.currentTarget.attributes['data-search-id'].value;
+		searchStateCtrl.searchMostCritical(searchId);
+	},
+	get_most_capricious(rivet){
+		var searchId = rivet.currentTarget.attributes['data-search-id'].value;
+		searchStateCtrl.searchMostCapricious(searchId);
+	},
+	get_most_recent(rivet){
+		console.log("getting most recent!!");
+		var searchId = rivet.currentTarget.attributes['data-search-id'].value;
+		searchStateCtrl.searchMostRecent(searchId);
 	}
 }
 
@@ -13395,7 +13411,7 @@ module.exports = {
 		$('.js-search').each(function(){
 			//bind the state
 			var searchId = $(this).data('search-id');
-			var searchState = searchStateCtrl.getNewState(searchId);
+			var searchState = searchStateCtrl.getState(searchId);
 			searchState.actions = domActions;
 			rivets.bind(
 				$(this),
@@ -13414,6 +13430,16 @@ module.exports = {
 					searchStateCtrl.setTerm(searchId, searchTerm);
 				}
 			});
+		});
+
+		$('.js-explore').each(function(){
+			var searchId = $(this).data('search-id');
+			var searchState = searchStateCtrl.getState(searchId);
+			searchState.actions = domActions;
+			rivets.bind(
+				$(this),
+				{ search: searchState }
+			);
 		});
 
 		$('.js-search-suggestion').each(function(){
@@ -14388,11 +14414,15 @@ var searchState = {
 var searchStateRef = {}
 
 module.exports = {
-	getNewState(searchId){
-		var returnSearchState = stateFactory.create(searchState);
-		returnSearchState._id = searchId;
-		searchStateRef[searchId] = returnSearchState;
-		return returnSearchState;
+	getState(searchId){
+		if (searchState.hasOwnProperty(searchId)) {
+			return searchStateRef[searchId];
+		} else {
+			var returnSearchState = stateFactory.create(searchState);
+			returnSearchState._id = searchId;
+			searchStateRef[searchId] = returnSearchState;
+			return returnSearchState;
+		}
 	},
 	getExistingState(searchId){
 		return searchStateRef[searchId];
@@ -14412,6 +14442,21 @@ module.exports = {
 			console.error('search api error: ', err);
 			//TODO: send to alerts
 		});		
+	},
+	searchMostRecent(searchId){
+		searchApi.searchMostRecent().done(function(data){
+			searchStateRef[searchId].results = data;
+			eventManager.fire('search_results_set', {owner: searchId, data: searchStateRef[searchId]});
+		}).fail(function(err){
+			console.error('search api error: ', err);
+			//TODO: send to alerts
+		});
+	},
+	searchMostCapricious(searchId){
+		console.warn('TODO search most capricious');
+	},
+	searchMostCritical(searchId){
+		console.warn('TODO search most critical');
 	},
 	result_clicked(searchId, claimId){
 		//get the result object

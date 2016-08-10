@@ -17,11 +17,15 @@ var searchState = {
 var searchStateRef = {}
 
 module.exports = {
-	getNewState(searchId){
-		var returnSearchState = stateFactory.create(searchState);
-		returnSearchState._id = searchId;
-		searchStateRef[searchId] = returnSearchState;
-		return returnSearchState;
+	getState(searchId){
+		if (searchState.hasOwnProperty(searchId)) {
+			return searchStateRef[searchId];
+		} else {
+			var returnSearchState = stateFactory.create(searchState);
+			returnSearchState._id = searchId;
+			searchStateRef[searchId] = returnSearchState;
+			return returnSearchState;
+		}
 	},
 	getExistingState(searchId){
 		return searchStateRef[searchId];
@@ -41,6 +45,21 @@ module.exports = {
 			console.error('search api error: ', err);
 			//TODO: send to alerts
 		});		
+	},
+	searchMostRecent(searchId){
+		searchApi.searchMostRecent().done(function(data){
+			searchStateRef[searchId].results = data;
+			eventManager.fire('search_results_set', {owner: searchId, data: searchStateRef[searchId]});
+		}).fail(function(err){
+			console.error('search api error: ', err);
+			//TODO: send to alerts
+		});
+	},
+	searchMostCapricious(searchId){
+		console.warn('TODO search most capricious');
+	},
+	searchMostCritical(searchId){
+		console.warn('TODO search most critical');
 	},
 	result_clicked(searchId, claimId){
 		//get the result object

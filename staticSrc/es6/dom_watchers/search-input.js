@@ -9,6 +9,19 @@ var domActions = {
 		//get the search id
 		//send the search
 		console.warn('TODO ', rivet);
+	},
+	get_most_critical(rivet){
+		var searchId = rivet.currentTarget.attributes['data-search-id'].value;
+		searchStateCtrl.searchMostCritical(searchId);
+	},
+	get_most_capricious(rivet){
+		var searchId = rivet.currentTarget.attributes['data-search-id'].value;
+		searchStateCtrl.searchMostCapricious(searchId);
+	},
+	get_most_recent(rivet){
+		console.log("getting most recent!!");
+		var searchId = rivet.currentTarget.attributes['data-search-id'].value;
+		searchStateCtrl.searchMostRecent(searchId);
 	}
 }
 
@@ -19,7 +32,7 @@ module.exports = {
 		$('.js-search').each(function(){
 			//bind the state
 			var searchId = $(this).data('search-id');
-			var searchState = searchStateCtrl.getNewState(searchId);
+			var searchState = searchStateCtrl.getState(searchId);
 			searchState.actions = domActions;
 			rivets.bind(
 				$(this),
@@ -38,6 +51,16 @@ module.exports = {
 					searchStateCtrl.setTerm(searchId, searchTerm);
 				}
 			});
+		});
+
+		$('.js-explore').each(function(){
+			var searchId = $(this).data('search-id');
+			var searchState = searchStateCtrl.getState(searchId);
+			searchState.actions = domActions;
+			rivets.bind(
+				$(this),
+				{ search: searchState }
+			);
 		});
 
 		$('.js-search-suggestion').each(function(){

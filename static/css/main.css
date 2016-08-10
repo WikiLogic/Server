@@ -1657,6 +1657,17 @@ think carefully before adding anything in here.
     .draft-editor__description .autosizing-input__input, .draft-editor__description .autosizing-input__sizer {
       font-size: 26px; }
 
+.explorer-menu {
+  position: relative; }
+  .explorer-menu__body {
+    position: absolute;
+    right: 0;
+    z-index: 1;
+    text-align: left; }
+    .explorer-menu__body button {
+      white-space: nowrap;
+      width: 100%; }
+
 /* Pretty unique this bit - the logo at the top of the site.
  * So I think it deserves it's own component.
  */

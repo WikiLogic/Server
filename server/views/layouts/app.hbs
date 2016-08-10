@@ -19,11 +19,39 @@
 	        <div class="splitter__right full-width">
 
 				<div class="splitter">
-	        		<div class="splitter__left">
+	        		<div class="splitter__left full-width">
 	        			<input class="js-search full-width" type="text" placeholder="Search WL" data-search-id="main_results">
 	        		</div>
-	        		<div class="splitter__right">
+	        		<div class="splitter__right js-explore">
 	        			<button class="js-explore-button"><svg class="icon icon--30"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#eye"></use></svg></button>
+	        			<div class="explorer-menu">
+	        				<div class="explorer-menu__body">
+	        					<div class="card bg-color--white box">
+
+			        				<button class="box"
+			        					view-on-click="search.actions.get_most_critical"
+			        					data-search-id="main_results">
+			        					<svg class="icon color-black"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#bolt"></use></svg>
+			        					Critical
+			        				</button>
+
+			        				<button class="box"
+			        					view-on-click="search.actions.get_most_capricious"
+			        					data-search-id="main_results">
+			        					<svg class="icon color-black"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#fire"></use></svg>
+			        					Capricious
+			        				</button>
+
+			        				<button class="box"
+			        					view-on-click="search.actions.get_most_recent"
+			        					data-search-id="main_results">
+			        					<svg class="icon color-black"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#clock"></use></svg>
+			        					Recent
+			        				</button>
+
+		        				</div>
+	        				</div>
+	        			</div>
 	        		</div>
 	        	</div>
 	        
