@@ -13046,8 +13046,8 @@ rivets.configure({
 	}
 });
 
-rivets.binders.alert = function(el, value){
-	console.log('ALERT BINDER ', el, value);
+rivets.binders.bgcolor = function(el, value){
+	el.style.background = value;
 }
 
 //now init the modular elements - there can be any number of these anywhere so we can't attach them to WL_STATE
@@ -13098,9 +13098,10 @@ module.exports = {
 			var alertsId = $(this).data('alerts-id');
 			var alertsState = alertStateCtrl.getState(alertsId);
 			alertsState.actions = domActions;
+			console.log("alertsState: ", alertsState);
 			rivets.bind(
 				$(this),
-				{ alerts: alertsState }
+				{ alerts:  alertsState}
 			);
 		});
 	}
@@ -13440,6 +13441,10 @@ module.exports = {
 				$(this),
 				{ search: searchState }
 			);
+		});
+
+		$('.js-explore-button').on('click', function(){
+			$(this).siblings('.js-explore-menu').toggle();
 		});
 
 		$('.js-search-suggestion').each(function(){
@@ -13817,16 +13822,7 @@ var alertsState = {
 	enabled: true,
 	level: 1,
 	duration: 5000,
-	active: [
-		{
-			title: "test alert",
-			type: "good"
-		},
-		{
-			title: "test bad alert",
-			type: "bad"
-		}
-	],
+	active: [],
 	past: []
 };
 
@@ -13847,6 +13843,16 @@ module.exports = {
 	getState(stateId){
 		var returnState = stateFactory.create(alertsState);
 		returnState._id = stateId;
+		returnState.active = [
+			{
+				title: "test alert",
+				bgcolor: "white"
+			},
+			{
+				title: "test bad alert",
+				bgcolor: "red"
+			}
+		]
 		alertsStateRef[stateId] = returnState;
 		return returnState;
 	},

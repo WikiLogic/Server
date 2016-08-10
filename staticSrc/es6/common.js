@@ -19,8 +19,8 @@ rivets.configure({
 	}
 });
 
-rivets.binders.alert = function(el, value){
-	console.log('ALERT BINDER ', el, value);
+rivets.binders.bgcolor = function(el, value){
+	el.style.background = value;
 }
 
 //now init the modular elements - there can be any number of these anywhere so we can't attach them to WL_STATE

@@ -1658,7 +1658,8 @@ think carefully before adding anything in here.
       font-size: 26px; }
 
 .explorer-menu {
-  position: relative; }
+  position: relative;
+  display: none; }
   .explorer-menu__body {
     position: absolute;
     right: 0;

@@ -16,16 +16,7 @@ var alertsState = {
 	enabled: true,
 	level: 1,
 	duration: 5000,
-	active: [
-		{
-			title: "test alert",
-			type: "good"
-		},
-		{
-			title: "test bad alert",
-			type: "bad"
-		}
-	],
+	active: [],
 	past: []
 };
 
@@ -46,6 +37,16 @@ module.exports = {
 	getState(stateId){
 		var returnState = stateFactory.create(alertsState);
 		returnState._id = stateId;
+		returnState.active = [
+			{
+				title: "test alert",
+				bgcolor: "white"
+			},
+			{
+				title: "test bad alert",
+				bgcolor: "red"
+			}
+		]
 		alertsStateRef[stateId] = returnState;
 		return returnState;
 	},

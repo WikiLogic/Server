@@ -21,9 +21,10 @@ module.exports = {
 			var alertsId = $(this).data('alerts-id');
 			var alertsState = alertStateCtrl.getState(alertsId);
 			alertsState.actions = domActions;
+			console.log("alertsState: ", alertsState);
 			rivets.bind(
 				$(this),
-				{ alerts: alertsState }
+				{ alerts:  alertsState}
 			);
 		});
 	}

@@ -63,6 +63,10 @@ module.exports = {
 			);
 		});
 
+		$('.js-explore-button').on('click', function(){
+			$(this).siblings('.js-explore-menu').toggle();
+		});
+
 		$('.js-search-suggestion').each(function(){
 			$(this).on('click', function(){
 				var searchId = $(this).data('search-id');
