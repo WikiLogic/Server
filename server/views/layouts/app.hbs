@@ -12,12 +12,23 @@
 	<div class="header-layout screen-height">
 
 	    <div class="header-layout__head bg-color--grey-1 splitter splitter--full-width box">
+
 	        <div class="splitter__left">
 	        	<button class="js-logo-button"><svg class="icon icon--30"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#wl"></use></svg></button>
 	        </div>
 	        <div class="splitter__right full-width">
-	        	<input class="js-search full-width" type="text" placeholder="Search WL" data-search-id="main_results">
+
+				<div class="splitter">
+	        		<div class="splitter__left">
+	        			<input class="js-search full-width" type="text" placeholder="Search WL" data-search-id="main_results">
+	        		</div>
+	        		<div class="splitter__right">
+	        			<button class="js-explore-button"><svg class="icon icon--30"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#eye"></use></svg></button>
+	        		</div>
+	        	</div>
+	        
 	        </div>
+
 	    </div>
 
 	    <div class="header-layout__body root-sidebar js-root-sidebar">
@@ -52,7 +63,7 @@
 	<div class="alerts">
 		<div class="alert js-alert" 
 		data-alerts-id="main_alerts"
-		view-each-alert="state.active">
+		view-each-alert="alerts.active">
 			{{> alert }}
 		</div>
 	</div>

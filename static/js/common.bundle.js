@@ -13056,6 +13056,7 @@ require('./dom_watchers/working-list').init();
 require('./dom_watchers/editor-detail').init();
 require('./dom_watchers/new-argument').init();
 require('./dom_watchers/logo-button').init();
+require('./dom_watchers/alerts').init();
 
 
 
@@ -13070,7 +13071,39 @@ $('.js-editor-menu').on('click', function(){
 	console.log('hi');
 	$('.js-editor-sidebar').toggleClass('editor-sidebar--show-menu');
 });
-},{"./dom_watchers/claim-input":8,"./dom_watchers/editor-detail":9,"./dom_watchers/logo-button":10,"./dom_watchers/new-argument":11,"./dom_watchers/new-claim":12,"./dom_watchers/search-input":13,"./dom_watchers/search-results":14,"./dom_watchers/tabs":15,"./dom_watchers/toaster":16,"./dom_watchers/toggles":17,"./dom_watchers/working-list":18,"jquery":1,"rivets":2}],8:[function(require,module,exports){
+},{"./dom_watchers/alerts":8,"./dom_watchers/claim-input":9,"./dom_watchers/editor-detail":10,"./dom_watchers/logo-button":11,"./dom_watchers/new-argument":12,"./dom_watchers/new-claim":13,"./dom_watchers/search-input":14,"./dom_watchers/search-results":15,"./dom_watchers/tabs":16,"./dom_watchers/toaster":17,"./dom_watchers/toggles":18,"./dom_watchers/working-list":19,"jquery":1,"rivets":2}],8:[function(require,module,exports){
+'use strict';
+
+var alertStateCtrl = require('../state/alerts');
+var eventManager = require('../utils/event_manager');
+
+
+var domActions = {
+	close_alert(rivet){
+		console.log('cloasing alert!');
+	},
+	open_alert(rivet){
+		console.log('opening alert!');
+	}
+}
+
+module.exports = {
+	init: function(){
+		console.log('alerts');
+		
+		$('.js-alerts').each(function(){
+			var alertsId = $(this).data('alerts-id');
+			var alertsState = alertStateCtrl.getState(alertsId);
+			alertsState.actions = domActions;
+			rivets.bind(
+				$(this),
+				{ alerts: alertsState }
+			);
+		});
+	}
+}
+
+},{"../state/alerts":24,"../utils/event_manager":33}],9:[function(require,module,exports){
 'use strict';
 
 var trumbowyg = require('trumbowyg');
@@ -13112,7 +13145,7 @@ module.exports = {
 		});
 	}
 }
-},{"../api/claim":5,"../state/actions":22,"trumbowyg":4}],9:[function(require,module,exports){
+},{"../api/claim":5,"../state/actions":23,"trumbowyg":4}],10:[function(require,module,exports){
 'use strict';
 /*
  * This module is responsibe for the detail view of a claim
@@ -13192,7 +13225,7 @@ module.exports = {
 
 	}
 }
-},{"../api/claim":5,"../state/editor_detail":23,"../state/editor_tabs":24,"../utils/event_manager":31}],10:[function(require,module,exports){
+},{"../api/claim":5,"../state/editor_detail":25,"../state/editor_tabs":26,"../utils/event_manager":33}],11:[function(require,module,exports){
 var eventManager = require('../utils/event_manager');
 
 module.exports = {
@@ -13203,7 +13236,7 @@ module.exports = {
 		});
 	}
 }
-},{"../utils/event_manager":31}],11:[function(require,module,exports){
+},{"../utils/event_manager":33}],12:[function(require,module,exports){
 'use strict';
 
 /*
@@ -13281,7 +13314,7 @@ module.exports = {
 		
 	}
 }
-},{"../state/new_argument":25,"../utils/event_manager":31}],12:[function(require,module,exports){
+},{"../state/new_argument":27,"../utils/event_manager":33}],13:[function(require,module,exports){
 'use strict';
 
 /* This module is responsibe for the new claim
@@ -13340,7 +13373,7 @@ module.exports = {
 		});
 	}
 }
-},{"../api/claim":5,"../state/new_claim":26,"../utils/event_manager":31}],13:[function(require,module,exports){
+},{"../api/claim":5,"../state/new_claim":28,"../utils/event_manager":33}],14:[function(require,module,exports){
 'use strict';
 
 var searchApi = require('../api/search');
@@ -13395,7 +13428,7 @@ module.exports = {
 
 }
 
-},{"../api/search":6,"../state/search":27}],14:[function(require,module,exports){
+},{"../api/search":6,"../state/search":29}],15:[function(require,module,exports){
 'use strict';
 
 var searchApi = require('../api/search');
@@ -13447,7 +13480,7 @@ module.exports = {
 
 }
 
-},{"../api/search":6,"../state/actions":22,"../state/search":27,"../utils/event_manager":31}],15:[function(require,module,exports){
+},{"../api/search":6,"../state/actions":23,"../state/search":29,"../utils/event_manager":33}],16:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -13507,7 +13540,7 @@ module.exports = {
 		});
 	}
 }
-},{"../state/actions":22,"../state/tabs":28,"jquery":1}],16:[function(require,module,exports){
+},{"../state/actions":23,"../state/tabs":30,"jquery":1}],17:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -13539,7 +13572,7 @@ module.exports = {
 		});
 	}
 }
-},{"jquery":1}],17:[function(require,module,exports){
+},{"jquery":1}],18:[function(require,module,exports){
 'use strict';
 
 /*
@@ -13590,7 +13623,7 @@ module.exports = {
 
 	}
 }
-},{"../state/actions":22,"../state/toggles":29}],18:[function(require,module,exports){
+},{"../state/actions":23,"../state/toggles":31}],19:[function(require,module,exports){
 'use strict';
 
 var workingListStateCtrl = require('../state/working_list');
@@ -13635,7 +13668,7 @@ module.exports = {
 
 	}
 }
-},{"../state/working_list":30,"../utils/event_manager":31}],19:[function(require,module,exports){
+},{"../state/working_list":32,"../utils/event_manager":33}],20:[function(require,module,exports){
 
 module.exports = {
 	cloneThisObject: function(obj) {
@@ -13649,7 +13682,7 @@ module.exports = {
 		return newObj;
 	}
 }
-},{}],20:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -13662,7 +13695,7 @@ module.exports = {
 		return /[A-Z]/.test(s);
 	}
 }
-},{}],21:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 /* Takes tab group state
  * modifies it
  * Returns tab group state
@@ -13715,7 +13748,7 @@ module.exports = {
 		};
 	}
 }
-},{"../reducers/string_helpers":20,"./object_helpers":19}],22:[function(require,module,exports){
+},{"../reducers/string_helpers":21,"./object_helpers":20}],23:[function(require,module,exports){
 'use strict';
 
 var objectHelpers = require('../reducers/object_helpers');
@@ -13739,7 +13772,72 @@ module.exports = {
 	}
 
 };
-},{"../reducers/object_helpers":19}],23:[function(require,module,exports){
+},{"../reducers/object_helpers":20}],24:[function(require,module,exports){
+'use strict';
+
+var eventManager = require('../utils/event_manager');
+var stateFactory = require('../utils/state_factory');
+
+/*
+var alertObj = {
+	_id: 'anon'
+	contentString: "",
+	level: 1,
+	type: "good","bad"
+};
+*/
+
+var alertsState = {
+	enabled: true,
+	level: 1,
+	duration: 5000,
+	active: [
+		{
+			title: "test alert",
+			type: "good"
+		},
+		{
+			title: "test bad alert",
+			type: "bad"
+		}
+	],
+	past: []
+};
+
+var alertsStateRef = {};
+
+var removeAlert = function(stateId, alertId){
+	for (var a = 0; a < alertsStateRef[stateId].activeAlerts.length; a++) {
+		if (alertsStateRef[stateId].activeAlerts[a]._id == alertId) {
+			var staleAlert = alertsStateRef[stateId].activeAlerts.splice(a, 1);
+			alertsStateRef[stateId].pastAlerts.push(staleAlert);
+			eventManager.fire('alert_over', {owner: stateId, alert: staleAlert});
+		}
+	}
+}
+
+module.exports = {
+
+	getState(stateId){
+		var returnState = stateFactory.create(alertsState);
+		returnState._id = stateId;
+		alertsStateRef[stateId] = returnState;
+		return returnState;
+	},
+	getExistingState(stateId){
+		return alertsStateRef[stateId];
+	},
+	setAlert(stateId, alertObj){
+		alertsStateRef[stateId].activeAlerts.push(alertObj);
+
+		setTimeout(function(){ 
+			//remove alert
+			removeAlert(stateId, alertObj._id);
+		}, alertsStateRef[stateId].duration);
+	}
+
+};
+},{"../utils/event_manager":33,"../utils/state_factory":34}],25:[function(require,module,exports){
 'use strict';
 
 /* The Editor List State Controller
@@ -13825,7 +13923,7 @@ module.exports = {
 		editorDetailRefs[claimObj._id].claim.opposing = claimObj.opposing;
 	}
 }
-},{"../api/claim":5,"../utils/event_manager":31,"../utils/state_factory":32}],24:[function(require,module,exports){
+},{"../api/claim":5,"../utils/event_manager":33,"../utils/state_factory":34}],26:[function(require,module,exports){
 'use strict';
 
 /* The Editor List State Controller
@@ -13894,7 +13992,6 @@ module.exports = {
 		var returnState = stateFactory.create(editorTabsState);
 		returnState._id = editorTabsId;
 		newEditorTabsRefs[editorTabsId] = returnState;
-		console.info('New Editor Tabs State: ', newEditorTabsRefs[editorTabsId]);
 		return returnState;
 	},
 	getExistingState(editorTabsId){
@@ -13929,7 +14026,7 @@ module.exports = {
 		removeClaimFromList(editorTabsId, claimId);
 	}
 }
-},{"../utils/event_manager":31,"../utils/state_factory":32}],25:[function(require,module,exports){
+},{"../utils/event_manager":33,"../utils/state_factory":34}],27:[function(require,module,exports){
 'use strict';
 
 var searchApi = require('../api/search');
@@ -14213,7 +14310,7 @@ module.exports = {
 		});
 	}
 };
-},{"../api/claim":5,"../api/search":6,"../utils/event_manager":31,"../utils/state_factory":32,"./editor_detail":23}],26:[function(require,module,exports){
+},{"../api/claim":5,"../api/search":6,"../utils/event_manager":33,"../utils/state_factory":34,"./editor_detail":25}],28:[function(require,module,exports){
 'use strict';
 
 /* New Claim State Ctrl
@@ -14237,7 +14334,6 @@ module.exports = {
 		var returnState = stateFactory.create(newClaimState);
 		returnState._id = newClaimId;
 		newClaimRefs[newClaimId] = returnState;
-		console.info('New Claim State: ', newClaimRefs[newClaimId]);
 		return returnState;
 	},
 	getExistingState(newClaimId){
@@ -14272,7 +14368,7 @@ module.exports = {
 	}
 
 };
-},{"../api/claim":5,"../utils/event_manager":31,"../utils/state_factory":32}],27:[function(require,module,exports){
+},{"../api/claim":5,"../utils/event_manager":33,"../utils/state_factory":34}],29:[function(require,module,exports){
 'use strict';
 
 /* The Search Input state controller
@@ -14296,7 +14392,6 @@ module.exports = {
 		var returnSearchState = stateFactory.create(searchState);
 		returnSearchState._id = searchId;
 		searchStateRef[searchId] = returnSearchState;
-		console.info('New State: ', searchStateRef[searchId]);
 		return returnSearchState;
 	},
 	getExistingState(searchId){
@@ -14338,7 +14433,7 @@ module.exports = {
 	}
 
 };
-},{"../api/search":6,"../utils/event_manager":31,"../utils/state_factory":32}],28:[function(require,module,exports){
+},{"../api/search":6,"../utils/event_manager":33,"../utils/state_factory":34}],30:[function(require,module,exports){
 'use strict';
 
 /* Everyting aout handling tab state!
@@ -14593,7 +14688,7 @@ module.exports = {
 		WL_STATE.tabs[groupName].tempTab = null;
 	}
 };
-},{"../reducers/object_helpers":19,"../reducers/string_helpers":20,"../reducers/tab_helpers":21,"../utils/event_manager":31}],29:[function(require,module,exports){
+},{"../reducers/object_helpers":20,"../reducers/string_helpers":21,"../reducers/tab_helpers":22,"../utils/event_manager":33}],31:[function(require,module,exports){
 'use strict';
 /* The Toggle State Controller
  * Thoughts from when this was just a help tab:
@@ -14616,7 +14711,6 @@ module.exports = {
 		var returnToggleState = stateFactory.create(toggleState);
 		returnToggleState._id = toggleId;
 		toggleStateRef[toggleId] = returnToggleState;
-		console.info('New State: ', toggleStateRef[toggleId]);
 		return returnToggleState;
 	},
 	getExistingState(toggleId){
@@ -14629,7 +14723,7 @@ module.exports = {
 		toggleStateRef[toggleId].open = false;
 	}
 }
-},{"../utils/state_factory":32}],30:[function(require,module,exports){
+},{"../utils/state_factory":34}],32:[function(require,module,exports){
 'use strict';
 
 /* Working_list State controller
@@ -14650,7 +14744,6 @@ module.exports = {
 		var returnListState = stateFactory.create(workingListState);
 		returnListState._id = workingListId;
 		workingListStateRefs[workingListId] = returnListState;
-		console.info('New State: ', workingListStateRefs[workingListId]);
 		return returnListState;
 	},
 	getExistingState(workingListId){
@@ -14691,7 +14784,7 @@ module.exports = {
 		
 	}
 }
-},{"../utils/event_manager":31,"../utils/state_factory":32}],31:[function(require,module,exports){
+},{"../utils/event_manager":33,"../utils/state_factory":34}],33:[function(require,module,exports){
 'use strict';
 
 /* The Event Manager
@@ -14742,7 +14835,7 @@ module.exports = {
 		}
 	}
 }
-},{}],32:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 'use strict';
 
 /* The State Factory

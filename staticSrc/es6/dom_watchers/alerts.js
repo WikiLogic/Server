@@ -4,7 +4,7 @@ var alertStateCtrl = require('../state/alerts');
 var eventManager = require('../utils/event_manager');
 
 
-domActions = {
+var domActions = {
 	close_alert(rivet){
 		console.log('cloasing alert!');
 	},
@@ -20,10 +20,10 @@ module.exports = {
 		$('.js-alerts').each(function(){
 			var alertsId = $(this).data('alerts-id');
 			var alertsState = alertStateCtrl.getState(alertsId);
-			newEditorTabs.actions = domActions;
+			alertsState.actions = domActions;
 			rivets.bind(
 				$(this),
-				{ editor_tabs: newEditorTabs }
+				{ alerts: alertsState }
 			);
 		});
 	}

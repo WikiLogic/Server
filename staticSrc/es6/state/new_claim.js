@@ -21,7 +21,6 @@ module.exports = {
 		var returnState = stateFactory.create(newClaimState);
 		returnState._id = newClaimId;
 		newClaimRefs[newClaimId] = returnState;
-		console.info('New Claim State: ', newClaimRefs[newClaimId]);
 		return returnState;
 	},
 	getExistingState(newClaimId){

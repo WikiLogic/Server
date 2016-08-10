@@ -18,7 +18,6 @@ module.exports = {
 		var returnListState = stateFactory.create(workingListState);
 		returnListState._id = workingListId;
 		workingListStateRefs[workingListId] = returnListState;
-		console.info('New State: ', workingListStateRefs[workingListId]);
 		return returnListState;
 	},
 	getExistingState(workingListId){

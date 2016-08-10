@@ -20,7 +20,6 @@ module.exports = {
 		var returnToggleState = stateFactory.create(toggleState);
 		returnToggleState._id = toggleId;
 		toggleStateRef[toggleId] = returnToggleState;
-		console.info('New State: ', toggleStateRef[toggleId]);
 		return returnToggleState;
 	},
 	getExistingState(toggleId){

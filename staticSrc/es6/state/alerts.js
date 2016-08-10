@@ -47,7 +47,6 @@ module.exports = {
 		var returnState = stateFactory.create(alertsState);
 		returnState._id = stateId;
 		alertsStateRef[stateId] = returnState;
-		console.info('New Alerts State: ', alertsStateRef[stateId]);
 		return returnState;
 	},
 	getExistingState(stateId){
