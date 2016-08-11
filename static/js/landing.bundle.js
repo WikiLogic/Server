@@ -11557,6 +11557,13 @@ rivets.configure({
 
 require('./dom_watchers/login-signup').init();
 require('./dom_watchers/tabs').init();
+
+$(window).on('keypress', function(e){
+	if (e.keyCode == 13) {
+	console.log('KEY:', e);
+		$('button').click();
+	}
+});
 },{"./dom_watchers/login-signup":4,"./dom_watchers/tabs":5,"jquery":1,"rivets":2}],7:[function(require,module,exports){
 'use strict';
 

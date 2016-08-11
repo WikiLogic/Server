@@ -18,3 +18,10 @@ rivets.configure({
 
 require('./dom_watchers/login-signup').init();
 require('./dom_watchers/tabs').init();
+
+$(window).on('keypress', function(e){
+	if (e.keyCode == 13) {
+	console.log('KEY:', e);
+		$('button').click();
+	}
+});
