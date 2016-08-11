@@ -1980,13 +1980,15 @@ think carefully before adding anything in here.
     display: table-cell;
     background: #131E2D;
     cursor: pointer;
-    border-right: 1px solid rgba(95, 154, 236, 0.5); }
+    border-right: 1px solid rgba(95, 154, 236, 0.5);
+    opacity: 0.8; }
     .tabs__tab:last-of-type {
       border-right: 0; }
     .tabs__tab:hover {
-      background: #223856; }
+      opacity: 1; }
     .tabs__tab.active {
-      background: #375073; }
+      opacity: 1;
+      background: #223856; }
   .tabs__title {
     display: inline-block;
     padding: 0.625rem;
@@ -2017,6 +2019,11 @@ think carefully before adding anything in here.
       padding-bottom: 0; }
     .tabs__x:hover {
       opacity: 1; }
+  .tabs--opposite-dark .tabs__tab {
+    background: #223856; }
+    .tabs--opposite-dark .tabs__tab.active {
+      opacity: 1;
+      background: #131E2D; }
   .tabs--light {
     color: rgba(0, 0, 0, 0.87); }
     .tabs--light svg {

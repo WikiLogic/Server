@@ -10,17 +10,19 @@
 		background: $grey-1;
 		cursor: pointer;
 		border-right: 1px solid rgba($WL_Blue, 0.5);
+		opacity: 0.8;
 
 		&:last-of-type {
 			border-right: 0;
 		}
 
 		&:hover {
-			background: $grey-2;
+			opacity: 1;
 		}
 
 		&.active {
-			background: $grey-3;	
+			opacity: 1;
+			background: $grey-2;
 		}
 	}
 	
@@ -36,6 +38,18 @@
 		opacity: 0.5;
 		&:hover {
 			opacity: 1;
+		}
+	}
+
+	&--opposite-dark {
+		#{$block} {
+			&__tab {
+				background: $grey-2;
+				&.active {
+					opacity: 1;
+					background: $grey-1;
+				}
+			}
 		}
 	}
 

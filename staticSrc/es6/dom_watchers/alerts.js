@@ -27,5 +27,13 @@ module.exports = {
 				{ alerts:  alertsState}
 			);
 		});
+
+		eventManager.subscribe('anyevent', function(event, eventName){
+			var alert = {
+				title: eventName,
+				bgcolor: "white"
+			}
+			alertStateCtrl.setAlert("main_alerts", alert);
+		});
 	}
 }

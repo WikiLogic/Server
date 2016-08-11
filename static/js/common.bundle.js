@@ -13104,6 +13104,14 @@ module.exports = {
 				{ alerts:  alertsState}
 			);
 		});
+
+		eventManager.subscribe('anyevent', function(event, eventName){
+			var alert = {
+				title: eventName,
+				bgcolor: "white"
+			}
+			alertStateCtrl.setAlert("main_alerts", alert);
+		});
 	}
 }
 
@@ -13757,11 +13765,11 @@ var alertsState = {
 var alertsStateRef = {};
 
 var removeAlert = function(stateId, alertId){
-	for (var a = 0; a < alertsStateRef[stateId].activeAlerts.length; a++) {
-		if (alertsStateRef[stateId].activeAlerts[a]._id == alertId) {
-			var staleAlert = alertsStateRef[stateId].activeAlerts.splice(a, 1);
-			alertsStateRef[stateId].pastAlerts.push(staleAlert);
-			eventManager.fire('alert_over', {owner: stateId, alert: staleAlert});
+	for (var a = 0; a < alertsStateRef[stateId].active.length; a++) {
+		if (alertsStateRef[stateId].active[a]._id == alertId) {
+			var staleAlert = alertsStateRef[stateId].active.splice(a, 1);
+			alertsStateRef[stateId].past.push(staleAlert);
+			//eventManager.fire('alert_over', {owner: stateId, alert: staleAlert});
 		}
 	}
 }
@@ -13771,16 +13779,6 @@ module.exports = {
 	getState(stateId){
 		var returnState = stateFactory.create(alertsState);
 		returnState._id = stateId;
-		returnState.active = [
-			{
-				title: "test alert",
-				bgcolor: "white"
-			},
-			{
-				title: "test bad alert",
-				bgcolor: "red"
-			}
-		]
 		alertsStateRef[stateId] = returnState;
 		return returnState;
 	},
@@ -13788,7 +13786,7 @@ module.exports = {
 		return alertsStateRef[stateId];
 	},
 	setAlert(stateId, alertObj){
-		alertsStateRef[stateId].activeAlerts.push(alertObj);
+		alertsStateRef[stateId].active.push(alertObj);
 
 		setTimeout(function(){ 
 			//remove alert
@@ -14623,6 +14621,11 @@ module.exports = {
 			for (var s = 0; s < eventSubscribers[event].length; s++) { //s for subscriber
 				eventSubscribers[event][s](data);
 			}
+		}
+
+		//also fire the 'anyevent' event
+		for (var s = 0; s < eventSubscribers.anyevent.length; s++) { //s for subscriber
+			eventSubscribers.anyevent[s](data, event); 
 		}
 	}
 }

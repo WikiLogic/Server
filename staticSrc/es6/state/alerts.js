@@ -23,11 +23,11 @@ var alertsState = {
 var alertsStateRef = {};
 
 var removeAlert = function(stateId, alertId){
-	for (var a = 0; a < alertsStateRef[stateId].activeAlerts.length; a++) {
-		if (alertsStateRef[stateId].activeAlerts[a]._id == alertId) {
-			var staleAlert = alertsStateRef[stateId].activeAlerts.splice(a, 1);
-			alertsStateRef[stateId].pastAlerts.push(staleAlert);
-			eventManager.fire('alert_over', {owner: stateId, alert: staleAlert});
+	for (var a = 0; a < alertsStateRef[stateId].active.length; a++) {
+		if (alertsStateRef[stateId].active[a]._id == alertId) {
+			var staleAlert = alertsStateRef[stateId].active.splice(a, 1);
+			alertsStateRef[stateId].past.push(staleAlert);
+			//eventManager.fire('alert_over', {owner: stateId, alert: staleAlert});
 		}
 	}
 }
@@ -37,16 +37,6 @@ module.exports = {
 	getState(stateId){
 		var returnState = stateFactory.create(alertsState);
 		returnState._id = stateId;
-		returnState.active = [
-			{
-				title: "test alert",
-				bgcolor: "white"
-			},
-			{
-				title: "test bad alert",
-				bgcolor: "red"
-			}
-		]
 		alertsStateRef[stateId] = returnState;
 		return returnState;
 	},
@@ -54,7 +44,7 @@ module.exports = {
 		return alertsStateRef[stateId];
 	},
 	setAlert(stateId, alertObj){
-		alertsStateRef[stateId].activeAlerts.push(alertObj);
+		alertsStateRef[stateId].active.push(alertObj);
 
 		setTimeout(function(){ 
 			//remove alert
