@@ -1,9 +1,6 @@
 'use strict';
 
-var $ = require('jquery');
 var tabStateCtrl = require('../state/tabs');
-tabStateCtrl.init();
-var actionStateCtrl = require('../state/actions');
 
 /*
  * This module is responsibe for handling any tab interactions
@@ -16,44 +13,41 @@ var actionStateCtrl = require('../state/actions');
 
 module.exports = {
 	init: function(){
-		console.log('tabs');
-		actionStateCtrl.addAction('activateTab', function(rivet){
 
-			var thsGroupName = rivet.currentTarget.attributes['data-tab-group'].value;
-			var thisTabName = rivet.currentTarget.attributes['data-tab-name'].value;
+		$('.js-tab').each(function(){
+			var $this = $(this);
+			var tabGroup = $this.data('tab-group');
+			var tabName = $this.data('tab-name');
+			var defaultTab = false;
+			if ($this.hasClass('active')) {
+				defaultTab = true;
+			}
+			var tabState = tabStateCtrl.addTab(tabGroup, tabName, defaultTab);
 
-			tabStateCtrl.activateTab(thsGroupName, thisTabName);
+			//bind the tab
+			rivets.bind(
+				$this,
+				{ tabstate: tabState }
+			);
+
+			$this.on('click', function(){
+				var tabGroup = $(this).data('tab-group');
+				var tabName = $(this).data('tab-name');
+				tabStateCtrl.openTab(tabGroup, tabName);
+			});
 		});
 
-		actionStateCtrl.addAction('activateTempTab', function(rivet){
+		$('.js-tab-content').each(function(){
+			var $this = $(this);
+			var tabGroup = $this.data('tab-group');
+			var tabName = $this.data('tab-name');
+			var tabState = tabStateCtrl.getTabState(tabGroup, tabName);
 
-			var thsGroupName = rivet.currentTarget.attributes['data-tab-group'].value;
-			var thisTabName = rivet.currentTarget.attributes['data-tab-name'].value;
-
-			tabStateCtrl.activateTempTab(thsGroupName, thisTabName);
-		});
-
-		actionStateCtrl.addAction('addTab', function(rivet){
-
-			var thsGroupName = rivet.currentTarget.attributes['data-tab-group'].value;
-			var thisTabName = rivet.currentTarget.attributes['data-tab-name'].value;
-
-			tabStateCtrl.addTempTabToGroup(thsGroupName, thisTabName);
-		});
-
-		actionStateCtrl.addAction('close_tab', function(rivet){
-
-			var thsGroupName = rivet.currentTarget.attributes['data-tab-group'].value;
-			var thisTabName = rivet.currentTarget.attributes['data-tab-name'].value;
-
-			tabStateCtrl.removeTab(thsGroupName, thisTabName);
-		});
-
-		actionStateCtrl.addAction('close_temp_tab', function(rivet){
-
-			var thsGroupName = rivet.currentTarget.attributes['data-tab-group'].value;
-			
-			tabStateCtrl.closeTempTab(thsGroupName);
+			//bind the tab
+			rivets.bind(
+				$this,
+				{ tabstate: tabState }
+			);
 		});
 	}
 }

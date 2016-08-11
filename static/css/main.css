@@ -1978,15 +1978,15 @@ think carefully before adding anything in here.
     color: rgba(255, 255, 255, 0.87); }
   .tabs__tab {
     display: table-cell;
-    background: #223856;
+    background: #131E2D;
     cursor: pointer;
-    border-right: 1px solid #5f9aec; }
+    border-right: 1px solid rgba(95, 154, 236, 0.5); }
     .tabs__tab:last-of-type {
       border-right: 0; }
     .tabs__tab:hover {
-      background: #131E2D; }
+      background: #223856; }
     .tabs__tab.active {
-      background: #131E2D; }
+      background: #375073; }
   .tabs__title {
     display: inline-block;
     padding: 0.625rem;
@@ -2031,6 +2031,10 @@ think carefully before adding anything in here.
         background: white; }
       .tabs--light .tabs__tab.active {
         background: white; }
+  .tabs--full-width {
+    display: table;
+    width: 100%;
+    text-align: center; }
 
 .toaster {
   background: white;

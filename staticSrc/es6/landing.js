@@ -1,53 +1,20 @@
-$ = require('jquery');
+$ = jQuery = require('jquery');
+window.WL_STATE = {};
+window.rivets = require('rivets');
 
-
-
-$('.js-login').on('click', function(){
-	console.log('login button clicked!');
-	//email
-	var speakFriend = $('.js-speak-friend').val();
-	//password
-	var andEnter = $('.js-and-enter').val();
-
-	console.log('speakFriend: ', speakFriend);
-	console.log('andEnter: ', andEnter);
-	
-	$.post("login", {
-		email: speakFriend,
-		password: andEnter
-	},
-	function(data, status){
-		
-		if (status == 'success') {
-			//redirect to the editor... ?
-			window.location.href = "/editor";
-		}
-	}).done(function(responce){
-		console.log('complete', responce);
-	}).fail(function(err){
-		console.log('login fail', err);
-	})
+//init rivets to drive the dom
+rivets.configure({
+	prefix: 'view',
+	preloadData: true,
+	rootInterface: '.',
+	templateDelimiters: ['{', '}'],
+	handler: function(target, event, binding) {
+		//Nothing hapening in this hook other than logging for development
+		console.log('->> user interaction: ', binding.keypath);
+		//this is required to continue the chain of events
+		this.call(target, event, binding.view.models);
+	}
 });
 
-$('.js-signup').on('click', function(){
-	console.log('signup button clicked!');
-	//email
-	var speakFriend = $('.js-speak-friend').val();
-	//password
-	var andEnter = $('.js-and-enter').val();
-	$.post("signup", {
-		email: speakFriend,
-		password: andEnter
-	},
-	function(data, status){
-		
-		if (status == 'success') {
-			//redirect to the editor... ?
-			window.location.href = "/editor";
-		}
-	}).done(function(responce){
-		console.log('complete', responce);
-	}).fail(function(err){
-		console.log('login fail', err);
-	})
-});
+require('./dom_watchers/login-signup').init();
+require('./dom_watchers/tabs').init();

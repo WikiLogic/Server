@@ -13107,7 +13107,7 @@ module.exports = {
 	}
 }
 
-},{"../state/alerts":24,"../utils/event_manager":33}],9:[function(require,module,exports){
+},{"../state/alerts":22,"../utils/event_manager":31}],9:[function(require,module,exports){
 'use strict';
 
 var trumbowyg = require('trumbowyg');
@@ -13149,7 +13149,7 @@ module.exports = {
 		});
 	}
 }
-},{"../api/claim":5,"../state/actions":23,"trumbowyg":4}],10:[function(require,module,exports){
+},{"../api/claim":5,"../state/actions":21,"trumbowyg":4}],10:[function(require,module,exports){
 'use strict';
 /*
  * This module is responsibe for the detail view of a claim
@@ -13229,7 +13229,7 @@ module.exports = {
 
 	}
 }
-},{"../api/claim":5,"../state/editor_detail":25,"../state/editor_tabs":26,"../utils/event_manager":33}],11:[function(require,module,exports){
+},{"../api/claim":5,"../state/editor_detail":23,"../state/editor_tabs":24,"../utils/event_manager":31}],11:[function(require,module,exports){
 var eventManager = require('../utils/event_manager');
 
 module.exports = {
@@ -13240,7 +13240,7 @@ module.exports = {
 		});
 	}
 }
-},{"../utils/event_manager":33}],12:[function(require,module,exports){
+},{"../utils/event_manager":31}],12:[function(require,module,exports){
 'use strict';
 
 /*
@@ -13318,7 +13318,7 @@ module.exports = {
 		
 	}
 }
-},{"../state/new_argument":27,"../utils/event_manager":33}],13:[function(require,module,exports){
+},{"../state/new_argument":25,"../utils/event_manager":31}],13:[function(require,module,exports){
 'use strict';
 
 /* This module is responsibe for the new claim
@@ -13377,7 +13377,7 @@ module.exports = {
 		});
 	}
 }
-},{"../api/claim":5,"../state/new_claim":28,"../utils/event_manager":33}],14:[function(require,module,exports){
+},{"../api/claim":5,"../state/new_claim":26,"../utils/event_manager":31}],14:[function(require,module,exports){
 'use strict';
 
 var searchApi = require('../api/search');
@@ -13459,7 +13459,7 @@ module.exports = {
 
 }
 
-},{"../api/search":6,"../state/search":29}],15:[function(require,module,exports){
+},{"../api/search":6,"../state/search":27}],15:[function(require,module,exports){
 'use strict';
 
 var searchApi = require('../api/search');
@@ -13511,13 +13511,10 @@ module.exports = {
 
 }
 
-},{"../api/search":6,"../state/actions":23,"../state/search":29,"../utils/event_manager":33}],16:[function(require,module,exports){
+},{"../api/search":6,"../state/actions":21,"../state/search":27,"../utils/event_manager":31}],16:[function(require,module,exports){
 'use strict';
 
-var $ = require('jquery');
 var tabStateCtrl = require('../state/tabs');
-tabStateCtrl.init();
-var actionStateCtrl = require('../state/actions');
 
 /*
  * This module is responsibe for handling any tab interactions
@@ -13530,48 +13527,45 @@ var actionStateCtrl = require('../state/actions');
 
 module.exports = {
 	init: function(){
-		console.log('tabs');
-		actionStateCtrl.addAction('activateTab', function(rivet){
 
-			var thsGroupName = rivet.currentTarget.attributes['data-tab-group'].value;
-			var thisTabName = rivet.currentTarget.attributes['data-tab-name'].value;
+		$('.js-tab').each(function(){
+			var $this = $(this);
+			var tabGroup = $this.data('tab-group');
+			var tabName = $this.data('tab-name');
+			var defaultTab = false;
+			if ($this.hasClass('active')) {
+				defaultTab = true;
+			}
+			var tabState = tabStateCtrl.addTab(tabGroup, tabName, defaultTab);
 
-			tabStateCtrl.activateTab(thsGroupName, thisTabName);
+			//bind the tab
+			rivets.bind(
+				$this,
+				{ tabstate: tabState }
+			);
+
+			$this.on('click', function(){
+				var tabGroup = $(this).data('tab-group');
+				var tabName = $(this).data('tab-name');
+				tabStateCtrl.openTab(tabGroup, tabName);
+			});
 		});
 
-		actionStateCtrl.addAction('activateTempTab', function(rivet){
+		$('.js-tab-content').each(function(){
+			var $this = $(this);
+			var tabGroup = $this.data('tab-group');
+			var tabName = $this.data('tab-name');
+			var tabState = tabStateCtrl.getTabState(tabGroup, tabName);
 
-			var thsGroupName = rivet.currentTarget.attributes['data-tab-group'].value;
-			var thisTabName = rivet.currentTarget.attributes['data-tab-name'].value;
-
-			tabStateCtrl.activateTempTab(thsGroupName, thisTabName);
-		});
-
-		actionStateCtrl.addAction('addTab', function(rivet){
-
-			var thsGroupName = rivet.currentTarget.attributes['data-tab-group'].value;
-			var thisTabName = rivet.currentTarget.attributes['data-tab-name'].value;
-
-			tabStateCtrl.addTempTabToGroup(thsGroupName, thisTabName);
-		});
-
-		actionStateCtrl.addAction('close_tab', function(rivet){
-
-			var thsGroupName = rivet.currentTarget.attributes['data-tab-group'].value;
-			var thisTabName = rivet.currentTarget.attributes['data-tab-name'].value;
-
-			tabStateCtrl.removeTab(thsGroupName, thisTabName);
-		});
-
-		actionStateCtrl.addAction('close_temp_tab', function(rivet){
-
-			var thsGroupName = rivet.currentTarget.attributes['data-tab-group'].value;
-			
-			tabStateCtrl.closeTempTab(thsGroupName);
+			//bind the tab
+			rivets.bind(
+				$this,
+				{ tabstate: tabState }
+			);
 		});
 	}
 }
-},{"../state/actions":23,"../state/tabs":30,"jquery":1}],17:[function(require,module,exports){
+},{"../state/tabs":28}],17:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -13654,7 +13648,7 @@ module.exports = {
 
 	}
 }
-},{"../state/actions":23,"../state/toggles":31}],19:[function(require,module,exports){
+},{"../state/actions":21,"../state/toggles":29}],19:[function(require,module,exports){
 'use strict';
 
 var workingListStateCtrl = require('../state/working_list');
@@ -13699,7 +13693,7 @@ module.exports = {
 
 	}
 }
-},{"../state/working_list":32,"../utils/event_manager":33}],20:[function(require,module,exports){
+},{"../state/working_list":30,"../utils/event_manager":31}],20:[function(require,module,exports){
 
 module.exports = {
 	cloneThisObject: function(obj) {
@@ -13714,72 +13708,6 @@ module.exports = {
 	}
 }
 },{}],21:[function(require,module,exports){
-'use strict';
-
-module.exports = {
-
-	hasWhiteSpace: function(s) {
-		return /\s/g.test(s);
-	},
-
-	hasUpperCaseChars: function(s){
-		return /[A-Z]/.test(s);
-	}
-}
-},{}],22:[function(require,module,exports){
-/* Takes tab group state
- * modifies it
- * Returns tab group state
- */
-
-var objectHelpers = require('./object_helpers');
-var stringHelpers = require('../reducers/string_helpers');
-
-module.exports = {
-	activateTab: function(currentGroupState, tabNameToActivate){
-		//clone the object so we don't cause any unintended consequences by tweaking a refrence
-		var groupState = objectHelpers.cloneThisObject(currentGroupState);
-
-		for (var t = 0; t < groupState.tabs.length; t++) {
-			//set the tabs array item to false
-			groupState.tabs[t].active = false;
-			//and set it's named counterpart to false
-			groupState[groupState.tabs[t].name].active = false;
-
-			if (groupState.tabs[t].name == tabNameToActivate) {
-				//set the tab array item to true - yeay!
-				groupState.tabs[t].active = true;
-				//and it's named counterpart
-				groupState[groupState.tabs[t].name].active = true;
-			}
-		}
-
-		//temp tab will be false
-		groupState.tempTab.active = false;
-
-		//add back to state so rivets can render
-		return groupState;
-	},
-	createTabGroup: function(groupName){
-
-		//check if the tab name has any white space or caps, can't do that with rivets	
-		if (stringHelpers.hasWhiteSpace(groupName) || stringHelpers.hasUpperCaseChars(groupName)) {
-			return "Sorry, tab names cannot have white space or uppercase characters in tab group names";
-		}
-
-		//yeay! No errors
-		return {
-			tabs:[], 
-			tempTab: {
-				name: '',
-				has_content: false,
-				active: false,
-				type: ''
-			}
-		};
-	}
-}
-},{"../reducers/string_helpers":21,"./object_helpers":20}],23:[function(require,module,exports){
 'use strict';
 
 var objectHelpers = require('../reducers/object_helpers');
@@ -13803,7 +13731,7 @@ module.exports = {
 	}
 
 };
-},{"../reducers/object_helpers":20}],24:[function(require,module,exports){
+},{"../reducers/object_helpers":20}],22:[function(require,module,exports){
 'use strict';
 
 var eventManager = require('../utils/event_manager');
@@ -13869,7 +13797,7 @@ module.exports = {
 	}
 
 };
-},{"../utils/event_manager":33,"../utils/state_factory":34}],25:[function(require,module,exports){
+},{"../utils/event_manager":31,"../utils/state_factory":32}],23:[function(require,module,exports){
 'use strict';
 
 /* The Editor List State Controller
@@ -13955,7 +13883,7 @@ module.exports = {
 		editorDetailRefs[claimObj._id].claim.opposing = claimObj.opposing;
 	}
 }
-},{"../api/claim":5,"../utils/event_manager":33,"../utils/state_factory":34}],26:[function(require,module,exports){
+},{"../api/claim":5,"../utils/event_manager":31,"../utils/state_factory":32}],24:[function(require,module,exports){
 'use strict';
 
 /* The Editor List State Controller
@@ -14058,7 +13986,7 @@ module.exports = {
 		removeClaimFromList(editorTabsId, claimId);
 	}
 }
-},{"../utils/event_manager":33,"../utils/state_factory":34}],27:[function(require,module,exports){
+},{"../utils/event_manager":31,"../utils/state_factory":32}],25:[function(require,module,exports){
 'use strict';
 
 var searchApi = require('../api/search');
@@ -14342,7 +14270,7 @@ module.exports = {
 		});
 	}
 };
-},{"../api/claim":5,"../api/search":6,"../utils/event_manager":33,"../utils/state_factory":34,"./editor_detail":25}],28:[function(require,module,exports){
+},{"../api/claim":5,"../api/search":6,"../utils/event_manager":31,"../utils/state_factory":32,"./editor_detail":23}],26:[function(require,module,exports){
 'use strict';
 
 /* New Claim State Ctrl
@@ -14400,7 +14328,7 @@ module.exports = {
 	}
 
 };
-},{"../api/claim":5,"../utils/event_manager":33,"../utils/state_factory":34}],29:[function(require,module,exports){
+},{"../api/claim":5,"../utils/event_manager":31,"../utils/state_factory":32}],27:[function(require,module,exports){
 'use strict';
 
 /* The Search Input state controller
@@ -14484,262 +14412,74 @@ module.exports = {
 	}
 
 };
-},{"../api/search":6,"../utils/event_manager":33,"../utils/state_factory":34}],30:[function(require,module,exports){
+},{"../api/search":6,"../utils/event_manager":31,"../utils/state_factory":32}],28:[function(require,module,exports){
 'use strict';
 
-/* Everyting aout handling tab state!
- * The array is for rivets to loop through in the DOM
- * The named attributes are for ease - if we know the name, there's no need to loop.
- * the array object also holds any kind of data that might need to be attached to a tab
- * When the event is fired, the tab object is passed along with the event so subscribers can see any details
- * 
- * Example tab group state object: {
-		<tab_group_name>: {
-			tabs: [ 
-				{name: <tab_name>, active: false, type: 'claim', data: {claimObj}}, 
-				{name: <tab2_name>, active: false, type: 'something', data: {stuff}} 
-			],
-			tempTab: { name: <tab_name>, set: false },
-			<tab_name>: {set: true, index:0},
-			<tab2_name>: {set: false, index:1}
-		]
-	}
-*/
-
-var objectHelpers = require('../reducers/object_helpers');
-var stringHelpers = require('../reducers/string_helpers');
 var eventManager = require('../utils/event_manager');
-var tabGroupReducer = require('../reducers/tab_helpers');
+var stateFactory = require('../utils/state_factory');
 
-var createTabGroup = function(groupName){
-	//first check the group doesn't already exist
-	if (WL_STATE.tabs.hasOwnProperty(groupName)) {
-		console.warn('A tab group with that name already exists: ', WL_STATE.tabs[groupName]);
-		return;
+var addTab = function(tabGroup, tabName){
+	var tabIndex = tabGroupStateRefs[tabGroup].tabs.indexOf(tabName);
+	if (tabIndex > -1) {
+		console.warn('that tab already exists');
+		return tabGroupStateRefs[tabGroup].tabs[tabIndex];
+	} else {
+		var newTab = {
+			title: tabName,
+			open: false
+		}
+		tabGroupStateRefs[tabGroup].tabs.push(newTab);
+		return newTab;
 	}
-
-	//yeay! New group!
-	var newGroup = tabGroupReducer.createTabGroup(groupName);
-	WL_STATE.tabs[groupName] = newGroup;
 }
 
-var addTabToTabGroup = function(groupName, newTab){
-	console.groupCollapsed('Adding tab', newTab, 'to group', groupName);
-	console.log(typeof WL_STATE.tabs[groupName][newTab.tabName]);
-	//check that tab doesn't already exist
-	if (typeof WL_STATE.tabs[groupName][newTab.tabName] == 'object') {
-		console.warn('A tab of that name already exists in this tab group: ', WL_STATE.tabs[groupName]);
-		activateTab(groupName, newTab.tabName);
-		console.groupEnd(); //END Adding tab to group
-		return;
-	} 
-
-	//yeay! New tab!
-	console.log('pushing to tabs array');
-	//first add the tab to the tab group array
-	WL_STATE.tabs[groupName].tabs.push({
-		name: newTab.tabName, 
-		active: false, 
-		type: newTab.tabType,
-		data: newTab.data
-	});
-
-	console.log('setting named object')
-	//now add the named tab state object for rivets
-	WL_STATE.tabs[groupName][newTab.tabName] = {
-		active: false,
-		tabIndex: WL_STATE.tabs[groupName].tabs.length - 1
-	};
-
-	activateTab(groupName, newTab.tabName);
-	console.groupEnd(); //END Adding tab to group
-}
-
-var activateTab = function(groupName, tabToActivate){
-	console.groupCollapsed('activating tab');
-	console.log('Tab group: ', groupName);
-	console.log('tabToActivate: ', tabToActivate);
-	
-	//get the new group state
-	var newTabGroup = tabGroupReducer.activateTab(WL_STATE.tabs[groupName], tabToActivate);
-	console.log('reducer result: ', newTabGroup);
-	
-	//add back to state so rivets can render
-	WL_STATE.tabs[groupName] = newTabGroup;	
-	
-	//get the tab object that was set
-	var tabIndex = WL_STATE.tabs[groupName][tabToActivate].tabIndex;
-	var openedTab = WL_STATE.tabs[groupName].tabs[tabIndex];
-	console.log('The tab object: ', openedTab, tabIndex);
-	
-	//fire the event and pass the tab data!
-	console.groupEnd(); //END activating tab
-	eventManager.fire('tab_opened', openedTab);
-}
-
-var removeTab = function(groupName, tabName){
-	
-	var newTabGroup = objectHelpers.cloneThisObject(WL_STATE.tabs[groupName]);
-
-	//remove from array
-	var tabIndex = newTabGroup[tabName].tabIndex;
-	newTabGroup.tabs.splice(tabIndex, 1);
-	console.log('newTabGroup.results', newTabGroup.results);
-	//and remove the names attribute
-	delete newTabGroup[tabName];
-	console.log('newTabGroup.results', newTabGroup.results);
-
-	//now we have to update the indexes listed on the named objects. Loop through remaining tabs from the one closed
-	for (var t = 0; t < (newTabGroup.tabs.length - tabIndex); t++ ) { //t for tab
-		//loop will run for the number of tabs that were shifted over
-		//to start from the first shifted tab, just use the tabindex!
-		var nameToUpdateIndex = newTabGroup.tabs[tabIndex + t].name;
-		newTabGroup[nameToUpdateIndex].tabIndex = tabIndex + t;
+var openTab = function(tabGroup, tabName){
+	for (var t = 0; t < tabGroupStateRefs[tabGroup].tabs.length; t++) {
+		if (tabGroupStateRefs[tabGroup].tabs[t].title == tabName) {
+			tabGroupStateRefs[tabGroup].tabs[t].open = true;
+		} else {
+			tabGroupStateRefs[tabGroup].tabs[t].open = false;	
+		}
 	}
-
-	WL_STATE.tabs[groupName] = newTabGroup;
 }
 
-var activateTempTab = function(groupName){
-	//clone the tab group state
-	var newTabGroup = objectHelpers.cloneThisObject(WL_STATE.tabs[groupName]);
-
-	//set all the tabs to false.
-	for (var t = 0; t < newTabGroup.tabs.length; t++) {
-		//tab array item to false
-		newTabGroup.tabs[t].active = false;
-		//and it's named counterpart
-		newTabGroup[newTabGroup.tabs[t].name].active = false;
-	}
-
-	//set the tempTab to true
-	newTabGroup.tempTab.active = true;	
-
-	//and apply to state!
-	WL_STATE.tabs[groupName] = newTabGroup;
-
-	eventManager.fire('tab_opened', newTabGroup.tempTab);
+var tabGroupState = {
+	_id: 'anon',
+	tabs: []
 }
+var tabGroupStateRefs = {};
 
-//the 'public' interface
 module.exports = {
-
-	init(){
-		WL_STATE.tabs = {}
+	addTab(tabGroup, tabName, defaultTab){
+		if (!tabGroupStateRefs.hasOwnProperty(tabGroup)) {
+			//build new tabs if they don't yet exist
+			tabGroupStateRefs[tabGroup] = stateFactory.create(tabGroupState);
+			tabGroupStateRefs[tabGroup]._id = tabGroup;
+		}
+		
+		var newTab = addTab(tabGroup, tabName);
+		if (defaultTab) {
+			openTab(tabGroup, tabName);
+		}
+		return newTab;
 	},
-
-	createTabGroup(groupName){
-		createTabGroup(groupName);
+	openTab(tabGroup, tabName){
+		if (tabGroupStateRefs.hasOwnProperty(tabGroup)) {
+			openTab(tabGroup, tabName);
+		} else {
+			console.warn('Eh - that tab group does not exist...');
+		}
 	},
-
-	addTabToTabGroup(groupName, newTab){
-		addTabToTabGroup(groupName, newTab);
-	},
-
-	activateTab(groupName, tabToActivate){
-		activateTab(groupName, tabToActivate);
-	},
-
-	removeTab(groupName, tabName){
-		console.groupCollapsed('removing "' + tabName + '" from "' + groupName);
-		//first check if this is the tab they're currently on
-		if (WL_STATE.tabs[groupName][tabName].active) {
-			//yep, they are. We're going to have to move them to another tab
-			console.log('current tab');
-			var moveToIndex = -1;
-			
-			//first - are there any other tabs to move them to or is this the last one?
-			if (WL_STATE.tabs[groupName].tabs.length == 1 ) {
-				console.log('only tab');
-				//meh, nothing we can do
-				if (typeof WL_STATE.tabs[groupName].tempTab !== 'null') {
-					console.log('but there is a temp tab, opening that');
-					activateTempTab(groupName);
-				}
-
-			//second - are they on the very last tab?
-			} else if (Number(WL_STATE.tabs[groupName][tabName].tabIndex) == (WL_STATE.tabs[groupName].tabs.length - 1) ) {
-				console.log('last tab of many');
-				//ugh, we'll move them back one
-				var moveToIndex = WL_STATE.tabs[groupName][tabName].tabIndex - 1;
-				var moveToName = WL_STATE.tabs[groupName].tabs[moveToIndex].name;
-				activateTab(groupName, moveToName);
-				
-			//third - they must be any where from the first to the second from last
-			} else {
-				console.log('not the last', WL_STATE.tabs[groupName][tabName]);
-				//so... we'll move them forward one
-				var moveToIndex = WL_STATE.tabs[groupName][tabName].tabIndex + 1;
-				var moveToName = WL_STATE.tabs[groupName].tabs[moveToIndex].name;
-				activateTab(groupName, moveToName);
+	getTabState(tabGroup, tabName){
+		for (var t = 0; t < tabGroupStateRefs[tabGroup].tabs.length; t++) {
+			if (tabGroupStateRefs[tabGroup].tabs[t].title == tabName) {
+				return tabGroupStateRefs[tabGroup].tabs[t];
 			}
-
-			//now we've done what we can, remove it
 		}
-		removeTab(groupName, tabName);
-		
-		console.groupEnd();
-	},
-
-	addTempTabToGroup(groupName, newTab){
-		console.groupCollapsed('Adding Temp Tab: ', newTab, 'to Group:', groupName);
-		//Recreates the sublime text tab behaviour(ish). One click adds temp tab, a second adds it permanently 
-		//newTab = { tabName: <string>, tabType: <string>, data: <obj> }
-
-
-		 //first check there isn't a main tab of this name
-		if (typeof WL_STATE.tabs[groupName][newTab.tabName] == 'object') {
-			console.log('There is already a main tab of this name.');
-			//there is, turn it on
-			activateTab(groupName, newTab.tabName);
-			console.groupEnd();//END Adding Temp Tab
-			return;
-		}
-
-		//second, check if the requested temp tab is already the temp tab. and it's active
-		if (WL_STATE.tabs[groupName].tempTab.name == newTab.tabName && WL_STATE.tabs[groupName].tempTab.has_content) {
-			console.log('Second request for the currently open temp tab');
-			//cool - they want it that bad, lets make it an actual tab!
-			addTabToTabGroup(groupName, newTab);
-			activateTab(groupName, newTab.tabName);
-			//clear out the temp tab
-			WL_STATE.tabs[groupName].tempTab.active = false;
-			WL_STATE.tabs[groupName].tempTab.has_content = false;
-			WL_STATE.tabs[groupName].tempTab.type = '';
-			WL_STATE.tabs[groupName].tempTab.data = {};
-			console.groupEnd();//END Adding Temp Tab
-			return;
-		}
-		
-		console.log('setting new temp tab');
-		//Well - we've got this far, that only means we have a new temp tab!
-		WL_STATE.tabs[groupName].tempTab = {}; //cleared
-		WL_STATE.tabs[groupName].tempTab[newTab.tabName] = true; //rivets trick for identifying special cases - eg the welcome tab
-		WL_STATE.tabs[groupName].tempTab.name = newTab.tabName;
-		WL_STATE.tabs[groupName].tempTab.has_content = true;
-		WL_STATE.tabs[groupName].tempTab.type = newTab.tabType;
-		WL_STATE.tabs[groupName].tempTab.data = newTab.data;
-		activateTempTab(groupName);
-		console.groupEnd();//END Adding Temp Tab
-
-	},
-
-	activateTempTab(groupName){
-		activateTempTab(groupName);
-	},
-
-	closeTempTab(groupName){
-		console.log('closing temp tab');
-		//if it's open and there is a tab available to move the user to, move the user there
-		if (WL_STATE.tabs[groupName].tempTab.active && WL_STATE.tabs[groupName].tabs.length > 0) {
-			console.log('temp tab is open, moving the user to another tab');
-			var lastTabInArray = WL_STATE.tabs[groupName].tabs[WL_STATE.tabs[groupName].tabs.length - 1];
-			activateTab(groupName, lastTabInArray.name);
-		} 
-		WL_STATE.tabs[groupName].tempTab = null;
+		console.warn('no tab exists');
 	}
-};
-},{"../reducers/object_helpers":20,"../reducers/string_helpers":21,"../reducers/tab_helpers":22,"../utils/event_manager":33}],31:[function(require,module,exports){
+}
+},{"../utils/event_manager":31,"../utils/state_factory":32}],29:[function(require,module,exports){
 'use strict';
 /* The Toggle State Controller
  * Thoughts from when this was just a help tab:
@@ -14774,7 +14514,7 @@ module.exports = {
 		toggleStateRef[toggleId].open = false;
 	}
 }
-},{"../utils/state_factory":34}],32:[function(require,module,exports){
+},{"../utils/state_factory":32}],30:[function(require,module,exports){
 'use strict';
 
 /* Working_list State controller
@@ -14835,7 +14575,7 @@ module.exports = {
 		
 	}
 }
-},{"../utils/event_manager":33,"../utils/state_factory":34}],33:[function(require,module,exports){
+},{"../utils/event_manager":31,"../utils/state_factory":32}],31:[function(require,module,exports){
 'use strict';
 
 /* The Event Manager
@@ -14886,7 +14626,7 @@ module.exports = {
 		}
 	}
 }
-},{}],34:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 'use strict';
 
 /* The State Factory
