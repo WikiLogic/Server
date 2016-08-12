@@ -2,17 +2,17 @@
 	<div class="card bg-color--white">
 
 		<div class="tabs tabs--light">
-			<div class="tabs__tab js-tab active" 
+			<div class="tabs__tab js-tab active box" 
 				data-tab-name="profile" 
 				data-tab-group="profile"
-				view-class-active="state.tabs.guide.basic">
-				Profile Settings
+				view-class-active="tabstate.open">
+				Profile
 			</div>
-			<div class="tabs__tab js-tab" 
-				data-tab-name="alerts" 
+			<div class="tabs__tab js-tab box" 
+				data-tab-name="settings" 
 				data-tab-group="profile"
-				view-class-active="state.tabs.guide.components">
-				Alert Settings
+				view-class-active="tabstate.open">
+				Settings
 			</div>
 		</div>
 
@@ -20,7 +20,41 @@
 	
 	<br>
 
-	<div class="card bg-color--white box">
-		<p>this is the profile view!</p>
+	<div class="card bg-color--white box js-tab-content"
+		data-tab-name="settings" 
+		data-tab-group="profile"
+		view-show="tabstate.open">
+		<h3>Settings</h3>
+
+		<h4>Interface</h4>
+		<label>Color scheme</label><br>
+
+		<br>
+		<hr>
+
+		<h4>Alerts</h4>
+
+		<table>
+			<tr>
+				<td><label>Enabled</label></td>
+				<td><input type="checkbox" name=""></td>
+			</tr>
+			<tr>
+				<td><label>Level</label></td>
+				<td><input type="range" name=""></td>
+			</tr>
+			<tr>
+				<td><label>Duration</label></td>
+				<td><input type="range" name=""></td>
+			</tr>
+		</table>
+	</div>
+
+	<div class="card bg-color--white box js-tab-content"
+		data-tab-name="profile" 
+		data-tab-group="profile"
+		view-show="tabstate.open">
+		<h3>Profile</h3>
+
 	</div>
 </div>

@@ -62,7 +62,10 @@ var newEditorTabsRefs = {};
 
 
 module.exports = {
-	getNewState(editorTabsId){
+	getState(editorTabsId){
+		if (newEditorTabsRefs.hasOwnProperty(editorTabsId)) {
+			return newEditorTabsRefs[editorTabsId];
+		}
 		var returnState = stateFactory.create(editorTabsState);
 		returnState._id = editorTabsId;
 		newEditorTabsRefs[editorTabsId] = returnState;

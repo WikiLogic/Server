@@ -13196,7 +13196,7 @@ module.exports = {
 		//set up the tabbing 
 		$('.js-editor-tabs').each(function(){
 			var editorTabsId = $(this).data('editor-tabs-id');
-			var newEditorTabs = editorTabsStateCtrl.getNewState(editorTabsId);
+			var newEditorTabs = editorTabsStateCtrl.getState(editorTabsId);
 			newEditorTabs.actions = domActions;
 			rivets.bind(
 				$(this),
@@ -13207,7 +13207,7 @@ module.exports = {
 		//set up the tabbed content
 		$('.js-editor-tabs-content').each(function(){
 			var editorTabsId = $(this).data('editor-tabs-id');
-			var tabbedEditorDetails = editorTabsStateCtrl.getNewState(editorTabsId);
+			var tabbedEditorDetails = editorTabsStateCtrl.getState(editorTabsId);
 			tabbedEditorDetails.actions = domActions;
 			rivets.bind(
 				$(this),
@@ -13946,7 +13946,10 @@ var newEditorTabsRefs = {};
 
 
 module.exports = {
-	getNewState(editorTabsId){
+	getState(editorTabsId){
+		if (newEditorTabsRefs.hasOwnProperty(editorTabsId)) {
+			return newEditorTabsRefs[editorTabsId];
+		}
 		var returnState = stateFactory.create(editorTabsState);
 		returnState._id = editorTabsId;
 		newEditorTabsRefs[editorTabsId] = returnState;
