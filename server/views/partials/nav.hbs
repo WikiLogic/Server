@@ -5,10 +5,12 @@
 			<svg><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#pencil"></use></svg>
 			<span>Editor</span>
 		</a>
+		<div class="disabled">
 		<a ng-href="#my-history" class="button button--clear button--compact full-width">
 			<svg><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#fork"></use></svg>
 			<span>Node Map</span>
 		</a>
+		</div>
 	</div>
 </div>
 
@@ -17,8 +19,8 @@
 
 <div class="box">
 	<a href="/logout" class="btn">Logout</a>,
-	<a href="#">Blog</a>,
-	<a href="#">Developers</a>,
-	<a href="/styleguide">Syleguide</a>, 
-	<a href="#">Manual/help</a>	
+	<a href="http://www.wikilogicfoundation.org/blog/" target="_blank">Blog</a>,
+	<a href="https://github.com/WikiLogic/WikiLogic">Developers</a>,
+	<a href="/styleguide" class="disabled">Syleguide</a>, 
+	<a href="#" class="disabled">Manual/help</a>	
 </div>
