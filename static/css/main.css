@@ -1696,6 +1696,15 @@ think carefully before adding anything in here.
     margin-left: 5px;
     width: 12px; }
 
+.search-result {
+  color: white;
+  padding: 15px 0; }
+  .search-result__star svg {
+    vertical-align: top; }
+  @media (min-width: 768px) {
+    .search-result {
+      padding: 5px 0; } }
+
 .search-form {
   position: relative; }
   .search-form__icon {

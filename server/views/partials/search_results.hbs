@@ -1,21 +1,21 @@
 <!-- the results! -->
 <div view-each-claim="search.results"
-    class="splitter splitter--full-width text-color--white">
+    class="splitter splitter--full-width search-result">
     <div class="splitter__left">
+
+        <button class="search-result__star">
+            <svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#star"></use></svg>
+        </button>
         
-        <button class="splitter box box--wide"
+        <button class="search-result__description"
             view-on-click="search.actions.result_clicked"
             view-data-search-id="search._id"
             view-data-claim-id="claim._id">
-            <div class="splitter__left">
-                <svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-left"></use></svg>
-            </div>
-            <div class="splitter__right">
-                <p>{claim.description}</p>
-            </div>
+            <p>{claim.description}</p>
         </button>
 
     </div>
+    
     <div class="splitter__right">
         
         result meta...

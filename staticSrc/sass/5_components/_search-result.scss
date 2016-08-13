@@ -1,0 +1,18 @@
+.search-result {
+	color: white;
+	padding: #{$pad-small}px 0;
+
+	&__star {
+		svg {
+			vertical-align: top;
+		}
+	}
+
+	&__description {
+		
+	}
+
+	@include breakpoint(medium){
+		padding: #{$pad-medium}px 0;
+	}
+}
