@@ -59,6 +59,8 @@ p.small   { font-size: rem(11); line-height: 1; font-weight: 400; }
 	p.small   { font-size: rem(13); }
 }
 
+p { font-size: calc(1em + 1vw); }
+
 
 .text-underline {text-decoration: underline; }
 .text-align-right { text-align: right; }
