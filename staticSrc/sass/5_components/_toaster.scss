@@ -7,7 +7,7 @@
 	&__bread {
 		border-bottom: 1px solid rgba($WL_Blue, 0);
 		transition: border-color 0.3s ease;
-		@include box();
+		padding: $pad;
 		cursor: pointer;
 		position: relative;
 	
@@ -20,7 +20,7 @@
 	}
 	
 	&__toast {
-		@include box();
+		padding: $pad;
 		display: none;
 	}
 

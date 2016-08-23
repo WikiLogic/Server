@@ -28,13 +28,13 @@
 	
 	&__title {
 		display: inline-block;
-		@include box();
+		padding: $pad;
 		padding-right: 0;
 	}
 
 	&__x {
 		display: inline-block;
-		@include box();
+		padding: $pad;
 		opacity: 0.5;
 		&:hover {
 			opacity: 1;

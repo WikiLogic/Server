@@ -7,24 +7,20 @@ The various settings / variables that will be used throughout
 /*
 LIBRARY
 mixins / functions
-These guys can have their own atomic classes too
 */
 @import "1_library/**/*.scss";
 
 /*
-TAGS
-The default styling for each html tag
-and some modifyers for them.
-*/
-@import "2_tags/**/*.scss";
+VENDORS
+Third party styling - hopefully there won't be much of this
+ */
+@import "2_vendor/**/*.scss";
 
 /*
-ATOMIC CLASSES
-These guys will do the bulk of the work
-When you come to adding markup, you should be looking to style it using classes from here
-They should get you 90% of the look you're after
+TAGS
+The default styling for each html tag
 */
-@import "3_atoms/**/*.scss";
+@import "3_tags/**/*.scss";
 
 /*
 LAYOUTS
@@ -34,10 +30,13 @@ These create the structurs within which components will live
 
 /*
 COMPONENTS
-for any tweaking a component needs, 
-the bulk of the work should be done already though, these are minimal, 
-think carefully before adding anything in here.
+This is B__E--M land
 */
 @import "5_components/**/*.scss";
 
-@import "6_vendor/**/*.scss";
+/*
+UTILITY CLASSES
+Single responsibility !important classes that can be sprinkled through the markup 
+*/
+@import "6_utilities/**/*.scss";
+

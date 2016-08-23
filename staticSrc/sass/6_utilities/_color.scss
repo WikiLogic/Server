@@ -1,0 +1,38 @@
+//TODO: clear these classes out
+// .text-color {
+// 	&--white { color: white !important; fill: white; svg { fill: white; } @include light-typography(); }
+// 	&--red { color: $WL_Red !important; }
+// 	&--blue { color: $WL_Blue !important; }
+// 	&--green { color: $WL_Green !important; }
+// 	&--black { color: black !important; fill: black; svg { fill: black; } @include dark-typography(); }
+// }
+
+.color {
+	&-black { fill: black !important; }
+	&-white { fill: white !important; }
+	&--red { color: $WL_Red !important; }
+	&--blue { color: $WL_Blue !important; }
+	&--green { color: $WL_Green !important; }
+}
+
+.fill {
+	&--black { fill: black !important; }
+	&--white { fill: white !important; }
+	&--red { fill: $WL_Red !important; }
+	&--blue { fill: $WL_Blue !important; }
+	&--green { fill: $WL_Green !important; }
+}
+
+.hover-color {
+	&--grey-2:hover { color: $grey-2 !important; }
+	&--red:hover { color: $WL_Red !important; }
+	&--blue:hover { color: $WL_Blue !important; }
+	&--green:hover { color: $WL_Green !important; }
+}
+
+.hover-fill {
+	&--grey-2:hover { fill: $grey-2 !important; }
+	&--red:hover { fill: $WL_Red !important; }
+	&--blue:hover { fill: $WL_Blue !important; }
+	&--green:hover { fill: $WL_Green !important; }
+}
