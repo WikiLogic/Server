@@ -1,24 +1,35 @@
 <!-- the results! -->
 <div view-each-claim="search.results"
-    class="splitter splitter--full-width search-result">
-    <div class="splitter__left">
+    class="search-result">
 
-        <button class="search-result__star">
-            <svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#star"></use></svg>
-        </button>
-        
-        <button class="search-result__description"
-            view-on-click="search.actions.result_clicked"
-            view-data-search-id="search._id"
-            view-data-claim-id="claim._id">
+    <div class="splitter">
+        <div class="splitter__left">
+
+            <div class="search-result__buttons">
+                <button class="search-result__button"
+                    view-on-click="claim.actions.toggle_favorite">
+                    <svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#star"></use></svg>
+                </button>
+                <button class="search-result__button"
+                    view-on-click="claim.actions.open_in_editor">
+                    <svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#pencil"></use></svg>
+                </button>
+                <button class="search-result__button"
+                    view-on-click="claim.actions.open_in_nodemap">
+                    <svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#fork"></use></svg>
+                </button>
+            </div>
+            
             <p>{claim.description}</p>
-        </button>
+            
 
-    </div>
-    
-    <div class="splitter__right">
+        </div>
         
-        result meta...
+        <div class="splitter__right">
+            
+            result meta...
 
+        </div>
     </div>
+
 </div>                    

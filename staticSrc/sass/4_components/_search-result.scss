@@ -1,0 +1,28 @@
+.search-result {
+	$b: &;
+	color: white;
+	padding: #{$pad-small}px 0;
+
+
+	&__buttons {
+		opacity: 0.1;
+	}
+
+	&:hover {
+		#{$b}__buttons {
+			opacity: 1;
+		}
+	}
+
+		&__button {
+			opacity: 0.5;
+			padding-right: #{$pad-small}px;
+			&:hover {
+				opacity: 1;
+			}
+		}
+
+	@include breakpoint(medium){
+		padding: #{$pad-medium}px 0;
+	}
+}

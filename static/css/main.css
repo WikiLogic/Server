@@ -1,10 +1,29 @@
 /* 
-CONFIG
+VARIABLES
 The various settings / variables that will be used throughout
 */
 /* colors */
 /* shades of grey */
 @import 'https://fonts.googleapis.com/css?family=Crimson+Text:400|Roboto:400,700';
+/*
+MIXINS
+mixins / functions
+*/
+.clearfix {
+  zoom: 1; }
+  .clearfix:before, .clearfix:after {
+    content: "";
+    display: table; }
+  .clearfix:after {
+    clear: both; }
+
+.zero-typography-margins h1, .zero-typography-margins h2, .zero-typography-margins h3, .zero-typography-margins h4, .zero-typography-margins h5, .zero-typography-margins h6, .zero-typography-margins p, .zero-typography-margins ul {
+  margin-bottom: 0; }
+
+/*
+BASE
+The default styling for each html tag
+*/
 /*! normalize.css v3.0.1 | MIT License | git.io/normalize */
 /**
  * 1. Set default font family to sans-serif.
@@ -356,25 +375,228 @@ td,
 th {
   padding: 0; }
 
+.a, a {
+  text-decoration: none;
+  color: #5f9aec; }
+  .a:hover, a:hover {
+    color: #8db7f1; }
+
+br {
+  display: block;
+  padding: 0;
+  padding-bottom: 0.625rem;
+  content: " "; }
+
 /*
-LIBRARY
-mixins / functions
+input[type='submit'] 
+button
 */
-.clearfix {
-  zoom: 1; }
-  .clearfix:before, .clearfix:after {
-    content: "";
-    display: table; }
-  .clearfix:after {
-    clear: both; }
+.button, input[type='submit'], input[type='button'] {
+  padding: 9px 14px 8px;
+  color: white;
+  fill: white;
+  border: 0;
+  position: relative;
+  display: block;
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  max-width: 100%;
+  color: rgba(255, 255, 255, 0.87);
+  transition: background-image 0.2s ease;
+  background-image: radial-gradient(circle farthest-corner at 50% 20%, #488ce9, #5191ea); }
+  .button svg, input[type='submit'] svg, input[type='button'] svg {
+    fill: rgba(255, 255, 255, 0.8); }
+  .button svg, input[type='submit'] svg, input[type='button'] svg {
+    fill: white; }
+  .button h1, input[type='submit'] h1, input[type='button'] h1, .button h2, input[type='submit'] h2, input[type='button'] h2, .button h3, input[type='submit'] h3, input[type='button'] h3, .button h4, input[type='submit'] h4, input[type='button'] h4 {
+    color: white; }
+  .button h5, input[type='submit'] h5, input[type='button'] h5, .button h6, input[type='submit'] h6, input[type='button'] h6, .button p, input[type='submit'] p, input[type='button'] p, .button .p, input[type='submit'] .p, input[type='button'] .p {
+    color: rgba(255, 255, 255, 0.87); }
+  .button--small {
+    padding: 1px 5px; }
+  .button:hover, input[type='submit']:hover, input[type='button']:hover {
+    background-image: radial-gradient(circle farthest-corner at 50% 20%, #649ded, #5191ea);
+    color: white; }
+    .button:hover svg, input[type='submit']:hover svg, input[type='button']:hover svg {
+      fill: white; }
+  .button:active, input[type='submit']:active, input[type='button']:active {
+    background-image: radial-gradient(circle farthest-corner at 50% 20%, #3b83e8, #4489e9);
+    border: 0;
+    outline: 0;
+    box-shadow: inset 0px 0px 5px rgba(24, 100, 205, 0.5); }
+  .button--green {
+    background-image: radial-gradient(circle farthest-corner at 50% 20%, #29c12a, #2bca2c); }
+    .button--green:hover {
+      background-image: radial-gradient(circle farthest-corner at 50% 20%, #35d436, #2bca2c); }
+    .button--green:active {
+      background-image: radial-gradient(circle farthest-corner at 50% 20%, #27b527, #28bd29);
+      border: 0;
+      outline: 0;
+      box-shadow: inset 0px 0px 5px rgba(28, 130, 28, 0.5); }
+  .button--red {
+    background-image: radial-gradient(circle farthest-corner at 50% 20%, #f03c3c, #f14646); }
+    .button--red:hover {
+      background-image: radial-gradient(circle farthest-corner at 50% 20%, #f25959, #f14646); }
+    .button--red:active {
+      background-image: radial-gradient(circle farthest-corner at 50% 20%, #ef2e2e, #f03838);
+      border: 0;
+      outline: 0;
+      box-shadow: inset 0px 0px 5px rgba(208, 16, 16, 0.5); }
+  .button--clear {
+    background-image: none;
+    background: none; }
+    .button--clear:hover {
+      background-image: none;
+      background: none; }
+    .button--clear:active {
+      background-image: none;
+      background: none; }
+  .button--grey {
+    background-image: radial-gradient(circle farthest-corner at 50% 20%, #9d9d9d, #a2a2a2); }
+    .button--grey:hover {
+      background-image: radial-gradient(circle farthest-corner at 50% 20%, #adadad, #a2a2a2); }
+    .button--grey:active {
+      background-image: radial-gradient(circle farthest-corner at 50% 20%, #969696, #9b9b9b);
+      border: 0;
+      outline: 0;
+      box-shadow: inset 0px 0px 5px rgba(119, 119, 119, 0.5); }
+  .button:focus, input[type='submit']:focus, input[type='button']:focus {
+    outline: 0; }
+  .button--reset, button {
+    padding: 0;
+    background-image: none;
+    background: none;
+    border: 0;
+    text-align: left; }
+    .button--reset:hover, button:hover {
+      background-image: none;
+      background: none; }
+    .button--reset:active, button:active {
+      background-image: none;
+      background: none; }
 
-.zero-typography-margins h1, .zero-typography-margins h2, .zero-typography-margins h3, .zero-typography-margins h4, .zero-typography-margins h5, .zero-typography-margins h6, .zero-typography-margins p, .zero-typography-margins ul {
-  margin-bottom: 0; }
+.inputAddon {
+  display: -ms-flexbox;
+  display: flex; }
+  .inputAddon__field {
+    -ms-flex: 1;
+        flex: 1;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0; }
+  .inputAddon__button {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-left: 0; }
 
-/*
-VENDORS
-Third party styling - hopefully there won't be much of this
- */
+hr {
+  border: 0;
+  border-top: 1px dashed rgba(95, 154, 236, 0.5);
+  margin: 0 0 0.625rem 0; }
+
+html {
+  box-sizing: border-box;
+  height: 100vh;
+  width: 100%;
+  margin: 0;
+  border: 0;
+  padding: 0; }
+
+*, *:before, *:after {
+  box-sizing: inherit; }
+
+body {
+  margin: 0;
+  border: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  max-width: 100vw; }
+
+input[type='text'], input[type='password'], input[type='search'] {
+  background-color: white;
+  padding: 0.3125rem 0.625rem;
+  outline: none;
+  color: black;
+  border: 0;
+  border-bottom: 2px solid rgba(95, 154, 236, 0.2);
+  transition: border-bottom-color 0.2s ease;
+  max-width: 100%; }
+  input[type='text']:hover, input[type='password']:hover, input[type='search']:hover {
+    border-bottom-color: rgba(95, 154, 236, 0.4); }
+  input[type='text']:focus, input[type='password']:focus, input[type='search']:focus {
+    border-bottom-color: rgba(95, 154, 236, 0.6); }
+
+::-webkit-scrollbar {
+  width: 1rem; }
+
+/* Track */
+::-webkit-scrollbar-track {
+  background-color: #cccccc; }
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #375073; }
+
+::-webkit-scrollbar-thumb:window-inactive {
+  background: #375073; }
+
+.sections-wrap section:first-of-type {
+  border-top: 0; }
+
+select {
+  background-color: white;
+  padding: 0.3125rem 0.625rem;
+  border: 1px solid #DDDDDD;
+  outline: none;
+  color: black; }
+  select:focus {
+    box-shadow: 0 0 5px #5f9aec;
+    border: 1px solid #5f9aec; }
+
+svg {
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  vertical-align: middle;
+  fill: black; }
+
+table {
+  font-size: 1rem;
+  margin-bottom: 1em; }
+  table tr {
+    border-bottom: 1px solid #eee; }
+  table thead {
+    background-color: #eee; }
+    table thead th {
+      padding: 1.25rem;
+      text-align: left; }
+  table tbody tr td {
+    padding: 1.25rem; }
+
+.textarea, textarea {
+  background-color: white;
+  padding: 1rem;
+  border: 1px solid #131E2D;
+  outline: none;
+  color: black;
+  resize: vertical;
+  max-width: 100%; }
+  .textarea--red:focus {
+    border-color: #d01010; }
+  .textarea--green:focus {
+    border-color: #1c821c; }
+  .textarea:focus, textarea:focus {
+    box-shadow: inset 0 0 5px #5f9aec; }
+
+.bg-pattern--red .textarea, .bg-pattern--red textarea, .bg-pattern--red textarea {
+  border-color: #d01010; }
+
+.bg-pattern--green .textarea, .bg-pattern--green textarea, .bg-pattern--green textarea {
+  border-color: #1c821c; }
+
 /**
  * Trumbowyg v2.1.0 - A lightweight WYSIWYG editor
  * Default stylesheet for Trumbowyg editor
@@ -847,247 +1069,6 @@ body.trumbowyg-body-fullscreen {
       line-height: 22px !important;
       margin-bottom: 7px !important; }
 
-/*
-TAGS
-The default styling for each html tag
-*/
-.a, a {
-  text-decoration: none;
-  color: #5f9aec; }
-  .a:hover, a:hover {
-    color: #8db7f1; }
-
-br {
-  display: block;
-  padding: 0;
-  padding-bottom: 0.625rem;
-  content: " "; }
-
-/*
-input[type='submit'] 
-button
-*/
-.button, input[type='submit'], input[type='button'] {
-  padding: 9px 14px 8px;
-  color: white;
-  fill: white;
-  border: 0;
-  position: relative;
-  display: block;
-  cursor: pointer;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
-  max-width: 100%;
-  color: rgba(255, 255, 255, 0.87);
-  transition: background-image 0.2s ease;
-  background-image: radial-gradient(circle farthest-corner at 50% 20%, #488ce9, #5191ea); }
-  .button svg, input[type='submit'] svg, input[type='button'] svg {
-    fill: white; }
-  .button svg, input[type='submit'] svg, input[type='button'] svg {
-    fill: white; }
-  .button h1, input[type='submit'] h1, input[type='button'] h1, .button h2, input[type='submit'] h2, input[type='button'] h2, .button h3, input[type='submit'] h3, input[type='button'] h3, .button h4, input[type='submit'] h4, input[type='button'] h4 {
-    color: white; }
-  .button h5, input[type='submit'] h5, input[type='button'] h5, .button h6, input[type='submit'] h6, input[type='button'] h6, .button p, input[type='submit'] p, input[type='button'] p, .button .p, input[type='submit'] .p, input[type='button'] .p {
-    color: rgba(255, 255, 255, 0.87); }
-  .button--small {
-    padding: 1px 5px; }
-  .button:hover, input[type='submit']:hover, input[type='button']:hover {
-    background-image: radial-gradient(circle farthest-corner at 50% 20%, #649ded, #5191ea);
-    color: white; }
-  .button:active, input[type='submit']:active, input[type='button']:active {
-    background-image: radial-gradient(circle farthest-corner at 50% 20%, #3b83e8, #4489e9);
-    border: 0;
-    outline: 0;
-    box-shadow: inset 0px 0px 5px rgba(24, 100, 205, 0.5); }
-  .button--green {
-    background-image: radial-gradient(circle farthest-corner at 50% 20%, #29c12a, #2bca2c); }
-    .button--green:hover {
-      background-image: radial-gradient(circle farthest-corner at 50% 20%, #35d436, #2bca2c); }
-    .button--green:active {
-      background-image: radial-gradient(circle farthest-corner at 50% 20%, #27b527, #28bd29);
-      border: 0;
-      outline: 0;
-      box-shadow: inset 0px 0px 5px rgba(28, 130, 28, 0.5); }
-  .button--red {
-    background-image: radial-gradient(circle farthest-corner at 50% 20%, #f03c3c, #f14646); }
-    .button--red:hover {
-      background-image: radial-gradient(circle farthest-corner at 50% 20%, #f25959, #f14646); }
-    .button--red:active {
-      background-image: radial-gradient(circle farthest-corner at 50% 20%, #ef2e2e, #f03838);
-      border: 0;
-      outline: 0;
-      box-shadow: inset 0px 0px 5px rgba(208, 16, 16, 0.5); }
-  .button--clear {
-    background-image: none;
-    background: none; }
-    .button--clear:hover {
-      background-image: none;
-      background: none; }
-    .button--clear:active {
-      background-image: none;
-      background: none; }
-  .button--grey {
-    background-image: radial-gradient(circle farthest-corner at 50% 20%, #9d9d9d, #a2a2a2); }
-    .button--grey:hover {
-      background-image: radial-gradient(circle farthest-corner at 50% 20%, #adadad, #a2a2a2); }
-    .button--grey:active {
-      background-image: radial-gradient(circle farthest-corner at 50% 20%, #969696, #9b9b9b);
-      border: 0;
-      outline: 0;
-      box-shadow: inset 0px 0px 5px rgba(119, 119, 119, 0.5); }
-  .button:focus, input[type='submit']:focus, input[type='button']:focus {
-    outline: 0; }
-  .button--reset, button {
-    padding: 0;
-    background-image: none;
-    background: none;
-    border: 0;
-    text-align: left; }
-    .button--reset:hover, button:hover {
-      background-image: none;
-      background: none; }
-    .button--reset:active, button:active {
-      background-image: none;
-      background: none; }
-
-.inputAddon {
-  display: -ms-flexbox;
-  display: flex; }
-  .inputAddon__field {
-    -ms-flex: 1;
-        flex: 1;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0; }
-  .inputAddon__button {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-    border-left: 0; }
-
-hr {
-  border: 0;
-  border-top: 1px dashed rgba(95, 154, 236, 0.5);
-  margin: 0 0 0.625rem 0; }
-
-html {
-  box-sizing: border-box;
-  height: 100vh;
-  width: 100%;
-  margin: 0;
-  border: 0;
-  padding: 0; }
-
-*, *:before, *:after {
-  box-sizing: inherit; }
-
-body {
-  margin: 0;
-  border: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  max-width: 100vw; }
-
-input[type='text'], input[type='password'], input[type='search'] {
-  background-color: white;
-  padding: 0.3125rem 0.625rem;
-  outline: none;
-  color: black;
-  border: 0;
-  border-bottom: 2px solid rgba(95, 154, 236, 0.2);
-  transition: border-bottom-color 0.2s ease;
-  max-width: 100%; }
-  input[type='text']:hover, input[type='password']:hover, input[type='search']:hover {
-    border-bottom-color: rgba(95, 154, 236, 0.4); }
-  input[type='text']:focus, input[type='password']:focus, input[type='search']:focus {
-    border-bottom-color: rgba(95, 154, 236, 0.6); }
-
-/* <svg class="logo" */
-svg.logo {
-  width: 100%;
-  max-width: 100%;
-  fill: black; }
-  svg.logo path {
-    fill: black; }
-  svg.logo--white {
-    fill: white; }
-    svg.logo--white path {
-      fill: white; }
-  svg.logo--100 {
-    height: 100px; }
-  svg.logo--200 {
-    width: 200px;
-    height: 100%; }
-
-::-webkit-scrollbar {
-  width: 1rem; }
-
-/* Track */
-::-webkit-scrollbar-track {
-  background-color: #cccccc; }
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #375073; }
-
-::-webkit-scrollbar-thumb:window-inactive {
-  background: #375073; }
-
-.sections-wrap section:first-of-type {
-  border-top: 0; }
-
-select {
-  background-color: white;
-  padding: 0.3125rem 0.625rem;
-  border: 1px solid #DDDDDD;
-  outline: none;
-  color: black; }
-  select:focus {
-    box-shadow: 0 0 5px #5f9aec;
-    border: 1px solid #5f9aec; }
-
-svg {
-  width: 1em;
-  height: 1em;
-  display: inline-block;
-  vertical-align: middle;
-  fill: black; }
-
-table {
-  font-size: 1rem;
-  margin-bottom: 1em; }
-  table tr {
-    border-bottom: 1px solid #eee; }
-  table thead {
-    background-color: #eee; }
-    table thead th {
-      padding: 1.25rem;
-      text-align: left; }
-  table tbody tr td {
-    padding: 1.25rem; }
-
-.textarea, textarea {
-  background-color: white;
-  padding: 1rem;
-  border: 1px solid #131E2D;
-  outline: none;
-  color: black;
-  resize: vertical;
-  max-width: 100%; }
-  .textarea--red:focus {
-    border-color: #d01010; }
-  .textarea--green:focus {
-    border-color: #1c821c; }
-  .textarea:focus, textarea:focus {
-    box-shadow: inset 0 0 5px #5f9aec; }
-
-.bg-pattern--red .textarea, .bg-pattern--red textarea, .bg-pattern--red textarea {
-  border-color: #d01010; }
-
-.bg-pattern--green .textarea, .bg-pattern--green textarea, .bg-pattern--green textarea {
-  border-color: #1c821c; }
-
 body {
   font-family: "Roboto", sans-serif;
   /* 100 / 300 / 700 */
@@ -1229,7 +1210,7 @@ p.small {
   margin-right: 0; }
 
 .line-height--p {
-  line-height: 1.2rem; }
+  line-height: 1.2; }
 
 code, pre {
   background: #000;
@@ -1579,7 +1560,7 @@ These create the structurs within which components will live
 
 /*
 COMPONENTS
-This is B__E--M land
+BEM land
 */
 .alert__title {
   margin-bottom: 0; }
@@ -1725,9 +1706,23 @@ This is B__E--M land
       white-space: nowrap;
       width: 100%; }
 
-/* Pretty unique this bit - the logo at the top of the site.
- * So I think it deserves it's own component.
- */
+/* <svg class="logo" */
+svg.logo {
+  width: 100%;
+  max-width: 100%;
+  fill: black; }
+  svg.logo path {
+    fill: black; }
+  svg.logo--white {
+    fill: white; }
+    svg.logo--white path {
+      fill: white; }
+  svg.logo--100 {
+    height: 100px; }
+  svg.logo--200 {
+    width: 200px;
+    height: 100%; }
+
 .notification-wrap {
   position: absolute;
   top: 11px;
@@ -1751,8 +1746,15 @@ This is B__E--M land
 .search-result {
   color: white;
   padding: 15px 0; }
-  .search-result__star svg {
-    vertical-align: top; }
+  .search-result__buttons {
+    opacity: 0.1; }
+  .search-result:hover .search-result__buttons {
+    opacity: 1; }
+  .search-result__button {
+    opacity: 0.5;
+    padding-right: 15px; }
+    .search-result__button:hover {
+      opacity: 1; }
   @media (min-width: 768px) {
     .search-result {
       padding: 5px 0; } }
@@ -2056,11 +2058,11 @@ This is B__E--M land
       background: #223856; }
   .tabs__title {
     display: inline-block;
-    padding: 10;
+    padding: 10px;
     padding-right: 0; }
   .tabs__x {
     display: inline-block;
-    padding: 10;
+    padding: 10px;
     opacity: 0.5; }
     .tabs__x:hover {
       opacity: 1; }
@@ -2130,8 +2132,8 @@ This is B__E--M land
 
 /*
 UTILITY CLASSES
-Single responsibility !important classes that can be sprinkled through the markup 
-*/
+Single responsability classes
+ */
 .bg-color--red {
   background-color: #F25454; }
 

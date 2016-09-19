@@ -1,42 +1,36 @@
 /* 
-CONFIG
+VARIABLES
 The various settings / variables that will be used throughout
 */
-@import "0_config/**/*.scss";
+@import "0_variables/**/*.scss";
 
 /*
-LIBRARY
+MIXINS
 mixins / functions
 */
-@import "1_library/**/*.scss";
+@import "1_mixins/**/*.scss";
 
 /*
-VENDORS
-Third party styling - hopefully there won't be much of this
- */
-@import "2_vendor/**/*.scss";
-
-/*
-TAGS
+BASE
 The default styling for each html tag
 */
-@import "3_tags/**/*.scss";
+@import "2_base/**/*.scss";
 
 /*
 LAYOUTS
 These create the structurs within which components will live
 */
-@import "4_layouts/**/*.scss";
+@import "3_layouts/**/*.scss";
 
 /*
 COMPONENTS
-This is B__E--M land
+BEM land
 */
-@import "5_components/**/*.scss";
+@import "4_components/**/*.scss";
 
 /*
 UTILITY CLASSES
-Single responsibility !important classes that can be sprinkled through the markup 
-*/
-@import "6_utilities/**/*.scss";
+Single responsability classes
+ */
+@import "5_nukes/**/*.scss";
 
