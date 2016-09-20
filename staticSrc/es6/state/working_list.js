@@ -1,7 +1,7 @@
 'use strict';
 
 /* Working_list State controller
- *
+ * Holds a list of the claims we are interested
  */
  
 var eventManager = require('../utils/event_manager');
@@ -14,14 +14,14 @@ var workingListState = {
 var workingListStateRefs = {};
 
 module.exports = {
-	getNewState(workingListId){
+	getState(workingListId){
+		if (workingListStateRefs.hasOwnProperty(workingListId)) {
+			return workingListStateRefs[workingListId];
+		}
 		var returnListState = stateFactory.create(workingListState);
 		returnListState._id = workingListId;
 		workingListStateRefs[workingListId] = returnListState;
 		return returnListState;
-	},
-	getExistingState(workingListId){
-		return workingListStateRefs[workingListId];
 	},
 	addClaim(workingListId, claimObj){
 		var alreadySet = false;
@@ -42,19 +42,11 @@ module.exports = {
 		}
 		
 	},
-	itemClicked(workingListId, claimId){
-		//get the claim object, fire it with an event
-		for (var i = 0; i < workingListStateRefs[workingListId].claims.length; i++) {
-			if (workingListStateRefs[workingListId].claims[i]._id == claimId) {
-				eventManager.fire('working_list_claim_clicked', {
-					owner: workingListId,
-					data: workingListStateRefs[workingListId].claims[i]
-				});
-				break;
+	removeClaim(workingListId, claimId){
+		for (var c = 0; c < workingListStateRefs[workingListId].claims.length; c++) { //c for claim
+			if (workingListStateRefs[workingListId].claims[c]._id == claimObj._id) {
+				//remove it
 			}
 		}
-	},
-	removeClaimFromList(claimId){
-		
 	}
 }
