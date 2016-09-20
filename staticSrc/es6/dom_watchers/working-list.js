@@ -29,10 +29,13 @@ module.exports = {
 			);
 		});
 		
-		eventManager.subscribe('search_result_clicked', function(event){
-			if (event.searchId == "main_results"){
-				workingListStateCtrl.addClaim("main_list", event.resultObj);
-			}
+		eventManager.subscribe('claim_starred', function(event){
+			workingListStateCtrl.addClaim("main_list", event.data.claim);
+		});
+
+		eventManager.subscribe('claim_unstarred', function(event){
+			console.warn('TODO: remove unstarred claim from working list');
+			//workingListStateCtrl.addClaim("main_list", event.data.claim);
 		});
 
 		eventManager.subscribe('reason_clicked', function(event){

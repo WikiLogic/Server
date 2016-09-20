@@ -1747,12 +1747,13 @@ svg.logo {
   color: white;
   padding: 15px 0; }
   .search-result__buttons {
-    opacity: 0.1; }
+    opacity: 0.9; }
   .search-result:hover .search-result__buttons {
     opacity: 1; }
   .search-result__button {
-    opacity: 0.5;
-    padding-right: 15px; }
+    opacity: 0.9;
+    color: white;
+    margin-left: 15px; }
     .search-result__button:hover {
       opacity: 1; }
   @media (min-width: 768px) {

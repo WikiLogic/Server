@@ -5,30 +5,29 @@
     <div class="splitter">
         <div class="splitter__left">
 
-            <div class="search-result__buttons">
-                <button class="search-result__button"
-                    view-on-click="claim.actions.toggle_favorite">
-                    <svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#star"></use></svg>
-                </button>
-                <button class="search-result__button"
-                    view-on-click="claim.actions.open_in_editor">
-                    <svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#pencil"></use></svg>
-                </button>
-                <button class="search-result__button"
-                    view-on-click="claim.actions.open_in_nodemap">
-                    <svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#fork"></use></svg>
-                </button>
-            </div>
-            
             <p>{claim.description}</p>
-            
 
         </div>
         
         <div class="splitter__right">
             
-            result meta...
-
+            <div class="search-result__buttons">
+                <button class="search-result__button"
+                    view-on-click="search.actions.toggle_favorite">
+                    <svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#star"></use></svg>
+                    Star
+                </button>
+                <button class="search-result__button"
+                    view-on-click="search.actions.open_in_editor">
+                    <svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#pencil"></use></svg>
+                    Edit
+                </button>
+                <button class="search-result__button"
+                    view-on-click="search.actions.open_in_nodemap">
+                    <svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#fork"></use></svg>
+                    Explore
+                </button>
+            </div>
         </div>
     </div>
 

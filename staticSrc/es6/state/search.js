@@ -61,20 +61,6 @@ module.exports = {
 	searchMostCritical(searchId){
 		console.warn('TODO search most critical');
 	},
-	result_clicked(searchId, claimId){
-		//get the result object
-		var clickedResult = {};
-
-		for (var r = 0; r < searchStateRef[searchId].results.length; r++){
-			if (searchStateRef[searchId].results[r]._id == claimId){
-				eventManager.fire('search_result_clicked', {
-					searchId: searchId,
-					resultObj: searchStateRef[searchId].results[r]
-				});
-				break;
-			}
-		}
-	},
 	addResult(searchId, claimObj){
 		console.log('adding result!');
 		searchStateRef[searchId].results.push(claimObj);
