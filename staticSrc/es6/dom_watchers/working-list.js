@@ -35,8 +35,7 @@ module.exports = {
 		});
 
 		eventManager.subscribe('claim_unstarred', function(event){
-			console.warn('TODO: remove unstarred claim from working list');
-			//workingListStateCtrl.addClaim("main_list", event.data.claim);
+			workingListStateCtrl.removeClaim("main_list", event.data.claim);
 		});
 
 		eventManager.subscribe('reason_clicked', function(event){

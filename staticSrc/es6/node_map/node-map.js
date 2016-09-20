@@ -9,8 +9,8 @@ module.exports = {
 		console.log('node map');
 		map = Snap('#svg');
 
-		var vQuadLine = s.line(0,-1000,0,1000);
-		var hQuadLine = s.line(-1000,0,1000,0);
-		var focusedArg = s.rect(-250, -250, 500, 500);
+		var vQuadLine = map.line(0,-1000,0,1000);
+		var hQuadLine = map.line(-1000,0,1000,0);
+		var focusedArg = map.rect(-250, -250, 500, 500);
 	}
 }

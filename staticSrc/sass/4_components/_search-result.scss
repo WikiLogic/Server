@@ -2,18 +2,22 @@
 	$b: &;
 	color: white;
 	padding: #{$pad-small}px 0;
+	opacity: 0.8;
+	&:hover { opacity: 1; }
+
+	&__star {
+		opacity: 0.5;
+		position: relative;
+		top: -2px;
+		&.is-starred {
+			opacity: 1;
+		}
+	}
 
 
 	&__buttons {
 		opacity: 0.9;
 	}
-
-	&:hover {
-		#{$b}__buttons {
-			opacity: 1;
-		}
-	}
-
 		&__button {
 			opacity: 0.9;
 			color: white;

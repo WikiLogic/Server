@@ -33,7 +33,7 @@ require('./dom_watchers/editor-detail').init();
 require('./dom_watchers/new-argument').init();
 require('./dom_watchers/logo-button').init();
 require('./dom_watchers/alerts').init();
-require('./node_map/node-map').init();
+
 
 
 

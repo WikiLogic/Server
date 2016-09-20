@@ -2,6 +2,27 @@
 input[type='submit'] 
 button
 */
+button { 
+	//no default styling on tags, especially buttons, for aria's sake!
+	line-height: 1;
+	padding: 0;
+	background-image: none;
+	background: none;
+	border: 0;
+	text-align: left;
+	&:hover {
+		background-image: none;
+		background: none;
+	}
+	&:active {
+		background-image: none;
+		background: none;
+	}
+	&:focus {
+		outline: 1px solid white;
+	}
+}
+
 .button {
 
 	padding: 9px 14px 8px;
@@ -101,23 +122,6 @@ button
 	}
 
 	&--white {}
-
-	&--reset {
-		padding: 0;
-		background-image: none;
-		background: none;
-		border: 0;
-		text-align: left;
-		&:hover {
-			background-image: none;
-			background: none;
-		}
-		&:active {
-			background-image: none;
-			background: none;
-		}
-	}
-
 }
 
 
@@ -137,7 +141,3 @@ button
 
 input[type='submit'] { @extend .button; }
 input[type='button'] { @extend .button; }
-button { 
-	//no default styling on tags, especially buttons, for aria's sake!
-	@extend .button--reset;
-}

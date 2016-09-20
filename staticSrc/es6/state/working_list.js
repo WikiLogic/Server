@@ -42,10 +42,12 @@ module.exports = {
 		}
 		
 	},
-	removeClaim(workingListId, claimId){
+	removeClaim(workingListId, claimObj){
 		for (var c = 0; c < workingListStateRefs[workingListId].claims.length; c++) { //c for claim
 			if (workingListStateRefs[workingListId].claims[c]._id == claimObj._id) {
 				//remove it
+				var removedClaim = workingListStateRefs[workingListId].claims.splice(c, 1);
+				eventManager.fire('working_list_claim_removed', {owner: workingListId, data: { claim: removedClaim }});
 			}
 		}
 	}
