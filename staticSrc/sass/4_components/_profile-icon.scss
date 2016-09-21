@@ -1,9 +1,12 @@
-.user-icon {
-	border-radius: 50px;
-	border-style: solid;
+.profile-icon {
+	display: inline-block;
+	vertical-align: middle;
 	overflow: hidden;
 	background: rgba(white, 0);
 	transition: background 0.2s ease;
+	border-radius: 50px;
+	border: 1px dashed rgba(95, 154, 236, 0.5);
+
 	img {
 		mix-blend-mode: luminosity;
 	}

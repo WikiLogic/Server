@@ -1465,6 +1465,21 @@ These create the structurs within which components will live
     -ms-flex-positive: 1;
         flex-grow: 1; }
 
+.main-sidebar-nav__link {
+  display: block;
+  padding: 0.625rem 0.875rem;
+  text-decoration: none;
+  color: #5f9aec; }
+  .main-sidebar-nav__link:hover {
+    color: #8db7f1; }
+
+.main-sidebar-nav__link-icon {
+  width: 0.75rem;
+  height: 0.75rem; }
+
+.main-sidebar-nav__link-text {
+  margin-left: 5px; }
+
 #svg {
   width: 100%;
   height: 100%; }
@@ -1745,6 +1760,19 @@ svg.logo {
     vertical-align: middle;
     margin-left: 5px;
     width: 12px; }
+
+.profile-icon {
+  display: inline-block;
+  vertical-align: middle;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0);
+  transition: background 0.2s ease;
+  border-radius: 50px;
+  border: 1px dashed rgba(95, 154, 236, 0.5); }
+  .profile-icon img {
+    mix-blend-mode: luminosity; }
+  .profile-icon:hover {
+    background: white; }
 
 .search-result {
   color: white;
@@ -2129,17 +2157,6 @@ svg.logo {
     transition: border-color 0.6s ease; }
   .toaster.toasted .toaster__toast {
     display: block; }
-
-.user-icon {
-  border-radius: 50px;
-  border-style: solid;
-  overflow: hidden;
-  background: rgba(255, 255, 255, 0);
-  transition: background 0.2s ease; }
-  .user-icon img {
-    mix-blend-mode: luminosity; }
-  .user-icon:hover {
-    background: white; }
 
 /*
 UTILITY CLASSES

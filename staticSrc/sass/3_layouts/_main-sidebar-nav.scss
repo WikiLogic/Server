@@ -1,0 +1,19 @@
+.main-sidebar-nav {
+	
+	&__link {
+		display: block;
+		padding: rem(10) rem(14);
+		text-decoration: none;
+		color: $WL_Blue;
+		&:hover {
+			color: lighten($WL_Blue, 10%);
+		}
+	}
+		&__link-icon {
+			width: rem(12);
+			height: rem(12);
+		}
+		&__link-text {
+			margin-left: 5px;
+		}
+}
