@@ -13112,7 +13112,7 @@ module.exports = {
 				title: eventName,
 				bgcolor: "white"
 			}
-			alertStateCtrl.setAlert("main_alerts", alert);
+			//alertStateCtrl.setAlert("main_alerts", alert);
 		});
 	}
 }

@@ -2159,6 +2159,16 @@ svg.logo {
   .toaster.toasted .toaster__toast {
     display: block; }
 
+.working-list {
+  padding: 10px 0; }
+  .working-list__claim {
+    padding: 10px;
+    width: 100%;
+    color: white;
+    opacity: 0.8; }
+    .working-list__claim:hover {
+      opacity: 1; }
+
 /*
 UTILITY CLASSES
 Single responsability classes

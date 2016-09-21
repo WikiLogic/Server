@@ -46,16 +46,13 @@
 	            <hr>
 
 	            <div class="working-list js-working-list"
-                data-working-list-id="main_list">
-
+                	data-working-list-id="main_list">
 	                <button
-	                    class="display-block full-width box box--wide"
+	                    class="working-list__claim"
 	                    view-each-claim="working_list.claims"
-	                    view-on-click="working_list.actions.clicked"
-	                    view-data-claim-id="claim._id"
-	                    data-working-list-id="main_list">
-	                    <p class="no-margins">{claim.description}</p></button>
-	                
+	                    view-on-click="working_list.actions.clicked">
+	                    {claim.description}
+	                </button>
 	            </div>
 
 	        </div>
