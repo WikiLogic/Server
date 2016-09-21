@@ -519,6 +519,9 @@ body {
   height: 100%;
   max-width: 100vw; }
 
+img {
+  display: block; }
+
 input[type='text'], input[type='password'], input[type='search'] {
   background-color: white;
   padding: 0.3125rem 0.625rem;
@@ -1076,10 +1079,7 @@ body {
   font-family: "Roboto", sans-serif;
   /* 100 / 300 / 700 */
   font-weight: normal;
-  font-size: 0.875rem;
-  color: rgba(0, 0, 0, 0.87); }
-  body h1, body h2, body h3, body h4 {
-    color: black; }
+  font-size: 0.875rem; }
   @media (min-width: 540px) {
     body {
       font-size: 0.9375rem; } }
@@ -1087,8 +1087,6 @@ body {
     body {
       font-size: 1rem; } }
 
-/* ===== Headings ===== */
-/* ==================== */
 h1 {
   margin: 0 0 0.25em;
   font-family: "Crimson Text", serif;
@@ -1154,13 +1152,6 @@ h6 {
   h3 {
     font-size: 1.5625rem; } }
 
-/* ===== Copy ===== */
-/* ================ */
-p.lead-in {
-  font-size: 1rem;
-  line-height: 1.2;
-  font-weight: 400; }
-
 p {
   font-size: 0.875rem;
   line-height: 1.2;
@@ -1174,8 +1165,6 @@ p.small {
   font-weight: 400; }
 
 @media (min-width: 540px) {
-  p.lead-in {
-    font-size: 1.0625rem; }
   p {
     font-size: 0.9375rem; }
   p small,
@@ -1183,37 +1172,11 @@ p.small {
     font-size: 0.75rem; } }
 
 @media (min-width: 768px) {
-  p.lead-in {
-    font-size: 1.125rem; }
   p {
     font-size: 1rem; }
   p small,
   p.small {
     font-size: 0.8125rem; } }
-
-.text-underline {
-  text-decoration: underline; }
-
-.text-align-right {
-  text-align: right; }
-
-.text-align-center {
-  text-align: center; }
-
-.text-align-left {
-  text-align: left !important; }
-
-.no-break {
-  white-space: nowrap; }
-
-.no-margins {
-  margin-bottom: 0;
-  margin-top: 0;
-  margin-left: 0;
-  margin-right: 0; }
-
-.line-height--p {
-  line-height: 1.2; }
 
 code, pre {
   background: #000;
@@ -1222,21 +1185,6 @@ code, pre {
 
 span {
   vertical-align: middle; }
-
-/* pop up alert / notification. black code thing: https://www.jetbrains.com
- overflow-y: auto;
-  overflow-x: hidden;
-  padding: 23px 23px 0;
-  width: 380px;
-  height: 110px;
-  background: #000;
-  color: #ccc;
-  font: 12px/1.2 Menlo, Consolas, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
-  -webkit-transition: height .4s;
-  transition: height .4s;
- */
-img {
-  display: block; }
 
 ul {
   font-size: 1rem;
@@ -1465,8 +1413,14 @@ These create the structurs within which components will live
     -ms-flex-positive: 1;
         flex-grow: 1; }
 
+.main-logo__icon {
+  width: 1.875rem;
+  height: 1.875rem;
+  fill: white; }
+
 .main-sidebar-nav {
-  padding: 0.625rem 0; }
+  padding: 0.625rem 0;
+  color: white; }
   .main-sidebar-nav__link {
     display: block;
     width: 100%;
@@ -1477,9 +1431,16 @@ These create the structurs within which components will live
       color: #8db7f1; }
   .main-sidebar-nav__link-icon {
     width: 0.75rem;
-    height: 0.75rem; }
+    height: 0.75rem;
+    fill: white; }
   .main-sidebar-nav__link-text {
     margin-left: 5px; }
+  .main-sidebar-nav__utility-links {
+    padding: 0.625rem 0.625rem 0 0.625rem; }
+  .main-sidebar-nav__utility-link {
+    color: #5f9aec; }
+    .main-sidebar-nav__utility-link:hover {
+      color: #8db7f1; }
 
 #svg {
   width: 100%;
@@ -1729,18 +1690,24 @@ BEM land
 svg.logo {
   width: 100%;
   max-width: 100%;
-  fill: black; }
-  svg.logo path {
-    fill: black; }
-  svg.logo--white {
-    fill: white; }
-    svg.logo--white path {
-      fill: white; }
+  fill: white; }
   svg.logo--100 {
     height: 100px; }
   svg.logo--200 {
     width: 200px;
     height: 100%; }
+
+/* In the editor view of the claim
+ * This is the main claim
+ */
+.main-claim {
+  padding: 10px;
+  border-radius: 5px;
+  background-color: white;
+  color: black;
+  text-align: center; }
+  .main-claim__body {
+    color: black; }
 
 .notification-wrap {
   position: absolute;
@@ -2222,14 +2189,7 @@ Single responsability classes
   background-color: black; }
 
 .bg-pattern {
-  color: rgba(255, 255, 255, 0.87);
   background-image: repeating-linear-gradient(30deg, rgba(59, 131, 232, 0.5), rgba(59, 131, 232, 0.5) 8px, rgba(36, 117, 229, 0.5) 9px, rgba(59, 131, 232, 0.5) 10px), radial-gradient(circle farthest-corner at 50% 20%, rgba(72, 140, 233, 0.5), black); }
-  .bg-pattern svg {
-    fill: white; }
-  .bg-pattern h1, .bg-pattern h2, .bg-pattern h3, .bg-pattern h4 {
-    color: white; }
-  .bg-pattern h5, .bg-pattern h6, .bg-pattern p, .bg-pattern .p {
-    color: rgba(255, 255, 255, 0.87); }
   .bg-pattern--red {
     background-image: repeating-linear-gradient(30deg, rgba(239, 46, 46, 0.5), rgba(239, 46, 46, 0.5) 8px, rgba(237, 22, 22, 0.5) 9px, rgba(239, 46, 46, 0.5) 10px), radial-gradient(circle farthest-corner at 50% 20%, rgba(240, 60, 60, 0.5), rgba(113, 9, 9, 0.5)); }
   .bg-pattern--green {
@@ -2263,6 +2223,12 @@ Single responsability classes
   .box--tall {
     padding-top: 0;
     padding-bottom: 0; }
+
+.no-margins {
+  margin-bottom: 0;
+  margin-top: 0;
+  margin-left: 0;
+  margin-right: 0; }
 
 .card {
   margin: auto;
@@ -2447,6 +2413,21 @@ Single responsability classes
 
 .text-left {
   text-align: left; }
+
+.text-underline {
+  text-decoration: underline; }
+
+.text-align-right {
+  text-align: right; }
+
+.text-align-center {
+  text-align: center; }
+
+.text-align-left {
+  text-align: left !important; }
+
+.no-break {
+  white-space: nowrap; }
 
 .underline-hover-slide {
   position: relative; }

@@ -2,15 +2,10 @@ body {
 	font-family: $sans-serif; /* 100 / 300 / 700 */
 	font-weight: normal;
 	font-size: rem(14);
-	color: rgba(0,0,0,0.87);
-	h1, h2, h3, h4 { color: black; }
 	@include breakpoint(small) { font-size: rem(15); }
 	@include breakpoint(medium) { font-size: rem(16); }
 }
 
-
-/* ===== Headings ===== */
-/* ==================== */
 
 h1 { margin: 0 0 0.25em; font-family: $serif; font-size: rem(32); line-height: 1; font-weight: 400; } /* Page title */
 h2 { margin: 0 0 0.25em; font-family: $serif; font-size: rem(28); line-height: 1; font-weight: 400; } /* Page sub-titles */
@@ -37,45 +32,20 @@ h6 { margin: 0 0 0.75em; font-family: $sans-serif; font-size: rem(10); line-heig
 }
 
 
-/* ===== Copy ===== */
-/* ================ */
-
-p.lead-in { font-size: rem(16); line-height: 1.2; font-weight: 400; }
 p         { font-size: rem(14); line-height: 1.2; font-weight: 400; margin: 0 0 1em; }
 p small,
 p.small   { font-size: rem(11); line-height: 1; font-weight: 400; }
 
 @include breakpoint(small) {
-	p.lead-in { font-size: rem(17); }
 	p         { font-size: rem(15); }
 	p small,
 	p.small   { font-size: rem(12) }
 }
 
 @include breakpoint(medium) {
-	p.lead-in { font-size: rem(18); }
 	p         { font-size: rem(16); }
 	p small,
 	p.small   { font-size: rem(13); }
-}
-
-
-
-.text-underline {text-decoration: underline; }
-.text-align-right { text-align: right; }
-.text-align-center { text-align: center; }
-.text-align-left { text-align: left !important; }
-.no-break { white-space: nowrap; }
-
-.no-margins { 
-	margin-bottom: 0;
-	margin-top: 0;
-	margin-left: 0;
-	margin-right: 0;
-}
-
-.line-height {
-	&--p { line-height: 1.2;}
 }
 
 code, pre {
@@ -87,23 +57,5 @@ code, pre {
 span {
 	vertical-align: middle;
 }
-/* pop up alert / notification. black code thing: https://www.jetbrains.com
- overflow-y: auto;
-  overflow-x: hidden;
-  padding: 23px 23px 0;
-  width: 380px;
-  height: 110px;
-  background: #000;
-  color: #ccc;
-  font: 12px/1.2 Menlo, Consolas, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
-  -webkit-transition: height .4s;
-  transition: height .4s;
- */
-// close X
-//  background: transparent url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsv….709v1.182h-1.182l-5.708-5.709-5.709%205.709h-1.181z%22%2F%3E%3C%2Fsvg%3E") no-repeat 50%/.6em;
 
-
-img {
-	display:block;
-}
 

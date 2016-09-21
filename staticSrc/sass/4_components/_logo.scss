@@ -2,13 +2,7 @@
 svg.logo {
 	width: 100%;
 	max-width: 100%;
-	fill: black;
-	path { fill: black; }
-
-	&--white {
-		fill: white;
-		path { fill: white; }
-	}
+	fill: white;
 
 	&--100 {
 		height: 100px;

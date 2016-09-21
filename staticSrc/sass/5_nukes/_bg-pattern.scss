@@ -1,5 +1,4 @@
 .bg-pattern {
-	@include light-typography();
 	background-image: repeating-linear-gradient(
 			30deg,
 			rgba(darken($WL_Blue, 8%), 0.5),
