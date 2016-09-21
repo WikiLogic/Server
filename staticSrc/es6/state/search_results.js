@@ -27,9 +27,6 @@ module.exports = {
 			return returnSearchState;
 		}
 	},
-	getExistingState(searchId){
-		return searchStateRef[searchId];
-	},
 	setTerm(searchId, newterm){
 		searchStateRef[searchId].term = newterm.trim();
 		eventManager.fire('search_term_set', { search: searchStateRef[searchId] });

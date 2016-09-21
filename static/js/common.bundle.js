@@ -13051,6 +13051,7 @@ rivets.binders.bgcolor = function(el, value){
 }
 
 //now init the modular elements - there can be any number of these anywhere so we can't attach them to WL_STATE
+require('./dom_watchers/main-sidebar-nav').init();
 require('./dom_watchers/search-input').init();
 require('./dom_watchers/search-results').init();
 require('./dom_watchers/new-claim').init();
@@ -13075,7 +13076,7 @@ $('.js-editor-menu').on('click', function(){
 	console.log('hi');
 	$('.js-editor-sidebar').toggleClass('editor-sidebar--show-menu');
 });
-},{"./dom_watchers/alerts":8,"./dom_watchers/claim-input":9,"./dom_watchers/editor-detail":10,"./dom_watchers/logo-button":11,"./dom_watchers/new-argument":12,"./dom_watchers/new-claim":13,"./dom_watchers/search-input":14,"./dom_watchers/search-results":15,"./dom_watchers/tabs":16,"./dom_watchers/toaster":17,"./dom_watchers/toggles":18,"./dom_watchers/working-list":19,"jquery":1,"rivets":2}],8:[function(require,module,exports){
+},{"./dom_watchers/alerts":8,"./dom_watchers/claim-input":9,"./dom_watchers/editor-detail":10,"./dom_watchers/logo-button":11,"./dom_watchers/main-sidebar-nav":12,"./dom_watchers/new-argument":13,"./dom_watchers/new-claim":14,"./dom_watchers/search-input":15,"./dom_watchers/search-results":16,"./dom_watchers/tabs":17,"./dom_watchers/toaster":18,"./dom_watchers/toggles":19,"./dom_watchers/working-list":20,"jquery":1,"rivets":2}],8:[function(require,module,exports){
 'use strict';
 
 var alertStateCtrl = require('../state/alerts');
@@ -13116,7 +13117,7 @@ module.exports = {
 	}
 }
 
-},{"../state/alerts":22,"../utils/event_manager":31}],9:[function(require,module,exports){
+},{"../state/alerts":23,"../utils/event_manager":32}],9:[function(require,module,exports){
 'use strict';
 
 var trumbowyg = require('trumbowyg');
@@ -13158,7 +13159,7 @@ module.exports = {
 		});
 	}
 }
-},{"../api/claim":5,"../state/actions":21,"trumbowyg":4}],10:[function(require,module,exports){
+},{"../api/claim":5,"../state/actions":22,"trumbowyg":4}],10:[function(require,module,exports){
 'use strict';
 /*
  * This module is responsibe for the detail view of a claim
@@ -13238,7 +13239,7 @@ module.exports = {
 
 	}
 }
-},{"../api/claim":5,"../state/editor_detail":23,"../state/editor_tabs":24,"../utils/event_manager":31}],11:[function(require,module,exports){
+},{"../api/claim":5,"../state/editor_detail":24,"../state/editor_tabs":25,"../utils/event_manager":32}],11:[function(require,module,exports){
 var eventManager = require('../utils/event_manager');
 
 module.exports = {
@@ -13249,7 +13250,17 @@ module.exports = {
 		});
 	}
 }
-},{"../utils/event_manager":31}],12:[function(require,module,exports){
+},{"../utils/event_manager":32}],12:[function(require,module,exports){
+'use strict';
+
+module.exports = {
+	init: function(){
+		$('.js-search-recent').on('click', function(event){
+			console.log('Search most recent');
+		});
+	}
+}
+},{}],13:[function(require,module,exports){
 'use strict';
 
 /*
@@ -13327,7 +13338,7 @@ module.exports = {
 		
 	}
 }
-},{"../state/new_argument":25,"../utils/event_manager":31}],13:[function(require,module,exports){
+},{"../state/new_argument":26,"../utils/event_manager":32}],14:[function(require,module,exports){
 'use strict';
 
 /* This module is responsibe for the new claim
@@ -13386,62 +13397,27 @@ module.exports = {
 		});
 	}
 }
-},{"../api/claim":5,"../state/new_claim":26,"../utils/event_manager":31}],14:[function(require,module,exports){
+},{"../api/claim":5,"../state/new_claim":27,"../utils/event_manager":32}],15:[function(require,module,exports){
 'use strict';
 
-var searchApi = require('../api/search');
-var searchStateCtrl = require('../state/search');
-
-
-var domActions = {
-	search_this(rivet){
-		//get the search id
-		//send the search
-		console.warn('TODO ', rivet);
-	},
-	get_most_critical(rivet){
-		var searchId = rivet.currentTarget.attributes['data-search-id'].value;
-		searchStateCtrl.searchMostCritical(searchId);
-	},
-	get_most_capricious(rivet){
-		var searchId = rivet.currentTarget.attributes['data-search-id'].value;
-		searchStateCtrl.searchMostCapricious(searchId);
-	},
-	get_most_recent(rivet){
-		console.log("getting most recent!!");
-		var searchId = rivet.currentTarget.attributes['data-search-id'].value;
-		searchStateCtrl.searchMostRecent(searchId);
-	}
-}
+var eventManager = require('../utils/event_manager');
 
 module.exports = {
 
 	init: function(){
 		console.log('search-input');
-		$('.js-search').each(function(){
-			//bind the state
-			var searchId = $(this).data('search-id');
-			var searchState = searchStateCtrl.getState(searchId);
-			searchState.actions = domActions;
-			rivets.bind(
-				$(this),
-				{ search: searchState }
-			);
 
-			//now watch for keypresses:
-			$(this).on('keypress', function(e){
+		$('.js-search').on('keypress', function(e){
+			if (e.keyCode == 13) {
 				var searchTerm = $(this).val();
 				var searchId = $(this).data('search-id');
-
-				if (e.keyCode == 13) {
-					searchStateCtrl.setTerm(searchId, searchTerm);
-					searchStateCtrl.runSearch(searchId, searchTerm);
-				} else {
-					searchStateCtrl.setTerm(searchId, searchTerm);
-				}
-			});
+				eventManager.fire('search_term_submitted', {owner: searchId, data: { term: searchTerm} });
+				//searchStateCtrl.setTerm(searchId, searchTerm);
+				//searchStateCtrl.runSearch(searchId, searchTerm);
+			}
 		});
-
+		
+		/*
 		$('.js-search-suggestion').each(function(){
 			$(this).on('click', function(){
 				var searchId = $(this).data('search-id');
@@ -13450,15 +13426,16 @@ module.exports = {
 				searchStateCtrl.runSearch(searchId, searchTerm);
 			});
 		});
+		*/
 	}
 
 }
 
-},{"../api/search":6,"../state/search":27}],15:[function(require,module,exports){
+},{"../utils/event_manager":32}],16:[function(require,module,exports){
 'use strict';
 
 var searchApi = require('../api/search');
-var searchStateCtrl = require('../state/search');
+var searchResultsStateCtrl = require('../state/search_results');
 var actionStateCtrl = require('../state/actions');
 var eventManager = require('../utils/event_manager');
 
@@ -13488,13 +13465,17 @@ module.exports = {
 		$('.js-search-results').each(function(){
 			//bind the state (don't make a new one for results, only the search input should do that);
 			var searchId = $(this).data('search-id');
-			var searchState = searchStateCtrl.getExistingState(searchId);
+			var searchState = searchResultsStateCtrl.getState(searchId);
 			searchState.actions = domActions;
 			rivets.bind(
 				$(this),
 				{ search: searchState }
 			);
 
+		});
+
+		eventManager.subscribe('search_term_submitted', function(event){
+			console.log('Have the term: ', event);
 		});
 
 		eventManager.subscribe('new_claim_published', function(event){
@@ -13514,7 +13495,7 @@ module.exports = {
 
 }
 
-},{"../api/search":6,"../state/actions":21,"../state/search":27,"../utils/event_manager":31}],16:[function(require,module,exports){
+},{"../api/search":6,"../state/actions":22,"../state/search_results":28,"../utils/event_manager":32}],17:[function(require,module,exports){
 'use strict';
 
 var tabStateCtrl = require('../state/tabs');
@@ -13568,7 +13549,7 @@ module.exports = {
 		});
 	}
 }
-},{"../state/tabs":28}],17:[function(require,module,exports){
+},{"../state/tabs":29}],18:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -13600,7 +13581,7 @@ module.exports = {
 		});
 	}
 }
-},{"jquery":1}],18:[function(require,module,exports){
+},{"jquery":1}],19:[function(require,module,exports){
 'use strict';
 
 /*
@@ -13651,7 +13632,7 @@ module.exports = {
 
 	}
 }
-},{"../state/actions":21,"../state/toggles":29}],19:[function(require,module,exports){
+},{"../state/actions":22,"../state/toggles":30}],20:[function(require,module,exports){
 'use strict';
 
 var workingListStateCtrl = require('../state/working_list');
@@ -13699,7 +13680,7 @@ module.exports = {
 
 	}
 }
-},{"../state/working_list":30,"../utils/event_manager":31}],20:[function(require,module,exports){
+},{"../state/working_list":31,"../utils/event_manager":32}],21:[function(require,module,exports){
 
 module.exports = {
 	cloneThisObject: function(obj) {
@@ -13713,7 +13694,7 @@ module.exports = {
 		return newObj;
 	}
 }
-},{}],21:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 'use strict';
 
 var objectHelpers = require('../reducers/object_helpers');
@@ -13737,7 +13718,7 @@ module.exports = {
 	}
 
 };
-},{"../reducers/object_helpers":20}],22:[function(require,module,exports){
+},{"../reducers/object_helpers":21}],23:[function(require,module,exports){
 'use strict';
 
 var eventManager = require('../utils/event_manager');
@@ -13793,7 +13774,7 @@ module.exports = {
 	}
 
 };
-},{"../utils/event_manager":31,"../utils/state_factory":32}],23:[function(require,module,exports){
+},{"../utils/event_manager":32,"../utils/state_factory":33}],24:[function(require,module,exports){
 'use strict';
 
 /* The Editor List State Controller
@@ -13879,7 +13860,7 @@ module.exports = {
 		editorDetailRefs[claimObj._id].claim.opposing = claimObj.opposing;
 	}
 }
-},{"../api/claim":5,"../utils/event_manager":31,"../utils/state_factory":32}],24:[function(require,module,exports){
+},{"../api/claim":5,"../utils/event_manager":32,"../utils/state_factory":33}],25:[function(require,module,exports){
 'use strict';
 
 /* The Editor List State Controller
@@ -13985,7 +13966,7 @@ module.exports = {
 		removeClaimFromList(editorTabsId, claimId);
 	}
 }
-},{"../utils/event_manager":31,"../utils/state_factory":32}],25:[function(require,module,exports){
+},{"../utils/event_manager":32,"../utils/state_factory":33}],26:[function(require,module,exports){
 'use strict';
 
 var searchApi = require('../api/search');
@@ -14269,7 +14250,7 @@ module.exports = {
 		});
 	}
 };
-},{"../api/claim":5,"../api/search":6,"../utils/event_manager":31,"../utils/state_factory":32,"./editor_detail":23}],26:[function(require,module,exports){
+},{"../api/claim":5,"../api/search":6,"../utils/event_manager":32,"../utils/state_factory":33,"./editor_detail":24}],27:[function(require,module,exports){
 'use strict';
 
 /* New Claim State Ctrl
@@ -14327,7 +14308,7 @@ module.exports = {
 	}
 
 };
-},{"../api/claim":5,"../utils/event_manager":31,"../utils/state_factory":32}],27:[function(require,module,exports){
+},{"../api/claim":5,"../utils/event_manager":32,"../utils/state_factory":33}],28:[function(require,module,exports){
 'use strict';
 
 /* The Search Input state controller
@@ -14356,9 +14337,6 @@ module.exports = {
 			searchStateRef[searchId] = returnSearchState;
 			return returnSearchState;
 		}
-	},
-	getExistingState(searchId){
-		return searchStateRef[searchId];
 	},
 	setTerm(searchId, newterm){
 		searchStateRef[searchId].term = newterm.trim();
@@ -14397,7 +14375,7 @@ module.exports = {
 	}
 
 };
-},{"../api/search":6,"../utils/event_manager":31,"../utils/state_factory":32}],28:[function(require,module,exports){
+},{"../api/search":6,"../utils/event_manager":32,"../utils/state_factory":33}],29:[function(require,module,exports){
 'use strict';
 
 var eventManager = require('../utils/event_manager');
@@ -14464,7 +14442,7 @@ module.exports = {
 		console.warn('no tab exists');
 	}
 }
-},{"../utils/event_manager":31,"../utils/state_factory":32}],29:[function(require,module,exports){
+},{"../utils/event_manager":32,"../utils/state_factory":33}],30:[function(require,module,exports){
 'use strict';
 /* The Toggle State Controller
  * Thoughts from when this was just a help tab:
@@ -14499,7 +14477,7 @@ module.exports = {
 		toggleStateRef[toggleId].open = false;
 	}
 }
-},{"../utils/state_factory":32}],30:[function(require,module,exports){
+},{"../utils/state_factory":33}],31:[function(require,module,exports){
 'use strict';
 
 /* Working_list State controller
@@ -14554,7 +14532,7 @@ module.exports = {
 		}
 	}
 }
-},{"../utils/event_manager":31,"../utils/state_factory":32}],31:[function(require,module,exports){
+},{"../utils/event_manager":32,"../utils/state_factory":33}],32:[function(require,module,exports){
 'use strict';
 
 /* The Event Manager
@@ -14610,7 +14588,7 @@ module.exports = {
 		}
 	}
 }
-},{}],32:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 'use strict';
 
 /* The State Factory

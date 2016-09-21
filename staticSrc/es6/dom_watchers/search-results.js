@@ -1,7 +1,7 @@
 'use strict';
 
 var searchApi = require('../api/search');
-var searchStateCtrl = require('../state/search');
+var searchResultsStateCtrl = require('../state/search_results');
 var actionStateCtrl = require('../state/actions');
 var eventManager = require('../utils/event_manager');
 
@@ -31,13 +31,17 @@ module.exports = {
 		$('.js-search-results').each(function(){
 			//bind the state (don't make a new one for results, only the search input should do that);
 			var searchId = $(this).data('search-id');
-			var searchState = searchStateCtrl.getExistingState(searchId);
+			var searchState = searchResultsStateCtrl.getState(searchId);
 			searchState.actions = domActions;
 			rivets.bind(
 				$(this),
 				{ search: searchState }
 			);
 
+		});
+
+		eventManager.subscribe('search_term_submitted', function(event){
+			console.log('Have the term: ', event);
 		});
 
 		eventManager.subscribe('new_claim_published', function(event){

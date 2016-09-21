@@ -498,7 +498,7 @@ button {
 hr {
   border: 0;
   border-top: 1px dashed rgba(95, 154, 236, 0.5);
-  margin: 0 0 0.625rem 0; }
+  margin: 0 0 -1px 0; }
 
 html {
   box-sizing: border-box;
@@ -1465,20 +1465,21 @@ These create the structurs within which components will live
     -ms-flex-positive: 1;
         flex-grow: 1; }
 
-.main-sidebar-nav__link {
-  display: block;
-  padding: 0.625rem 0.875rem;
-  text-decoration: none;
-  color: #5f9aec; }
-  .main-sidebar-nav__link:hover {
-    color: #8db7f1; }
-
-.main-sidebar-nav__link-icon {
-  width: 0.75rem;
-  height: 0.75rem; }
-
-.main-sidebar-nav__link-text {
-  margin-left: 5px; }
+.main-sidebar-nav {
+  padding: 0.625rem 0; }
+  .main-sidebar-nav__link {
+    display: block;
+    width: 100%;
+    padding: 0.625rem 0.875rem;
+    text-decoration: none;
+    color: #5f9aec; }
+    .main-sidebar-nav__link:hover {
+      color: #8db7f1; }
+  .main-sidebar-nav__link-icon {
+    width: 0.75rem;
+    height: 0.75rem; }
+  .main-sidebar-nav__link-text {
+    margin-left: 5px; }
 
 #svg {
   width: 100%;
