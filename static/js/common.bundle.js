@@ -13253,14 +13253,27 @@ module.exports = {
 },{"../utils/event_manager":32}],12:[function(require,module,exports){
 'use strict';
 
+var searchApi = require('../api/search');
+var eventManager = require('../utils/event_manager');
+
 module.exports = {
 	init: function(){
 		$('.js-search-recent').on('click', function(event){
-			console.log('Search most recent');
+
+			var searchId = $(this).data('search-id');
+
+			searchApi.searchMostRecent().done(function(data){
+				//send to the search results
+				eventManager.fire('search_results_recieved', {owner: searchId, data: {term: 'MOST RECENT', results: data} });
+				
+			}).fail(function(err){
+				console.error('search api error: ', err);
+				//TODO: send to alerts
+			});	
 		});
 	}
 }
-},{}],13:[function(require,module,exports){
+},{"../api/search":6,"../utils/event_manager":32}],13:[function(require,module,exports){
 'use strict';
 
 /*
@@ -13400,43 +13413,35 @@ module.exports = {
 },{"../api/claim":5,"../state/new_claim":27,"../utils/event_manager":32}],15:[function(require,module,exports){
 'use strict';
 
+var searchApi = require('../api/search');
 var eventManager = require('../utils/event_manager');
 
 module.exports = {
-
 	init: function(){
-		console.log('search-input');
 
 		$('.js-search').on('keypress', function(e){
 			if (e.keyCode == 13) {
 				var searchTerm = $(this).val();
 				var searchId = $(this).data('search-id');
-				eventManager.fire('search_term_submitted', {owner: searchId, data: { term: searchTerm} });
-				//searchStateCtrl.setTerm(searchId, searchTerm);
-				//searchStateCtrl.runSearch(searchId, searchTerm);
+
+				searchApi.searchByString(searchTerm).done(function(data){
+					//send to the search results
+					eventManager.fire('search_results_recieved', {owner: searchId, data: {term: searchTerm, results: data} });
+					
+				}).fail(function(err){
+					console.error('search api error: ', err);
+					//TODO: send to alerts
+				});	
 			}
 		});
-		
-		/*
-		$('.js-search-suggestion').each(function(){
-			$(this).on('click', function(){
-				var searchId = $(this).data('search-id');
-				var searchTerm = $(this).html();
-				searchStateCtrl.setTerm(searchId, searchTerm);
-				searchStateCtrl.runSearch(searchId, searchTerm);
-			});
-		});
-		*/
-	}
 
+	}
 }
 
-},{"../utils/event_manager":32}],16:[function(require,module,exports){
+},{"../api/search":6,"../utils/event_manager":32}],16:[function(require,module,exports){
 'use strict';
 
-var searchApi = require('../api/search');
 var searchResultsStateCtrl = require('../state/search_results');
-var actionStateCtrl = require('../state/actions');
 var eventManager = require('../utils/event_manager');
 
 
@@ -13474,8 +13479,9 @@ module.exports = {
 
 		});
 
-		eventManager.subscribe('search_term_submitted', function(event){
-			console.log('Have the term: ', event);
+		eventManager.subscribe('search_results_recieved', function(event){
+			searchResultsStateCtrl.setTerm(event.owner, event.data.term);
+			searchResultsStateCtrl.setResults(event.owner, event.data.results);
 		});
 
 		eventManager.subscribe('new_claim_published', function(event){
@@ -13495,7 +13501,7 @@ module.exports = {
 
 }
 
-},{"../api/search":6,"../state/actions":22,"../state/search_results":28,"../utils/event_manager":32}],17:[function(require,module,exports){
+},{"../state/search_results":28,"../utils/event_manager":32}],17:[function(require,module,exports){
 'use strict';
 
 var tabStateCtrl = require('../state/tabs');
@@ -14315,9 +14321,9 @@ module.exports = {
  * This holds onto the search details (not the results!)
  */
 
+var stateFactory = require('../utils/state_factory');
 var eventManager = require('../utils/event_manager');
 var searchApi = require('../api/search');
-var stateFactory = require('../utils/state_factory');
 
 var searchState = {
 	_id: 'anon',
@@ -14338,21 +14344,11 @@ module.exports = {
 			return returnSearchState;
 		}
 	},
-	setTerm(searchId, newterm){
-		searchStateRef[searchId].term = newterm.trim();
-		eventManager.fire('search_term_set', { search: searchStateRef[searchId] });
+	setTerm(searchId, term){
+		searchStateRef[searchId].term = term;
 	},
-	runSearch(searchId){
-		eventManager.fire('search_requested', {	search: searchStateRef[searchId] });
-
-		searchApi.searchByString(searchStateRef[searchId].term).done(function(data){
-			//send to the search results
-			searchStateRef[searchId].results = data;
-			eventManager.fire('search_results_set', {owner: searchId, data: searchStateRef[searchId]});
-		}).fail(function(err){
-			console.error('search api error: ', err);
-			//TODO: send to alerts
-		});		
+	setResults(searchId, results){
+		searchStateRef[searchId].results = results;
 	},
 	searchMostRecent(searchId){
 		searchApi.searchMostRecent().done(function(data){

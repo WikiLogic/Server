@@ -1,8 +1,6 @@
 'use strict';
 
-var searchApi = require('../api/search');
 var searchResultsStateCtrl = require('../state/search_results');
-var actionStateCtrl = require('../state/actions');
 var eventManager = require('../utils/event_manager');
 
 
@@ -40,8 +38,9 @@ module.exports = {
 
 		});
 
-		eventManager.subscribe('search_term_submitted', function(event){
-			console.log('Have the term: ', event);
+		eventManager.subscribe('search_results_recieved', function(event){
+			searchResultsStateCtrl.setTerm(event.owner, event.data.term);
+			searchResultsStateCtrl.setResults(event.owner, event.data.results);
 		});
 
 		eventManager.subscribe('new_claim_published', function(event){
