@@ -1,24 +1,34 @@
 <!-- the results! -->
 <div view-each-claim="search.results"
-    class="splitter splitter--full-width text-color--white">
-    <div class="splitter__left">
-        
-        <button class="splitter box box--wide"
-            view-on-click="search.actions.result_clicked"
-            view-data-search-id="search._id"
-            view-data-claim-id="claim._id">
-            <div class="splitter__left">
-                <svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-left"></use></svg>
-            </div>
-            <div class="splitter__right">
-                <p>{claim.description}</p>
-            </div>
-        </button>
+    class="search-result">
 
-    </div>
-    <div class="splitter__right">
-        
-        result meta...
+    <div class="splitter">
+        <div class="splitter__left">
 
+            <p>
+                <button class="search-result__star"
+                    view-class-is-starred="claim.is_starred"
+                    view-on-click="search.actions.toggle_favorite">
+                    <svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#star"></use></svg>
+                </button>
+                {claim.description}
+            </p>
+
+        </div>
+        <div class="splitter__right">
+            
+            <div class="search-result__buttons">
+                <button class="search-result__button"
+                    view-on-click="search.actions.open_in_editor">
+                    <svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#pencil"></use></svg>
+                </button>
+                <button class="search-result__button"
+                    view-on-click="search.actions.open_in_nodemap">
+                    <svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#fork"></use></svg>
+                </button>
+            </div>
+
+        </div>
     </div>
+
 </div>                    

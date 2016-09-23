@@ -2,23 +2,26 @@
 
 module.exports = {
 
-	getClaimById: function(claimID){
+	getClaimById(claimID){
 		/* Takes an ID, 
 		 * asks the server for the claim of that ID
 		 * Returns the claim
 		 */
-
-		$.post("/api/", {
-			"action":"getclaimbyid",
-			"claim":claimID
-		}).done(function(data){
-			console.log('data!', data);
-		}).fail(function(err){
-			console.error('API fail', err)
+		console.warn('TODO: build local claim index from here so we don\'t call the server for claims we already have locally');
+		return $.post("/api/", {
+			action: "getclaimbyid",
+			claimid: claimID
 		});
 	},
 
-	newClaim: function(claimString){
+	getClaimsByIdArray(idArray){
+		return $.post("/api/", {
+			action: "getbyidarray",
+			idarray: idArray
+		});
+	},
+
+	newClaim(claimString){
 		/* Takes a claim string to add as new
 		 * sends it to the API
 		 * Expects a new claim object to be returned
@@ -26,6 +29,17 @@ module.exports = {
 		return $.post("/api/", {
 			action: "newclaim",
 			newClaim: claimString
+		});
+	},
+
+	newArgument(argObj){
+		/* Takes an entire claim object
+		 * sends it to the server to add to the specified claim
+		 * expects the server to return the updated claim
+		 */
+		return $.post("/api/", {
+			action: "newargument",
+			argument: argObj
 		});
 	}
 

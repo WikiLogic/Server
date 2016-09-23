@@ -2,6 +2,7 @@
 
 var searchApi = require('../api/search');
 var claimApi = require('../api/claim');
+var editorDetailStateCtrl = require('./editor_detail');
 var eventManager = require('../utils/event_manager');
 var stateFactory = require('../utils/state_factory');
 
@@ -12,7 +13,7 @@ var stateFactory = require('../utils/state_factory');
 
 var newArgumentState = {
 	_id: 'anon',
-	parent_claim_description: '',
+	parent_claim: {},
 	search_term: '',
 	search_results: [],
 	show_results: false,
@@ -33,12 +34,18 @@ var argHasReason = function(argumentId, claimId){
 	return false;
 }
 
+var resetArgument = function(argumentId) {
+	newArgumentRefs[argumentId].search_term = '';
+	newArgumentRefs[argumentId].search_results = [];
+	newArgumentRefs[argumentId].reasons = [];
+	updateStatuses(argumentId);
+}
 var updateStatuses = function(argumentId){
 
 	//make sure the parent claim or any of the reasons aren't set in the search results
 	for (var r = 0; r < newArgumentRefs[argumentId].search_results.length; r++) {
 		//we're in a searcj result, now check it against the parent
-		if (newArgumentRefs[argumentId].search_results[r].description == newArgumentRefs[argumentId].parent_claim_description) {
+		if (newArgumentRefs[argumentId].search_results[r].description == newArgumentRefs[argumentId].parent_claim.description) {
 			newArgumentRefs[argumentId].search_results.splice(r, 1);
 			r--;
 		}
@@ -53,7 +60,7 @@ var updateStatuses = function(argumentId){
 
 	//now check that none of the reasons are actually somehow the parent
 	for (var r = 0; r < newArgumentRefs[argumentId].reasons.length; r++) {
-		if (newArgumentRefs[argumentId].reasons[r].description == newArgumentRefs[argumentId].parent_claim_description) {
+		if (newArgumentRefs[argumentId].reasons[r].description == newArgumentRefs[argumentId].parent_claim.description) {
 			newArgumentRefs[argumentId].reasons.splice(r, 1);
 			r--;
 		}
@@ -67,20 +74,30 @@ var updateStatuses = function(argumentId){
 	}
 
 	//are there any exact matches?
-	newArgumentRefs[argumentId].show_new_claim_form = true;
-	for (var r = 0; r < newArgumentRefs[argumentId].search_results.length; r++) {
-		if (newArgumentRefs[argumentId].search_results[r].description == newArgumentRefs[argumentId].search_term) {
-			//found a match!
-			newArgumentRefs[argumentId].show_new_claim_form = false;
-			break;
+	if (newArgumentRefs[argumentId].search_results.length > 0) {
+		newArgumentRefs[argumentId].show_new_claim_form = true;
+		for (var r = 0; r < newArgumentRefs[argumentId].search_results.length; r++) {
+			if (newArgumentRefs[argumentId].search_results[r].description == newArgumentRefs[argumentId].search_term) {
+				//found a match!
+				newArgumentRefs[argumentId].show_new_claim_form = false;
+				break;
+			}
 		}
-	}
-	//also check in the reasons for an exact match
-	for (var r = 0; r < newArgumentRefs[argumentId].reasons.length; r++) {
-		if (newArgumentRefs[argumentId].reasons[r].description == newArgumentRefs[argumentId].search_term) {
-			//found a match!
+		//also check in the reasons for an exact match
+		for (var r = 0; r < newArgumentRefs[argumentId].reasons.length; r++) {
+			if (newArgumentRefs[argumentId].reasons[r].description == newArgumentRefs[argumentId].search_term) {
+				//found a match!
+				newArgumentRefs[argumentId].show_new_claim_form = false;
+				break;
+			}
+		}
+	} else {
+		//so we have no results. But if there's a search term...
+		if (newArgumentRefs[argumentId].search_term.length > 4) {
+			newArgumentRefs[argumentId].show_new_claim_form = true; //no results, new claim!
+		} else {
+			//no term, no results, no new claim
 			newArgumentRefs[argumentId].show_new_claim_form = false;
-			break;
 		}
 	}
 
@@ -89,6 +106,7 @@ var updateStatuses = function(argumentId){
 		newArgumentRefs[argumentId].show_reasons = true;
 	} else {
 		newArgumentRefs[argumentId].show_reasons = false;
+		newArgumentRefs[argumentId].why_invalid = "Argument needs reasons";
 	}
 
 	//do the reasons make a valid argument?
@@ -96,6 +114,57 @@ var updateStatuses = function(argumentId){
 		newArgumentRefs[argumentId].is_valid = true;
 	} else {
 		newArgumentRefs[argumentId].is_valid = false;
+		newArgumentRefs[argumentId].why_invalid = "Argument needs more than 1 reason";
+	}
+
+	if (newArgumentRefs[argumentId].is_valid) {
+		//is this argument group a duplicate of any already existing arguments on the parent claim?
+		var parentClaim = editorDetailStateCtrl.getExistingState(newArgumentRefs[argumentId].parent_claim._id);
+		var parentArgGroups = [];
+		if (newArgumentRefs[argumentId]._id.startsWith('new_for')) {
+			parentArgGroups = parentClaim.claim.supporting;
+		} else {
+			parentArgGroups = parentClaim.claim.opposing;
+		}
+
+		for (var a = 0; a < parentArgGroups.length; a++){
+			//we're now in one of the parent claim's arg groups. 
+
+
+			//is this group identical?
+			if (parentArgGroups[a].reasons.length == newArgumentRefs[argumentId].reasons.length) {
+				//well it's the same length
+				var identicalGroup = true; //the new argument group is declared guilty of copying this parent arg grup until proven innocent!
+				
+				for (var r = 0; r < parentArgGroups[a].reasons.length; r++){
+					var hasThisReason = false;
+
+					for (var i = 0; i < newArgumentRefs[argumentId].reasons.length; i++){
+						if (parentArgGroups[a].reasons[r]._id == newArgumentRefs[argumentId].reasons[i]._id) {
+							hasThisReason = true;
+							break;
+						}
+					}
+
+					if (!hasThisReason) { 
+						//well, it doesn't have this reason so this group isn't the same
+						identicalGroup = false;
+						break; 
+					}
+				}
+
+				if (identicalGroup) {
+					//this means we've looped through all the reasons in a parent argument and each one has been matched
+					//not to mention the fact that because we're in here this parent argument has the same number of reasons
+					//so that means we have now determined that, in fact, yes, this new argument is GUILTY OF PLAGAIRY >:(
+					newArgumentRefs[argumentId].is_valid = false;
+					newArgumentRefs[argumentId].why_invalid = "Identical group";
+				}
+			}
+
+
+
+		}
 	}
 
 }
@@ -152,7 +221,6 @@ module.exports = {
 	addReason(argumentId, claimObj) {
 		//first check if that reason already exists in this argument
 		if (!argHasReason(argumentId, claimObj._id)) {
-			console.info('newArgumentRefs: ', newArgumentRefs);
 			newArgumentRefs[argumentId].reasons.push(claimObj);
 			//now tidy up - remove the reason if it is in the results
 			for (var r = 0; r < newArgumentRefs[argumentId].search_results.length; r++){
@@ -182,68 +250,34 @@ module.exports = {
 		var term = newArgumentRefs[argumentId].search_term;
 
 		claimApi.newClaim(term).done(function(data){
-			console.log('data!', data);
 			newArgumentRefs[argumentId].reasons.push(data);
 			updateStatuses(argumentId);
 			eventManager.fire('new_argument_new_reason', {owner: argumentId, data: data});
 		}).fail(function(err){
 			console.error('API fail', err);
 		});
-	}
+	},
+	publishArgument(argumentId){
+		//This is how the server wants it... for now
+		var argObj = {
+			reasons: newArgumentRefs[argumentId].reasons,
+			claimId: newArgumentRefs[argumentId].parent_claim._id,
+			side: (argumentId.startsWith('new_for'))
+		};
 
-/*
-
-
-
-	setResults: function(argumentID, searchTerm, resultsArray){
-		console.log('setting search results for argument group:', argumentName, resultsArray);
-		if (newArguments.hasOwnProperty(argumentID)) {
-			newArguments[argumentID].search_results = resultsArray;
-			newArguments[argumentID].search_term = searchTerm;
-
-			if (resultsArray.length > 0) {
-				newArguments[argumentID].show_results = true;
-				var exactMatchFound = false;
-				for (var r = 0; r < resultsArray.length; r++) {
-					if (resultsArray[r].description == searchTerm) {
-						exactMatchFound = true;
-						break;
-					}
-				}
-				newArguments[argumentID].show_new_claim_button = !exactMatchFound;
-			} else {
-				newArguments[argumentID].show_new_claim_button = true;
-				newArguments[argumentID].show_results = false;
-			}
+		if (argumentId.startsWith('new_for')) {
+			argObj.side = "s"; //supporting
 		} else {
-			console.warn('That argument creation form doesn\'t have any state :(');
+			argObj.side = "o"; //opposing
 		}
-	},
-	getSearchTerm: function(argumentID){
-		if (newArguments.hasOwnProperty(argumentID)) {
-			return newArguments[argumentID].search_term;
-		}
-		console.warn('That argument creation form has no state :(');
-	},
-	addReason: function(argumentName, claimObj){
-		console.log('adding reason to argument group:', argumentName);
-		WL_STATE.new_arguments[argumentName].addReason.call(WL_STATE.new_arguments[argumentName], claimObj);
-	},
-	removeReason: function(argumentName, claimObj){
-		console.log('removing reason from argument group:', argumentName);
-		WL_STATE.new_arguments[argumentName].removeReason.call(WL_STATE.new_arguments[argumentName], claimObj);
-	},
-	checkArgument: function(argumentName){
-		console.log('checking argument group:', argumentName);
-		WL_STATE.new_arguments[argumentName].checkArgument.call(WL_STATE.new_arguments[argumentName]);
-	},
-	getArgument: function(argumentName){
-		console.log('get argument group:', argumentName);
-		return WL_STATE.new_arguments[argumentName];
-	},
-	clearArgument: function(argumentName){
-		console.log('clearing argument group:', argumentName);
-	},
-	*/
 
+		claimApi.newArgument(argObj).done(function(data){
+			resetArgument(argumentId);
+			//taking advantage of the fact that we already have the claims that make up this argument, just add them!
+			console.warn('TODO: build the new argument using the claims we already have locally');
+			eventManager.fire('claim_updated_new_argument', {owner:argumentId, data: data});
+		}).fail(function(err){
+			console.error('Update claim fail: ', err);
+		});
+	}
 };

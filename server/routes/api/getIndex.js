@@ -1,7 +1,7 @@
 var express = require('express'),
-    router = express.Router(),
-    mongoose = require('mongoose'),
-    async = require('async');
+	router = express.Router(),
+	mongoose = require('mongoose'),
+	async = require('async');
 
 /* get the models */
 var User = require('../../models/user'),
@@ -13,17 +13,17 @@ module.exports = function(req, res) {
 		var searchTerm = req.query.s;
 
 		Claim.find({ 
-	    		$text : { 
-	    			$search : searchTerm 
-	    		} 
-	    	}).exec(function (err, claims) {
-				if (err) {
-					console.error(err);
-					res.status(500).send(err);
-				} else {
-					console.log('text search has run: ', claims);
-					res.send(claims);
-				}
+			$text : { 
+				$search : searchTerm 
+			} 
+		}).exec(function (err, claims) {
+			if (err) {
+				console.error(err);
+				res.status(500).send(err);
+			} else {
+				console.log('text search has run: ', claims);
+				res.send(claims);
+			}
 		});
 
 	};

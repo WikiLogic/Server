@@ -19,7 +19,12 @@ rivets.configure({
 	}
 });
 
+rivets.binders.bgcolor = function(el, value){
+	el.style.background = value;
+}
+
 //now init the modular elements - there can be any number of these anywhere so we can't attach them to WL_STATE
+require('./dom_watchers/main-sidebar-nav').init();
 require('./dom_watchers/search-input').init();
 require('./dom_watchers/search-results').init();
 require('./dom_watchers/new-claim').init();
@@ -27,6 +32,9 @@ require('./dom_watchers/toggles').init();
 require('./dom_watchers/working-list').init();
 require('./dom_watchers/editor-detail').init();
 require('./dom_watchers/new-argument').init();
+require('./dom_watchers/logo-button').init();
+require('./dom_watchers/alerts').init();
+
 
 
 
@@ -36,3 +44,8 @@ require('./dom_watchers/toaster').init();
 require('./dom_watchers/claim-input').init();
 
 console.groupEnd(); //END Initting
+
+$('.js-editor-menu').on('click', function(){
+	console.log('hi');
+	$('.js-editor-sidebar').toggleClass('editor-sidebar--show-menu');
+});

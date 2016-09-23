@@ -1,0 +1,32 @@
+@mixin box() {
+	padding: rem($pad);
+
+	&--5 {
+		padding: rem(5);
+	}
+
+	&--16 {
+		padding: rem(16);
+	}
+
+	&--wide {
+		padding-right: 0;
+		padding-left: 0;
+	}
+
+	&--tall {
+		padding-top: 0;
+		padding-bottom: 0;
+	}
+}
+
+.box {
+	@include box();
+}
+
+.no-margins { 
+	margin-bottom: 0;
+	margin-top: 0;
+	margin-left: 0;
+	margin-right: 0;
+}

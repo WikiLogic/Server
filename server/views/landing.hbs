@@ -28,20 +28,37 @@
 			c-0.391-0.911-1.07-2.002-0.939-3.271c0.13-1.27,0.391-2.1,0.781-2.49l6.142,0.037c3.971-0.391,6.008-0.925,7.897-2.357
 			c1.888-1.432,3.447-3.674,4.613-6.543l73.853-175.127L350.832,147.904z"/>
 		</svg>
+
+		<div class="tabs tabs--full-width">
+			<div class="tabs__tab active js-tab box"
+				data-tab-group="login"
+				data-tab-name="login"
+				view-class-active="tabstate.open">
+				Login
+			</div>
+			<div class="tabs__tab js-tab box"
+				data-tab-group="login"
+				data-tab-name="signup"
+				view-class-active="tabstate.open">
+				Signup
+			</div>
+		</div>
 		
+
+		<br>
+		<hr>
 		<input type="text" name="email" placeholder="email" class="full-width js-speak-friend">
 		<br>
 		<input type="password" name="password" placeholder="password" class="full-width js-and-enter">
 		<br>
-		<hr>
-		<div class="row">
-			<div class="row__col--1-half@small">
-				<button class="button full-width text-align-center js-login">Login</button>
-			</div>
-			<div class="row__col--1-half@small">
-				<button class="button full-width text-align-center js-signup">Signup</button>
-			</div>
-		</div>
+		<button view-if="tabstate.open" 
+			class="button full-width text-align-center js-login js-tab-content"
+			data-tab-group="login"
+			data-tab-name="login">Login</button>
+		<button view-if="tabstate.open" 
+			class="button full-width text-align-center js-signup js-tab-content"
+			data-tab-group="login"
+			data-tab-name="signup">Signup</button>
 
 <!--
 		<div>

@@ -93,16 +93,7 @@ module.exports = function(req, res) {
 					next(null);
 				}
 			});
-			/*
-			Claim.update({_id:claimFromDB._id}, claimFromDB, { multi: true }, function(err, responseMeta){
-				if(err) {
-					console.log('ERROR: ', err);
-					res.status(500).send('Error in saving Claim update to database.');
-				} else {
-					next(null);
-				}
-			});
-			*/
+			
 
 
 		}

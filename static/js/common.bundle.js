@@ -12965,23 +12965,26 @@ jQuery.trumbowyg = {
 
 module.exports = {
 
-	getClaimById: function(claimID){
+	getClaimById(claimID){
 		/* Takes an ID, 
 		 * asks the server for the claim of that ID
 		 * Returns the claim
 		 */
-
-		$.post("/api/", {
-			"action":"getclaimbyid",
-			"claim":claimID
-		}).done(function(data){
-			console.log('data!', data);
-		}).fail(function(err){
-			console.error('API fail', err)
+		console.warn('TODO: build local claim index from here so we don\'t call the server for claims we already have locally');
+		return $.post("/api/", {
+			action: "getclaimbyid",
+			claimid: claimID
 		});
 	},
 
-	newClaim: function(claimString){
+	getClaimsByIdArray(idArray){
+		return $.post("/api/", {
+			action: "getbyidarray",
+			idarray: idArray
+		});
+	},
+
+	newClaim(claimString){
 		/* Takes a claim string to add as new
 		 * sends it to the API
 		 * Expects a new claim object to be returned
@@ -12989,6 +12992,17 @@ module.exports = {
 		return $.post("/api/", {
 			action: "newclaim",
 			newClaim: claimString
+		});
+	},
+
+	newArgument(argObj){
+		/* Takes an entire claim object
+		 * sends it to the server to add to the specified claim
+		 * expects the server to return the updated claim
+		 */
+		return $.post("/api/", {
+			action: "newargument",
+			argument: argObj
 		});
 	}
 
@@ -12999,11 +13013,14 @@ module.exports = {
 
 module.exports = {
 
-	searchByString(searchTerm, sendResultsHere){
+	searchByString(searchTerm){
 		var order = 'relevance';
-
-
 		return $.get('/api?s=' + searchTerm);
+	},
+	searchMostRecent(){
+		return $.post("/api/", {
+			action: "getmostrecent"
+		});
 	}
 
 }
@@ -13029,7 +13046,12 @@ rivets.configure({
 	}
 });
 
+rivets.binders.bgcolor = function(el, value){
+	el.style.background = value;
+}
+
 //now init the modular elements - there can be any number of these anywhere so we can't attach them to WL_STATE
+require('./dom_watchers/main-sidebar-nav').init();
 require('./dom_watchers/search-input').init();
 require('./dom_watchers/search-results').init();
 require('./dom_watchers/new-claim').init();
@@ -13037,6 +13059,9 @@ require('./dom_watchers/toggles').init();
 require('./dom_watchers/working-list').init();
 require('./dom_watchers/editor-detail').init();
 require('./dom_watchers/new-argument').init();
+require('./dom_watchers/logo-button').init();
+require('./dom_watchers/alerts').init();
+
 
 
 
@@ -13046,7 +13071,53 @@ require('./dom_watchers/toaster').init();
 require('./dom_watchers/claim-input').init();
 
 console.groupEnd(); //END Initting
-},{"./dom_watchers/claim-input":8,"./dom_watchers/editor-detail":9,"./dom_watchers/new-argument":10,"./dom_watchers/new-claim":11,"./dom_watchers/search-input":12,"./dom_watchers/search-results":13,"./dom_watchers/tabs":14,"./dom_watchers/toaster":15,"./dom_watchers/toggles":16,"./dom_watchers/working-list":17,"jquery":1,"rivets":2}],8:[function(require,module,exports){
+
+$('.js-editor-menu').on('click', function(){
+	console.log('hi');
+	$('.js-editor-sidebar').toggleClass('editor-sidebar--show-menu');
+});
+},{"./dom_watchers/alerts":8,"./dom_watchers/claim-input":9,"./dom_watchers/editor-detail":10,"./dom_watchers/logo-button":11,"./dom_watchers/main-sidebar-nav":12,"./dom_watchers/new-argument":13,"./dom_watchers/new-claim":14,"./dom_watchers/search-input":15,"./dom_watchers/search-results":16,"./dom_watchers/tabs":17,"./dom_watchers/toaster":18,"./dom_watchers/toggles":19,"./dom_watchers/working-list":20,"jquery":1,"rivets":2}],8:[function(require,module,exports){
+'use strict';
+
+var alertStateCtrl = require('../state/alerts');
+var eventManager = require('../utils/event_manager');
+
+
+var domActions = {
+	close_alert(rivet){
+		console.log('cloasing alert!');
+	},
+	open_alert(rivet){
+		console.log('opening alert!');
+	}
+}
+
+module.exports = {
+	init: function(){
+		console.log('alerts');
+		
+		$('.js-alerts').each(function(){
+			var alertsId = $(this).data('alerts-id');
+			var alertsState = alertStateCtrl.getState(alertsId);
+			alertsState.actions = domActions;
+			console.log("alertsState: ", alertsState);
+			rivets.bind(
+				$(this),
+				{ alerts:  alertsState}
+			);
+		});
+
+		eventManager.subscribe('anyevent', function(event, eventName){
+			var alert = {
+				title: eventName,
+				bgcolor: "white"
+			}
+			//alertStateCtrl.setAlert("main_alerts", alert);
+		});
+	}
+}
+
+},{"../state/alerts":23,"../utils/event_manager":32}],9:[function(require,module,exports){
 'use strict';
 
 var trumbowyg = require('trumbowyg');
@@ -13074,7 +13145,7 @@ module.exports = {
 
 			//send it to the API
 			claimApi.newClaim(newClaimString).done(function(data){
-				console.info('new claim has been added!', data);
+				
 
 				//send it to the working list
 			}).fail(function(err){
@@ -13088,7 +13159,7 @@ module.exports = {
 		});
 	}
 }
-},{"../api/claim":5,"../state/actions":21,"trumbowyg":4}],9:[function(require,module,exports){
+},{"../api/claim":5,"../state/actions":22,"trumbowyg":4}],10:[function(require,module,exports){
 'use strict';
 /*
  * This module is responsibe for the detail view of a claim
@@ -13097,6 +13168,7 @@ module.exports = {
 var editorDetailStateCtrl = require('../state/editor_detail');
 var editorTabsStateCtrl = require('../state/editor_tabs');
 var eventManager = require('../utils/event_manager');
+var claimApi = require('../api/claim');
 
 var domActions = {
 	editor_tab_open: function(rivet){
@@ -13108,6 +13180,14 @@ var domActions = {
 		var editorTabsId = rivet.currentTarget.attributes['data-editor-tabs-id'].value;
 		var claimId = rivet.currentTarget.attributes['data-claimtab-id'].value;
 		editorTabsStateCtrl.removeClaimFromList(editorTabsId, claimId);
+	},
+	reason_clicked: function(rivet){
+		var claimId = rivet.currentTarget.attributes['data-claim-id'].value;
+		claimApi.getClaimById(claimId).done(function(data){
+			eventManager.fire('reason_clicked', {owner:claimId, claimObj: data});	
+		}).fail(function(err){
+			console.error('Get claim by id failed: ', err);
+		});
 	}
 }
 
@@ -13118,7 +13198,7 @@ module.exports = {
 		//set up the tabbing 
 		$('.js-editor-tabs').each(function(){
 			var editorTabsId = $(this).data('editor-tabs-id');
-			var newEditorTabs = editorTabsStateCtrl.getNewState(editorTabsId);
+			var newEditorTabs = editorTabsStateCtrl.getState(editorTabsId);
 			newEditorTabs.actions = domActions;
 			rivets.bind(
 				$(this),
@@ -13129,7 +13209,7 @@ module.exports = {
 		//set up the tabbed content
 		$('.js-editor-tabs-content').each(function(){
 			var editorTabsId = $(this).data('editor-tabs-id');
-			var tabbedEditorDetails = editorTabsStateCtrl.getNewState(editorTabsId);
+			var tabbedEditorDetails = editorTabsStateCtrl.getState(editorTabsId);
 			tabbedEditorDetails.actions = domActions;
 			rivets.bind(
 				$(this),
@@ -13145,14 +13225,55 @@ module.exports = {
 			if (event.owner == "main_list") {
 				var newEditorDetailState = editorDetailStateCtrl.getNewState(event.data._id);
 				newEditorDetailState.claim = event.data;
+				editorDetailStateCtrl.populateReasons(newEditorDetailState._id);
 				//now add the detail to the editor tabs
 				editorTabsStateCtrl.addDetail("main_tabs", newEditorDetailState);
 			}
 		});
 
+		eventManager.subscribe('claim_updated_new_argument', function(event){
+			editorDetailStateCtrl.updateArgument(event.data);
+			editorDetailStateCtrl.populateReasons(event.data._id);
+		});
+		
+
 	}
 }
-},{"../state/editor_detail":22,"../state/editor_tabs":23,"../utils/event_manager":30}],10:[function(require,module,exports){
+},{"../api/claim":5,"../state/editor_detail":24,"../state/editor_tabs":25,"../utils/event_manager":32}],11:[function(require,module,exports){
+var eventManager = require('../utils/event_manager');
+
+module.exports = {
+	init(){
+		$('.js-logo-button').on('click', function(){
+			$('.js-root-sidebar').toggleClass('root-sidebar--show-menu');
+			eventManager.fire('main_logo_clicked');
+		});
+	}
+}
+},{"../utils/event_manager":32}],12:[function(require,module,exports){
+'use strict';
+
+var searchApi = require('../api/search');
+var eventManager = require('../utils/event_manager');
+
+module.exports = {
+	init: function(){
+		$('.js-search-recent').on('click', function(event){
+
+			var searchId = $(this).data('search-id');
+
+			searchApi.searchMostRecent().done(function(data){
+				//send to the search results
+				eventManager.fire('search_results_recieved', {owner: searchId, data: {term: 'MOST RECENT', results: data} });
+				
+			}).fail(function(err){
+				console.error('search api error: ', err);
+				//TODO: send to alerts
+			});	
+		});
+	}
+}
+},{"../api/search":6,"../utils/event_manager":32}],13:[function(require,module,exports){
 'use strict';
 
 /*
@@ -13163,11 +13284,11 @@ var newArgumentStateCtrl = require('../state/new_argument');
 var eventManager = require('../utils/event_manager');
 
 var domActions = {
-	new_reason_keypress: function(rivet, e){
+	new_reason_keypress(rivet, e){
 		//console.log('new reason');
 		var argumentId = rivet.currentTarget.attributes['data-argument-id'].value;
 		var term = rivet.currentTarget.value;
-		console.log('term: ', term); // <- does this just render too fast? Watch the console when you're typing. It's so weird.
+		//console.log('term: ', term); // <- does this just render too fast? Watch the console when you're typing. It's so weird.
 
 		if (rivet.key == "Enter"){
 			newArgumentStateCtrl.enterNewReason(argumentId, term);
@@ -13179,20 +13300,26 @@ var domActions = {
 
 		}
 	},
-	result_clicked: function(rivet){
+	result_clicked(rivet){
 		var claimId = rivet.currentTarget.attributes['data-claim-id'].value;
 		var argumentId = rivet.currentTarget.attributes['data-argument-id'].value;
 		var claimToAdd = newArgumentStateCtrl.getClaimFromSearch(argumentId, claimId);
 		newArgumentStateCtrl.addReason(argumentId, claimToAdd);
 	},
-	remove_reason: function(rivet){
+	remove_reason(rivet){
 		var claimId = rivet.currentTarget.attributes['data-claim-id'].value;
 		var argumentId = rivet.currentTarget.attributes['data-argument-id'].value;
 		newArgumentStateCtrl.removeReason(argumentId, claimId);
 	},
-	save_search_term_as_claim: function(rivet){
+	save_search_term_as_claim(rivet){
 		var argumentId = rivet.currentTarget.attributes['data-argument-id'].value;
 		newArgumentStateCtrl.saveTermAsClaim(argumentId);
+	},
+	save_new_argument(rivet){
+		var argumentId = rivet.currentTarget.attributes['data-argument-id'].value;
+		newArgumentStateCtrl.publishArgument(argumentId);
+		//cheeky, clear the input value manually
+		$(rivet.currentTarget).closest('.js-argument-creation-form').find('.js-new-reason').val('');
 	}
 }
 
@@ -13207,18 +13334,24 @@ module.exports = {
 			//hooking in our own new argument objects
 			event.data.claim.new_for = [];
 			event.data.claim.new_for[0] = newArgumentStateCtrl.getNewState("new_for_" + event.data.claim._id);
-			event.data.claim.new_for[0].parent_claim_description = event.data.claim.description;
+			event.data.claim.new_for[0].parent_claim = {
+				description: event.data.claim.description,
+				_id: event.data.claim._id
+			};
 			event.data.claim.new_for[0].actions = domActions;
 
 			event.data.claim.new_against = [];
 			event.data.claim.new_against[0] = newArgumentStateCtrl.getNewState("new_against_" + event.data.claim._id);
-			event.data.claim.new_against[0].parent_claim_description = event.data.claim.description;
+			event.data.claim.new_against[0].parent_claim = {
+				description: event.data.claim.description,
+				_id: event.data.claim._id
+			};
 			event.data.claim.new_against[0].actions = domActions;
 		});
 		
 	}
 }
-},{"../state/new_argument":24,"../utils/event_manager":30}],11:[function(require,module,exports){
+},{"../state/new_argument":26,"../utils/event_manager":32}],14:[function(require,module,exports){
 'use strict';
 
 /* This module is responsibe for the new claim
@@ -13232,7 +13365,10 @@ var claimApi = require('../api/claim');
 var eventManager = require('../utils/event_manager');
 
 var domActions = {
-
+	save_new_claim(rivet){
+		var newClaimId = $(rivet.currentTarget).closest('.js-new-claim').data('new-claim-id');
+		newClaimStateCtrl.publishClaim(newClaimId);
+	}
 }
 
 module.exports = {
@@ -13274,76 +13410,56 @@ module.exports = {
 		});
 	}
 }
-},{"../api/claim":5,"../state/new_claim":25,"../utils/event_manager":30}],12:[function(require,module,exports){
+},{"../api/claim":5,"../state/new_claim":27,"../utils/event_manager":32}],15:[function(require,module,exports){
 'use strict';
 
 var searchApi = require('../api/search');
-var searchStateCtrl = require('../state/search');
-var actionStateCtrl = require('../state/actions');
-
-
-var domActions = {
-	search_this: function(rivet){
-		//get the search id
-		//send the search
-	}
-}
+var eventManager = require('../utils/event_manager');
 
 module.exports = {
-
 	init: function(){
-		console.log('search-input');
-		$('.js-search').each(function(){
-			//bind the state
-			var searchId = $(this).data('search-id');
-			var searchState = searchStateCtrl.getNewState(searchId);
-			searchState.actions = domActions;
-			rivets.bind(
-				$(this),
-				{ search: searchState }
-			);
 
-			//now watch for keypresses:
-			$(this).on('keypress', function(e){
+		$('.js-search').on('keypress', function(e){
+			if (e.keyCode == 13) {
 				var searchTerm = $(this).val();
 				var searchId = $(this).data('search-id');
 
-				if (e.keyCode == 13) {
-					searchStateCtrl.setTerm(searchId, searchTerm);
-					searchStateCtrl.runSearch(searchId, searchTerm);
-				} else {
-					searchStateCtrl.setTerm(searchId, searchTerm);
-				}
-			});
+				searchApi.searchByString(searchTerm).done(function(data){
+					//send to the search results
+					eventManager.fire('search_results_recieved', {owner: searchId, data: {term: searchTerm, results: data} });
+					
+				}).fail(function(err){
+					console.error('search api error: ', err);
+					//TODO: send to alerts
+				});	
+			}
 		});
 
-		$('.js-search-suggestion').each(function(){
-			$(this).on('click', function(){
-				var searchId = $(this).data('search-id');
-				var searchTerm = $(this).html();
-				searchStateCtrl.setTerm(searchId, searchTerm);
-				searchStateCtrl.runSearch(searchId, searchTerm);
-			});
-		});
 	}
-
 }
 
-},{"../api/search":6,"../state/actions":21,"../state/search":26}],13:[function(require,module,exports){
+},{"../api/search":6,"../utils/event_manager":32}],16:[function(require,module,exports){
 'use strict';
 
-var searchApi = require('../api/search');
-var searchStateCtrl = require('../state/search');
-var actionStateCtrl = require('../state/actions');
+var searchResultsStateCtrl = require('../state/search_results');
+var eventManager = require('../utils/event_manager');
 
 
 var domActions = {
-	result_clicked: function(rivet){
-		//get the search id
-		var searchId = rivet.currentTarget.attributes['data-search-id'].value;
-		var claimId = rivet.currentTarget.attributes['data-claim-id'].value;
-		//tell the state
-		searchStateCtrl.result_clicked(searchId, claimId);
+	toggle_favorite(rivet, binding){
+		if (binding.claim.is_starred) {
+			binding.claim.is_starred = false;
+			eventManager.fire('claim_unstarred', {owner:binding.search._id, data:{claim:binding.claim}});
+		} else {
+			binding.claim.is_starred = true;
+			eventManager.fire('claim_starred', {owner:binding.search._id, data:{claim:binding.claim}});
+		}
+	},
+	open_in_editor(rivet, binding){
+		console.log('open this in the editor: ', binding.claim);
+	},
+	open_in_nodemap(rivet, binding){
+		console.log('open this in the nodemap: ', binding.claim);
 	}
 }
 
@@ -13354,25 +13470,41 @@ module.exports = {
 		$('.js-search-results').each(function(){
 			//bind the state (don't make a new one for results, only the search input should do that);
 			var searchId = $(this).data('search-id');
-			var searchState = searchStateCtrl.getExistingState(searchId);
-			searchState.actions.result_clicked = domActions.result_clicked;
+			var searchState = searchResultsStateCtrl.getState(searchId);
+			searchState.actions = domActions;
 			rivets.bind(
 				$(this),
 				{ search: searchState }
 			);
 
 		});
+
+		eventManager.subscribe('search_results_recieved', function(event){
+			searchResultsStateCtrl.setTerm(event.owner, event.data.term);
+			searchResultsStateCtrl.setResults(event.owner, event.data.results);
+		});
+
+		eventManager.subscribe('new_claim_published', function(event){
+			if (event.owner == "main_results") {
+				searchStateCtrl.addResult("main_results", event.data);
+			}
+		});
+
+		eventManager.subscribe('new_claims_found', function(event){
+			if (event.owner == "main_results") {
+				for (var r = 0; r < event.data.length; r++) {
+					searchStateCtrl.addResult("main_results", event.data[r]);
+				}
+			}
+		});
 	}
 
 }
 
-},{"../api/search":6,"../state/actions":21,"../state/search":26}],14:[function(require,module,exports){
+},{"../state/search_results":28,"../utils/event_manager":32}],17:[function(require,module,exports){
 'use strict';
 
-var $ = require('jquery');
 var tabStateCtrl = require('../state/tabs');
-tabStateCtrl.init();
-var actionStateCtrl = require('../state/actions');
 
 /*
  * This module is responsibe for handling any tab interactions
@@ -13385,48 +13517,45 @@ var actionStateCtrl = require('../state/actions');
 
 module.exports = {
 	init: function(){
-		console.log('tabs');
-		actionStateCtrl.addAction('activateTab', function(rivet){
 
-			var thsGroupName = rivet.currentTarget.attributes['data-tab-group'].value;
-			var thisTabName = rivet.currentTarget.attributes['data-tab-name'].value;
+		$('.js-tab').each(function(){
+			var $this = $(this);
+			var tabGroup = $this.data('tab-group');
+			var tabName = $this.data('tab-name');
+			var defaultTab = false;
+			if ($this.hasClass('active')) {
+				defaultTab = true;
+			}
+			var tabState = tabStateCtrl.addTab(tabGroup, tabName, defaultTab);
 
-			tabStateCtrl.activateTab(thsGroupName, thisTabName);
+			//bind the tab
+			rivets.bind(
+				$this,
+				{ tabstate: tabState }
+			);
+
+			$this.on('click', function(){
+				var tabGroup = $(this).data('tab-group');
+				var tabName = $(this).data('tab-name');
+				tabStateCtrl.openTab(tabGroup, tabName);
+			});
 		});
 
-		actionStateCtrl.addAction('activateTempTab', function(rivet){
+		$('.js-tab-content').each(function(){
+			var $this = $(this);
+			var tabGroup = $this.data('tab-group');
+			var tabName = $this.data('tab-name');
+			var tabState = tabStateCtrl.getTabState(tabGroup, tabName);
 
-			var thsGroupName = rivet.currentTarget.attributes['data-tab-group'].value;
-			var thisTabName = rivet.currentTarget.attributes['data-tab-name'].value;
-
-			tabStateCtrl.activateTempTab(thsGroupName, thisTabName);
-		});
-
-		actionStateCtrl.addAction('addTab', function(rivet){
-
-			var thsGroupName = rivet.currentTarget.attributes['data-tab-group'].value;
-			var thisTabName = rivet.currentTarget.attributes['data-tab-name'].value;
-
-			tabStateCtrl.addTempTabToGroup(thsGroupName, thisTabName);
-		});
-
-		actionStateCtrl.addAction('close_tab', function(rivet){
-
-			var thsGroupName = rivet.currentTarget.attributes['data-tab-group'].value;
-			var thisTabName = rivet.currentTarget.attributes['data-tab-name'].value;
-
-			tabStateCtrl.removeTab(thsGroupName, thisTabName);
-		});
-
-		actionStateCtrl.addAction('close_temp_tab', function(rivet){
-
-			var thsGroupName = rivet.currentTarget.attributes['data-tab-group'].value;
-			
-			tabStateCtrl.closeTempTab(thsGroupName);
+			//bind the tab
+			rivets.bind(
+				$this,
+				{ tabstate: tabState }
+			);
 		});
 	}
 }
-},{"../state/actions":21,"../state/tabs":27,"jquery":1}],15:[function(require,module,exports){
+},{"../state/tabs":29}],18:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -13458,7 +13587,7 @@ module.exports = {
 		});
 	}
 }
-},{"jquery":1}],16:[function(require,module,exports){
+},{"jquery":1}],19:[function(require,module,exports){
 'use strict';
 
 /*
@@ -13509,7 +13638,7 @@ module.exports = {
 
 	}
 }
-},{"../state/actions":21,"../state/toggles":28}],17:[function(require,module,exports){
+},{"../state/actions":22,"../state/toggles":30}],20:[function(require,module,exports){
 'use strict';
 
 var workingListStateCtrl = require('../state/working_list');
@@ -13521,10 +13650,11 @@ var eventManager = require('../utils/event_manager');
  */
 
 var domActions = {
-	clicked: function(rivet){
-		var claimId = rivet.currentTarget.attributes['data-claim-id'].value;
-		var workingListId = rivet.currentTarget.attributes['data-working-list-id'].value;
-		workingListStateCtrl.itemClicked(workingListId, claimId);
+	clicked: function(rivet, binding){
+		eventManager.fire('working_list_claim_clicked', {
+			owner: binding.working_list._id,
+			data: binding.claim
+		});
 	}
 };
 
@@ -13533,7 +13663,7 @@ module.exports = {
 		console.log('working-list');
 		$('.js-working-list').each(function(){
 			var workingListId = $(this).data('working-list-id');
-			var workingListState = workingListStateCtrl.getNewState(workingListId);
+			var workingListState = workingListStateCtrl.getState(workingListId);
 			workingListState.actions = domActions;
 			rivets.bind(
 				$(this),
@@ -13541,15 +13671,22 @@ module.exports = {
 			);
 		});
 		
-		eventManager.subscribe('search_result_clicked', function(event){
-			if (event.searchId == "main_results"){
-				workingListStateCtrl.addClaim("main_list", event.resultObj);
-			}
+		eventManager.subscribe('claim_starred', function(event){
+			workingListStateCtrl.addClaim("main_list", event.data.claim);
 		});
+
+		eventManager.subscribe('claim_unstarred', function(event){
+			workingListStateCtrl.removeClaim("main_list", event.data.claim);
+		});
+
+		eventManager.subscribe('reason_clicked', function(event){
+			workingListStateCtrl.addClaim("main_list", event.claimObj);
+		});
+
 
 	}
 }
-},{"../state/working_list":29,"../utils/event_manager":30}],18:[function(require,module,exports){
+},{"../state/working_list":31,"../utils/event_manager":32}],21:[function(require,module,exports){
 
 module.exports = {
 	cloneThisObject: function(obj) {
@@ -13563,73 +13700,7 @@ module.exports = {
 		return newObj;
 	}
 }
-},{}],19:[function(require,module,exports){
-'use strict';
-
-module.exports = {
-
-	hasWhiteSpace: function(s) {
-		return /\s/g.test(s);
-	},
-
-	hasUpperCaseChars: function(s){
-		return /[A-Z]/.test(s);
-	}
-}
-},{}],20:[function(require,module,exports){
-/* Takes tab group state
- * modifies it
- * Returns tab group state
- */
-
-var objectHelpers = require('./object_helpers');
-var stringHelpers = require('../reducers/string_helpers');
-
-module.exports = {
-	activateTab: function(currentGroupState, tabNameToActivate){
-		//clone the object so we don't cause any unintended consequences by tweaking a refrence
-		var groupState = objectHelpers.cloneThisObject(currentGroupState);
-
-		for (var t = 0; t < groupState.tabs.length; t++) {
-			//set the tabs array item to false
-			groupState.tabs[t].active = false;
-			//and set it's named counterpart to false
-			groupState[groupState.tabs[t].name].active = false;
-
-			if (groupState.tabs[t].name == tabNameToActivate) {
-				//set the tab array item to true - yeay!
-				groupState.tabs[t].active = true;
-				//and it's named counterpart
-				groupState[groupState.tabs[t].name].active = true;
-			}
-		}
-
-		//temp tab will be false
-		groupState.tempTab.active = false;
-
-		//add back to state so rivets can render
-		return groupState;
-	},
-	createTabGroup: function(groupName){
-
-		//check if the tab name has any white space or caps, can't do that with rivets	
-		if (stringHelpers.hasWhiteSpace(groupName) || stringHelpers.hasUpperCaseChars(groupName)) {
-			return "Sorry, tab names cannot have white space or uppercase characters in tab group names";
-		}
-
-		//yeay! No errors
-		return {
-			tabs:[], 
-			tempTab: {
-				name: '',
-				has_content: false,
-				active: false,
-				type: ''
-			}
-		};
-	}
-}
-},{"../reducers/string_helpers":19,"./object_helpers":18}],21:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 'use strict';
 
 var objectHelpers = require('../reducers/object_helpers');
@@ -13653,7 +13724,63 @@ module.exports = {
 	}
 
 };
-},{"../reducers/object_helpers":18}],22:[function(require,module,exports){
+},{"../reducers/object_helpers":21}],23:[function(require,module,exports){
+'use strict';
+
+var eventManager = require('../utils/event_manager');
+var stateFactory = require('../utils/state_factory');
+
+/*
+var alertObj = {
+	_id: 'anon'
+	contentString: "",
+	level: 1,
+	type: "good","bad"
+};
+*/
+
+var alertsState = {
+	enabled: true,
+	level: 1,
+	duration: 5000,
+	active: [],
+	past: []
+};
+
+var alertsStateRef = {};
+
+var removeAlert = function(stateId, alertId){
+	for (var a = 0; a < alertsStateRef[stateId].active.length; a++) {
+		if (alertsStateRef[stateId].active[a]._id == alertId) {
+			var staleAlert = alertsStateRef[stateId].active.splice(a, 1);
+			alertsStateRef[stateId].past.push(staleAlert);
+			//eventManager.fire('alert_over', {owner: stateId, alert: staleAlert});
+		}
+	}
+}
+
+module.exports = {
+
+	getState(stateId){
+		var returnState = stateFactory.create(alertsState);
+		returnState._id = stateId;
+		alertsStateRef[stateId] = returnState;
+		return returnState;
+	},
+	getExistingState(stateId){
+		return alertsStateRef[stateId];
+	},
+	setAlert(stateId, alertObj){
+		alertsStateRef[stateId].active.push(alertObj);
+
+		setTimeout(function(){ 
+			//remove alert
+			removeAlert(stateId, alertObj._id);
+		}, alertsStateRef[stateId].duration);
+	}
+
+};
+},{"../utils/event_manager":32,"../utils/state_factory":33}],24:[function(require,module,exports){
 'use strict';
 
 /* The Editor List State Controller
@@ -13661,8 +13788,8 @@ module.exports = {
  */
 
 var eventManager = require('../utils/event_manager');
-var newArgumentStateCtrl = require('./new_argument');
 var stateFactory = require('../utils/state_factory');
+var claimApi = require('../api/claim');
 
 var editorDetailState = {
 	_id: 'anon',
@@ -13676,6 +13803,49 @@ var editorDetailState = {
 
 var editorDetailRefs = {};
 
+var fillArgumentClaims = function(editorDetailId){
+	//build an array of id's & request them
+	var idArray = [];
+	var allArgumentss = [...editorDetailRefs[editorDetailId].claim.supporting, ...editorDetailRefs[editorDetailId].claim.opposing];
+	for (var a = 0; a < allArgumentss.length; a++){
+		//now loop through the reasons
+		for (var r = 0; r < allArgumentss[a].reasons.length; r++){
+			var dup = false;
+
+			//check that it's not a duplicate
+			for (var i = 0; i < idArray.length; i++) {
+				if (idArray[i] == allArgumentss[a].reasons[r]._id) {
+					dup = true;
+					break;
+				}
+			}
+
+			if (!dup) {
+				idArray.push(allArgumentss[a].reasons[r]._id);
+			}
+		}
+	}
+
+	claimApi.getClaimsByIdArray(idArray).done(function(data){
+		//loop through all the arguments
+		for (var a = 0; a < allArgumentss.length; a++){
+			//& their reasons
+			for (var r = 0; r < allArgumentss[a].reasons.length; r++){
+				//add the relevant claim
+				for (var c = 0; c < data.length; c++){
+					if (data[c]._id == allArgumentss[a].reasons[r]._id) {
+						allArgumentss[a].reasons[r].claim = data[c];
+						break;
+					}
+				}
+			}
+		}
+	}).fail(function(err){
+		console.error('ERROR: ', err);
+	});
+	
+}
+
 module.exports = {
 	getNewState(editorDetailId){
 		var returnState = stateFactory.create(editorDetailState);
@@ -13686,9 +13856,17 @@ module.exports = {
 	},
 	getExistingState(editorDetailId){
 		return editorDetailRefs[editorDetailId];
+	},
+	populateReasons(editorDetailId){
+		fillArgumentClaims(editorDetailId);
+	},
+	updateArgument(claimObj){
+		//claimObj is from the server, it has new arguments
+		editorDetailRefs[claimObj._id].claim.supporting = claimObj.supporting;
+		editorDetailRefs[claimObj._id].claim.opposing = claimObj.opposing;
 	}
 }
-},{"../utils/event_manager":30,"../utils/state_factory":31,"./new_argument":24}],23:[function(require,module,exports){
+},{"../api/claim":5,"../utils/event_manager":32,"../utils/state_factory":33}],25:[function(require,module,exports){
 'use strict';
 
 /* The Editor List State Controller
@@ -13753,11 +13931,13 @@ var newEditorTabsRefs = {};
 
 
 module.exports = {
-	getNewState(editorTabsId){
+	getState(editorTabsId){
+		if (newEditorTabsRefs.hasOwnProperty(editorTabsId)) {
+			return newEditorTabsRefs[editorTabsId];
+		}
 		var returnState = stateFactory.create(editorTabsState);
 		returnState._id = editorTabsId;
 		newEditorTabsRefs[editorTabsId] = returnState;
-		console.info('New Editor Tabs State: ', newEditorTabsRefs[editorTabsId]);
 		return returnState;
 	},
 	getExistingState(editorTabsId){
@@ -13792,11 +13972,12 @@ module.exports = {
 		removeClaimFromList(editorTabsId, claimId);
 	}
 }
-},{"../utils/event_manager":30,"../utils/state_factory":31}],24:[function(require,module,exports){
+},{"../utils/event_manager":32,"../utils/state_factory":33}],26:[function(require,module,exports){
 'use strict';
 
 var searchApi = require('../api/search');
 var claimApi = require('../api/claim');
+var editorDetailStateCtrl = require('./editor_detail');
 var eventManager = require('../utils/event_manager');
 var stateFactory = require('../utils/state_factory');
 
@@ -13807,7 +13988,7 @@ var stateFactory = require('../utils/state_factory');
 
 var newArgumentState = {
 	_id: 'anon',
-	parent_claim_description: '',
+	parent_claim: {},
 	search_term: '',
 	search_results: [],
 	show_results: false,
@@ -13828,12 +14009,18 @@ var argHasReason = function(argumentId, claimId){
 	return false;
 }
 
+var resetArgument = function(argumentId) {
+	newArgumentRefs[argumentId].search_term = '';
+	newArgumentRefs[argumentId].search_results = [];
+	newArgumentRefs[argumentId].reasons = [];
+	updateStatuses(argumentId);
+}
 var updateStatuses = function(argumentId){
 
 	//make sure the parent claim or any of the reasons aren't set in the search results
 	for (var r = 0; r < newArgumentRefs[argumentId].search_results.length; r++) {
 		//we're in a searcj result, now check it against the parent
-		if (newArgumentRefs[argumentId].search_results[r].description == newArgumentRefs[argumentId].parent_claim_description) {
+		if (newArgumentRefs[argumentId].search_results[r].description == newArgumentRefs[argumentId].parent_claim.description) {
 			newArgumentRefs[argumentId].search_results.splice(r, 1);
 			r--;
 		}
@@ -13848,7 +14035,7 @@ var updateStatuses = function(argumentId){
 
 	//now check that none of the reasons are actually somehow the parent
 	for (var r = 0; r < newArgumentRefs[argumentId].reasons.length; r++) {
-		if (newArgumentRefs[argumentId].reasons[r].description == newArgumentRefs[argumentId].parent_claim_description) {
+		if (newArgumentRefs[argumentId].reasons[r].description == newArgumentRefs[argumentId].parent_claim.description) {
 			newArgumentRefs[argumentId].reasons.splice(r, 1);
 			r--;
 		}
@@ -13862,20 +14049,30 @@ var updateStatuses = function(argumentId){
 	}
 
 	//are there any exact matches?
-	newArgumentRefs[argumentId].show_new_claim_form = true;
-	for (var r = 0; r < newArgumentRefs[argumentId].search_results.length; r++) {
-		if (newArgumentRefs[argumentId].search_results[r].description == newArgumentRefs[argumentId].search_term) {
-			//found a match!
-			newArgumentRefs[argumentId].show_new_claim_form = false;
-			break;
+	if (newArgumentRefs[argumentId].search_results.length > 0) {
+		newArgumentRefs[argumentId].show_new_claim_form = true;
+		for (var r = 0; r < newArgumentRefs[argumentId].search_results.length; r++) {
+			if (newArgumentRefs[argumentId].search_results[r].description == newArgumentRefs[argumentId].search_term) {
+				//found a match!
+				newArgumentRefs[argumentId].show_new_claim_form = false;
+				break;
+			}
 		}
-	}
-	//also check in the reasons for an exact match
-	for (var r = 0; r < newArgumentRefs[argumentId].reasons.length; r++) {
-		if (newArgumentRefs[argumentId].reasons[r].description == newArgumentRefs[argumentId].search_term) {
-			//found a match!
+		//also check in the reasons for an exact match
+		for (var r = 0; r < newArgumentRefs[argumentId].reasons.length; r++) {
+			if (newArgumentRefs[argumentId].reasons[r].description == newArgumentRefs[argumentId].search_term) {
+				//found a match!
+				newArgumentRefs[argumentId].show_new_claim_form = false;
+				break;
+			}
+		}
+	} else {
+		//so we have no results. But if there's a search term...
+		if (newArgumentRefs[argumentId].search_term.length > 4) {
+			newArgumentRefs[argumentId].show_new_claim_form = true; //no results, new claim!
+		} else {
+			//no term, no results, no new claim
 			newArgumentRefs[argumentId].show_new_claim_form = false;
-			break;
 		}
 	}
 
@@ -13884,6 +14081,7 @@ var updateStatuses = function(argumentId){
 		newArgumentRefs[argumentId].show_reasons = true;
 	} else {
 		newArgumentRefs[argumentId].show_reasons = false;
+		newArgumentRefs[argumentId].why_invalid = "Argument needs reasons";
 	}
 
 	//do the reasons make a valid argument?
@@ -13891,6 +14089,57 @@ var updateStatuses = function(argumentId){
 		newArgumentRefs[argumentId].is_valid = true;
 	} else {
 		newArgumentRefs[argumentId].is_valid = false;
+		newArgumentRefs[argumentId].why_invalid = "Argument needs more than 1 reason";
+	}
+
+	if (newArgumentRefs[argumentId].is_valid) {
+		//is this argument group a duplicate of any already existing arguments on the parent claim?
+		var parentClaim = editorDetailStateCtrl.getExistingState(newArgumentRefs[argumentId].parent_claim._id);
+		var parentArgGroups = [];
+		if (newArgumentRefs[argumentId]._id.startsWith('new_for')) {
+			parentArgGroups = parentClaim.claim.supporting;
+		} else {
+			parentArgGroups = parentClaim.claim.opposing;
+		}
+
+		for (var a = 0; a < parentArgGroups.length; a++){
+			//we're now in one of the parent claim's arg groups. 
+
+
+			//is this group identical?
+			if (parentArgGroups[a].reasons.length == newArgumentRefs[argumentId].reasons.length) {
+				//well it's the same length
+				var identicalGroup = true; //the new argument group is declared guilty of copying this parent arg grup until proven innocent!
+				
+				for (var r = 0; r < parentArgGroups[a].reasons.length; r++){
+					var hasThisReason = false;
+
+					for (var i = 0; i < newArgumentRefs[argumentId].reasons.length; i++){
+						if (parentArgGroups[a].reasons[r]._id == newArgumentRefs[argumentId].reasons[i]._id) {
+							hasThisReason = true;
+							break;
+						}
+					}
+
+					if (!hasThisReason) { 
+						//well, it doesn't have this reason so this group isn't the same
+						identicalGroup = false;
+						break; 
+					}
+				}
+
+				if (identicalGroup) {
+					//this means we've looped through all the reasons in a parent argument and each one has been matched
+					//not to mention the fact that because we're in here this parent argument has the same number of reasons
+					//so that means we have now determined that, in fact, yes, this new argument is GUILTY OF PLAGAIRY >:(
+					newArgumentRefs[argumentId].is_valid = false;
+					newArgumentRefs[argumentId].why_invalid = "Identical group";
+				}
+			}
+
+
+
+		}
 	}
 
 }
@@ -13947,7 +14196,6 @@ module.exports = {
 	addReason(argumentId, claimObj) {
 		//first check if that reason already exists in this argument
 		if (!argHasReason(argumentId, claimObj._id)) {
-			console.info('newArgumentRefs: ', newArgumentRefs);
 			newArgumentRefs[argumentId].reasons.push(claimObj);
 			//now tidy up - remove the reason if it is in the results
 			for (var r = 0; r < newArgumentRefs[argumentId].search_results.length; r++){
@@ -13977,72 +14225,38 @@ module.exports = {
 		var term = newArgumentRefs[argumentId].search_term;
 
 		claimApi.newClaim(term).done(function(data){
-			console.log('data!', data);
 			newArgumentRefs[argumentId].reasons.push(data);
 			updateStatuses(argumentId);
 			eventManager.fire('new_argument_new_reason', {owner: argumentId, data: data});
 		}).fail(function(err){
 			console.error('API fail', err);
 		});
-	}
+	},
+	publishArgument(argumentId){
+		//This is how the server wants it... for now
+		var argObj = {
+			reasons: newArgumentRefs[argumentId].reasons,
+			claimId: newArgumentRefs[argumentId].parent_claim._id,
+			side: (argumentId.startsWith('new_for'))
+		};
 
-/*
-
-
-
-	setResults: function(argumentID, searchTerm, resultsArray){
-		console.log('setting search results for argument group:', argumentName, resultsArray);
-		if (newArguments.hasOwnProperty(argumentID)) {
-			newArguments[argumentID].search_results = resultsArray;
-			newArguments[argumentID].search_term = searchTerm;
-
-			if (resultsArray.length > 0) {
-				newArguments[argumentID].show_results = true;
-				var exactMatchFound = false;
-				for (var r = 0; r < resultsArray.length; r++) {
-					if (resultsArray[r].description == searchTerm) {
-						exactMatchFound = true;
-						break;
-					}
-				}
-				newArguments[argumentID].show_new_claim_button = !exactMatchFound;
-			} else {
-				newArguments[argumentID].show_new_claim_button = true;
-				newArguments[argumentID].show_results = false;
-			}
+		if (argumentId.startsWith('new_for')) {
+			argObj.side = "s"; //supporting
 		} else {
-			console.warn('That argument creation form doesn\'t have any state :(');
+			argObj.side = "o"; //opposing
 		}
-	},
-	getSearchTerm: function(argumentID){
-		if (newArguments.hasOwnProperty(argumentID)) {
-			return newArguments[argumentID].search_term;
-		}
-		console.warn('That argument creation form has no state :(');
-	},
-	addReason: function(argumentName, claimObj){
-		console.log('adding reason to argument group:', argumentName);
-		WL_STATE.new_arguments[argumentName].addReason.call(WL_STATE.new_arguments[argumentName], claimObj);
-	},
-	removeReason: function(argumentName, claimObj){
-		console.log('removing reason from argument group:', argumentName);
-		WL_STATE.new_arguments[argumentName].removeReason.call(WL_STATE.new_arguments[argumentName], claimObj);
-	},
-	checkArgument: function(argumentName){
-		console.log('checking argument group:', argumentName);
-		WL_STATE.new_arguments[argumentName].checkArgument.call(WL_STATE.new_arguments[argumentName]);
-	},
-	getArgument: function(argumentName){
-		console.log('get argument group:', argumentName);
-		return WL_STATE.new_arguments[argumentName];
-	},
-	clearArgument: function(argumentName){
-		console.log('clearing argument group:', argumentName);
-	},
-	*/
 
+		claimApi.newArgument(argObj).done(function(data){
+			resetArgument(argumentId);
+			//taking advantage of the fact that we already have the claims that make up this argument, just add them!
+			console.warn('TODO: build the new argument using the claims we already have locally');
+			eventManager.fire('claim_updated_new_argument', {owner:argumentId, data: data});
+		}).fail(function(err){
+			console.error('Update claim fail: ', err);
+		});
+	}
 };
-},{"../api/claim":5,"../api/search":6,"../utils/event_manager":30,"../utils/state_factory":31}],25:[function(require,module,exports){
+},{"../api/claim":5,"../api/search":6,"../utils/event_manager":32,"../utils/state_factory":33,"./editor_detail":24}],27:[function(require,module,exports){
 'use strict';
 
 /* New Claim State Ctrl
@@ -14050,6 +14264,7 @@ module.exports = {
 
 var eventManager = require('../utils/event_manager');
 var stateFactory = require('../utils/state_factory');
+var claimApi = require('../api/claim');
 
 var newClaimState = {
 	show: false,
@@ -14065,7 +14280,6 @@ module.exports = {
 		var returnState = stateFactory.create(newClaimState);
 		returnState._id = newClaimId;
 		newClaimRefs[newClaimId] = returnState;
-		console.info('New Claim State: ', newClaimRefs[newClaimId]);
 		return returnState;
 	},
 	getExistingState(newClaimId){
@@ -14078,7 +14292,19 @@ module.exports = {
 		return newClaimRefs[newClaimId].description;
 	},
 	publishClaim(newClaimId){
-		console.warn('TODO: publish new claim');
+		console.warn('TODO: publish new claim', newClaimRefs[newClaimId].description);
+		claimApi.newClaim(newClaimRefs[newClaimId].description).done(function(publishedClaim){
+			newClaimRefs[newClaimId].description = '';
+			newClaimRefs[newClaimId].show = false;
+			if (Array.isArray(publishedClaim)) {
+				//we've somehow managed to try and publish a claim that already exists, and the server is returning one or many matching claims
+				eventManager.fire('new_claims_found', {owner: newClaimId, data:publishedClaim});
+			} else {
+				eventManager.fire('new_claim_published', {owner: newClaimId, data:publishedClaim});
+			}
+		}).fail(function(err){
+			console.error('publishing new claim failed: ', err);
+		});
 	},
 	show(newClaimId){
 		newClaimRefs[newClaimId].show = true;
@@ -14088,16 +14314,16 @@ module.exports = {
 	}
 
 };
-},{"../utils/event_manager":30,"../utils/state_factory":31}],26:[function(require,module,exports){
+},{"../api/claim":5,"../utils/event_manager":32,"../utils/state_factory":33}],28:[function(require,module,exports){
 'use strict';
 
 /* The Search Input state controller
  * This holds onto the search details (not the results!)
  */
 
+var stateFactory = require('../utils/state_factory');
 var eventManager = require('../utils/event_manager');
 var searchApi = require('../api/search');
-var stateFactory = require('../utils/state_factory');
 
 var searchState = {
 	_id: 'anon',
@@ -14108,305 +14334,111 @@ var searchState = {
 var searchStateRef = {}
 
 module.exports = {
-	getNewState(searchId){
-		var returnSearchState = stateFactory.create(searchState);
-		returnSearchState._id = searchId;
-		searchStateRef[searchId] = returnSearchState;
-		console.info('New State: ', searchStateRef[searchId]);
-		return returnSearchState;
+	getState(searchId){
+		if (searchState.hasOwnProperty(searchId)) {
+			return searchStateRef[searchId];
+		} else {
+			var returnSearchState = stateFactory.create(searchState);
+			returnSearchState._id = searchId;
+			searchStateRef[searchId] = returnSearchState;
+			return returnSearchState;
+		}
 	},
-	getExistingState(searchId){
-		console.log('searchStateRef[searchId]: ', searchStateRef[searchId]);
-		return searchStateRef[searchId];
+	setTerm(searchId, term){
+		searchStateRef[searchId].term = term;
 	},
-	setTerm(searchId, newterm){
-		searchStateRef[searchId].term = newterm.trim();
-		eventManager.fire('search_term_set', { search: searchStateRef[searchId] });
+	setResults(searchId, results){
+		searchStateRef[searchId].results = results;
 	},
-	runSearch(searchId){
-		eventManager.fire('search_requested', {	search: searchStateRef[searchId] });
-
-		searchApi.searchByString(searchStateRef[searchId].term).done(function(data){
-			//send to the search results
+	searchMostRecent(searchId){
+		searchApi.searchMostRecent().done(function(data){
 			searchStateRef[searchId].results = data;
 			eventManager.fire('search_results_set', {owner: searchId, data: searchStateRef[searchId]});
 		}).fail(function(err){
 			console.error('search api error: ', err);
 			//TODO: send to alerts
-		});		
+		});
 	},
-	result_clicked(searchId, claimId){
-		//get the result object
-		var clickedResult = {};
-
-		for (var r = 0; r < searchStateRef[searchId].results.length; r++){
-			if (searchStateRef[searchId].results[r]._id == claimId){
-				eventManager.fire('search_result_clicked', {
-					searchId: searchId,
-					resultObj: searchStateRef[searchId].results[r]
-				});
-				break;
-			}
-		}
+	searchMostCapricious(searchId){
+		console.warn('TODO search most capricious');
+	},
+	searchMostCritical(searchId){
+		console.warn('TODO search most critical');
+	},
+	addResult(searchId, claimObj){
+		console.log('adding result!');
+		searchStateRef[searchId].results.push(claimObj);
 	}
 
 };
-},{"../api/search":6,"../utils/event_manager":30,"../utils/state_factory":31}],27:[function(require,module,exports){
+},{"../api/search":6,"../utils/event_manager":32,"../utils/state_factory":33}],29:[function(require,module,exports){
 'use strict';
 
-/* Everyting aout handling tab state!
- * The array is for rivets to loop through in the DOM
- * The named attributes are for ease - if we know the name, there's no need to loop.
- * the array object also holds any kind of data that might need to be attached to a tab
- * When the event is fired, the tab object is passed along with the event so subscribers can see any details
- * 
- * Example tab group state object: {
-		<tab_group_name>: {
-			tabs: [ 
-				{name: <tab_name>, active: false, type: 'claim', data: {claimObj}}, 
-				{name: <tab2_name>, active: false, type: 'something', data: {stuff}} 
-			],
-			tempTab: { name: <tab_name>, set: false },
-			<tab_name>: {set: true, index:0},
-			<tab2_name>: {set: false, index:1}
-		]
-	}
-*/
-
-var objectHelpers = require('../reducers/object_helpers');
-var stringHelpers = require('../reducers/string_helpers');
 var eventManager = require('../utils/event_manager');
-var tabGroupReducer = require('../reducers/tab_helpers');
+var stateFactory = require('../utils/state_factory');
 
-var createTabGroup = function(groupName){
-	//first check the group doesn't already exist
-	if (WL_STATE.tabs.hasOwnProperty(groupName)) {
-		console.warn('A tab group with that name already exists: ', WL_STATE.tabs[groupName]);
-		return;
+var addTab = function(tabGroup, tabName){
+	var tabIndex = tabGroupStateRefs[tabGroup].tabs.indexOf(tabName);
+	if (tabIndex > -1) {
+		console.warn('that tab already exists');
+		return tabGroupStateRefs[tabGroup].tabs[tabIndex];
+	} else {
+		var newTab = {
+			title: tabName,
+			open: false
+		}
+		tabGroupStateRefs[tabGroup].tabs.push(newTab);
+		return newTab;
 	}
-
-	//yeay! New group!
-	var newGroup = tabGroupReducer.createTabGroup(groupName);
-	WL_STATE.tabs[groupName] = newGroup;
 }
 
-var addTabToTabGroup = function(groupName, newTab){
-	console.groupCollapsed('Adding tab', newTab, 'to group', groupName);
-	console.log(typeof WL_STATE.tabs[groupName][newTab.tabName]);
-	//check that tab doesn't already exist
-	if (typeof WL_STATE.tabs[groupName][newTab.tabName] == 'object') {
-		console.warn('A tab of that name already exists in this tab group: ', WL_STATE.tabs[groupName]);
-		activateTab(groupName, newTab.tabName);
-		console.groupEnd(); //END Adding tab to group
-		return;
-	} 
-
-	//yeay! New tab!
-	console.log('pushing to tabs array');
-	//first add the tab to the tab group array
-	WL_STATE.tabs[groupName].tabs.push({
-		name: newTab.tabName, 
-		active: false, 
-		type: newTab.tabType,
-		data: newTab.data
-	});
-
-	console.log('setting named object')
-	//now add the named tab state object for rivets
-	WL_STATE.tabs[groupName][newTab.tabName] = {
-		active: false,
-		tabIndex: WL_STATE.tabs[groupName].tabs.length - 1
-	};
-
-	activateTab(groupName, newTab.tabName);
-	console.groupEnd(); //END Adding tab to group
-}
-
-var activateTab = function(groupName, tabToActivate){
-	console.groupCollapsed('activating tab');
-	console.log('Tab group: ', groupName);
-	console.log('tabToActivate: ', tabToActivate);
-	
-	//get the new group state
-	var newTabGroup = tabGroupReducer.activateTab(WL_STATE.tabs[groupName], tabToActivate);
-	console.log('reducer result: ', newTabGroup);
-	
-	//add back to state so rivets can render
-	WL_STATE.tabs[groupName] = newTabGroup;	
-	
-	//get the tab object that was set
-	var tabIndex = WL_STATE.tabs[groupName][tabToActivate].tabIndex;
-	var openedTab = WL_STATE.tabs[groupName].tabs[tabIndex];
-	console.log('The tab object: ', openedTab, tabIndex);
-	
-	//fire the event and pass the tab data!
-	console.groupEnd(); //END activating tab
-	eventManager.fire('tab_opened', openedTab);
-}
-
-var removeTab = function(groupName, tabName){
-	
-	var newTabGroup = objectHelpers.cloneThisObject(WL_STATE.tabs[groupName]);
-
-	//remove from array
-	var tabIndex = newTabGroup[tabName].tabIndex;
-	newTabGroup.tabs.splice(tabIndex, 1);
-	console.log('newTabGroup.results', newTabGroup.results);
-	//and remove the names attribute
-	delete newTabGroup[tabName];
-	console.log('newTabGroup.results', newTabGroup.results);
-
-	//now we have to update the indexes listed on the named objects. Loop through remaining tabs from the one closed
-	for (var t = 0; t < (newTabGroup.tabs.length - tabIndex); t++ ) { //t for tab
-		//loop will run for the number of tabs that were shifted over
-		//to start from the first shifted tab, just use the tabindex!
-		var nameToUpdateIndex = newTabGroup.tabs[tabIndex + t].name;
-		newTabGroup[nameToUpdateIndex].tabIndex = tabIndex + t;
+var openTab = function(tabGroup, tabName){
+	for (var t = 0; t < tabGroupStateRefs[tabGroup].tabs.length; t++) {
+		if (tabGroupStateRefs[tabGroup].tabs[t].title == tabName) {
+			tabGroupStateRefs[tabGroup].tabs[t].open = true;
+		} else {
+			tabGroupStateRefs[tabGroup].tabs[t].open = false;	
+		}
 	}
-
-	WL_STATE.tabs[groupName] = newTabGroup;
 }
 
-var activateTempTab = function(groupName){
-	//clone the tab group state
-	var newTabGroup = objectHelpers.cloneThisObject(WL_STATE.tabs[groupName]);
-
-	//set all the tabs to false.
-	for (var t = 0; t < newTabGroup.tabs.length; t++) {
-		//tab array item to false
-		newTabGroup.tabs[t].active = false;
-		//and it's named counterpart
-		newTabGroup[newTabGroup.tabs[t].name].active = false;
-	}
-
-	//set the tempTab to true
-	newTabGroup.tempTab.active = true;	
-
-	//and apply to state!
-	WL_STATE.tabs[groupName] = newTabGroup;
-
-	eventManager.fire('tab_opened', newTabGroup.tempTab);
+var tabGroupState = {
+	_id: 'anon',
+	tabs: []
 }
+var tabGroupStateRefs = {};
 
-//the 'public' interface
 module.exports = {
-
-	init(){
-		WL_STATE.tabs = {}
+	addTab(tabGroup, tabName, defaultTab){
+		if (!tabGroupStateRefs.hasOwnProperty(tabGroup)) {
+			//build new tabs if they don't yet exist
+			tabGroupStateRefs[tabGroup] = stateFactory.create(tabGroupState);
+			tabGroupStateRefs[tabGroup]._id = tabGroup;
+		}
+		
+		var newTab = addTab(tabGroup, tabName);
+		if (defaultTab) {
+			openTab(tabGroup, tabName);
+		}
+		return newTab;
 	},
-
-	createTabGroup(groupName){
-		createTabGroup(groupName);
+	openTab(tabGroup, tabName){
+		if (tabGroupStateRefs.hasOwnProperty(tabGroup)) {
+			openTab(tabGroup, tabName);
+		} else {
+			console.warn('Eh - that tab group does not exist...');
+		}
 	},
-
-	addTabToTabGroup(groupName, newTab){
-		addTabToTabGroup(groupName, newTab);
-	},
-
-	activateTab(groupName, tabToActivate){
-		activateTab(groupName, tabToActivate);
-	},
-
-	removeTab(groupName, tabName){
-		console.groupCollapsed('removing "' + tabName + '" from "' + groupName);
-		//first check if this is the tab they're currently on
-		if (WL_STATE.tabs[groupName][tabName].active) {
-			//yep, they are. We're going to have to move them to another tab
-			console.log('current tab');
-			var moveToIndex = -1;
-			
-			//first - are there any other tabs to move them to or is this the last one?
-			if (WL_STATE.tabs[groupName].tabs.length == 1 ) {
-				console.log('only tab');
-				//meh, nothing we can do
-				if (typeof WL_STATE.tabs[groupName].tempTab !== 'null') {
-					console.log('but there is a temp tab, opening that');
-					activateTempTab(groupName);
-				}
-
-			//second - are they on the very last tab?
-			} else if (Number(WL_STATE.tabs[groupName][tabName].tabIndex) == (WL_STATE.tabs[groupName].tabs.length - 1) ) {
-				console.log('last tab of many');
-				//ugh, we'll move them back one
-				var moveToIndex = WL_STATE.tabs[groupName][tabName].tabIndex - 1;
-				var moveToName = WL_STATE.tabs[groupName].tabs[moveToIndex].name;
-				activateTab(groupName, moveToName);
-				
-			//third - they must be any where from the first to the second from last
-			} else {
-				console.log('not the last', WL_STATE.tabs[groupName][tabName]);
-				//so... we'll move them forward one
-				var moveToIndex = WL_STATE.tabs[groupName][tabName].tabIndex + 1;
-				var moveToName = WL_STATE.tabs[groupName].tabs[moveToIndex].name;
-				activateTab(groupName, moveToName);
+	getTabState(tabGroup, tabName){
+		for (var t = 0; t < tabGroupStateRefs[tabGroup].tabs.length; t++) {
+			if (tabGroupStateRefs[tabGroup].tabs[t].title == tabName) {
+				return tabGroupStateRefs[tabGroup].tabs[t];
 			}
-
-			//now we've done what we can, remove it
 		}
-		removeTab(groupName, tabName);
-		
-		console.groupEnd();
-	},
-
-	addTempTabToGroup(groupName, newTab){
-		console.groupCollapsed('Adding Temp Tab: ', newTab, 'to Group:', groupName);
-		//Recreates the sublime text tab behaviour(ish). One click adds temp tab, a second adds it permanently 
-		//newTab = { tabName: <string>, tabType: <string>, data: <obj> }
-
-
-		 //first check there isn't a main tab of this name
-		if (typeof WL_STATE.tabs[groupName][newTab.tabName] == 'object') {
-			console.log('There is already a main tab of this name.');
-			//there is, turn it on
-			activateTab(groupName, newTab.tabName);
-			console.groupEnd();//END Adding Temp Tab
-			return;
-		}
-
-		//second, check if the requested temp tab is already the temp tab. and it's active
-		if (WL_STATE.tabs[groupName].tempTab.name == newTab.tabName && WL_STATE.tabs[groupName].tempTab.has_content) {
-			console.log('Second request for the currently open temp tab');
-			//cool - they want it that bad, lets make it an actual tab!
-			addTabToTabGroup(groupName, newTab);
-			activateTab(groupName, newTab.tabName);
-			//clear out the temp tab
-			WL_STATE.tabs[groupName].tempTab.active = false;
-			WL_STATE.tabs[groupName].tempTab.has_content = false;
-			WL_STATE.tabs[groupName].tempTab.type = '';
-			WL_STATE.tabs[groupName].tempTab.data = {};
-			console.groupEnd();//END Adding Temp Tab
-			return;
-		}
-		
-		console.log('setting new temp tab');
-		//Well - we've got this far, that only means we have a new temp tab!
-		WL_STATE.tabs[groupName].tempTab = {}; //cleared
-		WL_STATE.tabs[groupName].tempTab[newTab.tabName] = true; //rivets trick for identifying special cases - eg the welcome tab
-		WL_STATE.tabs[groupName].tempTab.name = newTab.tabName;
-		WL_STATE.tabs[groupName].tempTab.has_content = true;
-		WL_STATE.tabs[groupName].tempTab.type = newTab.tabType;
-		WL_STATE.tabs[groupName].tempTab.data = newTab.data;
-		activateTempTab(groupName);
-		console.groupEnd();//END Adding Temp Tab
-
-	},
-
-	activateTempTab(groupName){
-		activateTempTab(groupName);
-	},
-
-	closeTempTab(groupName){
-		console.log('closing temp tab');
-		//if it's open and there is a tab available to move the user to, move the user there
-		if (WL_STATE.tabs[groupName].tempTab.active && WL_STATE.tabs[groupName].tabs.length > 0) {
-			console.log('temp tab is open, moving the user to another tab');
-			var lastTabInArray = WL_STATE.tabs[groupName].tabs[WL_STATE.tabs[groupName].tabs.length - 1];
-			activateTab(groupName, lastTabInArray.name);
-		} 
-		WL_STATE.tabs[groupName].tempTab = null;
+		console.warn('no tab exists');
 	}
-};
-},{"../reducers/object_helpers":18,"../reducers/string_helpers":19,"../reducers/tab_helpers":20,"../utils/event_manager":30}],28:[function(require,module,exports){
+}
+},{"../utils/event_manager":32,"../utils/state_factory":33}],30:[function(require,module,exports){
 'use strict';
 /* The Toggle State Controller
  * Thoughts from when this was just a help tab:
@@ -14429,7 +14461,6 @@ module.exports = {
 		var returnToggleState = stateFactory.create(toggleState);
 		returnToggleState._id = toggleId;
 		toggleStateRef[toggleId] = returnToggleState;
-		console.info('New State: ', toggleStateRef[toggleId]);
 		return returnToggleState;
 	},
 	getExistingState(toggleId){
@@ -14442,11 +14473,11 @@ module.exports = {
 		toggleStateRef[toggleId].open = false;
 	}
 }
-},{"../utils/state_factory":31}],29:[function(require,module,exports){
+},{"../utils/state_factory":33}],31:[function(require,module,exports){
 'use strict';
 
 /* Working_list State controller
- *
+ * Holds a list of the claims we are interested
  */
  
 var eventManager = require('../utils/event_manager');
@@ -14459,15 +14490,14 @@ var workingListState = {
 var workingListStateRefs = {};
 
 module.exports = {
-	getNewState(workingListId){
+	getState(workingListId){
+		if (workingListStateRefs.hasOwnProperty(workingListId)) {
+			return workingListStateRefs[workingListId];
+		}
 		var returnListState = stateFactory.create(workingListState);
 		returnListState._id = workingListId;
 		workingListStateRefs[workingListId] = returnListState;
-		console.info('New State: ', workingListStateRefs[workingListId]);
 		return returnListState;
-	},
-	getExistingState(workingListId){
-		return workingListStateRefs[workingListId];
 	},
 	addClaim(workingListId, claimObj){
 		var alreadySet = false;
@@ -14488,23 +14518,17 @@ module.exports = {
 		}
 		
 	},
-	itemClicked(workingListId, claimId){
-		//get the claim object, fire it with an event
-		for (var i = 0; i < workingListStateRefs[workingListId].claims.length; i++) {
-			if (workingListStateRefs[workingListId].claims[i]._id == claimId) {
-				eventManager.fire('working_list_claim_clicked', {
-					owner: workingListId,
-					data: workingListStateRefs[workingListId].claims[i]
-				});
-				break;
+	removeClaim(workingListId, claimObj){
+		for (var c = 0; c < workingListStateRefs[workingListId].claims.length; c++) { //c for claim
+			if (workingListStateRefs[workingListId].claims[c]._id == claimObj._id) {
+				//remove it
+				var removedClaim = workingListStateRefs[workingListId].claims.splice(c, 1);
+				eventManager.fire('working_list_claim_removed', {owner: workingListId, data: { claim: removedClaim }});
 			}
 		}
-	},
-	removeClaimFromList(claimId){
-		
 	}
 }
-},{"../utils/event_manager":30,"../utils/state_factory":31}],30:[function(require,module,exports){
+},{"../utils/event_manager":32,"../utils/state_factory":33}],32:[function(require,module,exports){
 'use strict';
 
 /* The Event Manager
@@ -14553,9 +14577,14 @@ module.exports = {
 				eventSubscribers[event][s](data);
 			}
 		}
+
+		//also fire the 'anyevent' event
+		for (var s = 0; s < eventSubscribers.anyevent.length; s++) { //s for subscriber
+			eventSubscribers.anyevent[s](data, event); 
+		}
 	}
 }
-},{}],31:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 'use strict';
 
 /* The State Factory
@@ -14567,20 +14596,15 @@ module.exports = {
 
 module.exports = {
 	create: function(stateTemplate){
-		console.info("1: ", stateTemplate);
 		var returnState = Object.create(stateTemplate);
-		console.info("2: ", stateTemplate);
 		for (var attr in returnState){
 			//array
 			if (Array.isArray(returnState[attr])) {
 				returnState[attr] = [];
-				console.log('array', attr);
 			} else {
-				console.log('attr', attr);
 				returnState[attr] = returnState[attr];
 			}
 		}
-		console.info("3: ", returnState);
 
 		return returnState;
 	}

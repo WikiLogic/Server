@@ -1,0 +1,7 @@
+.a, a {
+	text-decoration: none;
+	color: $WL_Blue;
+	&:hover {
+		color: lighten($WL_Blue, 10%);
+	}
+}

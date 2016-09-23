@@ -1,0 +1,16 @@
+.explorer-menu {
+	position: relative;
+	display: none;
+
+	&__body {
+		position: absolute;
+		right: 0;
+		z-index: 1;
+		text-align: left;
+
+		button { 
+			white-space: nowrap; 
+			width: 100%;
+		}
+	}
+}

@@ -1,8 +1,7 @@
 # Logs
-
-
 logs
 *.log
+npm-debug.log*
 
 #VS config file
 Web.Config

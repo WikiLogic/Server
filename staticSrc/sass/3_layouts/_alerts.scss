@@ -1,0 +1,11 @@
+//Just the wrapper for all the alerts
+.alerts {
+	position: absolute;
+	right: #{$pad + 'px'};
+	bottom: 0;
+
+	&__bad {
+		background-color: $WL_Red;
+		color: white;
+	}
+}

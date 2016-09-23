@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>Wikilogic</title>
     <link rel="stylesheet" href="/css/main.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body id="god" class="bg-pattern">
 	<a href="#main" class="aria-only">Skip to main content</a>
@@ -11,34 +12,56 @@
 	<div class="header-layout screen-height">
 
 	    <div class="header-layout__head bg-color--grey-1 splitter splitter--full-width box">
+
 	        <div class="splitter__left">
-	        	<a href="/"><svg class="icon icon--30"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#wl"></use></svg></a>
+
+	        	<button class="main-logo js-logo-button">
+	        		<svg class="main-logo__icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#wl"></use></svg>
+	        	</button>
+	        
 	        </div>
 	        <div class="splitter__right full-width">
-	        	<input class="js-search full-width" type="text" placeholder="Search WL" data-search-id="main_results">
+
+				<div class="splitter">
+	        		<div class="splitter__left full-width">
+	        			<input class="js-search full-width" type="text" placeholder="Search WL" data-search-id="main_results">
+	        		</div>
+	        		<div class="splitter__right">
+
+						<a href="/profile" class="profile-icon">
+							<img src="{{user.meta.gravatar}}?s=40" alt="your profile" class="display-block">
+						</a>
+
+	        		</div>
+	        	</div>
+	        
 	        </div>
+
 	    </div>
 
-	    <div class="header-layout__body sidebar-layout">
+	    <div class="header-layout__body root-sidebar js-root-sidebar">
 
-	        <div ng-controller="EditorNavController" class="sidebar-layout__side y-scroll bg-color--grey-1">
-
-	            <hr>
-
-	            <div class="text-center">
-	                <a href="/profile" class="border user-icon display-inline-block">
-	                    <img src="{{user.meta.gravatar}}?s=80" alt="your profile" class="display-block">
-	                </a>
-	                <p>{{user.name}}</p>
-	            </div>
+	        <div ng-controller="EditorNavController" class="root-sidebar__side y-scroll bg-color--grey-1">
 
 	            <hr>
 
 	            {{> nav }}
 
+	            <hr>
+
+	            <div class="working-list js-working-list"
+                	data-working-list-id="main_list">
+	                <button
+	                    class="working-list__claim"
+	                    view-each-claim="working_list.claims"
+	                    view-on-click="working_list.actions.clicked">
+	                    {claim.description}
+	                </button>
+	            </div>
+
 	        </div>
 
-	        <div class="sidebar-layout__main y-scroll">
+	        <div class="root-sidebar__main y-scroll">
 	             	
 	             {{{body}}}
 
@@ -46,15 +69,15 @@
 
 	    </div>
 
-
-	    <!-- This will hook in and display any search results. It is free to be moved around by any controller for it's needs. It acts kind of like intellisense, but for claims -->
-	    <div class="searchResultsTip card bg-color--grey-1 box box--5" ng-controller="SearchBoxController" ng-include src="'/editor/searchBox/searchBox-partial.html'">
-	         
-	    </div>
-	    
-
 	</div>
 
+	<div class="alerts">
+		<div class="alert js-alerts" 
+		data-alerts-id="main_alerts"
+		view-each-alert="alerts.active">
+			{{> alert }}
+		</div>
+	</div>
 
 	<script src="/js/common.bundle.js"></script>
 </body>

@@ -9,10 +9,11 @@ var eventManager = require('../utils/event_manager');
  */
 
 var domActions = {
-	clicked: function(rivet){
-		var claimId = rivet.currentTarget.attributes['data-claim-id'].value;
-		var workingListId = rivet.currentTarget.attributes['data-working-list-id'].value;
-		workingListStateCtrl.itemClicked(workingListId, claimId);
+	clicked: function(rivet, binding){
+		eventManager.fire('working_list_claim_clicked', {
+			owner: binding.working_list._id,
+			data: binding.claim
+		});
 	}
 };
 
@@ -21,7 +22,7 @@ module.exports = {
 		console.log('working-list');
 		$('.js-working-list').each(function(){
 			var workingListId = $(this).data('working-list-id');
-			var workingListState = workingListStateCtrl.getNewState(workingListId);
+			var workingListState = workingListStateCtrl.getState(workingListId);
 			workingListState.actions = domActions;
 			rivets.bind(
 				$(this),
@@ -29,11 +30,18 @@ module.exports = {
 			);
 		});
 		
-		eventManager.subscribe('search_result_clicked', function(event){
-			if (event.searchId == "main_results"){
-				workingListStateCtrl.addClaim("main_list", event.resultObj);
-			}
+		eventManager.subscribe('claim_starred', function(event){
+			workingListStateCtrl.addClaim("main_list", event.data.claim);
 		});
+
+		eventManager.subscribe('claim_unstarred', function(event){
+			workingListStateCtrl.removeClaim("main_list", event.data.claim);
+		});
+
+		eventManager.subscribe('reason_clicked', function(event){
+			workingListStateCtrl.addClaim("main_list", event.claimObj);
+		});
+
 
 	}
 }

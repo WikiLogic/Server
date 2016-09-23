@@ -1,0 +1,37 @@
+.card {
+	
+	margin: auto;
+	border-radius: 5px;
+	position: relative;
+
+	&:before {
+		content: " ";
+		display: block;
+		position: absolute;
+		top: 5px;
+		right: 5px;
+		left: 5px;
+		bottom: 0;
+		box-shadow: 0 0 10px $grey-1;
+		z-index: -1;
+	}
+
+	&--500 {
+		max-width: rem(500);
+	}
+
+	&--drop {
+		border-top-right-radius: 0;
+		border-top-left-radius: 0;
+	}
+
+	&--pop {
+		border-bottom-right-radius: 0;
+		border-bottom-left-radius: 0;
+	}
+
+	&--hidden {
+		//only when needed - otherwise this hides the shadow :(
+		overflow: hidden;
+	}
+}

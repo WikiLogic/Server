@@ -1,0 +1,15 @@
+/* In the editor view of the claim
+ * This is the main claim
+ */
+
+.main-claim {
+	padding: #{$pad}px;
+	border-radius: $border-radius;
+	background-color: white;
+	color: black;
+	text-align: center;
+
+	&__body {
+		color: black;
+	}
+}

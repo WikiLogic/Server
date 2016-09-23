@@ -1,0 +1,34 @@
+.main-sidebar-nav {
+	
+	padding: rem(10) 0;
+	color: white;
+
+	&__link {
+		display: block;
+		width: 100%;
+		padding: rem(10) rem(14);
+		text-decoration: none;
+		color: $WL_Blue;
+		&:hover {
+			color: lighten($WL_Blue, 10%);
+		}
+	}
+		&__link-icon {
+			width: rem(12);
+			height: rem(12);
+			fill: white;
+		}
+		&__link-text {
+			margin-left: 5px;
+		}
+
+	&__utility-links {
+		padding: rem(10) rem(10) 0 rem(10);
+	}
+		&__utility-link {
+			color: $WL_Blue;
+			&:hover {
+				color: lighten($WL_Blue, 10%);
+			}
+		}
+}

@@ -34,7 +34,7 @@
     </div>
 </section>
 
-<hr view-show="newargument.show_results" class="hr--zeroed">
+<hr view-show="newargument.show_results">
 
 <section view-show="newargument.show_results" 
          class="splitter splitter--full-width box">
@@ -62,7 +62,7 @@
     </div>
 </section>
 
-<hr view-show="newargument.show_reasons" class="hr--zeroed">
+<hr view-show="newargument.show_reasons">
 
 <section view-show="newargument.show_reasons"
         class="box">
@@ -107,7 +107,10 @@
         <br>
         <button class="button full-width text-align-center"
             view-on-click="newargument.actions.save_new_argument"
-            data-to="editor_detial_for">
+            view-data-argument-id="newargument._id">
             save argument</button>
+    </div>
+    <div view-hide="newargument.is_valid">
+        <small><i>{newargument.why_invalid}</i></small>
     </div>
 </section>

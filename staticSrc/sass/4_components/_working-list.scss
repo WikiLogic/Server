@@ -1,0 +1,13 @@
+.working-list {
+	padding: #{$pad}px 0;
+
+	&__claim {
+		padding: #{$pad}px;
+		width: 100%;
+		color: white;
+		opacity: 0.8;
+		&:hover {
+			opacity: 1;
+		}
+	}
+}

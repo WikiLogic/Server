@@ -50,6 +50,24 @@ module.exports = function(passport) {
                 if (email.length > 5) {
                     // find a user whose email is the same as the forms email
                     // we are checking to see if the user trying to login already exists
+
+                    //first - check if the email is one of our restricted signups. 
+                    console.log('TODO: remove signup restrictions when we\'re more confident');
+                    var emailWhiteList = process.env.EMAIL_WHITELIST;
+                    if (typeof emailWhiteList != "undefined") {
+                        var emailWhiteListArray = emailWhiteList.split(",");
+                        //we're somewhere with a white list! Only let these people sign up
+                        var blocked = true;
+                        for (var w = 0; w < emailWhiteListArray.length; w++){
+                            if (email == emailWhiteListArray[w]) {
+                                blocked = false;
+                            }
+                        }
+                        if (blocked) {
+                            return done(new Error('Non whitelist email'));
+                        }
+                    }
+
                     User.findOne({ 'local.email' :  email }, function(err, user) {
                         if (err) {
                             console.log('Signup error: ', err);
@@ -62,10 +80,11 @@ module.exports = function(passport) {
                             return done(null, false);
                         } else {
                             console.log('new user!');
-                            var newUser            = new User();
+                            console.log('new email! ', email);
+                            var newUser = new User();
 
                             // set the user's local credentials
-                            newUser.local.email    = email;
+                            newUser.local.email = email;
                             newUser.local.password = newUser.generateHash(password);
 
                             // save the user
@@ -96,6 +115,24 @@ module.exports = function(passport) {
             console.log('local post login has arrived!');
             // find a user whose email is the same as the forms email
             // we are checking to see if the user trying to login already exists
+
+            console.log('TODO: remove signup restrictions when we\'re more confident');
+            var emailWhiteList = process.env.EMAIL_WHITELIST;
+            if (typeof emailWhiteList != "undefined") {
+                var emailWhiteListArray = emailWhiteList.split(",");
+                //we're somewhere with a white list! Only let these people sign up
+                var blocked = true;
+                for (var w = 0; w < emailWhiteListArray.length; w++){
+                    if (email == emailWhiteListArray[w]) {
+                        blocked = false;
+                    }
+                }
+                if (blocked) {
+                    return done(new Error('Non whitelist email'));
+                }
+            }
+
+            
             User.findOne({ 'local.email' :  email }, function(err, user) {
                 // if there are any errors, return the error before anything else
                 if (err) {

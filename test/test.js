@@ -1,7 +1,9 @@
-var should = require("should");
+var glob = require( 'glob' )
+var path = require( 'path' );
 
-describe("A very simple test", function(){
-	it("is running now", function(){
-		true.should.equal(true);
-	});
+glob.sync( './test/static/**/*.js' ).forEach( function( file ) {
+  var moduleTest = require( path.resolve( file ) );
+  for (var test in moduleTest){
+  	moduleTest[test]();
+  }
 });

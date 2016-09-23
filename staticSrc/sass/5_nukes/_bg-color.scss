@@ -1,0 +1,20 @@
+.bg-color {
+	
+	&--red { background-color: $WL_Red; }
+	&--blue { background-color: $WL_Blue; }
+	&--green { background-color: $WL_Green; }
+
+	&--white { background-color: white; }
+	&--grey-e { background-color: $grey-e; }
+	&--grey-d { background-color: $grey-d; }
+	&--grey-c { background-color: $grey-c; }
+	&--grey-b { background-color: $grey-b; }
+	&--grey-a { background-color: $grey-a; }
+	&--grey-6 { background-color: $grey-6; }
+	&--grey-5 { background-color: $grey-5; }
+	&--grey-4 { background-color: $grey-4; }
+	&--grey-3 { background-color: $grey-3; }
+	&--grey-2 { background-color: $grey-2; }
+	&--grey-1 { background-color: $grey-1; }
+	&--black { background-color: black; }
+}

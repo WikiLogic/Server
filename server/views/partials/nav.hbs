@@ -1,24 +1,45 @@
-<div class="editor-nav">
-	<div class="nav-sidebar">
+<div class="main-sidebar-nav">
 
-		<a href="/editor" id="js-nav-my-drafts" class="button button--clear button--compact full-width">
-			<svg><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#pencil"></use></svg>
-			<span>Editor</span>
-		</a>
-		<a ng-href="#my-history" class="button button--clear button--compact full-width">
-			<svg><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#fork"></use></svg>
-			<span>Node Map</span>
-		</a>
+	<button class="main-sidebar-nav__link disabled"
+		view-on-click="search.actions.get_most_critical"
+		data-search-id="main_results">
+		<svg class="main-sidebar-nav__link-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#bolt"></use></svg>
+		<span class="main-sidebar-nav__link-text">Critical</span>
+	</button>
+
+	<button class="main-sidebar-nav__link disabled"
+		view-on-click="search.actions.get_most_capricious"
+		data-search-id="main_results">
+		<svg class="main-sidebar-nav__link-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#fire"></use></svg>
+		<span class="main-sidebar-nav__link-text">Capricious</span>
+	</button>
+
+	<button class="main-sidebar-nav__link js-search-recent"
+		view-on-click="search.actions.get_most_recent"
+		data-search-id="main_results">
+		<svg class="main-sidebar-nav__link-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#clock"></use></svg>
+		<span class="main-sidebar-nav__link-text">Recent</span>
+	</button>
+
+	<a href="/editor" class="main-sidebar-nav__link">
+		<svg class="main-sidebar-nav__link-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#pencil"></use></svg>
+		<span class="main-sidebar-nav__link-text">Editor</span>
+	</a>
+
+	<a href="/nodemap" class="main-sidebar-nav__link">
+		<svg class="main-sidebar-nav__link-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#fork"></use></svg>
+		<span class="main-sidebar-nav__link-text">Node Map</span>
+	</a>
+
+	<hr>
+	
+	<div class="main-sidebar-nav__utility-links">
+		<a href="/logout" class="main-sidebar-nav__utility-link">Logout</a>,
+		<a href="http://www.wikilogicfoundation.org/blog/" target="_blank" class="main-sidebar-nav__utility-link">Blog</a>,
+		<a href="https://github.com/WikiLogic/WikiLogic" target="_blank" class="main-sidebar-nav__utility-link">Developers</a>,
+		<a href="/styleguide" class="disabled main-sidebar-nav__utility-link">Syleguide</a>, 
+		<a href="#" class="disabled main-sidebar-nav__utility-link">Manual/help</a>
 	</div>
+
 </div>
 
-<br>
-<hr class="hr--zeroed">
-
-<div class="box">
-	<a href="/logout" class="btn">Logout</a>,
-	<a href="#">Blog</a>,
-	<a href="#">Developers</a>,
-	<a href="/styleguide">Syleguide</a>, 
-	<a href="#">Manual/help</a>	
-</div>

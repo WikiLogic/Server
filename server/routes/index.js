@@ -130,6 +130,10 @@ module.exports = function(router, passport) {
 		res.render('editor.hbs', {layout: 'app'});
 	});
 
+	router.get('/nodemap', hasAccess, function(req, res) {
+		res.render('node_map.hbs', {layout: 'app'});
+	});
+
 	var apiRouter = express.Router({mergeParams: true});
 	router.use('/api', hasAccess, apiRouter);
 		apiRouter.post('/', require('./api/postIndex'));

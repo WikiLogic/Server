@@ -35,25 +35,14 @@
 </div>
 
 
-<div class="text-color--black">   
-    <div class="box card bg-color--white">
-        <p class="full-width text-align-center no-margins">
-            {claimdetail.claim.description}
-        </p>
-        <p>
-            <span class="state-tag state-tag--100">100</span> 
-            <span class="state-tag state-tag--90">90</span> 
-            <span class="state-tag state-tag--80">80</span> 
-            <span class="state-tag state-tag--70">70</span> 
-            <span class="state-tag state-tag--60">60</span> 
-            <span class="state-tag state-tag--50">50</span> 
-            <span class="state-tag state-tag--40">40</span> 
-            <span class="state-tag state-tag--30">30</span> 
-            <span class="state-tag state-tag--20">20</span> 
-            <span class="state-tag state-tag--10">10</span> 
-            <span class="state-tag state-tag--0">0</span>
-        </p>
-    </div>
+<div class="main-claim">   
+    <p class="main-claim__body">
+        {claimdetail.claim.description}
+    </p>
+        <span class="status status--50 display-inline-block">
+            <span class="status__title">50%</span>
+            <span class="status__bar"></span>
+        </span>
 </div>
 
 
@@ -71,6 +60,7 @@
 
         <div class="card bg-color--white text-color--black box">
 
+<div class="disabled">
             <div class="splitter splitter--full-width">
                 <div class="splitter__left">
                     <!-- The sorting / filtering icons -->
@@ -104,10 +94,10 @@
                     </select>
                 </div>
             </div>
+</div>
             <br>
             <hr>
-            <div view-each-argument="editor_detail.claim.supporting">{{> argument_group }}</div>
-            {{> argument_group }}
+            <div view-each-argument="claimdetail.claim.supporting">{{> argument_group }}</div>
 
         </div>
     </div>
@@ -129,8 +119,7 @@
         <div class="card bg-color--white text-color--black box">
 
             <hr>
-            <div view-each-argument="editor_detail.claim.opposing">{{> argument_group }}</div>
-            {{> argument_group }}
+            <div view-each-argument="claimdetail.claim.opposing">{{> argument_group }}</div>
 
         </div>
     </div>

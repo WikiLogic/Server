@@ -1,0 +1,32 @@
+.bg-pattern {
+	background-image: repeating-linear-gradient(
+			30deg,
+			rgba(darken($WL_Blue, 8%), 0.5),
+			rgba(darken($WL_Blue, 8%), 0.5) 8px,
+			rgba(darken($WL_Blue, 13%), 0.5) 9px,
+			rgba(darken($WL_Blue, 8%), 0.5) 10px
+		),
+		radial-gradient(circle farthest-corner at 50% 20%, rgba(darken($WL_Blue, 5%), 0.5), black);
+
+	&--red {
+		background-image: repeating-linear-gradient(
+				30deg,
+				rgba(darken($WL_Red, 8%), 0.5),
+				rgba(darken($WL_Red, 8%), 0.5) 8px,
+				rgba(darken($WL_Red, 13%), 0.5) 9px,
+				rgba(darken($WL_Red, 8%), 0.5) 10px
+			),
+			radial-gradient(circle farthest-corner at 50% 20%, rgba(darken($WL_Red, 5%), 0.5), rgba(darken($WL_Red, 40%), 0.5));
+	}
+
+	&--green {
+		background-image: repeating-linear-gradient(
+				30deg,
+				rgba(darken($WL_Green, 8%), 0.5),
+				rgba(darken($WL_Green, 8%), 0.5) 8px,
+				rgba(darken($WL_Green, 13%), 0.5) 9px,
+				rgba(darken($WL_Green, 8%), 0.5) 10px
+			),
+			radial-gradient(circle farthest-corner at 50% 20%, rgba(darken($WL_Green, 5%), 0.5), rgba(darken($WL_Green, 50%), 0.4));
+	}
+}

@@ -1,0 +1,61 @@
+body {
+	font-family: $sans-serif; /* 100 / 300 / 700 */
+	font-weight: normal;
+	font-size: rem(14);
+	@include breakpoint(small) { font-size: rem(15); }
+	@include breakpoint(medium) { font-size: rem(16); }
+}
+
+
+h1 { margin: 0 0 0.25em; font-family: $serif; font-size: rem(32); line-height: 1; font-weight: 400; } /* Page title */
+h2 { margin: 0 0 0.25em; font-family: $serif; font-size: rem(28); line-height: 1; font-weight: 400; } /* Page sub-titles */
+h3 { margin: 0 0 0.5em; font-family: $sans-serif; font-size: rem(20); line-height: 1; font-weight: 700; } /* Sidebar title / lead-in / form area title */
+h4 { margin: 0 0 0.5em; font-family: $sans-serif; font-size: rem(18); line-height: 1; font-weight: 700; }
+h5 { margin: 0 0 0.75em; font-family: $sans-serif; font-size: rem(13); line-height: 1.2; font-weight: 700; text-transform: uppercase; }
+h6 { margin: 0 0 0.75em; font-family: $sans-serif; font-size: rem(10); line-height: 1.2; font-weight: 700; text-transform: uppercase; }
+
+@include breakpoint(medium) {
+	h1 { font-size: rem(45); }
+	h2 { font-size: rem(30); }
+	h3 { font-size: rem(23); }
+	h4 { font-size: rem(20); }
+	h5 {  }
+	h6 {  }
+}
+@include breakpoint(wide) {
+	h1 { font-size: rem(54); }
+	h2 { font-size: rem(38); }
+	h3 { font-size: rem(25); }
+	h4 {  }
+	h5 {  }
+	h6 {  }
+}
+
+
+p         { font-size: rem(14); line-height: 1.2; font-weight: 400; margin: 0 0 1em; }
+p small,
+p.small   { font-size: rem(11); line-height: 1; font-weight: 400; }
+
+@include breakpoint(small) {
+	p         { font-size: rem(15); }
+	p small,
+	p.small   { font-size: rem(12) }
+}
+
+@include breakpoint(medium) {
+	p         { font-size: rem(16); }
+	p small,
+	p.small   { font-size: rem(13); }
+}
+
+code, pre {
+	background: #000;
+	color: #ccc;
+	font: 12px/1.2 Menlo, Consolas, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
+}
+
+span {
+	vertical-align: middle;
+}
+
+

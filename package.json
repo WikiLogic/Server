@@ -10,7 +10,7 @@
     "npm": "3.9.3"
   },
   "scripts": {
-    "start": "npm-run-all --parallel database server",
+    "start": "npm run server",
     "start:dev": "npm-run-all --parallel database server gulp test",
     "database": "mongod",
     "server": "nodemon ./server/server.js",
@@ -60,6 +60,7 @@
     "npm-run-all": "^2.1.2",
     "sass-glob-importer": "^1.0.1",
     "should": "^9.0.0",
+    "snapsvg": "^0.4.0",
     "trumbowyg": "^2.1.0",
     "uglifyjs": "^2.4.10",
     "vinyl-source-stream": "^1.1.0",
