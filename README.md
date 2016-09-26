@@ -125,6 +125,9 @@ and this: https://zeronet.io/
 cool tree design idea: http://png.clipart.me/graphics/thumbs/199/icon-tree-flat-abstract-background-with-web-icons-interface-symbols-cloud-computing-mobile-devices-business-concept_199444085.jpg
 
 Love this style: http://codepen.io/Benny29390/pen/Lkwbxz
+
+For the back end - build together microservices and identify those that can be dropped in times of really high load.
+
 ---
 
 other argument maps:
