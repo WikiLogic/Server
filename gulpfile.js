@@ -11,8 +11,19 @@ var gulp = require('gulp'),
     glob       = require('glob'),
     es         = require('event-stream'),
     jslint = require('gulp-jslint'),
-    svgSprite  = require('gulp-svg-sprite');
+    svgSprite  = require('gulp-svg-sprite'),
+    notifier   = require('node-notifier');
 
+var fancyErrorHandler = function(err){
+    console.log(err.stack);
+                 
+    notifier.notify({
+        'title': 'WikiLogic Error :(',
+        'message': err.message
+    });
+
+    this.emit('end');
+}
 
 gulp.task('sass', function() {
   return gulp.src('staticSrc/sass/main.scss')
@@ -20,7 +31,7 @@ gulp.task('sass', function() {
         extensions: ['.scss']
     }))
     .pipe(sass())
-    .on('error', sass.logError)
+    .on('error', fancyErrorHandler)
     .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1'))
     .pipe(gulp.dest('static/css'));
 });
@@ -38,6 +49,7 @@ gulp.task('es6', function(done) {
             console.log('entry: ', entry);
             return browserify({ entries: [entry] })
                 .bundle()
+                .on('error', fancyErrorHandler)
                 .pipe(source(entry))
                 .pipe(rename({
                     dirname: '',
