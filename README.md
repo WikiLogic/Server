@@ -128,6 +128,8 @@ Love this style: http://codepen.io/Benny29390/pen/Lkwbxz
 
 For the back end - build together microservices and identify those that can be dropped in times of really high load.
 
+ohhhhh for the canvas: https://www.quantamagazine.org/20150803-physics-theories-map/
+
 ---
 
 other argument maps:
