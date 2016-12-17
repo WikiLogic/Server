@@ -1,0 +1,15 @@
+version: '2'
+services:
+  database:
+    image: mongo
+    ports:
+      - "27017:27017"
+
+  web:
+    build: .
+    ports:
+      - "3000:3000"
+    depends_on:
+      - database
+    environment:
+      DATABASE_URL: "mongodb://database/wl-03-dev"
