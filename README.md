@@ -22,6 +22,21 @@ Then you can pull in WikiLogic:
  - `npm install`
  - `npm start` This will just run the server. TODO: hook up to the remote db when this command is run. 
  - `npm run start:dev` This will run EVERYTHNIG locally, don't be afraid if your terminal goes nuts, there's a lot happening in there.
+ 
+####Alternative setup with Docker
+With [Docker](https://www.docker.com) and [Docker Compose](https://docs.docker.com/compose/), you won't need to install MongoDB and the dependencies manually.
+
+Just execute the following commands:
+```Bash
+docker-compose build
+docker-compose up
+```
+
+Open your browser and go to `http://localhost:3000` to see the application. You can also connect to your MongoDB on `localhost:27017` (e.g. with [RoboMongo](https://robomongo.org)).
+
+Notes:
+ - The `node_modules` directory is “inside” the Docker container, so you won't see it on your host machine.
+ - This has only been tested with [Docker for Mac](https://docs.docker.com/docker-for-mac/). URLs can change under Linux or Windows.
 
 ---
 
@@ -123,6 +138,13 @@ Also for when we get really big: https://webtorrent.io/ p2p streaming data using
 and this: https://zeronet.io/
 
 cool tree design idea: http://png.clipart.me/graphics/thumbs/199/icon-tree-flat-abstract-background-with-web-icons-interface-symbols-cloud-computing-mobile-devices-business-concept_199444085.jpg
+
+Love this style: http://codepen.io/Benny29390/pen/Lkwbxz
+
+For the back end - build together microservices and identify those that can be dropped in times of really high load.
+
+ohhhhh for the canvas: https://www.quantamagazine.org/20150803-physics-theories-map/
+
 ---
 
 other argument maps:
