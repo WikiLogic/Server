@@ -1,12 +1,14 @@
-#WikiLogic 0.4: Ferret
+# (Depreciated - see http://wikilogic.github.io/ for contributors setup)
 
-##*F*ront *E*nd: *R*est*R*ucturing *E*very*T*hing 
+# WikiLogic 0.4: Ferret
 
-###[![Build Status](https://travis-ci.org/WikiLogic/WikiLogic.svg?branch=master)](https://travis-ci.org/WikiLogic/WikiLogic)
+## *F*ront *E*nd: *R*est*R*ucturing *E*very*T*hing 
+
+### [![Build Status](https://travis-ci.org/WikiLogic/WikiLogic.svg?branch=master)](https://travis-ci.org/WikiLogic/WikiLogic)
 
 ---
 
-###Getting set up
+### Getting set up
 
 You'll need these already installed:
 
@@ -23,7 +25,7 @@ Then you can pull in WikiLogic:
  - `npm start` This will just run the server. TODO: hook up to the remote db when this command is run. 
  - `npm run start:dev` This will run EVERYTHNIG locally, don't be afraid if your terminal goes nuts, there's a lot happening in there.
  
-####Alternative setup with Docker
+#### Alternative setup with Docker
 With [Docker](https://www.docker.com) and [Docker Compose](https://docs.docker.com/compose/), you won't need to install MongoDB and the dependencies manually.
 
 Just execute the following commands:
@@ -40,27 +42,27 @@ Notes:
 
 ---
 
-###What's where?
+### What's where?
 
-####`/server `
+#### `/server `
 
 This is the Express app, job 1: serve the static assets. job 2: serve the data. In future versions these two jobs will be split.
 
-####`/static`
+#### `/static`
 
 This holds the JS and CSS for the web app. Do not do any development in here, your work will be overwritten by compilers.
 
-####`/staticSrc`
+#### `/staticSrc`
 
 This hold the es6 / sass files that will be compiled down into the static folder. This is where any Front End Devs will live.
 
-####`/test`
+#### `/test`
 
 This is the code that will test everything. When you push / pullrequest to our github repo, travis will run these tests and only accept the branch / commit if the tests pass.
 
 ---
 
-###How does it run?
+### How does it run?
 
  - Clientside we're using [Rivets.js](http://rivetsjs.com/) to bind data to the DOM and browserify to deal with the JS that manages that data.
  - Serverside we're using [Express.js](http://expressjs.com/) to serve the site.
@@ -68,7 +70,7 @@ This is the code that will test everything. When you push / pullrequest to our g
 
 ---
 
-###DB cheatsheet for development
+### DB cheatsheet for development
 
 see user profile:
 `db.users.find({"local.email":"email here"}).pretty()`
@@ -84,7 +86,7 @@ clear out drafts
 
 ---
 
-###Miscellaneous thought dump:
+### Miscellaneous thought dump:
 
 Root statement:
 
